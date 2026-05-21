@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Psychopharmacology Exam Prep</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a2e;--navy:#16213e;--teal:#0f3460;--sky:#533483;
+  --accent:#e94560;--gold:#f5a623;--mint:#00b4d8;
+  --green:#06d6a0;--green-lt:#e8faf5;--green-bd:#06d6a0;
+  --red:#ef233c;--red-lt:#fff0f2;--red-bd:#ef233c;
+  --bg:#f0f2f5;--card:#fff;--border:#e4e7ed;--text2:#4a5568;--text3:#a0aec0;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:1.5rem 1rem}
+.wrap{max-width:740px;margin:0 auto}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,var(--navy) 0%,var(--sky) 60%,var(--accent) 100%);color:#fff;border-radius:20px;padding:2rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:rgba(255,255,255,0.05);border-radius:50%}
+.hdr::after{content:'';position:absolute;bottom:-60px;left:20px;width:120px;height:120px;background:rgba(255,255,255,0.04);border-radius:50%}
+.hdr-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:.75rem;position:relative;z-index:1}
+.chip{background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);border-radius:20px;padding:3px 12px;font-size:.7rem;font-weight:500;letter-spacing:.04em}
+.hdr h1{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:.2rem;position:relative;z-index:1}
+.hdr p{font-size:.8rem;opacity:.7;margin-bottom:1.2rem;position:relative;z-index:1}
+.prog-track{height:6px;background:rgba(255,255,255,0.2);border-radius:3px;margin-bottom:.75rem;position:relative;z-index:1}
+.prog-fill{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--mint),var(--green));transition:width .5s cubic-bezier(.4,0,.2,1)}
+.hdr-stats{display:flex;gap:2.5rem;font-size:.75rem;opacity:.85;position:relative;z-index:1}
+.sv{font-weight:600;color:#34d399}
+
+/* CARD */
+.card{background:var(--card);border-radius:16px;padding:1.75rem;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:1rem}
+.q-meta{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1.1rem}
+.tag{font-size:.65rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border-radius:20px;padding:2px 10px}
+.tag-ch{background:#f0ebff;color:#6b21a8}
+.tag-topic{background:#e0f2fe;color:#0369a1}
+.tag-diff{background:#fef3c7;color:#92400e}
+
+/* VIGNETTE */
+.vig{background:linear-gradient(135deg,#f0f4ff,#e8f0fe);border-left:3px solid var(--sky);border-radius:0 10px 10px 0;padding:14px 16px;font-size:.875rem;line-height:1.75;color:var(--text2);margin-bottom:1.1rem}
+.vig strong{color:var(--ink)}
+
+/* STEM */
+.stem{font-family:'DM Serif Display',serif;font-size:1.05rem;line-height:1.55;margin-bottom:1.1rem;color:var(--ink)}
+
+/* OPTIONS */
+.opt{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid var(--border);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .15s;font-size:.875rem;line-height:1.55;background:var(--card)}
+.opt:hover:not(.locked){background:#f7f8ff;border-color:#a5b4fc}
+.opt.correct{border-color:var(--green-bd);background:var(--green-lt)}
+.opt.wrong{border-color:var(--red-bd);background:var(--red-lt)}
+.opt.locked{cursor:default}
+.ol{font-weight:700;min-width:22px;font-size:.8rem;margin-top:2px;color:var(--text3)}
+.opt.correct .ol{color:var(--green-bd)}
+.opt.wrong .ol{color:var(--red-bd)}
+
+/* RATIONALE */
+.rat{margin-top:1.1rem;border-radius:10px;padding:14px 16px;font-size:.85rem;line-height:1.8;display:none}
+.rat.show{display:block}
+.rat.ok{background:var(--green-lt);border:1px solid #86efac;color:#064e35}
+.rat.ng{background:var(--red-lt);border:1px solid #fca5a5;color:#7f1d1d}
+.rat-hdr{font-weight:700;font-size:.9rem;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+
+/* NAV */
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem;align-items:center}
+.btn{padding:9px 20px;border:2px solid var(--border);border-radius:10px;background:var(--card);color:var(--ink);font-size:.875rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{background:#f7f8ff;border-color:#a5b4fc}
+.btn:disabled{opacity:.3;cursor:default}
+.btn.submit-btn{background:var(--sky);color:#fff;border-color:var(--sky)}
+.btn.submit-btn:hover{background:var(--teal)}
+.btn.go{background:linear-gradient(135deg,var(--green),#00c896);color:#fff;border:none;font-weight:600}
+
+/* RESULTS */
+.results-card{background:var(--card);border-radius:16px;padding:2.5rem;text-align:center;border:1px solid var(--border);margin-bottom:1.5rem}
+.score-ring{width:160px;height:160px;margin:0 auto 1.2rem;position:relative}
+.score-num{font-family:'DM Serif Display',serif;font-size:4rem;font-weight:600;line-height:1;margin-bottom:4px}
+.score-sub{color:var(--text3);font-size:.85rem}
+.score-grade{font-family:'DM Serif Display',serif;font-size:1.4rem;margin-top:.75rem}
+.rv-item{padding:10px 14px;border-radius:10px;margin-bottom:7px;font-size:.8rem;line-height:1.5;text-align:left}
+.rv-item.ok{background:var(--green-lt);border:1px solid #a7f3d0}
+.rv-item.ng{background:var(--red-lt);border:1px solid #fecdd3}
+.rv-q{font-weight:600;color:var(--ink);margin-bottom:2px}
+.rv-d{color:var(--text2)}
+
+@media(max-width:580px){.hdr h1{font-size:1.3rem}.score-num{font-size:3rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hdr">
+  <div class="hdr-chips">
+    <span class="chip">NURS 5312</span>
+    <span class="chip">Psychopharmacology</span>
+    <span class="chip">Chapters 1–3 · Stahl's</span>
+    <span class="chip">50 Questions</span>
+  </div>
+  <h1>Psychopharmacology Exam Prep</h1>
+  <p>Molecular Foundations · Drug Targets · Ion Channels · Neurotransmitters</p>
+  <div class="prog-track"><div class="prog-fill" id="prog" style="width:2%"></div></div>
+  <div class="hdr-stats">
+    <span>Question <span class="sv" id="qn">1</span>/50</span>
+    <span>Answered: <span class="sv" id="ac">0</span></span>
+    <span>Correct: <span class="sv" id="cc">0</span></span>
+  </div>
+</div>
+<div id="qa"></div>
+</div>
+
+<script>
+const Q=[
+{ch:1,topic:"Neuron Structure",diff:"Moderate",
+vig:"A first-year NP student is reviewing how psychotropic drugs affect communication between neurons. She notes that neurons have specialized structures for receiving and transmitting information.",
+stem:"Which neuronal structure is PRIMARILY responsible for RECEIVING incoming signals from other neurons?",
+opts:["Axon","Dendrites","Myelin sheath","Nucleus"],
+ans:1,rat:"DENDRITES are the primary receivers of incoming signals from other neurons. The AXON transmits signals AWAY from the cell body to other neurons. The myelin sheath insulates the axon to speed transmission. The nucleus contains genetic material. Synaptic connections can be axodendritic (most common), axosomatic (axon to cell body), or axoaxonic (axon to axon). Classic neurotransmission flows ANTEROGRADE — from presynaptic axon to postsynaptic dendrite."},
+
+{ch:1,topic:"Synaptic Transmission",diff:"Moderate",
+vig:"An NP is explaining to a patient why their SSRI takes 4–6 weeks to work. She references the difference between immediate receptor effects and long-term neuronal changes.",
+stem:"Which sequence CORRECTLY describes classic synaptic neurotransmission?",
+opts:["Chemical signal → electrical impulse → receptor binding → ion flow","Electrical impulse → neurotransmitter release → receptor binding → postsynaptic effect","Receptor binding → neurotransmitter release → electrical impulse → gene expression","Postsynaptic effect → receptor binding → neurotransmitter release → electrical impulse"],
+ans:1,rat:"Classic neurotransmission follows this sequence: (1) An ELECTRICAL IMPULSE (action potential) travels down the presynaptic axon; (2) The impulse triggers NEUROTRANSMITTER RELEASE into the synaptic cleft; (3) The neurotransmitter BINDS to postsynaptic receptors; (4) This produces a POSTSYNAPTIC EFFECT (ion flow, signal transduction). This is why immediate drug effects (receptor binding) differ from therapeutic effects — long-term changes require signal transduction cascades and gene expression changes, which take weeks."},
+
+{ch:1,topic:"Retrograde Transmission",diff:"Difficult",
+vig:"A pharmacology professor discusses a class of neurotransmitters that travel 'backwards' across the synapse. A student asks why this feedback system exists.",
+stem:"Which substance is the BEST example of a retrograde neurotransmitter and what is its primary function?",
+opts:["Serotonin — increases mood by feeding back to the raphe nuclei","Endocannabinoids — travel from postsynaptic to presynaptic neuron to modulate neurotransmitter release","Dopamine — diffuses widely through volume transmission in the prefrontal cortex","GABA — inhibits the presynaptic neuron from firing"],
+ans:1,rat:"ENDOCANNABINOIDS are the classic example of retrograde neurotransmitters. They are produced in the POSTSYNAPTIC neuron and travel BACKWARD across the synapse to the PRESYNAPTIC neuron, acting as a 'volume knob' to regulate neurotransmitter release. Other retrograde messengers include nitric oxide (NO) and nerve growth factor (NGF). This feedback mechanism allows the postsynaptic cell to signal how much neurotransmitter it needs — the basis for understanding cannabis effects on the brain."},
+
+{ch:1,topic:"Volume Transmission",diff:"Difficult",
+vig:"A clinical pharmacologist explains why dopamine in the prefrontal cortex behaves differently than dopamine in the basal ganglia. She notes that the prefrontal cortex lacks a specific structure.",
+stem:"What is VOLUME TRANSMISSION and why is it especially relevant to dopamine in the prefrontal cortex?",
+opts:["Volume transmission requires a synapse; dopamine uses this in the basal ganglia for motor control","Volume (nonsynaptic) transmission involves neurotransmitters diffusing to distant receptors without a synapse; dopamine uses this in the PFC because it lacks reuptake pumps","Volume transmission is the amount of neurotransmitter released; the PFC releases more dopamine than other areas","Volume transmission refers to the volume of CSF carrying dopamine throughout the brain"],
+ans:1,rat:"VOLUME TRANSMISSION (nonsynaptic diffusion): neurotransmitters are released and diffuse through extracellular fluid to reach receptors DISTANT from the synapse — like a Wi-Fi broadcast vs. a landline call. In the PREFRONTAL CORTEX, dopamine primarily uses volume transmission because the PFC LACKS REUPTAKE TRANSPORTERS (DAT). This means dopamine diffuses widely and can affect any neuron with a compatible receptor. This is clinically important because many psychotropic drugs can act anywhere compatible receptors are located — not just at hard-wired synapses."},
+
+{ch:1,topic:"Signal Transduction",diff:"Moderate",
+vig:"A patient with depression asks her NP why her antidepressant doesn't work immediately even though it blocks serotonin reuptake within hours of the first dose.",
+stem:"Which concept BEST explains the delay between receptor-level drug effects and therapeutic clinical response?",
+opts:["The drug has poor bioavailability and needs time to reach therapeutic serum levels","Signal transduction cascades require hours to days to alter gene expression, which produces the lasting neurobiological changes underlying therapeutic response","The serotonin receptors are fully occupied within 1 hour but require desensitization first","The drug must first be converted to an active metabolite before crossing the blood-brain barrier"],
+ans:1,rat:"SIGNAL TRANSDUCTION CASCADES explain the therapeutic delay. While SSRIs block SERT within hours, the THERAPEUTIC EFFECT requires: (1st messenger) neurotransmitter → (2nd messenger) cAMP/calcium → (3rd messenger) kinases/phosphatases → (4th messenger) transcription factors → GENE EXPRESSION changes → new protein synthesis → structural neuronal changes. This cascade takes HOURS TO DAYS to activate but can last the LIFETIME of a neuron. The full antidepressant effect requires synaptic plasticity — actual physical changes in neuronal connections — which takes 4–6 weeks."},
+
+{ch:1,topic:"Signal Transduction Cascades",diff:"Difficult",
+vig:"During a pharmacology lecture, the professor describes four major signal transduction systems targeted by psychotropic drugs. She asks the class which system acts fastest.",
+stem:"Which signal transduction system produces the MOST RAPID clinical effect?",
+opts:["G-protein-linked systems — activate cAMP within seconds","Ion-channel-linked systems — directly open or close ion channels in milliseconds","Hormone-linked systems — alter nuclear transcription within minutes","Neurotrophin-linked systems — promote neuronal survival over days"],
+ans:1,rat:"ION-CHANNEL-LINKED systems (ionotropic receptors) produce the FASTEST effects — in MILLISECONDS — because ion flow changes immediately when the channel opens or closes. No second messenger cascade is required. This is why BENZODIAZEPINES (which enhance GABA-A ion channels) work immediately for anxiety, while SSRIs (which work through G-protein cascades and gene expression) take weeks. The four major cascades in order of speed: Ion channels (ms) > G-protein (sec-min) > Hormone (min-hours) > Neurotrophin (hours-days)."},
+
+{ch:1,topic:"Kinases and Phosphatases",diff:"Difficult",
+vig:"A neuroscience researcher is studying how lithium works at the molecular level. She finds that lithium inhibits a specific enzyme in the signal transduction cascade.",
+stem:"Lithium inhibits glycogen synthase kinase-3 (GSK-3). Based on signal transduction principles, what is the ROLE of kinases in this cascade?",
+opts:["Kinases remove phosphate groups from proteins, inactivating them","Kinases ADD phosphate groups to proteins (phosphorylation), activating or modifying their function","Kinases are the same as transcription factors and directly regulate gene expression","Kinases convert second messengers into first messengers"],
+ans:1,rat:"KINASES are enzymes that ADD PHOSPHATE GROUPS to proteins (phosphorylation) — activating or modifying their function. PHOSPHATASES do the opposite — they REMOVE phosphate groups. The balance between kinase and phosphatase activity determines the final biological response in the cascade. GSK-3 (glycogen synthase kinase-3) is a kinase targeted by LITHIUM — inhibiting it may provide neuroprotective and mood-stabilizing effects. Every molecular site in these cascades is a potential drug target, which is why understanding this 'molecular pony express' is foundational to psychopharmacology."},
+
+{ch:1,topic:"Gene Expression",diff:"Moderate",
+vig:"A patient asks why stress during childhood can cause lasting mental health problems. An NP explains epigenetics using the analogy of a library of books.",
+stem:"Which EPIGENETIC mechanism SILENCES gene expression (closes the 'molecular gate')?",
+opts:["Acetylation and demethylation — open the gate for gene expression","Methylation and deacetylation — close the gate, silencing the gene","Phosphorylation — directly alters the DNA sequence","RNA polymerase activation — initiates transcription of all available genes"],
+ans:1,rat:"EPIGENETIC MECHANISMS: SILENCING (closing the gate): DNA METHYLATION + HISTONE DEACETYLATION — these modifications condense chromatin, making DNA inaccessible to transcription factors. ACTIVATING (opening the gate): ACETYLATION + DEMETHYLATION — these loosen chromatin, allowing RNA polymerase access. Key clinical pearl: Epigenetic changes are REVERSIBLE — unlike mutations. This is why PSYCHOTHERAPY and PSYCHOPHARMACOLOGY can reprogram gene expression. Chronic stress, diet, drugs, and therapy all modify epigenetic marks. 'Genes modify behavior and behavior modifies genes.'"},
+
+{ch:1,topic:"Immediate Early Genes",diff:"Difficult",
+vig:"A researcher studying rapid antidepressant effects notes that certain genes are activated within 15 minutes of neuronal stimulation. These genes then activate other downstream genes.",
+stem:"Which genes are the RAPID RESPONDERS that activate within minutes of neuronal stimulation and then trigger late gene expression?",
+opts:["Late genes — they are pre-programmed and activate instantly","Immediate early genes (IEGs) like cFos and cJun — activated within 15 minutes, they are the 'special ops troops' that trigger late gene production","Housekeeping genes — always active to maintain baseline neuronal function","Suppressor genes — they inhibit immediate responses to prevent overstimulation"],
+ans:1,rat:"IMMEDIATE EARLY GENES (IEGs) — cFOS and cJUN — are the rapid first responders of gene expression. They activate within 15 MINUTES of stimulation and are called the 'special ops troops.' Their products act as transcription factors that then activate LATE GENES, which produce the enzymes, receptors, and structural proteins the neuron needs for lasting change. This two-stage process (IEGs → late genes) explains how acute stimulation leads to lasting neuroplasticity. Understanding IEGs helps explain how drugs, stress, and psychotherapy can produce long-term brain changes."},
+
+{ch:1,topic:"RNA Processing",diff:"Difficult",
+vig:"A genetic counselor explains to a family with Huntington's disease that future therapies may target a specific RNA mechanism to silence the disease-causing gene.",
+stem:"Which RNA mechanism could theoretically SILENCE the production of a harmful protein like in Huntington's disease?",
+opts:["Alternative splicing — creates multiple proteins from one gene, including a therapeutic version","RNA interference (RNAi) using miRNA or siRNA — blocks protein synthesis by inhibiting mRNA translation or causing its degradation","RNA polymerase inhibition — blocks all gene transcription in the affected neurons","Reverse transcription — converts mRNA back to DNA to prevent translation"],
+ans:1,rat:"RNA INTERFERENCE (RNAi): Non-coding RNAs (miRNA, siRNA) can SILENCE protein synthesis by: (1) 'Dicer' enzymes chop double-stranded RNA into small fragments; (2) These fragments are loaded into the RISC complex; (3) RISC finds complementary mRNA and degrades it or blocks its translation. This mechanism could theoretically target the mutant HUNTINGTIN gene's mRNA in Huntington's disease — preventing production of the harmful protein without altering the DNA. This represents a frontier in psychopharmacology: using iRNA to silence harmful protein synthesis in genetic neurological disorders."},
+
+{ch:2,topic:"Drug Targets Overview",diff:"Moderate",
+vig:"An NP student is studying for her pharmacology board exam. She learns that despite over 100 psychotropic drugs, they primarily target only a few molecular sites.",
+stem:"Approximately what proportion of psychotropic drugs target NEUROTRANSMITTER TRANSPORTERS?",
+opts:["About 10%","About one-third","About two-thirds","Nearly all psychotropic drugs target transporters"],
+ans:1,rat:"APPROXIMATELY ONE-THIRD of psychotropic drugs target NEUROTRANSMITTER TRANSPORTERS. The distribution of targets: ~1/3 transporters (SSRIs, SNRIs, TCAs, stimulants), ~1/3 G-protein-linked receptors (antipsychotics, many mood stabilizers), ~10% enzymes (MAOIs, acetylcholinesterase inhibitors), and the remainder target ion channels (benzodiazepines, anticonvulsants). Modern psychopharmacology uses NEUROSCIENCE-BASED NOMENCLATURE (NbN) — naming drugs by mechanism (serotonin transport inhibitor) rather than indication (antidepressant) to reduce confusion, since many 'antidepressants' treat anxiety and many 'antipsychotics' treat depression."},
+
+{ch:2,topic:"Transporters — SLC6 Family",diff:"Moderate",
+vig:"An NP prescribes sertraline (Zoloft) for a patient with major depressive disorder. She explains that it works by blocking a specific type of transporter.",
+stem:"Which transporter family do SSRIs primarily target, and which specific transporter does sertraline block?",
+opts:["SLC1 family — blocks the glutamate transporter EAAT1","SLC6 family — blocks the serotonin transporter SERT (sodium/chloride-coupled)","SLC17 family — blocks the vesicular glutamate transporter VGluT","SLC32 family — blocks the vesicular GABA transporter VIAAT"],
+ans:1,rat:"SERTRALINE blocks SERT (Serotonin Transporter), which is in the SLC6 GENE FAMILY — sodium/chloride-coupled plasma membrane transporters. The SLC6 family includes: SERT (serotonin reuptake), NET (norepinephrine reuptake), DAT (dopamine reuptake), GAT (GABA transporter), and GlyT (glycine transporter). The mechanism: sodium binding to the transporter inflates the 'tires' (increases affinity for serotonin); SSRIs bind to an ALLOSTERIC SITE ('the front seat') to prevent serotonin from binding and being transported back into the presynaptic neuron. This increases serotonin in the synapse."},
+
+{ch:2,topic:"Vesicular Transporters",diff:"Difficult",
+vig:"A 65-year-old patient with tardive dyskinesia (involuntary movements from antipsychotic use) is prescribed valbenazine. The prescribing NP explains that this drug works on vesicular storage of neurotransmitters.",
+stem:"What is the mechanism of valbenazine in treating tardive dyskinesia?",
+opts:["It blocks dopamine receptors in the basal ganglia, reducing involuntary movements","It inhibits VMAT2, reducing the storage and release of monoamines (dopamine) from presynaptic vesicles","It irreversibly inhibits MAO, reducing dopamine breakdown and restoring normal movement","It blocks SERT, increasing serotonin and thereby reducing dopamine-mediated movement disorders"],
+ans:1,rat:"VMAT2 (Vesicular Monoamine Transporter 2, SLC18 family) packages serotonin, norepinephrine, DOPAMINE, and histamine into synaptic vesicles for storage and protection from metabolism. VALBENAZINE (and deutetrabenazine, tetrabenazine) INHIBIT VMAT2, reducing the amount of monoamines (especially dopamine) stored in vesicles and therefore REDUCING RELEASE into the synapse. In tardive dyskinesia, excess dopamine signaling in the basal ganglia causes involuntary movements — VMAT2 inhibition reduces this excess dopamine release, relieving symptoms. This is a key clinical NP pearl from Chapter 2."},
+
+{ch:2,topic:"Agonist Spectrum",diff:"Moderate",
+vig:"An NP is explaining how aripiprazole (Abilify) works differently from haloperidol. She uses the analogy of a rheostat (dimmer switch) vs. a light switch.",
+stem:"Which description BEST characterizes a PARTIAL AGONIST at a G-protein-linked receptor?",
+opts:["Produces maximal signal transduction equal to the natural neurotransmitter","Produces signal transduction that is more than an antagonist but less than a full agonist; acts as a stabilizer — increases activity when deficient, blocks when excessive","Blocks all agonists and has no activity of its own, returning the receptor to baseline","Produces the opposite effect of the natural neurotransmitter, reducing signaling below baseline"],
+ans:1,rat:"PARTIAL AGONIST: produces signal transduction between zero (antagonist) and maximum (full agonist) — like a dimmer switch set to a specific intermediate level. KEY PROPERTY: No matter how much the dose is increased, the effect cannot exceed that preset partial level. STABILIZING EFFECT: In dopamine-deficient states, a partial agonist INCREASES dopamine activity. In dopamine-excess states, it COMPETES with dopamine and REDUCES activity. This is why aripiprazole is called a 'dopamine system stabilizer.' The Goldilocks solution — not too much, not too little. Ideal for 'out-of-tune' neurotransmitter systems."},
+
+{ch:2,topic:"Inverse Agonist",diff:"Difficult",
+vig:"A pharmacologist explains that some drugs do more than simply 'block' a receptor — they actively push receptor activity BELOW its baseline constitutive level.",
+stem:"Which drug action is described as producing a receptor conformation that is TOTALLY INACTIVE, reducing signaling BELOW the baseline constitutive level?",
+opts:["Full agonist — maximizes receptor activation above baseline","Partial agonist — activates the receptor but only partially above baseline","Antagonist — blocks agonists but maintains baseline constitutive activity","Inverse agonist — produces a conformation that renders the receptor totally inactive, below constitutive baseline"],
+ans:3,rat:"INVERSE AGONIST: binds to the receptor and produces a conformational change that renders the receptor TOTALLY INACTIVE — reducing signal transduction BELOW the baseline constitutive level (the activity the receptor has even without any agonist present). Contrast: ANTAGONIST returns the receptor to its constitutive baseline (zero effect above or below). INVERSE AGONIST pushes below zero. Clinical importance: Some drugs previously thought to be antagonists may actually be inverse agonists, which has implications for how we understand their therapeutic and side effects."},
+
+{ch:2,topic:"Enzymes — Irreversible Inhibition",diff:"Moderate",
+vig:"A patient with treatment-resistant depression is started on phenelzine, an MAOI. The NP counsels her about a strict tyramine-free diet and explains why the drug effects last even after stopping it.",
+stem:"Why do MAOIs like phenelzine have a PROLONGED duration of action even after the drug is cleared from the body?",
+opts:["MAOIs have extremely long half-lives and remain in the body for months","MAOIs are IRREVERSIBLE (suicide) inhibitors — they bind covalently to MAO, permanently inactivating it; effects last until NEW enzyme is synthesized (2–3 weeks)","MAOIs have active metabolites that continue to inhibit the enzyme after the parent drug is cleared","MAOIs are stored in adipose tissue and slowly released, maintaining continuous inhibition"],
+ans:1,rat:"IRREVERSIBLE (SUICIDE) INHIBITORS: bind COVALENTLY and PERMANENTLY to the enzyme, essentially 'killing' it. Enzyme activity only returns when the cell synthesizes new enzyme molecules — which takes approximately 2–3 WEEKS for MAO. Clinical implications: (1) Tyramine diet restrictions must continue 2 weeks after stopping phenelzine (hypertensive crisis risk); (2) A 2-week washout is required before starting other serotonergic drugs (serotonin syndrome risk); (3) Antidepressant effect may outlast drug levels in the serum. Compare with REVERSIBLE inhibitors (the substrate can compete to displace the drug)."},
+
+{ch:2,topic:"CYP450 — Metabolizer Status",diff:"Moderate",
+vig:"A patient with schizophrenia is on a standard dose of risperidone but continues to have breakthrough psychotic symptoms with therapeutic adherence confirmed. A pharmacogenomic test reveals he is an ultra-rapid metabolizer of CYP2D6.",
+stem:"What does ULTRA-RAPID METABOLIZER (UM) status mean for this patient's drug therapy?",
+opts:["The patient metabolizes the drug more slowly than normal, causing toxicity at standard doses","The patient has elevated CYP2D6 activity, metabolizing the drug faster than normal — standard doses may be subtherapeutic; dose increase may be needed","The patient cannot metabolize the drug at all and requires a different medication entirely","The patient metabolizes the drug at a normal rate but has increased receptor sensitivity"],
+ans:1,rat:"CYP450 METABOLIZER STATUS: POOR METABOLIZER (PM): reduced enzyme activity → drug accumulates → TOXICITY risk at standard doses. EXTENSIVE METABOLIZER (EM): normal — standard dosing. ULTRA-RAPID METABOLIZER (UM): ELEVATED enzyme activity → drug broken down faster than normal → STANDARD DOSES MAY BE SUBTHERAPEUTIC (insufficient plasma levels). This patient needs a DOSE INCREASE or a different drug not metabolized by CYP2D6. PHARMACOGENOMIC TESTING (genotyping) identifies metabolizer status — particularly useful for treatment-resistant patients or those with poor tolerability. This is precision medicine in psychiatry."},
+
+{ch:2,topic:"CYP450 — Drug Interactions",diff:"Difficult",
+vig:"A patient stabilized on clozapine (metabolized by CYP1A2) begins smoking cigarettes. Two weeks later her psychiatrist notes the clozapine level has dropped significantly despite the same dose.",
+stem:"Why did the clozapine level DROP after this patient started smoking?",
+opts:["Nicotine blocks CYP1A2, reducing clozapine metabolism and lowering blood levels","Smoking INDUCES CYP1A2 — cigarette smoke (polycyclic aromatic hydrocarbons, not nicotine) upregulates this enzyme, increasing clozapine metabolism and reducing plasma levels","Smoking increases gastric acid, reducing oral absorption of clozapine","Nicotine is a CYP1A2 substrate and competes with clozapine, displacing it from the enzyme"],
+ans:1,rat:"SMOKING and CYP1A2: Cigarette smoke contains POLYCYCLIC AROMATIC HYDROCARBONS (PAHs) — not nicotine — that INDUCE (upregulate) CYP1A2 enzyme activity. More CYP1A2 = faster metabolism of clozapine = LOWER plasma levels. If a patient STARTS smoking, clozapine dose may need to INCREASE. If a patient QUITS smoking (e.g., during hospitalization), CYP1A2 induction reverses = clozapine levels RISE = TOXICITY risk. This interaction also applies to olanzapine and fluvoxamine (CYP1A2 inhibitor — increases clozapine levels). Understanding CYP450 inducers vs. inhibitors is critical for NP safe prescribing."},
+
+{ch:3,topic:"Ligand-Gated Ion Channels",diff:"Moderate",
+vig:"A patient with acute anxiety in the emergency department receives lorazepam IV. Within 2 minutes she is notably calmer. An NP student asks why this medication works so much faster than SSRIs.",
+stem:"Why do benzodiazepines produce IMMEDIATE anxiolytic effects while SSRIs take weeks?",
+opts:["Benzodiazepines have better bioavailability and cross the blood-brain barrier faster","Benzodiazepines are positive allosteric modulators of GABA-A (ligand-gated ion channels) — directly increasing ion flow in milliseconds, bypassing slow signal transduction cascades","Benzodiazepines irreversibly bind to receptors, producing a longer-lasting immediate effect","Benzodiazepines block serotonin reuptake faster than SSRIs due to their molecular structure"],
+ans:1,rat:"SPEED OF ACTION: IONOTROPIC (ligand-gated) receptors produce effects in MILLISECONDS because ion flow changes immediately upon channel opening — no second messenger cascade required. BENZODIAZEPINES are POSITIVE ALLOSTERIC MODULATORS (PAMs) at GABA-A (a pentameric, chloride-permeable, ligand-gated ion channel). They bind to an allosteric site (not the GABA binding site) and ENHANCE GABA's effect by increasing the frequency of chloride channel opening. More Cl⁻ influx = membrane hyperpolarization = neuronal inhibition = anxiolysis. SSRIs require G-protein cascades and gene expression changes — weeks to months."},
+
+{ch:3,topic:"GABA-A Receptor Structure",diff:"Difficult",
+vig:"A pharmacology professor draws a pentameric ion channel on the board. She asks students to identify which structural subtype this represents and gives the example of a receptor targeted by alcohol and benzodiazepines.",
+stem:"Which structural subtype and example CORRECTLY describes the GABAA receptor?",
+opts:["Tetrameric subtype — four subunits, each with three transmembrane regions (like NMDA receptors)","Pentameric subtype — five subunits, each with four transmembrane regions (same family as nicotinic cholinergic, 5-HT3, and glycine receptors)","Dimeric subtype — two subunits linked by disulfide bonds (like growth factor receptors)","Monomeric subtype — single transmembrane domain with intracellular kinase activity"],
+ans:1,rat:"PENTAMERIC LIGAND-GATED ION CHANNELS: composed of FIVE subunits, each with FOUR transmembrane regions. Members of this family: GABA-A, NICOTINIC cholinergic receptors, SEROTONIN 5-HT3 receptors, and GLYCINE receptors. TETRAMERIC subtype (four subunits, three transmembrane regions + one re-entrant loop): includes GLUTAMATE receptors — AMPA, KAINATE, and NMDA. The structural difference explains their pharmacology — GABA-A allows chloride (inhibitory); NMDA allows calcium (excitatory). Understanding the structure is essential for understanding why drugs like benzodiazepines, alcohol, barbiturates, and anesthetics all target GABA-A and why NMDA antagonists (ketamine) have such different effects."},
+
+{ch:3,topic:"Positive Allosteric Modulators",diff:"Moderate",
+vig:"An NP explains to a resident why benzodiazepines are safer than barbiturates. She notes that benzodiazepines can only work when GABA is also present.",
+stem:"What is the MECHANISM of positive allosteric modulation (PAM) and why does it differ from a full agonist?",
+opts:["A PAM binds to the GABA binding site and opens the channel maximally regardless of GABA presence","A PAM binds to a SEPARATE allosteric site and ONLY works in the presence of the natural neurotransmitter (GABA), enhancing but not replacing its effect — this limits the maximum possible effect","A PAM replaces the natural neurotransmitter with a stronger chemical signal","A PAM works the same as a full agonist but has a shorter duration of action"],
+ans:1,rat:"POSITIVE ALLOSTERIC MODULATOR (PAM): binds to a site DIFFERENT from the neurotransmitter binding site ('other site') and only works when the NATURAL NEUROTRANSMITTER is ALSO PRESENT. This is the safety mechanism of benzodiazepines — they enhance GABA's effect but cannot open the channel by themselves. Maximum effect is limited by how much GABA is present. BARBITURATES, in contrast, can open GABA-A channels INDEPENDENTLY at high doses — hence their greater overdose lethality. NEGATIVE ALLOSTERIC MODULATORS (NAMs): block or reduce neurotransmitter action (e.g., ketamine at NMDA receptors)."},
+
+{ch:3,topic:"Receptor States",diff:"Difficult",
+vig:"A patient who uses heroin frequently develops tolerance. His NP notes that despite the opioid still being present and bound to the receptor, the receptor has become unresponsive.",
+stem:"Which receptor state describes the condition where the receptor STOPS RESPONDING to an agonist even though it is still bound?",
+opts:["Resting state — infrequent opening with low constitutive activity","Open state — maximal ion conductance through the channel","Desensitized state — the receptor closes even with the agonist still bound (adaptive tolerance)","Inactivated state — occurs when an inverse agonist permanently closes the channel"],
+ans:2,rat:"DESENSITIZED STATE: an adaptive state where the receptor STOPS RESPONDING to an agonist even though the agonist is still bound (the 'key' is still in the lock but the door won't open). This is the molecular basis for TOLERANCE — why increasing doses of a drug are needed for the same effect over time. Compare with: RESTING = infrequent opening (constitutive activity). OPEN = maximal ion conductance. INACTIVATED = stable closed conformation after prolonged agonist exposure. The nicotine 'pack-a-day phenomenon' is driven by this: nicotinic receptors desensitize in the time it takes to smoke one cigarette, then reinstate for the next."},
+
+{ch:3,topic:"Voltage-Sensitive Sodium Channels",diff:"Difficult",
+vig:"An NP student learns that lamotrigine, used for bipolar disorder, works by blocking a specific type of ion channel. She is asked to explain its molecular mechanism.",
+stem:"How do voltage-sensitive sodium channels (VSSCs) generate and PROPAGATE the action potential?",
+opts:["VSSCs detect changes in neurotransmitter concentration and open proportionally to the amount of neurotransmitter present","Transmembrane segment 4 acts as a 'voltmeter' detecting membrane charge changes; when the threshold is met, VSSCs open allowing sodium influx, depolarizing the membrane and propagating the action potential","VSSCs are always open and simply allow more sodium in when neurotransmitter binds","VSSCs generate action potentials by pumping calcium into the axon, causing vesicle fusion and neurotransmitter release"],
+ans:1,rat:"VOLTAGE-SENSITIVE SODIUM CHANNELS (VSSCs): The α subunit contains four subunits, each with six transmembrane segments. KEY STRUCTURES: (1) TRANSMEMBRANE SEGMENT 4 = the 'VOLTMETER' — detects the charge across the membrane. When threshold is reached, it triggers channel opening. (2) PORE INACTIVATOR = an intracellular loop between subunits 3 and 4 acts like a 'BATHTUB PLUG' that physically stops ion flow (inactivation after each action potential). Sodium influx through VSSCs depolarizes the membrane, propagating the action potential down the axon. LAMOTRIGINE inhibits VSSCs, reducing neuronal excitability — hence its use in bipolar disorder and epilepsy."},
+
+{ch:3,topic:"Voltage-Sensitive Calcium Channels",diff:"Difficult",
+vig:"An NP is reviewing the mechanism of pregabalin (Lyrica) for a patient with chronic pain and generalized anxiety. She explains that it targets a specific protein on a calcium channel.",
+stem:"What is the mechanism of pregabalin and gabapentin at voltage-sensitive calcium channels?",
+opts:["They block L-type calcium channels in vascular smooth muscle, similar to antihypertensives","They target the α2δ PROTEIN of voltage-sensitive calcium channels (VSCCs), reducing channel opening and thereby decreasing neurotransmitter release — useful for chronic pain and anxiety","They block N and P/Q calcium channels directly by binding to the channel pore","They activate calcium channels to increase inhibitory neurotransmitter release"],
+ans:1,rat:"PREGABALIN and GABAPENTIN target the α2δ PROTEIN of voltage-sensitive calcium channels (VSCCs). By binding to α2δ, they regulate (REDUCE) channel opening, which decreases calcium influx and therefore reduces NEUROTRANSMITTER RELEASE. This is the basis for their efficacy in CHRONIC PAIN (reducing glutamate/substance P release from pain neurons) and GENERALIZED ANXIETY DISORDER (reducing excitatory neurotransmission). Key VSCC subtypes: N and P/Q = PRESYNAPTIC, regulate neurotransmitter release (targets for pain, seizure, mania). L-type = vascular smooth muscle and CNS (targeted by antihypertensives). T-type = thalamus (targeted by ethosuximide for absence seizures)."},
+
+{ch:3,topic:"Excitation-Secretion Coupling",diff:"Difficult",
+vig:"A pharmacology professor explains the molecular process connecting an action potential in a presynaptic axon to neurotransmitter release into the synapse.",
+stem:"What is EXCITATION-SECRETION COUPLING and what is the role of voltage-sensitive calcium channels (VSCCs) in this process?",
+opts:["Excitation-secretion coupling is the process where postsynaptic neurotransmitter binding causes the presynaptic neuron to increase firing rate","Action potential (sodium influx via VSSCs) → opens VSCCs → calcium influx → VSCCs are 'snared' to synaptic vesicles → calcium triggers vesicle fusion with the membrane → neurotransmitters released into the synapse","Action potential triggers GABA release, which then opens calcium channels in the postsynaptic neuron","Excitation-secretion coupling occurs when G-protein-linked receptors activate adenylyl cyclase to increase cAMP and cause vesicle exocytosis"],
+ans:1,rat:"EXCITATION-SECRETION COUPLING: the process of converting an ELECTRICAL IMPULSE (action potential) into a CHEMICAL MESSAGE (neurotransmitter release). SEQUENCE: (1) Action potential arrives at axon terminal → VSSCs open → Na⁺ influx → depolarization; (2) Depolarization triggers VSCC (N and P/Q type) opening → Ca²⁺ influx; (3) VSCCs contain an intracellular 'SNARE' loop that is physically tethered to synaptic vesicles; (4) Ca²⁺ influx triggers VESICLE FUSION with the membrane → NEUROTRANSMITTERS SPILL into the synapse 'like a fired gun.' Blocking N or P/Q calcium channels can prevent excessive neurotransmission in mania, seizures, or chronic pain."},
+
+{ch:1,topic:"Neurotransmitter Systems",diff:"Moderate",
+vig:"A psychiatric NP is teaching a nursing student about the six primary neurotransmitter systems targeted by psychotropic drugs. She emphasizes which systems are most relevant to clinical psychopharmacology.",
+stem:"Which set represents the SIX KEY neurotransmitter systems that psychopharmacologists primarily focus on?",
+opts:["Serotonin, dopamine, norepinephrine, acetylcholine, histamine, adenosine","Serotonin, norepinephrine, dopamine, acetylcholine, glutamate, GABA","Dopamine, serotonin, oxytocin, vasopressin, substance P, endorphins","Glutamate, GABA, glycine, acetylcholine, norepinephrine, epinephrine"],
+ans:1,rat:"The SIX PRIMARY neurotransmitter systems in psychopharmacology: (1) SEROTONIN — mood, sleep, appetite (SSRIs target SERT); (2) NOREPINEPHRINE — alertness, fight-or-flight, produced in locus coeruleus; (3) DOPAMINE — reward, motivation, motor control (basal ganglia and VTA); (4) ACETYLCHOLINE — memory, muscle activation (Alzheimer's disease); (5) GLUTAMATE — major excitatory neurotransmitter, 'the gas pedal,' memory/learning; (6) GABA — major inhibitory neurotransmitter, 'the brakes,' anxiety reduction. The brain produces its own versions of drugs — beta-endorphins (morphine), endocannabinoids (cannabis) — rational basis for combining therapeutic agents when single-mechanism drugs fail."},
+
+{ch:1,topic:"Dopamine — Volume Transmission",diff:"Moderate",
+vig:"A patient is started on methylphenidate for ADHD. The NP explains how the drug improves prefrontal cortex function by increasing dopamine availability differently than in the basal ganglia.",
+stem:"Why does dopamine act primarily through VOLUME TRANSMISSION in the prefrontal cortex?",
+opts:["The prefrontal cortex has more dopamine receptors than other brain regions","The PFC lacks dopamine reuptake transporters (DAT), so dopamine diffuses broadly to act at distant receptors rather than being rapidly recaptured","Dopamine is produced in greater quantities in the PFC compared to the basal ganglia","Methylphenidate directly stimulates dopamine synthesis in the PFC neurons"],
+ans:1,rat:"DOPAMINE in the PREFRONTAL CORTEX: Unlike the striatum/basal ganglia where DAT (dopamine transporter) rapidly recaptures dopamine for classic synaptic transmission, the PFC has LOW DAT expression. Without reuptake pumps, dopamine DIFFUSES broadly through extracellular space to act at any neuron with a compatible D1 or D2 receptor — VOLUME (nonsynaptic) TRANSMISSION. This is why METHYLPHENIDATE (DAT blocker) and other stimulants improve PFC function — they increase dopamine availability in an area where dopamine already relies on diffusion. PFC dopamine is critical for working memory, executive function, and impulse control."},
+
+{ch:2,topic:"Serotonin Transporter",diff:"Moderate",
+vig:"A patient with OCD is being started on fluoxetine. Her NP explains that the drug works like a 'wagon' that gets blocked, preventing serotonin from being recycled back into the presynaptic neuron.",
+stem:"Using the 'monoamine transporter wagon' analogy, what happens when an SSRI binds to SERT?",
+opts:["The SSRI binds to the sodium binding site, preventing sodium from inflating the 'tires' and stopping all transport","The SSRI binds to an ALLOSTERIC site ('the front seat'), distinct from the serotonin binding site, preventing serotonin from binding to the transporter","The SSRI binds to the serotonin binding site directly and is transported into the neuron instead of serotonin","The SSRI blocks the potassium channel, preventing the sodium gradient from forming"],
+ans:1,rat:"SERT (Serotonin Transporter) MECHANISM: The SLC6 transporter works like a wagon with SODIUM BINDING SITES ('tires'). Sodium binding INFLATES the tires — increasing the transporter's affinity for serotonin. Once both sodium and serotonin are bound, the transporter moves serotonin into the neuron. SSRIs bind to an ALLOSTERIC SITE ('the front seat') — SEPARATE from the serotonin binding site. This prevents serotonin from binding and being transported, leaving more serotonin in the synapse. Because it's an allosteric site (not competitive), SSRIs don't need to 'outcompete' serotonin — they reshape the transporter to prevent serotonin entry."},
+
+{ch:1,topic:"Epigenetics Clinical Application",diff:"Difficult",
+vig:"During psychotherapy, a patient with PTSD shows measurable changes in cortisol reactivity and gene expression. Her therapist and psychiatrist discuss how both therapy and medication may produce similar neurobiological effects.",
+stem:"Which statement BEST reflects the epigenetic basis for why PSYCHOTHERAPY can produce lasting neurobiological changes?",
+opts:["Psychotherapy changes the DNA sequence in stress-response genes, creating a permanent cure","Psychotherapy induces epigenetic modifications (methylation/acetylation patterns) that alter gene expression without changing DNA — reversibly modifying which genes are active, potentially 'reprogramming' stress-response pathways","Psychotherapy only works through the placebo effect and does not produce measurable gene changes","Psychotherapy and medication work through completely separate mechanisms with no neurobiological overlap"],
+ans:1,rat:"EPIGENETICS and PSYCHOTHERAPY: Life experiences — including therapy, stress, and drugs — can alter EPIGENETIC MARKS (DNA methylation and histone acetylation patterns) that determine which genes are expressed without changing the underlying DNA sequence. In PTSD: Chronic stress may SILENCE genes (via methylation/deacetylation) that regulate stress responses, making them less responsive. PSYCHOTHERAPY can REVERSE these epigenetic marks — reopening the 'molecular gate' on these genes. This explains why 'genes modify behavior and behavior modifies genes' — and why integrated pharmacotherapy + psychotherapy may produce complementary epigenetic changes, explaining why combined treatment often outperforms either alone."},
+
+{ch:3,topic:"NMDA Receptor",diff:"Difficult",
+vig:"A patient with treatment-resistant depression receives a ketamine infusion in a specialized clinic. The NP explains the mechanism involves NMDA receptors and rapid antidepressant effects within hours.",
+stem:"How does ketamine produce its rapid antidepressant effect based on NMDA receptor pharmacology?",
+opts:["Ketamine is a PAM at NMDA receptors, enhancing glutamate activity and rapidly increasing neuroplasticity","Ketamine is a NAM (negative allosteric modulator) at NMDA receptors — it BLOCKS this excitatory calcium channel, reducing glutamate excitotoxicity and paradoxically triggering rapid neuroplastic changes including BDNF release","Ketamine blocks serotonin transporters more rapidly than SSRIs, producing immediate mood elevation","Ketamine is an inverse agonist at GABA-A receptors, disinhibiting neurons in the reward pathway"],
+ans:1,rat:"KETAMINE at NMDA RECEPTORS: Ketamine is a NEGATIVE ALLOSTERIC MODULATOR (NAM) — it blocks the NMDA receptor's calcium channel (an 'open-channel blocker'). NMDA receptors are TETRAMERIC, glutamate-gated, calcium-permeable ion channels. NMDA blockade by ketamine: (1) Reduces glutamate-mediated excitotoxicity; (2) Paradoxically triggers a BURST OF GLUTAMATE in other pathways; (3) Activates AMPA receptors and BDNF (Brain-Derived Neurotrophic Factor) release; (4) Produces RAPID SYNAPTOGENESIS. This explains why ketamine produces antidepressant effects within HOURS — unlike SSRIs which require weeks of G-protein cascade changes. The glutamate hypothesis of depression is now one of the most active areas of psychopharmacology research."},
+
+{ch:1,topic:"Brain Anatomy — Lobes",diff:"Moderate",
+vig:"A 45-year-old patient sustains a traumatic brain injury to the posterior right hemisphere. He develops difficulty recognizing objects by sight despite having normal visual acuity.",
+stem:"Which lobe is MOST LIKELY damaged to produce this visual processing deficit?",
+opts:["Frontal lobe — responsible for executive function and motor planning","Parietal lobe — processes touch, pain, pressure, and spatial orientation","Temporal lobe — processes hearing, language comprehension, and memory formation","Occipital lobe — the primary visual processing center, interprets all visual information"],
+ans:3,rat:"OCCIPITAL LOBE: located at the BACK of the brain, it is the brain's PRIMARY VISUAL PROCESSING CENTER. It contains the primary visual cortex (Brodmann Area 17) and visual association areas. Damage produces visual processing deficits — the patient may have NORMAL eyes and optic nerves but cannot interpret what they see (visual agnosia). Brain lobe memory: FRONTAL = 'our mind' (executive, impulse control, personality, working memory). PARIETAL = 'the touch processor' (sensation, spatial awareness, body position). TEMPORAL = 'the historian' (hearing, language comprehension, memory formation). OCCIPITAL = 'the camera lens' (vision)."},
+
+{ch:1,topic:"Brain Anatomy — Basal Ganglia",diff:"Moderate",
+vig:"A 70-year-old patient develops Parkinson's disease. He has resting tremor, rigidity, and bradykinesia. His neurologist explains that a specific deep gray matter structure is losing neurons.",
+stem:"What is the ROLE of the BASAL GANGLIA and which neurotransmitter is primarily depleted in Parkinson's disease?",
+opts:["The basal ganglia processes sensory information and primarily uses serotonin; loss causes sensory disorders","The basal ganglia is a subcortical region that controls the ability to start, stop, and regulate voluntary movements; dopamine-producing neurons in the substantia nigra (which projects to basal ganglia) are depleted in Parkinson's disease","The basal ganglia regulates sleep-wake cycles and primarily uses norepinephrine","The basal ganglia manages emotional memory and primarily uses acetylcholine; loss causes anxiety disorders"],
+ans:1,rat:"BASAL GANGLIA: a subcortical region (deep gray matter) critical for MOTOR CONTROL — the ability to start, stop, and regulate voluntary movements. Also involved in motor learning, executive function, behaviors, and emotions. Contains the CORPUS STRIATUM (reward system). Key neurotransmitters: DOPAMINE (from the substantia nigra — the nigrostriatal pathway) and ACETYLCHOLINE. In PARKINSON'S: the dopaminergic neurons of the SUBSTANTIA NIGRA degenerate → dopamine deficiency in the basal ganglia → loss of smooth voluntary movement control → resting tremor, rigidity, bradykinesia. Treatment: levodopa/carbidopa replaces dopamine."},
+
+{ch:1,topic:"Hypothalamus Function",diff:"Moderate",
+vig:"A patient taking an antipsychotic gains significant weight and develops amenorrhea. The NP explains that the drug is affecting a brain structure that links the nervous system to the endocrine system.",
+stem:"Which brain structure CONNECTS the central nervous system to the endocrine system and regulates appetite, temperature, and hormone release?",
+opts:["Thalamus — the sensory relay station that also controls sleep regulation","Hypothalamus — connects the CNS to the endocrine system via the pituitary gland; controls heart rate, blood pressure, appetite, thirst, temperature, and hormone release","Cerebellum — coordinates movement and balance","Amygdala — processes fear and emotional memory"],
+ans:1,rat:"HYPOTHALAMUS: the critical LINK between the NERVOUS SYSTEM and ENDOCRINE SYSTEM. It communicates with the PITUITARY GLAND to regulate hormone release throughout the body. Functions: heart rate, blood pressure, APPETITE, thirst, temperature, and hormones. Antipsychotics that block dopamine D2 receptors in the hypothalamus can increase PROLACTIN secretion (causing amenorrhea, galactorrhea) and stimulate appetite pathways (causing weight gain). The hypothalamus is also the target for atypical antipsychotic side effects including metabolic syndrome. Distinct from the THALAMUS (sensory relay station and sleep regulation)."},
+
+{ch:1,topic:"Serotonin — Clinical",diff:"Moderate",
+vig:"A 30-year-old with major depressive disorder is prescribed an SSRI. Her NP explains which brain pathway is being targeted and where serotonin is primarily produced.",
+stem:"Where is serotonin PRIMARILY PRODUCED and what are its key functions?",
+opts:["Produced in the locus coeruleus; primarily controls fight-or-flight and alertness","Produced in the raphe nuclei of the brainstem; regulates mood, sleep, appetite, and impulsive behavior — the 'calming' chemical","Produced in the substantia nigra; controls motor function and reward pathways","Produced in the basal nucleus of Meynert; involved in attention and memory"],
+ans:1,rat:"SEROTONIN (5-HT): Produced in the RAPHE NUCLEI (brainstem) and sent throughout the ENTIRE BRAIN via serotonergic pathways. Functions: Primarily regulates MOOD, SLEEP, APPETITE, and IMPULSIVE BEHAVIOR — often called the 'calming' chemical. Low serotonin is linked to DEPRESSION and ANXIETY. The SERT (serotonin transporter) recaptures serotonin from the synapse — the primary target of SSRIs. Compare: NOREPINEPHRINE = locus coeruleus (fight-or-flight, alertness). DOPAMINE = ventral tegmental area/substantia nigra (reward, movement). ACETYLCHOLINE = basal nucleus of Meynert (attention, memory — depleted in Alzheimer's)."},
+
+{ch:1,topic:"GABA vs Glutamate",diff:"Moderate",
+vig:"A patient with generalized anxiety disorder is prescribed alprazolam. An NP explains that the drug works by enhancing an inhibitory neurotransmitter that is the brain's primary 'brake.'",
+stem:"What is the ROLE of GABA in the CNS and how does it differ from glutamate?",
+opts:["GABA is excitatory ('the gas pedal'), essential for learning; glutamate is inhibitory ('the brakes'), reduces anxiety","GABA is the brain's primary INHIBITORY neurotransmitter ('the brakes') — slows neuronal activity, reduces anxiety; GLUTAMATE is the primary EXCITATORY neurotransmitter ('the gas pedal') — turns neurons on, essential for learning and memory","Both GABA and glutamate are excitatory but have different receptor subtypes","GABA and glutamate are both inhibitory but act in different brain regions"],
+ans:1,rat:"GABA (gamma-aminobutyric acid): PRIMARY INHIBITORY neurotransmitter — 'the BRAKES.' Slows neuronal firing, reduces anxiety, induces relaxation. Benzodiazepines (alprazolam) enhance GABA-A receptor function. GLUTAMATE: PRIMARY EXCITATORY neurotransmitter — 'the GAS PEDAL.' Turns neurons ON; essential for LEARNING and MEMORY (long-term potentiation). Too much glutamate = EXCITOTOXICITY — neuronal death (relevant in stroke, TBI, and neurodegenerative disease). Balance between GABA (brakes) and GLUTAMATE (gas) is essential for normal brain function. Disruption of this balance underlies epilepsy, anxiety disorders, schizophrenia, and mood disorders."},
+
+{ch:2,topic:"Glutamate Transporters",diff:"Difficult",
+vig:"A neuroscience researcher is studying amyotrophic lateral sclerosis (ALS). She finds that motor neurons are dying from excessive glutamate buildup in the synapse. Riluzole, the primary ALS treatment, blocks glutamate release.",
+stem:"Which transporter family is responsible for clearing GLUTAMATE from the synapse?",
+opts:["SLC6 family — the same sodium/chloride-coupled family as SERT and NET","SLC1 family — high-affinity glutamate transporters (EAAT 1–5) remove glutamate from the synapse","SLC17 family — vesicular glutamate transporters package glutamate into vesicles for release","SLC32 family — vesicular GABA transporters that also clear glutamate"],
+ans:1,rat:"SLC1 GENE FAMILY: contains the HIGH-AFFINITY GLUTAMATE TRANSPORTERS — EAAT 1–5 (Excitatory Amino Acid Transporters). These clear GLUTAMATE from the synapse to prevent EXCITOTOXICITY. In ALS: reduced EAAT2 expression on astrocytes → glutamate accumulates → excessive NMDA receptor activation → calcium influx → motor neuron death. Compare with: SLC6 = monoamine/GABA/glycine transporters (SERT, NET, DAT, GAT). SLC17 = VESICULAR GLUTAMATE transporters (VGluT) — package glutamate INTO vesicles for release (not clearing). SLC32 = vesicular GABA transporter (VIAAT). SLC18 = VMAT2 (monoamine vesicular storage)."},
+
+{ch:3,topic:"Nicotine Dependence",diff:"Moderate",
+vig:"A patient who smokes one pack per day (20 cigarettes) asks her NP why she needs that specific number — not more, not less. The NP explains this is driven by nicotinic receptor kinetics.",
+stem:"Which receptor mechanism explains the 'pack-a-day' smoking pattern?",
+opts:["Nicotine has a half-life of exactly 24 hours, meaning one dose per cigarette is sufficient for all-day effect","Nicotinic receptors DESENSITIZE during the time it takes to smoke one cigarette and remain INACTIVATED until the next cigarette; the smoking interval matches receptor recovery time","Nicotine rapidly undergoes first-pass metabolism, requiring frequent redosing to maintain plasma levels","Nicotinic receptors require 20 activations per day for full therapeutic effect on mood and attention"],
+ans:1,rat:"NICOTINE 'PACK-A-DAY' PHENOMENON: driven by NICOTINIC RECEPTOR KINETICS. Nicotinic receptors (pentameric, ligand-gated ion channels) undergo: (1) Initial ACTIVATION when nicotine binds → pleasure, alertness; (2) DESENSITIZATION — receptors become unresponsive even with nicotine still bound — by the time one cigarette is finished; (3) INACTIVATION — receptors remain closed until nicotine dissipates; (4) RECOVERY — receptors return to resting state → craving drives the next cigarette. This creates the ~20-cigarette/day pattern matching receptor recovery cycles. This mechanism also explains why nicotine REPLACEMENT therapies need to maintain steady-state levels (patches) to reduce peak-and-trough receptor cycling."},
+
+{ch:1,topic:"Acetylcholine — Clinical",diff:"Moderate",
+vig:"A 75-year-old patient with Alzheimer's disease is prescribed donepezil. Her daughter asks the NP why the drug can't cure the disease but only slows progression.",
+stem:"Why is ACETYLCHOLINE deficiency central to Alzheimer's disease and how does donepezil address this?",
+opts:["Alzheimer's disease destroys acetylcholine receptors permanently; donepezil creates new receptors","Alzheimer's disease involves loss of acetylcholine-producing neurons; donepezil is an ACETYLCHOLINESTERASE INHIBITOR that PREVENTS acetylcholine breakdown, increasing available ACh — it cannot replace lost neurons, only enhance remaining ones","Donepezil blocks acetylcholine reuptake transporters, increasing acetylcholine in the synapse","Alzheimer's disease is caused by excess acetylcholine; donepezil reduces acetylcholine to normal levels"],
+ans:1,rat:"ACETYLCHOLINE (ACh): involved in muscle activation, ATTENTION, and MEMORY. High concentrations in the BASAL NUCLEUS OF MEYNERT (projects to cortex) and BASAL GANGLIA. ALZHEIMER'S DISEASE: hallmark = loss of CHOLINERGIC NEURONS (ACh-producing) → deficiency in attention and memory networks. DONEPEZIL = ACETYLCHOLINESTERASE INHIBITOR — blocks the enzyme that breaks down ACh in the synapse → MORE ACh available. Limitation: it enhances REMAINING ACh function but cannot replace LOST NEURONS. As the disease progresses and more neurons die, less ACh is produced and the drug becomes less effective. Hence: 'slows progression but does not cure.' Compare: AChEIs for Alzheimer's vs. VMAT2 inhibitors for tardive dyskinesia."},
+
+{ch:2,topic:"Partial Agonist Clinical",diff:"Moderate",
+vig:"A patient with schizophrenia has both positive symptoms (hallucinations from excess dopamine in mesolimbic pathway) and negative symptoms (blunted affect from low dopamine in PFC). His NP prescribes aripiprazole and explains why a partial agonist is ideal.",
+stem:"Why is a PARTIAL AGONIST at D2 receptors the ideal pharmacological approach for this patient's DUAL dopamine pathology?",
+opts:["Partial agonists act only on mesolimbic D2 receptors and have no effect on PFC dopamine","A partial agonist reduces excess dopamine in the MESOLIMBIC pathway (reducing hallucinations) while simultaneously BOOSTING deficient dopamine activity in the PFC (improving negative symptoms) — the stabilizing Goldilocks effect","Partial agonists are used because they have fewer metabolic side effects than full antagonists","Full agonists should be used instead because they normalize dopamine in both pathways simultaneously"],
+ans:1,rat:"PARTIAL AGONIST as 'DOPAMINE SYSTEM STABILIZER': Schizophrenia involves DUAL dopamine pathology: (1) EXCESS dopamine in MESOLIMBIC pathway → positive symptoms (hallucinations, delusions); (2) DEFICIENT dopamine in MESOCORTICAL pathway (PFC) → negative symptoms (flat affect, cognitive impairment). A PARTIAL AGONIST at D2 (aripiprazole): In MESOLIMBIC (excess DA): partial agonist COMPETES with excess dopamine and reduces net activity — reduces hallucinations. In PFC (deficient DA): partial agonist provides BASELINE stimulation, BOOSTING activity where dopamine is too low — improves negative symptoms. This 'Goldilocks' stabilization is not possible with full antagonists (which worsen negative symptoms) or full agonists (which worsen positive symptoms)."},
+
+{ch:3,topic:"Ion Channel Types",diff:"Moderate",
+vig:"An NP is studying for her psychopharmacology exam. She reviews the key differences between ligand-gated and voltage-gated ion channels and their clinical relevance.",
+stem:"Which statement CORRECTLY distinguishes ligand-gated from voltage-sensitive ion channels?",
+opts:["Ligand-gated channels open in response to voltage changes; voltage-sensitive channels open in response to neurotransmitter binding","Ligand-gated channels (ionotropic receptors) open when a NEUROTRANSMITTER BINDS; voltage-sensitive channels open when the MEMBRANE VOLTAGE reaches a threshold","Both types are identical but differ only in their location in the neuron","Ligand-gated channels are found only in the postsynaptic neuron; voltage-sensitive channels are found only in the presynaptic neuron"],
+ans:1,rat:"TWO MAJOR ION CHANNEL CLASSES: LIGAND-GATED (Ionotropic Receptors): opened by NEUROTRANSMITTERS (ligands). Examples: GABA-A (benzodiazepines), NMDA (ketamine), nicotinic ACh, 5-HT3. Subdivided into: PENTAMERIC (GABA-A, nAChR, 5-HT3, glycine) and TETRAMERIC (glutamate — AMPA, NMDA, kainate). VOLTAGE-SENSITIVE (VSIC): opened by MEMBRANE VOLTAGE (electrical potential changes). Examples: VSSCs (lamotrigine), VSCCs (pregabalin's target: α2δ). The clinical key: ligand-gated = fast, neurotransmitter-dependent. Voltage-sensitive = action potential-dependent, involved in propagating signals and triggering neurotransmitter release."},
+
+{ch:1,topic:"Norepinephrine",diff:"Moderate",
+vig:"A combat veteran with PTSD has hyperarousal, hypervigilance, and exaggerated startle response. His NP considers prescribing prazosin (an alpha-1 blocker) to reduce nighttime hyperarousal.",
+stem:"Which neurotransmitter is PRIMARILY responsible for the fight-or-flight response and where is it produced?",
+opts:["Dopamine — produced in the substantia nigra, mediates reward and motor control","Norepinephrine — produced in the LOCUS COERULEUS in the brainstem; responsible for fight-or-flight, alertness, and focus","Serotonin — produced in the raphe nuclei, mediates mood and emotional regulation","Glutamate — produced throughout the cortex, mediates arousal through excitatory transmission"],
+ans:1,rat:"NOREPINEPHRINE (NE): produced in the LOCUS COERULEUS (brainstem). Functions: FIGHT-OR-FLIGHT response, ALERTNESS, FOCUS, attention, and stress response regulation. Projected widely to the cortex, limbic system, and spinal cord. In PTSD: hyperactive noradrenergic system → hyperarousal, nightmares, exaggerated startle. PRAZOSIN blocks alpha-1 adrenergic receptors → reduces norepinephrine-mediated nighttime hyperarousal and nightmares. SNRIs (venlafaxine, duloxetine) target BOTH serotonin AND norepinephrine transporters — rationale: depression often involves both systems. NET (norepinephrine transporter) is the NE equivalent of SERT, and belongs to the SLC6 family."},
+
+{ch:2,topic:"Drug Nomenclature",diff:"Moderate",
+vig:"An NP student reads a study using the term 'serotonin transport inhibitor' instead of 'antidepressant' to describe fluoxetine. Her preceptor explains this reflects modern neuroscience-based nomenclature.",
+stem:"Why is NEUROSCIENCE-BASED NOMENCLATURE (NbN) preferred over indication-based naming of psychotropic drugs?",
+opts:["NbN is preferred because it is easier for patients to understand their medications","NbN names drugs by their PHARMACOLOGICAL MECHANISM rather than therapeutic indication — reducing confusion caused by the fact that 'antidepressants' treat anxiety and pain, and 'antipsychotics' treat mood disorders; the name should reflect WHAT the drug does, not a single use case","NbN is required by the FDA for all new drug approvals since 2020","NbN reduces the stigma of psychiatric diagnoses by not linking drug names to mental disorders"],
+ans:1,rat:"NEUROSCIENCE-BASED NOMENCLATURE (NbN): Rationale — indication-based names cause confusion: 'ANTIDEPRESSANTS' are used for: depression, anxiety disorders, OCD, PTSD, chronic pain, eating disorders. 'ANTIPSYCHOTICS' are used for: schizophrenia, bipolar disorder, depression augmentation, dementia agitation, tic disorders. NbN renames by MECHANISM: Fluoxetine = 'serotonin transport inhibitor' (SERT blocker). Quetiapine = 'serotonin-dopamine receptor antagonist.' Aripiprazole = 'dopamine-serotonin partial agonist.' This helps clinicians choose drugs rationally based on mechanism rather than primary indication, supporting combination therapy logic and reducing confusion about off-label use."},
+
+{ch:1,topic:"Brodmann Areas",diff:"Moderate",
+vig:"An NP is reviewing a patient's fMRI report. The radiologist notes decreased activity in Brodmann Areas 44 and 45. The NP explains what this means for the patient's presentation.",
+stem:"Which clinical deficit would be EXPECTED with damage or reduced activity in BRODMANN AREAS 44 and 45?",
+opts:["Visual processing deficits — inability to interpret objects and colors","SPEECH PRODUCTION deficits — Broca's area, responsible for the motor aspects of speech (fluent aphasia paradox); damage causes non-fluent (Broca's) aphasia","Sensory processing deficits — inability to feel touch, pain, or temperature","Motor coordination deficits — ataxia and balance problems"],
+ans:1,rat:"BRODMANN AREAS 44 and 45 = BROCA'S AREA — located in the LEFT frontal lobe (in most right-handed people). Broca's area is the MOTOR PROGRAM for speech — it coordinates the precise muscular movements required for spoken and written language production. Damage causes BROCA'S APHASIA: NON-FLUENT speech (effortful, telegraphic), but COMPREHENSION is INTACT (patient understands but cannot speak fluently). They know what they want to say but can't produce the words — deeply frustrating. Contrast with WERNICKE'S AREA (Areas 22, temporal lobe): FLUENT but nonsensical speech, IMPAIRED comprehension. Key Brodmann areas: 4 = primary motor cortex, 1/2/3 = somatosensory, 17 = visual, 44/45 = Broca's (speech)."},
+
+{ch:3,topic:"Inverse Agonist at Ion Channels",diff:"Difficult",
+vig:"An NP is taught that while benzodiazepines are positive allosteric modulators at GABA-A, certain beta-carbolines can produce seizures and extreme anxiety by working at the same receptor.",
+stem:"What is the action of an INVERSE AGONIST at the GABA-A ion channel?",
+opts:["Binds to the GABA binding site and opens the channel without GABA present","Enhances GABA activity beyond what GABA alone can produce, causing sedation","Binds to an allosteric site and CLOSES the channel, STABILIZING it in an inactive form — reducing chloride flow BELOW the baseline constitutive level, causing excitation and anxiety","Blocks GABA from binding by occupying the orthosteric site without causing any ion flow"],
+ans:2,rat:"INVERSE AGONIST at GABA-A: Binds to the BENZODIAZEPINE allosteric site and stabilizes the channel in a CLOSED, INACTIVE CONFORMATION — reducing chloride influx BELOW the baseline constitutive activity. Less Cl⁻ = MEMBRANE EXCITABILITY ↑ = clinical effects: ANXIETY, seizures, agitation. Spectrum at GABA-A: FULL AGONIST (e.g., GABA itself) → maximal Cl⁻ influx. PAM (benzodiazepine) → enhances GABA effect. ANTAGONIST (flumazenil) → returns to baseline, blocks benzo and inverse agonist effects. INVERSE AGONIST (beta-carbolines) → reduces below baseline, causes anxiety/seizures. Flumazenil (benzodiazepine antagonist) can reverse both benzodiazepine overdose AND inverse agonist-induced seizures."},
+
+{ch:2,topic:"Enzyme Inhibition — Reversible",diff:"Moderate",
+vig:"A patient with mild Alzheimer's disease is prescribed rivastigmine. Unlike phenelzine (an MAOI), this drug's effects can be overcome by increasing substrate concentration.",
+stem:"What type of enzyme inhibition does rivastigmine (an acetylcholinesterase inhibitor) represent and how does this differ from MAOI inhibition?",
+opts:["Irreversible (suicide) inhibition — binds permanently, effects last until new enzyme is synthesized","Reversible inhibition — the enzyme substrate (acetylcholine) can compete with the inhibitor; enzyme activity returns as the drug concentration falls","Allosteric inhibition — binds to a non-active site and changes enzyme shape without permanently disabling it","Competitive inhibition that is functionally irreversible because acetylcholine concentrations can never overcome the inhibition"],
+ans:1,rat:"REVERSIBLE ENZYME INHIBITION: rivastigmine (and donepezil) are REVERSIBLE acetylcholinesterase inhibitors — the substrate (acetylcholine) can compete with the drug to displace it from the enzyme's active site. Drug effects end as plasma levels fall. IRREVERSIBLE ('SUICIDE') INHIBITION: phenelzine and other MAOIs bind COVALENTLY and PERMANENTLY — enzyme is 'killed.' Activity only returns when NEW ENZYME is synthesized (2–3 weeks). This distinction has clinical significance: REVERSIBLE AChEIs: dose-titratable, effects wear off as drug clears. IRREVERSIBLE MAOIs: prolonged drug-free washout required before adding other serotonergic drugs. Both types require understanding for NP prescribing safety."},
+
+{ch:1,topic:"Thalamus Function",diff:"Moderate",
+vig:"A patient with a thalamic stroke develops hypersensitivity to all sensory input and disrupted sleep-wake cycles. An NP student is asked to explain the normal function of the thalamus.",
+stem:"What is the PRIMARY FUNCTION of the thalamus?",
+opts:["Controls heart rate, blood pressure, appetite, and hormone release","Acts as the brain's SENSORY RELAY STATION — almost all sensory signals pass through the thalamus on their way to the cortex; also regulates SLEEP-WAKE cycles","Coordinates balance and smooth voluntary movements","Controls fear responses and emotional memory consolidation"],
+ans:1,rat:"THALAMUS: part of the DIENCEPHALON (along with hypothalamus). Functions as the brain's primary SENSORY RELAY STATION — nearly all sensory information (touch, pain, temperature, vision, hearing) passes through the thalamus before reaching the cortex for conscious perception. Also critical for SLEEP REGULATION — disruption causes insomnia and hypersensitivity. Psychopharmacology relevance: many antipsychotics and sedatives modulate thalamic filtering. Schizophrenia may involve a 'thalamic filter' failure — insufficient filtering of sensory input contributing to hallucinations. Contrast with HYPOTHALAMUS: controls ENDOCRINE and autonomic functions (appetite, temperature, hormones)."},
+
+{ch:2,topic:"Poor Metabolizer Clinical Case",diff:"Moderate",
+vig:"A 55-year-old woman is started on nortriptyline 25mg for neuropathic pain. Within 3 days she develops severe dry mouth, urinary retention, blurred vision, and sedation at what should be a very low dose.",
+stem:"What pharmacokinetic explanation BEST accounts for this patient's severe side effects at a low dose?",
+opts:["She is an ultra-rapid metabolizer and is accumulating active metabolites faster than expected","She is a POOR METABOLIZER (PM) of CYP2D6 — nortriptyline accumulates to toxic levels at standard doses due to reduced enzyme activity; pharmacogenomic testing could have predicted this","She has developed an allergy to the nortriptyline molecule","She is an extensive metabolizer but has drug-drug interactions from other medications"],
+ans:1,rat:"POOR METABOLIZER (PM) STATUS: Reduced CYP enzyme activity (in this case, CYP2D6) → SLOWER drug metabolism → DRUG ACCUMULATES in plasma → TOXICITY at doses that would be normal for extensive metabolizers. Nortriptyline (TCA) is primarily metabolized by CYP2D6. Signs of TCA toxicity (anticholinergic syndrome): dry mouth, urinary retention, blurred vision, sedation, constipation, tachycardia. PHARMACOGENOMIC TESTING could have identified her PM status BEFORE prescribing — allowing a lower starting dose. PMs may require doses 50–75% lower than standard. Clinical takeaway: when a patient has unexpected side effects at low doses → consider metabolizer status. Available through commercial tests (GeneSight, Genomind)."},
+
+{ch:3,topic:"Calcium Channel — Clinical",diff:"Moderate",
+vig:"A patient with bipolar I disorder has been on valproate for years. Her psychiatrist adds lamotrigine. The NP student is asked why both drugs are used and how they differ mechanistically.",
+stem:"Lamotrigine works by blocking voltage-sensitive sodium and calcium channels. What is the PRIMARY CLINICAL RESULT of blocking presynaptic N and P/Q type calcium channels?",
+opts:["Increased neurotransmitter release — blocking calcium channels triggers compensatory vesicle fusion","REDUCED neurotransmitter release — presynaptic N and P/Q calcium channels trigger excitation-secretion coupling; blocking them reduces calcium influx and therefore vesicle fusion and neurotransmitter release","Blocking calcium channels increases action potential frequency by prolonging membrane depolarization","Blocking calcium channels has no clinical effect unless GABA-A receptors are simultaneously inhibited"],
+ans:1,rat:"N and P/Q TYPE CALCIUM CHANNELS are PRESYNAPTIC and directly regulate EXCITATION-SECRETION COUPLING. When the action potential arrives, these channels open → Ca²⁺ influx → vesicle fusion → NEUROTRANSMITTER RELEASE. BLOCKING N and P/Q channels (as lamotrigine does partially via VSCC effects): ↓ Ca²⁺ influx → ↓ vesicle fusion → REDUCED NEUROTRANSMITTER RELEASE — particularly GLUTAMATE. This reduces excessive excitatory neurotransmission in states like MANIA, SEIZURES, and CHRONIC PAIN. This is why lamotrigine is particularly effective for bipolar DEPRESSION (not acute mania) — it prevents excessive glutamate release without the sedation of valproate, which enhances GABA."},
+
+{ch:1,topic:"Alternative Splicing",diff:"Difficult",
+vig:"A pharmacogenomics researcher explains why a single receptor gene can produce multiple receptor subtypes with different pharmacological properties.",
+stem:"What is ALTERNATIVE SPLICING and what is its clinical significance in psychopharmacology?",
+opts:["Alternative splicing is when a gene mutates to produce a different protein in disease states","A single gene produces a primary RNA transcript that can be edited ('spliced') in different ways to produce MULTIPLE DIFFERENT PROTEINS — allowing one gene to generate receptor subtypes with distinct pharmacological properties","Alternative splicing is the process of RNA interference blocking protein synthesis","Alternative splicing refers to the pharmacist substituting a generic drug for a brand-name drug"],
+ans:1,rat:"ALTERNATIVE SPLICING: A single gene produces a PRIMARY RNA TRANSCRIPT that can be 'edited' (introns removed, exons rearranged) in different ways, producing MULTIPLE DISTINCT PROTEINS from the same gene. Clinical significance in psychopharmacology: (1) RECEPTOR DIVERSITY: a single receptor gene (e.g., dopamine receptor gene) can produce subtypes with different binding affinities and G-protein coupling — explaining why different drugs with the same receptor target have different clinical profiles; (2) DRUG SELECTIVITY: understanding splice variants helps design drugs that target specific receptor isoforms; (3) DISEASE: abnormal splicing can produce disease-causing protein variants. This is why the proteome (full protein repertoire) is FAR MORE COMPLEX than the genome."},
+
+{ch:2,topic:"G-Protein System",diff:"Moderate",
+vig:"An NP is reviewing how antipsychotic drugs block dopamine D2 receptors. She notes that D2 receptors are G-protein-linked. A student asks why this system is so commonly targeted by psychiatric medications.",
+stem:"Why are G-PROTEIN-LINKED RECEPTORS the most common target of psychotropic drugs?",
+opts:["They are the easiest to manufacture drugs for because of their simple structure","They span the cell membrane SEVEN TIMES and are the MOST ABUNDANT receptor type in the brain; approximately one-third of all psychotropic drugs target these receptors due to their versatility and wide distribution","They produce the fastest clinical effects because they directly open ion channels","They are unique to psychiatric conditions and are only found in the brain"],
+ans:1,rat:"G-PROTEIN-LINKED RECEPTORS (GPCRs): Also called seven-transmembrane (7-TM) receptors because they SPAN THE MEMBRANE SEVEN TIMES. They are the MOST ABUNDANT receptor type in the brain and ~1/3 of all psychotropic drugs target them. MECHANISM: neurotransmitter binds → conformational change → G-protein activation → second messenger production (cAMP, IP3, DAG) → signal transduction cascade. Clinical targets include: D2 receptors (antipsychotics), serotonin receptors (atypical antipsychotics, buspirone), muscarinic receptors (anticholinergics), adrenergic receptors (alpha blockers for PTSD). They produce SLOWER effects than ion channels but LONGER-LASTING changes through gene expression — ideal for psychiatric conditions requiring sustained neurobiological change."},
+
+{ch:1,topic:"Prefrontal Cortex",diff:"Moderate",
+vig:"A 14-year-old male is brought in by his parents for impulsive behavior, poor decision-making, and difficulty planning for the future. Brain imaging shows delayed prefrontal cortex maturation.",
+stem:"Which behaviors would you EXPECT from reduced PREFRONTAL CORTEX (PFC) activity and when does the PFC fully mature?",
+opts:["Reduced PFC activity causes sensory hallucinations; the PFC matures at age 8","Reduced PFC activity impairs EXECUTIVE FUNCTION: impulse control, decision-making, working memory, social behavior, and planning; the PFC is among the LAST brain regions to fully mature — complete myelination occurs in the mid-20s","Reduced PFC activity causes motor coordination deficits; the PFC matures at age 16","Reduced PFC activity causes language deficits; the PFC is fully mature at birth"],
+ans:1,rat:"PREFRONTAL CORTEX (PFC): the most complex association area — called 'our mind.' Functions: EXECUTIVE FUNCTION (planning, organizing), DECISION-MAKING (weighing pros/cons), SOCIAL BEHAVIOR and PERSONALITY, WORKING MEMORY ('the brain's sticky note'), and IMPULSE CONTROL ('the brain's NO'). Reduced PFC activity → impulsivity, poor decisions, social dysregulation. MATURATION: The PFC is the LAST region to fully develop — myelination continues until the MID-20s. This explains: adolescent risk-taking behavior (underdeveloped impulse control), why ADHD medications target the PFC (dopamine and NE enhancement), and why juvenile-onset psychiatric disorders often show PFC abnormalities. Also explains why the legal drinking age is 21."},
+
+{ch:3,topic:"PAM vs Full Agonist Safety",diff:"Moderate",
+vig:"An NP is explaining overdose risk to a patient who uses both alcohol and takes a prescribed benzodiazepine. She notes that alcohol also acts on GABA-A but differently than benzodiazepines.",
+stem:"Why can benzodiazepines alone rarely cause fatal overdose in healthy adults, but when combined with alcohol the risk increases dramatically?",
+opts:["Benzodiazepines and alcohol compete for the same GABA binding site, and the combination causes receptor blockade","Benzodiazepines are PAMs (enhancers) that REQUIRE GABA to be present — alone they have a maximum effect ceiling; alcohol can directly OPEN GABA-A channels without GABA, bypassing this ceiling; together they synergistically over-inhibit the CNS, causing respiratory depression","Alcohol inhibits CYP3A4 metabolism of benzodiazepines, causing toxic accumulation","The combination causes serotonin syndrome by dual activation of serotonergic pathways"],
+ans:1,rat:"GABA-A PHARMACOLOGY and OVERDOSE RISK: BENZODIAZEPINES (PAMs): REQUIRE GABA — they can only ENHANCE GABA's effect; cannot open the channel by themselves. The ceiling on their effect = limited by available GABA. BARBITURATES and ALCOHOL: Can open GABA-A channels DIRECTLY, independent of GABA — no ceiling effect. COMBINED overdose risk: Alcohol directly activates GABA-A PLUS eliminates the benzodiazepine's ceiling → synergistic CNS depression → respiratory depression → death. FLUMAZENIL (benzodiazepine antagonist at GABA-A) can reverse benzo effects but does NOT reverse alcohol's direct GABA-A agonism — important toxicology NP pearl. This is why the benzo + alcohol combination is particularly dangerous."},
+
+{ch:1,topic:"Cerebellum",diff:"Moderate",
+vig:"A patient with chronic alcohol use disorder presents with unsteady, wide-based gait and difficulty coordinating finger-to-nose testing. CT shows cerebellar atrophy.",
+stem:"What is the PRIMARY FUNCTION of the cerebellum and why does cerebellar damage cause the observed symptoms?",
+opts:["The cerebellum initiates voluntary movements and damage causes paralysis","The cerebellum COORDINATES voluntary movements and maintains BALANCE and POSTURE — it does not start movements but fine-tunes them; damage causes ataxia (uncoordinated movement), dysmetria, and intention tremor","The cerebellum processes sensory pain signals and damage causes central pain syndrome","The cerebellum regulates sleep-wake cycles and damage causes insomnia"],
+ans:1,rat:"CEREBELLUM ('little brain'): Does NOT initiate movement (that's the motor cortex and basal ganglia), but COORDINATES movement — ensuring actions are smooth, precise, and balanced. Functions: coordination, balance, posture, fine motor control. CEREBELLAR DAMAGE causes: ATAXIA (wide-based, unsteady gait), DYSMETRIA (past-pointing — missing the target on finger-nose test), INTENTION TREMOR (tremor that worsens approaching a target — opposite of Parkinson's resting tremor), NYSTAGMUS. ALCOHOL: directly toxic to cerebellar Purkinje cells + thiamine (B1) deficiency → Wernicke's encephalopathy. Chronic alcohol → permanent cerebellar atrophy. Psychopharmacology relevance: many drugs (lithium, antiepileptics) can cause cerebellar toxicity at high levels."},
+
+{ch:2,topic:"Histamine — Side Effects",diff:"Moderate",
+vig:"A patient started on quetiapine (Seroquel) rapidly gains 20 pounds in the first 3 months and complains of sleeping excessively. The NP explains these side effects are related to a specific neurotransmitter blockade.",
+stem:"Which neurotransmitter blockade is PRIMARILY responsible for weight gain and sedation as side effects of antipsychotics like quetiapine?",
+opts:["Dopamine D2 blockade — reduces motivation and increases appetite","HISTAMINE H1 receptor blockade — increases appetite (weight gain) and causes sedation; histamine normally promotes wakefulness and is the mechanism behind the sedating antihistamines","Serotonin 5-HT2A blockade — causes all metabolic side effects of antipsychotics","Muscarinic M1 blockade — causes sedation through anticholinergic CNS effects"],
+ans:1,rat:"HISTAMINE H1 BLOCKADE: Many atypical antipsychotics (quetiapine, olanzapine, clozapine) have strong H1 antihistamine properties. Effects of H1 blockade: (1) SEDATION — histamine normally promotes WAKEFULNESS/ALERTNESS; blocking it causes sedation (same mechanism as diphenhydramine, Benadryl); (2) WEIGHT GAIN — H1 blockade in the hypothalamus stimulates appetite. This is NOT due to D2 blockade — it is the H1 component. Clinical pearl from Chapter 2: 'Many drugs block histamine as a side effect, which is why they cause weight gain and sleepiness.' Quetiapine's strong H1 affinity explains its use as a sedating agent at sub-antipsychotic doses (25–50mg QHS), though this is controversial."},
+
+{ch:1,topic:"Neurotrophins",diff:"Difficult",
+vig:"A researcher is studying why antidepressants may prevent hippocampal volume loss in patients with chronic depression. She focuses on a signaling molecule that promotes neuronal survival.",
+stem:"Which signal transduction system is linked to NEURONAL SURVIVAL and may explain the neuroprotective effects of antidepressants on hippocampal volume?",
+opts:["G-protein-linked system — activates cAMP to prevent apoptosis","Neurotrophin-linked system — BDNF (Brain-Derived Neurotrophic Factor) activates TrkB receptors, promoting neuronal survival, plasticity, and growth; chronic antidepressants increase BDNF expression","Ion-channel-linked system — calcium influx through NMDA receptors prevents neuronal death","Hormone-linked system — cortisol from the HPA axis promotes hippocampal neurogenesis"],
+ans:1,rat:"NEUROTROPHIN-LINKED SYSTEM: BDNF (Brain-Derived Neurotrophic Factor) and NGF (Nerve Growth Factor) activate TYROSINE KINASE (Trk) receptors — a fourth major signal transduction system. These NEUROTROPHINS promote NEURONAL SURVIVAL, PLASTICITY, and GROWTH (neurogenesis). CHRONIC DEPRESSION: elevated cortisol + stress → reduced BDNF → hippocampal VOLUME LOSS (measurable on MRI). ANTIDEPRESSANT MECHANISMS (long-term): SSRIs, SNRIs, ketamine → increase BDNF expression in the hippocampus → neurogenesis and restoration of hippocampal volume. This is the 'NEUROTROPHIC HYPOTHESIS of depression' — and explains why antidepressants require weeks (time needed for new neuronal growth) and why chronic untreated depression may cause lasting brain changes."},
+
+{ch:3,topic:"Chloride Conductance",diff:"Moderate",
+vig:"A patient with a GABA-A mutation that makes chloride channels less responsive to GABA is evaluated for anxiety and seizure susceptibility.",
+stem:"What is the physiological result of INCREASED CHLORIDE CONDUCTANCE through GABA-A channels and why does it reduce neuronal excitability?",
+opts:["Increased chloride influx DEPOLARIZES the membrane (makes it more positive), increasing neuronal excitability","Chloride ions (Cl⁻) are negatively charged; their influx through open GABA-A channels HYPERPOLARIZES the membrane (makes the inside more negative), moving it AWAY from the action potential threshold — REDUCING neuronal excitability","Chloride influx directly inhibits calcium channels, preventing neurotransmitter release","Chloride ions bind to serotonin receptors, reducing their activity"],
+ans:1,rat:"GABA-A CHLORIDE CONDUCTANCE: GABA-A is a CHLORIDE-PERMEABLE channel. When GABA binds and opens the channel, Cl⁻ ions FLOW INTO the neuron (following their electrochemical gradient). Cl⁻ is NEGATIVELY charged → more negative charge inside the cell → HYPERPOLARIZATION (membrane potential moves MORE NEGATIVE, away from the threshold for action potential firing). Hyperpolarization = REDUCED EXCITABILITY = the neuron is HARDER to fire. This is the molecular basis for: GABA's inhibitory effect, ANXIOLYTIC action of benzodiazepines, ANTICONVULSANT effects. A GABA-A mutation reducing Cl⁻ conductance → membrane stays more depolarized → lower seizure threshold + increased anxiety. Treatment: benzodiazepines enhance remaining GABA-A function."},
+
+{ch:2,topic:"Transporters vs Receptors",diff:"Moderate",
+vig:"A pharmacology student is confused about the difference between transporters and receptors. Her professor uses dopamine in the basal ganglia vs. the PFC as an example.",
+stem:"What is the FUNCTIONAL DIFFERENCE between a TRANSPORTER and a RECEPTOR in neurotransmission?",
+opts:["Transporters receive signals from neurotransmitters; receptors remove neurotransmitters from the synapse","TRANSPORTERS are recapture mechanisms — they move neurotransmitters back into the presynaptic neuron (or into vesicles) for reuse; RECEPTORS are signal transduction proteins — they bind neurotransmitters and produce a biological response in the postsynaptic cell","Transporters are found only on postsynaptic neurons; receptors are found only on presynaptic neurons","Transporters and receptors are structurally identical but differ only in location"],
+ans:1,rat:"TRANSPORTERS vs. RECEPTORS — critical distinction: NEUROTRANSMITTER TRANSPORTERS: located on the PRESYNAPTIC neuron (and sometimes astrocytes). Function: RECAPTURE — transport neurotransmitters BACK INTO the neuron after release, terminating the signal. Examples: SERT (serotonin), NET (norepinephrine), DAT (dopamine). Drug target: SSRIs BLOCK SERT → more serotonin in synapse. RECEPTORS: located on POSTSYNAPTIC neurons (and sometimes presynaptic as AUTORECEPTORS). Function: SIGNAL TRANSDUCTION — bind the neurotransmitter and produce a biological response via ion flow or signal cascades. Drug targets: antipsychotics block D2 receptors, benzodiazepines modulate GABA-A. Both types are primary psychotropic drug targets — ~1/3 of drugs target each."},
+
+{ch:3,topic:"NMDA Structure",diff:"Difficult",
+vig:"An NP is studying ketamine's mechanism. She learns NMDA receptors differ structurally from GABA-A receptors and require special conditions to open.",
+stem:"What makes NMDA receptors UNIQUE among ionotropic receptors and why does ketamine's block require the channel to be OPEN?",
+opts:["NMDA receptors are pentameric and open in response to voltage changes only","NMDA receptors are TETRAMERIC and require SIMULTANEOUS binding of GLUTAMATE and GLYCINE (co-agonist) AND MEMBRANE DEPOLARIZATION to remove a magnesium block — ketamine is an OPEN-CHANNEL BLOCKER that enters and blocks the ion pore only when the channel is open","NMDA receptors open spontaneously without any agonist, making them different from all other channels","NMDA receptors are the only channels permeable to chloride, making them the primary inhibitory channels"],
+ans:1,rat:"NMDA RECEPTOR SPECIAL PROPERTIES: (1) TETRAMERIC structure (4 subunits, 3 TM regions + re-entrant loop), calcium-permeable; (2) DUAL REQUIREMENT: needs BOTH GLUTAMATE (at main site) AND GLYCINE (at co-agonist site) to open; (3) VOLTAGE-DEPENDENT MAGNESIUM BLOCK: at resting membrane potential, Mg²⁺ physically plugs the channel — requires DEPOLARIZATION to expel Mg²⁺ and allow ion flow. This is why NMDA receptors are called 'coincidence detectors' — they only activate when two neurons are active simultaneously. KETAMINE = OPEN-CHANNEL BLOCKER: it can only enter and block the channel's ion pore when the channel is ALREADY OPEN — meaning it blocks in a USE-DEPENDENT manner. This is why ketamine has dose-dependent psychotomimetic effects that can be titrated."},
+];
+
+let cur=0,cor=Array(50).fill(false),sub=Array(50).fill(false),chosen=Array(50).fill(-1);
+
+function render(){
+  const q=Q[cur],done=sub[cur];
+  const opts=q.opts.map((o,i)=>{
+    let c='opt';
+    if(done){c+=' locked';if(i===q.ans)c+=' correct';else if(chosen[cur]===i&&i!==q.ans)c+=' wrong';}
+    return `<div class="${c}" data-i="${i}" onclick="pick(${i})"><span class="ol">${'ABCD'[i]}.</span><span>${o}</span></div>`;
+  }).join('');
+  const rat=`<div class="rat ${done?(cor[cur]?'ok':'ng'):''} ${done?'show':''}" id="rat">
+    <div class="rat-hdr">${done?(cor[cur]?'✓ Correct!':'✗ Incorrect — Correct answer: '+'ABCD'[q.ans]+'.'):''}</div>
+    ${q.rat}
+  </div>`;
+  const ans=sub.filter(Boolean).length,correct=cor.filter(Boolean).length;
+  document.getElementById('prog').style.width=Math.round(((cur+1)/50)*100)+'%';
+  document.getElementById('qn').textContent=cur+1;
+  document.getElementById('ac').textContent=ans;
+  document.getElementById('cc').textContent=correct;
+
+  let navBtns=`<button class="btn" onclick="go(cur-1)" ${cur===0?'disabled':''}>← Prev</button>`;
+  if(cur<49) navBtns+=`<button class="btn" onclick="go(cur+1)">Next →</button>`;
+  if(cur===49&&done) navBtns+=`<button class="btn go" onclick="results()">Get Final Score →</button>`;
+
+  document.getElementById('qa').innerHTML=`
+  <div class="card">
+    <div class="q-meta">
+      <span class="tag tag-ch">Chapter ${q.ch}</span>
+      <span class="tag tag-topic">${q.topic}</span>
+      <span class="tag tag-diff">${q.diff}</span>
+    </div>
+    <div class="vig">${q.vig}</div>
+    <div class="stem">${q.stem}</div>
+    ${opts}${rat}
+  </div>
+  <div class="nav" id="nav">${navBtns}</div>`;
+}
+
+function pick(i){
+  if(sub[cur])return;
+  chosen[cur]=i;sub[cur]=true;cor[cur]=(i===Q[cur].ans);
+  document.querySelectorAll('.opt').forEach(el=>{
+    const idx=parseInt(el.dataset.i);
+    el.classList.add('locked');
+    if(idx===Q[cur].ans)el.classList.add('correct');
+    else if(idx===i)el.classList.add('wrong');
+  });
+  const rat=document.getElementById('rat');
+  if(rat){
+    rat.classList.add('show',cor[cur]?'ok':'ng');
+    rat.querySelector('.rat-hdr').textContent=cor[cur]?'✓ Correct!':'✗ Incorrect — Correct answer: '+'ABCD'[Q[cur].ans]+'.';
+  }
+  document.getElementById('ac').textContent=sub.filter(Boolean).length;
+  document.getElementById('cc').textContent=cor.filter(Boolean).length;
+  if(cur===49){
+    const b=document.createElement('button');
+    b.className='btn go';b.textContent='Get Final Score →';b.onclick=results;
+    document.getElementById('nav').appendChild(b);
+  }
+}
+
+function go(i){if(i<0||i>49)return;cur=i;render();}
+
+function results(){
+  const tot=cor.filter(Boolean).length,pct=Math.round((tot/50)*100);
+  let grade='',gc='var(--red)';
+  if(pct>=90){grade='Outstanding — Exam Ready! 🎉';gc='var(--green)';}
+  else if(pct>=80){grade='Strong — Review Weak Areas';gc='#3b82f6';}
+  else if(pct>=70){grade='Adequate — More Review Needed';gc='#f59e0b';}
+  else{grade='Below Target — Intensive Review Required';gc='var(--red)';}
+
+  const chScores={};
+  Q.forEach((q,i)=>{
+    if(!chScores[q.ch])chScores[q.ch]={correct:0,total:0};
+    chScores[q.ch].total++;
+    if(cor[i])chScores[q.ch].correct++;
+  });
+
+  let chSummary='';
+  Object.entries(chScores).forEach(([ch,s])=>{
+    const p=Math.round(s.correct/s.total*100);
+    const color=p>=80?'var(--green)':p>=60?'#f59e0b':'var(--red)';
+    chSummary+=`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem"><span>Chapter ${ch}</span><span style="font-weight:600;color:${color}">${s.correct}/${s.total} (${p}%)</span></div>`;
+  });
+
+  const rv=Q.map((q,i)=>`<div class="rv-item ${cor[i]?'ok':'ng'}">
+    <div class="rv-q">Q${i+1} · Ch${q.ch} · ${q.topic}</div>
+    <div class="rv-d">${cor[i]?'✓ Correct':'✗ Incorrect — Correct: '+'ABCD'[q.ans]}</div>
+  </div>`).join('');
+
+  document.getElementById('prog').style.width='100%';
+  document.getElementById('qa').innerHTML=`
+  <div class="results-card">
+    <div class="score-num" style="color:${gc}">${pct}%</div>
+    <div class="score-sub">${tot} of 50 questions correct</div>
+    <div class="score-grade" style="color:${gc}">${grade}</div>
+  </div>
+  <div class="card" style="margin-bottom:1rem">
+    <div style="font-weight:600;margin-bottom:.75rem;font-family:'DM Serif Display',serif">Performance by Chapter</div>
+    ${chSummary}
+  </div>
+  <div style="margin-bottom:1rem"><button class="btn" onclick="go(0)">← Review All Questions</button></div>
+  <div>${rv}</div>`;
+}
+
+render();
+</script>
+</body>
+</html>
