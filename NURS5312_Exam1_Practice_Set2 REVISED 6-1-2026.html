@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 1 Practice SET 2 (Stahl Ch. 1–3)</title>
+<style>
+  :root{
+    --ink:#14233b;
+    --ink-soft:#4a5b73;
+    --paper:#f4f1ea;
+    --card:#fffdf8;
+    --line:#d9d2c4;
+    --accent:#2f6f6b;       /* teal */
+    --accent-deep:#1f4f4c;
+    --gold:#b07d2b;
+    --correct:#2f7d4f;
+    --correct-bg:#e9f5ec;
+    --wrong:#b23b3b;
+    --wrong-bg:#f8eaea;
+    --shadow:0 10px 30px rgba(20,35,59,.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(47,111,107,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(176,125,43,.10), transparent 55%),
+      var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    min-height:100vh;
+    padding:28px 16px 64px;
+  }
+  .wrap{max-width:780px;margin:0 auto;}
+
+  /* Header */
+  header.masthead{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:14px;margin-bottom:22px;
+  }
+  .eyebrow{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    text-transform:uppercase;letter-spacing:.22em;font-size:11px;
+    color:var(--accent-deep);font-weight:700;margin-bottom:6px;
+  }
+  h1{font-size:30px;margin:0 0 4px;letter-spacing:.3px;line-height:1.15;}
+  .sub{color:var(--ink-soft);font-size:15px;font-style:italic;}
+
+  /* Progress */
+  .meta-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;margin:18px 0 14px;flex-wrap:wrap;
+  }
+  .qcount{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;
+  }
+  .qcount b{color:var(--ink);font-size:14px;}
+  .scorechip{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    padding:5px 12px;color:var(--accent-deep);
+  }
+  .progress{
+    height:8px;background:#e7e1d4;border-radius:999px;overflow:hidden;
+    border:1px solid var(--line);margin-bottom:24px;
+  }
+  .progress > i{
+    display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-deep));
+    transition:width .35s ease;
+  }
+
+  /* Card */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(180deg,#fbf7ee,#f3ecdd);
+    border-bottom:1px solid var(--line);padding:14px 22px;
+  }
+  .qnum{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em;}
+  .pts{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--ink-soft);font-weight:600;}
+  .badge{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.1em;color:#fff;background:var(--gold);
+    padding:3px 9px;border-radius:6px;margin-left:10px;vertical-align:middle;
+  }
+  .card-body{padding:22px 24px 8px;}
+  .stem{font-size:18px;line-height:1.6;margin:0 0 18px;}
+
+  /* Options */
+  .opts{list-style:none;margin:0;padding:0;}
+  .opt{
+    border:1px solid var(--line);border-radius:10px;margin-bottom:11px;
+    padding:13px 15px;display:flex;gap:13px;align-items:flex-start;cursor:pointer;
+    background:#fffefb;transition:border-color .15s,background .15s,box-shadow .15s;
+    font-size:16px;
+  }
+  .opt:hover:not(.locked){border-color:var(--accent);background:#f7fbfa;}
+  .opt .mark{
+    flex:0 0 26px;height:26px;border-radius:50%;border:2px solid var(--accent);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;
+    font-family:"Helvetica Neue",Arial,sans-serif;color:var(--accent-deep);background:#fff;
+    transition:all .15s;
+  }
+  .opt.selected{border-color:var(--accent);background:#eef6f5;}
+  .opt.selected .mark{background:var(--accent);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.correct{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct .mark{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .opt.wrong .mark{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .opt .txt{padding-top:2px;}
+
+  /* Rationale */
+  .rationale{
+    margin:6px 24px 4px;border-radius:10px;border:1px solid var(--line);
+    background:#f6f2e8;padding:14px 16px;position:relative;
+    font-size:15px;color:var(--ink);display:none;
+  }
+  .rationale.show{display:block;animation:rise .28s ease;}
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .rationale::before{
+    content:"";position:absolute;top:-9px;left:26px;width:16px;height:16px;
+    background:#f6f2e8;border-left:1px solid var(--line);border-top:1px solid var(--line);
+    transform:rotate(45deg);
+  }
+  .rationale .verdict{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:12px;
+    text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;display:inline-block;
+  }
+  .verdict.ok{color:var(--correct);}
+  .verdict.no{color:var(--wrong);}
+  .rationale b.rlabel{color:var(--accent-deep);}
+
+  /* Controls */
+  .controls{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:18px 24px 22px;
+  }
+  button{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:14px;
+    border-radius:9px;padding:11px 20px;cursor:pointer;border:1px solid transparent;
+    transition:transform .08s,background .15s,opacity .15s;letter-spacing:.02em;
+  }
+  button:active{transform:translateY(1px);}
+  button:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-ghost{background:#fff;border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover:not(:disabled){border-color:var(--accent);color:var(--accent-deep);}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover:not(:disabled){background:var(--accent-deep);}
+  .btn-gold{background:var(--gold);color:#fff;}
+  .btn-gold:hover:not(:disabled){background:#946618;}
+  .spacer{flex:1;}
+
+  /* Jump dots */
+  .nav-dots{display:flex;flex-wrap:wrap;gap:6px;margin:22px 2px 0;justify-content:center;}
+  .dot{
+    width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:#fff;
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;font-weight:700;color:var(--ink-soft);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;
+  }
+  .dot:hover{border-color:var(--accent);}
+  .dot.answered{background:#e7efee;}
+  .dot.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .dot.ans-correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .dot.ans-wrong{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong);}
+
+  /* Results */
+  .results{display:none;}
+  .results.show{display:block;animation:rise .3s ease;}
+  .scorecard{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:30px;text-align:center;margin-bottom:24px;
+  }
+  .ring-wrap{position:relative;width:170px;height:170px;margin:6px auto 12px;}
+  .ring-wrap svg{transform:rotate(-90deg);}
+  .ring-pct{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .ring-pct .big{font-size:42px;font-weight:800;font-family:"Helvetica Neue",Arial,sans-serif;line-height:1;}
+  .ring-pct .small{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;}
+  .grade-letter{font-family:"Helvetica Neue",Arial,sans-serif;font-size:20px;font-weight:800;margin:4px 0 2px;}
+  .verdict-line{color:var(--ink-soft);font-style:italic;}
+  .breakdown{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+  }
+  .bd{background:#f6f2e8;border:1px solid var(--line);border-radius:10px;padding:12px 18px;min-width:120px;}
+  .bd .n{font-size:24px;font-weight:800;}
+  .bd .l{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin-top:2px;}
+  .chapter-scores{margin-top:20px;text-align:left;max-width:420px;margin-left:auto;margin-right:auto;}
+  .cs-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;}
+  .cs-row .lab{flex:0 0 130px;font-weight:600;}
+  .cs-bar{flex:1;height:10px;background:#e7e1d4;border-radius:999px;overflow:hidden;border:1px solid var(--line);}
+  .cs-bar > i{display:block;height:100%;background:var(--accent);}
+  .cs-row .val{flex:0 0 56px;text-align:right;color:var(--ink-soft);font-weight:700;}
+
+  .review-list{margin-top:8px;}
+  .review-h{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-deep);margin:26px 0 12px;}
+  .rev{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--wrong);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+  .rev.ok{border-left-color:var(--correct);}
+  .rev .rq{font-size:15px;margin-bottom:8px;}
+  .rev .ra{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;margin:3px 0;}
+  .rev .ra .k{font-weight:700;}
+  .rev .your.bad{color:var(--wrong);}
+  .rev .corr{color:var(--correct);}
+  .rev .why{font-size:13.5px;margin-top:8px;color:var(--ink);background:#f6f2e8;padding:9px 11px;border-radius:8px;}
+
+  .toprow{display:flex;gap:10px;justify-content:center;margin-bottom:26px;flex-wrap:wrap;}
+  .note{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:10px;font-style:italic;}
+  .finish-cta{text-align:center;margin-top:24px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">NURS 5312 · Psychopharmacology</div>
+    <h1>Exam 1 Practice — Set 2</h1>
+    <div class="sub">Stahl's Essential Psychopharmacology — Chapters 1–3 · 50 all-new vignette questions</div>
+  </header>
+
+  <!-- EXAM VIEW -->
+  <div id="examView">
+    <div class="meta-bar">
+      <div class="qcount">Question <b><span id="curNum">1</span></b> of <b>50</b></div>
+      <div class="scorechip" id="liveScore">Answered 0 / 50</div>
+    </div>
+    <div class="progress"><i id="progBar"></i></div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="qnum">Question <span id="qHeadNum">1</span></div>
+        <div class="pts">2 pts <span class="badge" id="chBadge">Ch 1</span></div>
+      </div>
+      <div class="card-body">
+        <p class="stem" id="stem"></p>
+        <ul class="opts" id="opts"></ul>
+      </div>
+      <div class="rationale" id="rationale"></div>
+      <div class="controls">
+        <button class="btn-ghost" id="backBtn">‹ Back</button>
+        <div class="spacer"></div>
+        <button class="btn-primary" id="submitBtn">Submit Answer</button>
+        <button class="btn-primary" id="nextBtn">Next ›</button>
+      </div>
+    </div>
+
+    <div class="nav-dots" id="dots"></div>
+
+    <div class="finish-cta">
+      <button class="btn-gold" id="finishBtn">Submit Exam for Final Grade</button>
+      <div class="note">You can submit at any time. Unanswered questions count as incorrect.</div>
+    </div>
+  </div>
+
+  <!-- RESULTS VIEW -->
+  <div class="results" id="resultsView">
+    <div class="scorecard">
+      <div class="ring-wrap">
+        <svg width="170" height="170" viewBox="0 0 170 170">
+          <circle cx="85" cy="85" r="74" fill="none" stroke="#e7e1d4" stroke-width="14"/>
+          <circle id="ring" cx="85" cy="85" r="74" fill="none" stroke="#2f6f6b" stroke-width="14"
+                  stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
+        </svg>
+        <div class="ring-pct">
+          <div class="big" id="pctBig">0%</div>
+          <div class="small" id="rawScore">0 / 50</div>
+        </div>
+      </div>
+      <div class="grade-letter" id="gradeLetter">—</div>
+      <div class="verdict-line" id="verdictLine"></div>
+
+      <div class="breakdown">
+        <div class="bd"><div class="n" id="bdCorrect" style="color:var(--correct)">0</div><div class="l">Correct</div></div>
+        <div class="bd"><div class="n" id="bdWrong" style="color:var(--wrong)">0</div><div class="l">Incorrect</div></div>
+        <div class="bd"><div class="n" id="bdBlank">0</div><div class="l">Unanswered</div></div>
+      </div>
+
+      <div class="chapter-scores" id="chapterScores"></div>
+    </div>
+
+    <div class="toprow">
+      <button class="btn-ghost" id="reviewToggle">Show Full Review</button>
+      <button class="btn-primary" id="retakeBtn">Retake Exam</button>
+    </div>
+
+    <div class="review-list" id="reviewList" style="display:none;"></div>
+  </div>
+
+</div>
+
+<script>
+// NURS 5312 - Exam 1 Practice SET 2 (Stahl Ch 1-3) - 50 NEW vignette MCQs
+// answer = index (0-3) of correct option. Chapter order preserved for chapterOf().
+// NURS 5312 - Exam 1 Practice SET 2 (Stahl Ch 1-3) - 50 NEW vignette MCQs
+// answer = index (0-3) of correct option. Chapter order preserved for chapterOf().
+const QUESTIONS = [
+  // ===================== CHAPTER 1 (17) =====================
+  {
+    q: "A neuroscience instructor describes the signal transduction cascade as a 'molecular pony express,' a relay in which each molecule hands the message to the next. Because the neurotransmitter is the molecule that STARTS this relay, it is classified as the:",
+    options: ["Second messenger", "First messenger", "Third messenger (kinase)", "Fourth messenger (phosphoprotein)"],
+    answer: 1,
+    rationale: "In a signal transduction cascade the messenger labels reflect ORDER in the relay, not location. The neurotransmitter is the first messenger because it starts the cascade (binding the receptor is the opening step). It triggers a second messenger (e.g., cAMP or calcium) inside the cell, which activates a third messenger (a kinase or phosphatase), which acts on fourth-messenger phosphoproteins. (Ch. 1, pp. 9\u201311)"
+  },
+  {
+    q: "During a signal transduction cascade, a third-messenger enzyme adds phosphate groups to proteins, converting them into phosphoproteins. This type of enzyme is a:",
+    options: ["Phosphatase", "Kinase", "Monoamine oxidase", "Transcription factor"],
+    answer: 1,
+    rationale: "A kinase is the third-messenger enzyme that ADDS phosphate groups to fourth-messenger proteins (creating phosphoproteins). A phosphatase does the opposite \u2014 it removes phosphate groups. (Ch. 1, p. 10)"
+  },
+  {
+    q: "A student is asked which enzyme REVERSES the action of a kinase by removing phosphate groups from phosphoproteins. The correct answer is a:",
+    options: ["Kinase", "Phosphatase", "Cytochrome P450 enzyme", "Adenylate cyclase"],
+    answer: 1,
+    rationale: "A phosphatase removes phosphate groups from phosphoproteins, reversing the phosphorylation produced by a kinase. The balance between kinase and phosphatase activity determines downstream signaling. (Ch. 1, p. 10)"
+  },
+  {
+    q: "A patient asks why her medication's full benefit develops slowly and then persists for a long time even between doses. The instructor explains that signal transduction cascades that reach the genome produce effects that are:",
+    options: [
+      "Immediate and very brief",
+      "Delayed in onset but long-lasting (days or longer)",
+      "Instantaneous and permanent within seconds",
+      "Only electrical and never chemical"
+    ],
+    answer: 1,
+    rationale: "Initial cascade events occur in under a second, but downstream messengers that alter gene expression take hours to days to activate and can last many days or longer \u2014 explaining both delayed onset and durable effects. (Ch. 1, pp. 10\u201311)"
+  },
+  {
+    q: "An exam item shows a monoamine neuron whose dendrites and soma release transmitter that binds receptors on the SAME neuron to inhibit its own firing, without a synapse. These self-regulating receptors acting via volume transmission are called:",
+    options: ["Postsynaptic heteroreceptors", "Autoreceptors", "Ionotropic receptors", "Vesicular transporters"],
+    answer: 1,
+    rationale: "Autoreceptors are located on the same neuron that releases the transmitter and provide negative feedback on that neuron's own firing/release \u2014 an example of volume neurotransmission occurring in somatodendritic areas without a synapse. (Ch. 1, p. 9)"
+  },
+  {
+    q: "A test question contrasts the two ways an electrical impulse opens channels in the presynaptic terminal. As the action potential reaches the terminal, which channel opening directly causes synaptic vesicles to release their contents?",
+    options: [
+      "Voltage-sensitive calcium channels (VSCCs)",
+      "Voltage-sensitive sodium channels (VSSCs)",
+      "Ligand-gated chloride channels",
+      "Potassium leak channels"
+    ],
+    answer: 0,
+    rationale: "Sodium channels carry the impulse down the axon, but at the terminal it is the opening of voltage-sensitive CALCIUM channels (VSCCs) and the resulting calcium influx that triggers vesicles to spill their contents into the synapse. (Ch. 1, p. 9)"
+  },
+  {
+    q: "The conversion of an arriving electrical impulse into the chemical event of neurotransmitter release at the presynaptic terminal is specifically termed:",
+    options: ["Signal transduction", "Excitation\u2013secretion coupling", "Reuptake", "Alternative splicing"],
+    answer: 1,
+    rationale: "Excitation\u2013secretion coupling is the process by which the neuron transduces an electrical stimulus into a chemical event (transmitter release). It is the first stage of chemical neurotransmission. (Ch. 1, p. 8)"
+  },
+  {
+    q: "A genetics lecture covers the epigenetic process in which acetyl groups are added to histone proteins, loosening DNA packaging. The most likely effect of histone acetylation on gene expression is to:",
+    options: [
+      "Turn genes ON by increasing DNA accessibility",
+      "Turn genes OFF by tightening DNA",
+      "Delete the affected gene permanently",
+      "Convert DNA into RNA directly"
+    ],
+    answer: 0,
+    rationale: "Histone modification alters how tightly DNA is wound and thus its accessibility. Acetylation generally loosens packaging and increases accessibility, favoring gene expression (ON), whereas DNA methylation typically silences genes (OFF). (Ch. 1, pp. 23\u201324)"
+  },
+  {
+    q: "A student reviews a brief section on RNA. The process by which a single gene's pre-mRNA can be cut and rejoined in different combinations to yield more than one protein product is called:",
+    options: ["DNA methylation", "Alternative splicing", "Reuptake", "Excitation\u2013secretion coupling"],
+    answer: 1,
+    rationale: "Alternative splicing allows one gene to produce multiple protein variants by combining exons in different ways \u2014 increasing protein diversity beyond the raw number of genes. (Ch. 1, p. 26)"
+  },
+  {
+    q: "Small RNA molecules can bind to and silence specific messenger RNAs, blocking their translation into protein. This regulatory mechanism is known as:",
+    options: ["RNA interference", "Phosphorylation", "Volume transmission", "Constitutive activity"],
+    answer: 0,
+    rationale: "RNA interference (RNAi) uses small RNA molecules to silence target mRNAs and thereby regulate gene expression \u2014 covered in Stahl's brief discussion of RNA. (Ch. 1, p. 26)"
+  },
+  {
+    q: "A patient with Parkinson-like rigidity and bradykinesia is found to have degeneration of dopamine neurons projecting to the striatum. Loss of dopamine in which pathway best explains motor symptoms?",
+    options: ["Mesolimbic pathway", "Nigrostriatal pathway", "Tuberoinfundibular pathway", "Raphe projections"],
+    answer: 1,
+    rationale: "The nigrostriatal dopamine pathway (substantia nigra to striatum) controls motor function; its degeneration produces the rigidity and bradykinesia of parkinsonism. (Ch. 1; Ch. 2)"
+  },
+  {
+    q: "A neuron is described as 'asymmetric,' meaning communication is structurally designed to flow in one direction. The normal direction of information flow at a synapse is:",
+    options: [
+      "Anterograde: from the presynaptic axon terminal to the postsynaptic neuron",
+      "Retrograde: from postsynaptic to presynaptic only",
+      "Bidirectional and equal in both directions",
+      "From dendrite directly to dendrite"
+    ],
+    answer: 0,
+    rationale: "Synapses are asymmetric, with communication normally anterograde \u2014 from the presynaptic axon terminal to the dendrite, soma, or axon of the postsynaptic neuron. Retrograde signaling is the exception, not the rule. (Ch. 1, p. 1)"
+  },
+  {
+    q: "A study group debates the difference between the 'anatomically addressed' and 'chemically addressed' nervous systems. The chemically addressed nervous system refers to:",
+    options: [
+      "Hard-wired synaptic connections like telephone cables",
+      "Neurotransmitters diffusing to find compatible receptors wherever they are",
+      "The bony protection of the skull",
+      "Only the electrical action potential"
+    ],
+    answer: 1,
+    rationale: "The chemically addressed nervous system is the concept that neurotransmitters can diffuse and act at receptors based on chemical compatibility (as in volume transmission), as opposed to the hard-wired, anatomically addressed synaptic 'wiring diagram.' (Ch. 1, p. 1, 7)"
+  },
+  {
+    q: "A patient with new psychosis is discussed. Beyond dopamine, the course materials note that abnormal signaling of which excitatory neurotransmitter (acting at NMDA receptors) is increasingly implicated in schizophrenia?",
+    options: ["GABA", "Glutamate", "Histamine", "Acetylcholine"],
+    answer: 1,
+    rationale: "Glutamate, the main excitatory neurotransmitter acting at NMDA receptors, is increasingly implicated in the neurobiology of psychosis/schizophrenia alongside dopamine. (Ch. 1; introduced for later clinical chapters)"
+  },
+  {
+    q: "When neurotransmitter binding ultimately activates 'early genes' and then 'late genes,' leading to synthesis of new proteins that change the neuron, this end stage of the cascade is best described as:",
+    options: [
+      "Immediate reuptake",
+      "Gene expression driving long-term neuronal change",
+      "Passive diffusion across the membrane",
+      "Antagonist binding"
+    ],
+    answer: 1,
+    rationale: "The cascade can activate early then late genes, producing new proteins that alter neuronal function \u2014 i.e., gene expression underlies the lasting changes (including neuroplasticity) initiated by neurotransmission. (Ch. 1, pp. 11\u201318)"
+  },
+  {
+    q: "A patient on a serotonergic antidepressant reports improved sleep, appetite, and mood over several weeks. These broad regulatory roles are consistent with serotonin's projections originating from the:",
+    options: ["Locus coeruleus", "Substantia nigra", "Raphe nuclei", "Nucleus accumbens"],
+    answer: 2,
+    rationale: "Serotonin neurons originate in the raphe nuclei and project widely, regulating mood, sleep, appetite, pain, and sexual function \u2014 matching the patient's pattern of improvement. (Ch. 1; Ch. 2)"
+  },
+  {
+    q: "A foundational principle of Chapter 1 is that psychiatric symptoms and drug effects ultimately arise from events at the synapse. The single best summary of the chapter's 'big idea' is that modern psychopharmacology is largely the story of:",
+    options: [
+      "Surgical removal of diseased brain tissue",
+      "Chemical neurotransmission",
+      "Electrical stimulation alone",
+      "Vitamin deficiency correction"
+    ],
+    answer: 1,
+    rationale: "Stahl opens by stating that modern psychopharmacology is largely the story of chemical neurotransmission \u2014 the foundation for understanding how drugs and diseases act on the CNS. (Ch. 1, p. 1)"
+  },
+
+  // ===================== CHAPTER 2 (19) =====================
+  {
+    q: "A pharmacology student learns that the presynaptic monoamine transporters belong to one solute-carrier gene family, while the glutamate transporters belong to another. SERT, NET, and DAT are members of which gene family?",
+    options: ["SLC1", "SLC6", "SLC18", "SLC17"],
+    answer: 1,
+    rationale: "The monoamine reuptake transporters SERT, NET, and DAT (and the GABA/glycine transporters) belong to the sodium/chloride-coupled SLC6 gene family. The high-affinity glutamate transporters (EAATs) are in the SLC1 family. (Ch. 2, p. 31)"
+  },
+  {
+    q: "A test question asks which gene family contains the vesicular monoamine transporter (VMAT2) that packages monoamines into synaptic vesicles. VMAT2 belongs to the:",
+    options: ["SLC6 family", "SLC1 family", "SLC18 family", "SLC32 family"],
+    answer: 2,
+    rationale: "Vesicular monoamine transporters (VMATs), including VMAT2, and the vesicular acetylcholine transporter belong to the SLC18 gene family. (Ch. 2, p. 31)"
+  },
+  {
+    q: "A drug of abuse is a 'false substrate' that hitchhikes into the serotonin neuron via SERT. Per Stahl's transporter table, which agent is the classic false substrate for SERT?",
+    options: ["Amphetamine", "Ecstasy (MDMA)", "Caffeine", "Nicotine"],
+    answer: 1,
+    rationale: "In Stahl's Table 2-1, ecstasy (MDMA) is listed as the false substrate for SERT, while amphetamine is a false substrate for NET and DAT. (Ch. 2, p. 31)"
+  },
+  {
+    q: "In the prefrontal cortex, dopamine transporters (DAT) are sparse, yet dopamine is still cleared efficiently. Stahl explains this clearance is largely accomplished by:",
+    options: [
+      "SERT taking up dopamine",
+      "NET, which has high affinity for transporting dopamine",
+      "VMAT2 on the cell surface",
+      "Passive diffusion only"
+    ],
+    answer: 1,
+    rationale: "Because each monoamine transporter has affinity for amines beyond its own, NET (which transports dopamine well) clears much of the dopamine in cortical regions where DAT is sparse. (Ch. 2, p. 31)"
+  },
+  {
+    q: "A student must classify the G-protein-linked receptors by their membrane structure. These receptors span the membrane how many times?",
+    options: ["4 times", "7 times", "12 times", "2 times"],
+    answer: 1,
+    rationale: "G-protein-linked receptors are seven-transmembrane-region proteins. (Plasma-membrane neurotransmitter transporters span the membrane 12 times.) (Ch. 2, pp. 30, 36)"
+  },
+  {
+    q: "A receptor that is occasionally active even when NO neurotransmitter or drug is bound demonstrates a baseline level of signaling. This intrinsic baseline activity is termed:",
+    options: ["Constitutive activity", "Inverse agonism", "Reuptake", "Desensitization"],
+    answer: 0,
+    rationale: "Constitutive activity is the low level of receptor signaling present even without an agonist. An antagonist returns the receptor to this baseline but does not block constitutive activity; an inverse agonist reduces signaling below it. (Ch. 2; Ch. 3, p. 57)"
+  },
+  {
+    q: "Because an antagonist produces no change from the receptor's resting state \u2014 there is no difference between its presence and absence except blocking agonists \u2014 an antagonist is best described as:",
+    options: ["A partial agonist", "Neutral or silent", "An inverse agonist", "A full agonist"],
+    answer: 1,
+    rationale: "An antagonist stabilizes the receptor in its resting state, identical to the agonist-absent state, so it is described as 'neutral' or 'silent.' It reverses agonists but does not change baseline (constitutive) activity. (Ch. 3, p. 57; Ch. 2)"
+  },
+  {
+    q: "Along the agonist spectrum, which sequence correctly orders agents from MOST to LEAST receptor/channel activation?",
+    options: [
+      "Full agonist \u2192 partial agonist \u2192 antagonist \u2192 inverse agonist",
+      "Inverse agonist \u2192 antagonist \u2192 partial agonist \u2192 full agonist",
+      "Antagonist \u2192 inverse agonist \u2192 full agonist \u2192 partial agonist",
+      "Partial agonist \u2192 full agonist \u2192 inverse agonist \u2192 antagonist"
+    ],
+    answer: 0,
+    rationale: "From most to least output: full agonist (maximal) > partial agonist (submaximal) > antagonist (resting baseline) > inverse agonist (below baseline). (Ch. 2; Ch. 3, pp. 56\u201357)"
+  },
+  {
+    q: "A partial agonist is sometimes called a 'Goldilocks' drug. The best description of its behavior at a receptor is that it:",
+    options: [
+      "Always produces a maximal response regardless of conditions",
+      "Acts more like an agonist when neurotransmitter is low and more like an antagonist when neurotransmitter is high",
+      "Permanently destroys the receptor",
+      "Has no effect under any circumstances"
+    ],
+    answer: 1,
+    rationale: "A partial agonist produces an intermediate, stabilizing effect: it can boost signaling when endogenous transmitter is deficient but limits signaling when transmitter is excessive \u2014 hence the 'just right' stabilizer concept. (Ch. 2)"
+  },
+  {
+    q: "A patient on a high-potency D2 antagonist antipsychotic is at risk for elevated prolactin. Knowing dopamine normally INHIBITS prolactin release, the elevation occurs because blocking D2 receptors in the tuberoinfundibular pathway:",
+    options: [
+      "Further inhibits prolactin",
+      "Removes dopamine's inhibition, disinhibiting prolactin release",
+      "Destroys the pituitary gland",
+      "Converts prolactin to dopamine"
+    ],
+    answer: 1,
+    rationale: "Dopamine tonically inhibits prolactin via the tuberoinfundibular pathway. D2 blockade removes that inhibition (disinhibition), so prolactin rises \u2014 causing galactorrhea, amenorrhea, and sexual dysfunction. (Ch. 2)"
+  },
+  {
+    q: "An antipsychotic causes akathisia and parkinsonism early in treatment. A clinician notes these motor effects reflect excessive D2 blockade in the nigrostriatal pathway. Adding a drug with strong 5-HT2A antagonism may reduce these symptoms because 5-HT2A blockade:",
+    options: [
+      "Further blocks dopamine in the striatum",
+      "Disinhibits/increases dopamine release in the nigrostriatal pathway",
+      "Raises prolactin",
+      "Blocks all serotonin synthesis"
+    ],
+    answer: 1,
+    rationale: "Serotonin at 5-HT2A receptors normally inhibits dopamine release in the nigrostriatal pathway; blocking 5-HT2A disinhibits dopamine there, increasing striatal dopamine and reducing EPS \u2014 a hallmark of atypical antipsychotics. (Ch. 2)"
+  },
+  {
+    q: "A patient on a tricyclic antidepressant develops constipation, urinary hesitancy, and blurred vision. These anticholinergic effects result from blockade of which receptor?",
+    options: ["Histamine H1", "Muscarinic M1", "Alpha-1 adrenergic", "Beta-1 adrenergic"],
+    answer: 1,
+    rationale: "Muscarinic M1 receptor blockade produces the classic anticholinergic triad and more: dry mouth, constipation, urinary retention, blurred vision, and cognitive impairment. (Ch. 2)"
+  },
+  {
+    q: "A patient reports a fine hand tremor after starting a medication that blocks beta-2 adrenergic receptors (or, conversely, with beta-2 stimulation). Stahl associates beta-2 adrenergic activity most directly with:",
+    options: ["Orthostatic hypotension", "Tremor", "Sedation", "Hyperprolactinemia"],
+    answer: 1,
+    rationale: "Beta-2 adrenergic receptor activity is associated with tremor. (Alpha-1 \u2192 orthostatic hypotension; beta-1 \u2192 increased heart rate.) (Ch. 2)"
+  },
+  {
+    q: "An NP wants a medication that, by blocking the presynaptic alpha-2 autoreceptor, will INCREASE norepinephrine output. Which statement explains the rationale?",
+    options: [
+      "Alpha-2 autoreceptors stimulate NE release, so blocking them lowers NE",
+      "Alpha-2 autoreceptors are an inhibitory 'brake' on NE release, so blocking them increases NE",
+      "Alpha-2 receptors only exist on the postsynaptic membrane",
+      "Alpha-2 blockade has no effect on norepinephrine"
+    ],
+    answer: 1,
+    rationale: "The presynaptic alpha-2 autoreceptor provides negative feedback that brakes norepinephrine release. Antagonizing it removes the brake and increases NE release. (Ch. 2)"
+  },
+  {
+    q: "A patient taking an MAO inhibitor is counseled to avoid aged cheeses, cured meats, and certain wines. The danger of combining these tyramine-rich foods with an MAOI is:",
+    options: [
+      "Serotonin syndrome from excess serotonin",
+      "Hypertensive crisis from excess norepinephrine activity",
+      "Profound sedation",
+      "Hypoglycemia"
+    ],
+    answer: 1,
+    rationale: "MAO normally degrades dietary tyramine and monoamines. With MAO inhibited, tyramine triggers a surge of norepinephrine release, which can precipitate a hypertensive crisis. (Ch. 2)"
+  },
+  {
+    q: "Two patients take the same dose of a drug metabolized by CYP2D6. One is a 'poor metabolizer' and develops side effects at standard doses. The best explanation is that poor metabolizers:",
+    options: [
+      "Clear the drug faster, lowering blood levels",
+      "Clear the drug slower, raising blood levels and side-effect risk",
+      "Cannot absorb the drug at all",
+      "Have no liver enzymes whatsoever"
+    ],
+    answer: 1,
+    rationale: "Poor metabolizers have reduced CYP enzyme activity, so they clear the drug more slowly, leading to higher plasma levels and greater risk of dose-related side effects \u2014 the basis for pharmacogenomic dosing. (Ch. 2, pp. 49\u201350)"
+  },
+  {
+    q: "A drug strongly inhibits a specific CYP450 enzyme. When a second drug metabolized by that same enzyme is added, the most likely consequence is:",
+    options: [
+      "Decreased levels of the second drug",
+      "Increased levels of the second drug, raising toxicity risk",
+      "No interaction at all",
+      "The first drug stops working"
+    ],
+    answer: 1,
+    rationale: "A CYP inhibitor slows metabolism of substrate drugs sharing that enzyme, raising their plasma concentrations and toxicity risk \u2014 a classic pharmacokinetic drug\u2013drug interaction. (Ch. 2, pp. 49\u201350)"
+  },
+  {
+    q: "Stahl notes a modern movement to name psychotropic drugs by their mechanism (e.g., 'serotonin transport inhibitor') rather than by therapeutic indication (e.g., 'antidepressant'). The main reason indication-based names cause confusion is that:",
+    options: [
+      "Drug mechanisms change daily",
+      "Many drugs are used for indications far beyond their original use",
+      "Indications are secret",
+      "Mechanisms are unknown for all drugs"
+    ],
+    answer: 1,
+    rationale: "Naming by indication is confusing because many agents are used well beyond their original indication (e.g., 'antipsychotics' used for depression). Neuroscience-based nomenclature names drugs by mechanism of action instead. (Ch. 2, p. 29)"
+  },
+  {
+    q: "A patient with severe depression and prominent fatigue is started on a norepinephrine-dopamine reuptake inhibitor (NDRI). Which transporters does this class primarily block?",
+    options: ["SERT and NET", "NET and DAT", "SERT only", "VMAT2 and SERT"],
+    answer: 1,
+    rationale: "An NDRI blocks NET and DAT, increasing synaptic norepinephrine and dopamine \u2014 useful for low-energy, low-motivation depressive presentations. (Ch. 2)"
+  },
+
+  // ===================== CHAPTER 3 (14) =====================
+  {
+    q: "A student must classify glutamate's ionotropic receptors by structure. Stahl groups AMPA, kainate, and NMDA receptors as which structural type of ligand-gated ion channel?",
+    options: ["Pentameric (5 subunits)", "Tetrameric (4 subunits)", "Monomeric (1 subunit)", "Heptameric (7 subunits)"],
+    answer: 1,
+    rationale: "AMPA, kainate, and NMDA glutamate receptors are tetrameric ligand-gated ion channels (four subunits, three transmembrane regions plus a re-entrant loop each). GABA-A and nicotinic receptors are pentameric. (Ch. 3, p. 56)"
+  },
+  {
+    q: "By contrast, GABA-A and nicotinic acetylcholine receptors are built from five subunits surrounding a central pore. These are classified as:",
+    options: ["Tetrameric ligand-gated channels", "Pentameric ligand-gated channels", "Voltage-sensitive sodium channels", "G-protein-linked receptors"],
+    answer: 1,
+    rationale: "GABA-A and nicotinic receptors are pentameric (five-subunit) ligand-gated ion channels, distinct from the tetrameric glutamate receptors. (Ch. 3, pp. 53\u201356)"
+  },
+  {
+    q: "Applying the agonist spectrum to a ligand-gated ion channel, an inverse agonist produces what effect compared with the resting (constitutive) state of the channel?",
+    options: [
+      "Opens the channel maximally",
+      "Leaves opening unchanged from rest",
+      "Drives the channel into a closed, inactive state (below baseline)",
+      "Permanently fuses the channel open"
+    ],
+    answer: 2,
+    rationale: "On the ligand-gated channel agonist spectrum, an inverse agonist puts the channel into a closed/inactive state \u2014 reducing activity below the resting baseline, the opposite of an agonist. (Ch. 3, pp. 56\u201357)"
+  },
+  {
+    q: "Whereas benzodiazepines enhance GABA's effect at the GABA-A receptor, a hypothetical compound binds a separate (allosteric) site and instead DECREASES the channel's response to GABA. This compound is best classified as a:",
+    options: [
+      "Positive allosteric modulator (PAM)",
+      "Negative allosteric modulator (NAM)",
+      "Full agonist",
+      "Orthosteric antagonist"
+    ],
+    answer: 1,
+    rationale: "A negative allosteric modulator (NAM) binds an allosteric site and decreases the channel's response to its neurotransmitter; benzodiazepines are PAMs that do the opposite at GABA-A. (Ch. 3, p. 64)"
+  },
+  {
+    q: "An anticonvulsant is described as preferentially binding voltage-sensitive sodium channels in their inactivated state, especially in rapidly firing neurons. This 'use-dependent' action is therapeutically useful because it:",
+    options: [
+      "Blocks normal low-frequency firing completely",
+      "Preferentially dampens abnormally high-frequency (overactive) firing",
+      "Increases glutamate release",
+      "Has no effect on seizures"
+    ],
+    answer: 1,
+    rationale: "Use-dependent sodium-channel blockers bind the inactivated state more in rapidly/abnormally firing neurons, selectively dampening overactive firing (as in seizures or mania) while sparing normal activity. (Ch. 3, pp. 67\u201370)"
+  },
+  {
+    q: "A medicinal chemist notes that gabapentin and pregabalin bind a specific subunit of the voltage-sensitive calcium channel to reduce excessive neurotransmitter release. They act at the:",
+    options: [
+      "Alpha-2-delta subunit of the VSCC",
+      "Pore of the GABA-A channel",
+      "NMDA glycine site",
+      "SERT binding pocket"
+    ],
+    answer: 0,
+    rationale: "Gabapentin and pregabalin bind the alpha-2-delta subunit of voltage-sensitive calcium channels, reducing calcium influx and excessive neurotransmitter release \u2014 useful in neuropathic pain, anxiety, and bipolar disorder. (Ch. 3, pp. 70\u201373)"
+  },
+  {
+    q: "A research drug blocks NMDA receptors, producing rapid antidepressant effects. A unique feature of the NMDA receptor that distinguishes it from AMPA receptors is that it:",
+    options: [
+      "Is a voltage-gated sodium channel",
+      "Requires both glutamate and a co-agonist (glycine/D-serine) and is blocked by Mg2+ at rest",
+      "Cannot pass any ions",
+      "Is opened only by GABA"
+    ],
+    answer: 1,
+    rationale: "The NMDA receptor requires glutamate plus a co-agonist (glycine or D-serine) and is voltage-dependent (blocked by Mg2+ at resting potential). Ketamine blocks it, linked to rapid antidepressant action. (Ch. 3)"
+  },
+  {
+    q: "A patient overdoses on a barbiturate and a benzodiazepine together, both acting at GABA-A. Compared with benzodiazepines, high-dose barbiturates are more dangerous because they can:",
+    options: [
+      "Only work when GABA is present, like benzodiazepines",
+      "Directly open the chloride channel even without GABA, causing profound CNS depression",
+      "Block GABA entirely",
+      "Have no effect on the chloride channel"
+    ],
+    answer: 1,
+    rationale: "Benzodiazepines only enhance GABA's effect when GABA is present (a safety ceiling), whereas barbiturates can directly open the chloride channel independent of GABA at higher doses \u2014 producing more profound, potentially fatal CNS depression. (Ch. 3)"
+  },
+  {
+    q: "A student must distinguish ionotropic from metabotropic receptors. Compared with a ligand-gated (ionotropic) receptor, a G-protein-linked (metabotropic) receptor produces effects that are:",
+    options: [
+      "Faster (milliseconds) via direct ion flow",
+      "Slower and longer-lasting via second-messenger cascades",
+      "Identical in speed and duration",
+      "Purely electrical with no chemical steps"
+    ],
+    answer: 1,
+    rationale: "Ionotropic (ligand-gated) receptors open a channel directly for fast, brief signaling; metabotropic (G-protein-linked) receptors act through slower second-messenger cascades with longer-lasting effects. (Ch. 3; Ch. 2)"
+  },
+  {
+    q: "A mood stabilizer is selected to 'stabilize overactive circuits.' Which mechanism is most consistent with this therapeutic goal?",
+    options: [
+      "Increasing voltage-gated sodium channel opening",
+      "Reducing excessive neuronal firing via sodium- or calcium-channel modulation",
+      "Blocking all GABA receptors",
+      "Stimulating maximal glutamate release"
+    ],
+    answer: 1,
+    rationale: "Stabilizing overactive circuits is achieved by reducing excessive excitability \u2014 e.g., modulating sodium or calcium channels to lower firing \u2014 the rationale for anticonvulsant mood stabilizers in bipolar disorder. (Ch. 3)"
+  },
+  {
+    q: "A neuron at resting membrane potential still shows occasional, infrequent channel openings even without any agonist bound. Stahl refers to this baseline channel behavior as:",
+    options: ["Constitutive (resting) activity", "Maximal agonism", "Desensitization", "Hyperpolarization block"],
+    answer: 0,
+    rationale: "Even at rest the channel opens occasionally \u2014 constitutive activity \u2014 so the resting state is not a fully closed channel. Antagonists preserve this baseline; inverse agonists suppress it. (Ch. 3, p. 57)"
+  },
+  {
+    q: "A clinician explains that the same anticonvulsant can treat seizures, bipolar mania, and neuropathic pain. The BEST unifying explanation, per Chapter 3, is that all three involve:",
+    options: [
+      "A deficiency of dopamine receptors",
+      "Pathologically overactive/unstable neuronal circuits that ion-channel drugs can calm",
+      "Excess histamine in the gut",
+      "Loss of all serotonin neurons"
+    ],
+    answer: 1,
+    rationale: "These conditions share pathologically overactive or unstable circuits; ion-channel-modulating drugs reduce excessive excitability, so one agent can address all three. (Ch. 3, p. 76)"
+  },
+  {
+    q: "Beyond their immediate effect on ion flow, ligand-gated ion channels can trigger slower downstream signaling that changes synaptic strength over time. This links ion channels to which Chapter 1 concept?",
+    options: ["Pharmacokinetics", "Neuroplasticity", "First-pass metabolism", "Tyramine reactions"],
+    answer: 1,
+    rationale: "Ion-channel activity initiates downstream signal transduction that influences synaptic strength and circuit remodeling \u2014 i.e., neuroplasticity \u2014 connecting Chapter 3 back to Chapter 1's gene-expression and plasticity themes. (Ch. 3, p. 73)"
+  },
+  {
+    q: "A summary question asks for the single best 'big idea' of Chapter 3. The chapter's central theme is that ion channels:",
+    options: [
+      "Are irrelevant to psychiatric drug action",
+      "Control the flow of charged particles, determine how easily neurons fire, and are targets of many psychiatric/neurologic drugs",
+      "Only exist in the peripheral nervous system",
+      "Replace the need for neurotransmitters"
+    ],
+    answer: 1,
+    rationale: "Chapter 3's big idea: ion channels control the flow of charged particles across membranes, determine how readily neurons fire, and are the target of many psychiatric and neurologic drugs. (Ch. 3, p. 51, 76)"
+  }
+];
+// Chapter ranges based on build order: Ch1 = first 17, Ch2 = next 19, Ch3 = last 14
+function chapterOf(i){ if(i<17) return 1; if(i<36) return 2; return 3; }
+
+const state = {
+  cur: 0,
+  selected: Array(QUESTIONS.length).fill(null),   // currently highlighted choice (pre-submit)
+  locked:   Array(QUESTIONS.length).fill(null),   // submitted choice (null = not submitted)
+};
+
+const $ = id => document.getElementById(id);
+
+function render(){
+  const i = state.cur;
+  const q = QUESTIONS[i];
+  $('curNum').textContent = i+1;
+  $('qHeadNum').textContent = i+1;
+  $('chBadge').textContent = 'Ch ' + chapterOf(i);
+  $('stem').textContent = q.q;
+
+  // options
+  const ul = $('opts');
+  ul.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const isLocked = state.locked[i] !== null;
+  q.options.forEach((opt, idx)=>{
+    const li = document.createElement('li');
+    li.className = 'opt';
+    const sel = isLocked ? state.locked[i] : state.selected[i];
+    if(sel === idx) li.classList.add('selected');
+    if(isLocked){
+      li.classList.add('locked');
+      if(idx === q.answer) li.classList.add('correct');
+      else if(idx === state.locked[i]) li.classList.add('wrong');
+    }
+    li.innerHTML = '<span class="mark">'+letters[idx]+'</span><span class="txt">'+opt+'</span>';
+    if(!isLocked){
+      li.onclick = ()=>{ state.selected[i] = idx; render(); };
+    }
+    ul.appendChild(li);
+  });
+
+  // rationale
+  const rat = $('rationale');
+  if(isLocked){
+    const correct = state.locked[i] === q.answer;
+    rat.className = 'rationale show';
+    rat.innerHTML =
+      '<span class="verdict '+(correct?'ok':'no')+'">'+(correct?'✓ Correct':'✗ Incorrect')+'</span><br>'+
+      '<b class="rlabel">Rationale:</b> '+q.rationale;
+  } else {
+    rat.className = 'rationale';
+    rat.innerHTML = '';
+  }
+
+  // buttons
+  $('backBtn').disabled = (i === 0);
+  const submitBtn = $('submitBtn');
+  const nextBtn = $('nextBtn');
+  if(isLocked){
+    submitBtn.style.display = 'none';
+    nextBtn.style.display = 'inline-block';
+    nextBtn.textContent = (i === QUESTIONS.length-1) ? 'Finish ›' : 'Next ›';
+  } else {
+    submitBtn.style.display = 'inline-block';
+    nextBtn.style.display = 'none';
+    submitBtn.disabled = (state.selected[i] === null);
+  }
+
+  updateProgress();
+  renderDots();
+}
+
+function updateProgress(){
+  const answered = state.locked.filter(x=>x!==null).length;
+  $('liveScore').textContent = 'Answered ' + answered + ' / ' + QUESTIONS.length;
+  $('progBar').style.width = ((state.cur+1)/QUESTIONS.length*100) + '%';
+}
+
+function renderDots(){
+  const wrap = $('dots');
+  wrap.innerHTML = '';
+  QUESTIONS.forEach((q,idx)=>{
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.textContent = idx+1;
+    if(idx === state.cur) d.classList.add('cur');
+    if(state.locked[idx] !== null){
+      d.classList.add(state.locked[idx]===QUESTIONS[idx].answer ? 'ans-correct' : 'ans-wrong');
+    }
+    d.onclick = ()=>{ state.cur = idx; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+    wrap.appendChild(d);
+  });
+}
+
+$('submitBtn').onclick = ()=>{
+  const i = state.cur;
+  if(state.selected[i] === null) return;
+  state.locked[i] = state.selected[i];
+  render();
+};
+$('nextBtn').onclick = ()=>{
+  if(state.cur < QUESTIONS.length-1){ state.cur++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else { finish(); }
+};
+$('backBtn').onclick = ()=>{
+  if(state.cur > 0){ state.cur--; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+};
+$('finishBtn').onclick = ()=> finish();
+
+function finish(){
+  let correct=0, wrong=0, blank=0;
+  const chStats = {1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0}};
+  QUESTIONS.forEach((q,idx)=>{
+    const ch = chapterOf(idx); chStats[ch].t++;
+    const ans = state.locked[idx];
+    if(ans === null){ blank++; }
+    else if(ans === q.answer){ correct++; chStats[ch].c++; }
+    else { wrong++; }
+  });
+  const total = QUESTIONS.length;
+  const pct = Math.round(correct/total*100);
+
+  $('examView').style.display = 'none';
+  const rv = $('resultsView'); rv.classList.add('show');
+
+  $('pctBig').textContent = pct + '%';
+  $('rawScore').textContent = correct + ' / ' + total;
+  $('bdCorrect').textContent = correct;
+  $('bdWrong').textContent = wrong;
+  $('bdBlank').textContent = blank;
+
+  // grade
+  let letter, verdict, color;
+  if(pct>=90){letter='A';verdict='Excellent — you are well prepared for this material.';color='#2f7d4f';}
+  else if(pct>=80){letter='B';verdict='Solid grasp. Review the missed items and you are in good shape.';color='#2f6f6b';}
+  else if(pct>=70){letter='C';verdict='Passing, but tighten up the weaker chapters before the exam.';color='#b07d2b';}
+  else if(pct>=60){letter='D';verdict='Shaky — focus your studying on the chapters below tonight.';color='#c06a2b';}
+  else {letter='F';verdict='Needs work. Re-read the key points and retake this set.';color='#b23b3b';}
+  $('gradeLetter').textContent = 'Grade: ' + letter;
+  $('gradeLetter').style.color = color;
+  $('verdictLine').textContent = verdict;
+
+  // ring animation
+  const circ = 465;
+  const ring = $('ring');
+  ring.style.stroke = color;
+  setTimeout(()=>{ ring.style.transition='stroke-dashoffset 1s ease'; ring.style.strokeDashoffset = circ*(1-pct/100); }, 80);
+
+  // chapter scores
+  const names = {1:'Ch 1 · Neurotransmission',2:'Ch 2 · Transporters/Receptors',3:'Ch 3 · Ion Channels'};
+  const cs = $('chapterScores'); cs.innerHTML='';
+  [1,2,3].forEach(ch=>{
+    const p = Math.round(chStats[ch].c/chStats[ch].t*100);
+    const row = document.createElement('div'); row.className='cs-row';
+    row.innerHTML = '<span class="lab">'+names[ch]+'</span>'+
+      '<span class="cs-bar"><i style="width:'+p+'%"></i></span>'+
+      '<span class="val">'+chStats[ch].c+'/'+chStats[ch].t+'</span>';
+    cs.appendChild(row);
+  });
+
+  buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildReview(){
+  const list = $('reviewList'); list.innerHTML='';
+  const letters=['A','B','C','D'];
+  const h = document.createElement('div'); h.className='review-h'; h.textContent='Question-by-Question Review';
+  list.appendChild(h);
+  QUESTIONS.forEach((q,idx)=>{
+    const ans = state.locked[idx];
+    const correct = ans === q.answer;
+    const div = document.createElement('div');
+    div.className = 'rev ' + (correct?'ok':'');
+    let yourLine;
+    if(ans===null) yourLine = '<div class="ra your bad"><span class="k">Your answer:</span> (left blank)</div>';
+    else yourLine = '<div class="ra your '+(correct?'':'bad')+'"><span class="k">Your answer:</span> '+letters[ans]+'. '+q.options[ans]+'</div>';
+    div.innerHTML =
+      '<div class="rq"><b>Q'+(idx+1)+' (Ch '+chapterOf(idx)+').</b> '+q.q+'</div>'+
+      yourLine+
+      '<div class="ra corr"><span class="k">Correct answer:</span> '+letters[q.answer]+'. '+q.options[q.answer]+'</div>'+
+      '<div class="why"><b>Rationale:</b> '+q.rationale+'</div>';
+    list.appendChild(div);
+  });
+}
+
+$('reviewToggle').onclick = ()=>{
+  const rl = $('reviewList');
+  const showing = rl.style.display !== 'none';
+  rl.style.display = showing ? 'none' : 'block';
+  $('reviewToggle').textContent = showing ? 'Show Full Review' : 'Hide Full Review';
+};
+
+$('retakeBtn').onclick = ()=>{
+  state.cur = 0;
+  state.selected = Array(QUESTIONS.length).fill(null);
+  state.locked = Array(QUESTIONS.length).fill(null);
+  $('resultsView').classList.remove('show');
+  $('reviewList').style.display='none';
+  $('reviewToggle').textContent='Show Full Review';
+  $('examView').style.display='block';
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+
+render();
+</script>
+</body>
+</html>
