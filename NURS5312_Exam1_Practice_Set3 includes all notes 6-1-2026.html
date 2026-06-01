@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 1 Practice SET 3 (Stahl Ch. 1–3)</title>
+<style>
+  :root{
+    --ink:#15263a; --ink-soft:#4d5e75; --paper:#f3efe6; --card:#fffdf7;
+    --line:#d8d1c2; --accent:#3a5a8c; --accent-deep:#28406a; --gold:#b07d2b;
+    --correct:#2f7d4f; --correct-bg:#e9f5ec; --wrong:#b23b3b; --wrong-bg:#f8eaea;
+    --match:#7a4fa3; --match-bg:#f0eaf6; --shadow:0 10px 30px rgba(21,38,58,.10);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(58,90,140,.10), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(176,125,43,.10), transparent 55%),
+      var(--paper);
+    color:var(--ink); line-height:1.55; min-height:100vh; padding:26px 16px 64px;
+  }
+  .wrap{max-width:800px;margin:0 auto;}
+  header.masthead{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:18px;}
+  .eyebrow{font-family:"Helvetica Neue",Arial,sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:11px;color:var(--accent-deep);font-weight:700;margin-bottom:6px;}
+  h1{font-size:29px;margin:0 0 4px;letter-spacing:.3px;line-height:1.15;}
+  .sub{color:var(--ink-soft);font-size:15px;font-style:italic;}
+
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;flex-wrap:wrap;}
+  .timer-toggle{display:flex;align-items:center;gap:9px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--ink-soft);}
+  .switch{position:relative;width:44px;height:24px;background:#cfc7b6;border-radius:999px;cursor:pointer;transition:background .2s;border:1px solid var(--line);}
+  .switch.on{background:var(--accent);}
+  .switch i{position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+  .switch.on i{left:23px;}
+  .timer-display{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:15px;color:var(--accent-deep);min-width:54px;text-align:right;}
+  .timer-display.warn{color:var(--wrong);}
+
+  .meta-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:6px 0 12px;flex-wrap:wrap;}
+  .qcount{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+  .qcount b{color:var(--ink);font-size:14px;}
+  .scorechip{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--accent-deep);}
+  .progress{height:8px;background:#e7e1d4;border-radius:999px;overflow:hidden;border:1px solid var(--line);margin-bottom:20px;}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-deep));transition:width .35s ease;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;}
+  .card-head{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#fbf7ee,#f2ebdc);border-bottom:1px solid var(--line);padding:14px 22px;}
+  .qnum{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:17px;}
+  .tags{display:flex;gap:7px;align-items:center;}
+  .badge{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:var(--gold);padding:3px 9px;border-radius:6px;}
+  .badge.type-match{background:var(--match);}
+  .badge.type-mcq{background:var(--accent);}
+  .card-body{padding:20px 24px 8px;}
+  .stem{font-size:18px;line-height:1.55;margin:0 0 16px;}
+  .note-line{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin:-6px 0 16px;}
+
+  /* MCQ options */
+  .opts{list-style:none;margin:0;padding:0;}
+  .opt{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;padding:12px 15px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;background:#fffefb;transition:border-color .15s,background .15s;font-size:16px;}
+  .opt:hover:not(.locked){border-color:var(--accent);background:#f6f8fc;}
+  .opt .mark{flex:0 0 26px;height:26px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:"Helvetica Neue",Arial,sans-serif;color:var(--accent-deep);background:#fff;transition:all .15s;}
+  .opt.selected{border-color:var(--accent);background:#eef3fa;}
+  .opt.selected .mark{background:var(--accent);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.correct{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct .mark{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .opt.wrong .mark{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .opt .txt{padding-top:2px;}
+
+  /* Matching */
+  .match-instructions{font-size:13.5px;color:var(--ink-soft);margin-bottom:14px;}
+  .match-grid{display:flex;flex-direction:column;gap:11px;}
+  .match-row{display:flex;align-items:stretch;gap:10px;}
+  .match-left{flex:0 0 38%;background:#f6f2e8;border:1px solid var(--line);border-radius:9px;padding:11px 13px;font-weight:600;font-size:15px;display:flex;align-items:center;}
+  .match-right{flex:1;position:relative;}
+  .match-select{width:100%;height:100%;min-height:46px;border:1px dashed var(--match);border-radius:9px;background:#fff;padding:10px 13px;font-family:inherit;font-size:15px;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%237a4fa3' stroke-width='2' fill='none'/></svg>");background-repeat:no-repeat;background-position:right 14px center;}
+  .match-select:focus{outline:2px solid var(--match);}
+  .match-select.locked{cursor:default;pointer-events:none;border-style:solid;}
+  .match-row.correct .match-select{border-color:var(--correct);background:var(--correct-bg);color:var(--correct);font-weight:600;}
+  .match-row.wrong .match-select{border-color:var(--wrong);background:var(--wrong-bg);color:var(--wrong);}
+  .match-row .verdict-icon{flex:0 0 22px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;}
+  .match-row.correct .verdict-icon{color:var(--correct);}
+  .match-row.wrong .verdict-icon{color:var(--wrong);}
+  .match-correct-answer{font-size:12.5px;color:var(--correct);font-family:"Helvetica Neue",Arial,sans-serif;margin-top:3px;display:none;}
+  .match-row.wrong .match-correct-answer{display:block;}
+
+  /* Rationale */
+  .rationale{margin:6px 24px 4px;border-radius:10px;border:1px solid var(--line);background:#f6f2e8;padding:14px 16px;position:relative;font-size:15px;color:var(--ink);display:none;}
+  .rationale.show{display:block;animation:rise .28s ease;}
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .rationale .verdict{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;display:inline-block;}
+  .verdict.ok{color:var(--correct);} .verdict.no{color:var(--wrong);} .verdict.partial{color:var(--gold);}
+  .rationale b.rlabel{color:var(--accent-deep);}
+
+  .controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px 22px;}
+  button{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:14px;border-radius:9px;padding:11px 20px;cursor:pointer;border:1px solid transparent;transition:transform .08s,background .15s,opacity .15s;}
+  button:active{transform:translateY(1px);}
+  button:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-ghost{background:#fff;border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover:not(:disabled){border-color:var(--accent);color:var(--accent-deep);}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover:not(:disabled){background:var(--accent-deep);}
+  .btn-gold{background:var(--gold);color:#fff;}
+  .btn-gold:hover:not(:disabled){background:#946618;}
+  .spacer{flex:1;}
+
+  .nav-dots{display:flex;flex-wrap:wrap;gap:6px;margin:20px 2px 0;justify-content:center;}
+  .dot{width:27px;height:27px;border-radius:7px;border:1px solid var(--line);background:#fff;font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;font-weight:700;color:var(--ink-soft);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;position:relative;}
+  .dot:hover{border-color:var(--accent);}
+  .dot.cur{outline:2px solid var(--accent);outline-offset:1px;}
+  .dot.ans-correct{background:var(--correct-bg);border-color:var(--correct);color:var(--correct);}
+  .dot.ans-wrong{background:var(--wrong-bg);border-color:var(--wrong);color:var(--wrong);}
+  .dot.ismatch{border-bottom-width:3px;border-bottom-color:var(--match);}
+
+  .finish-cta{text-align:center;margin-top:22px;}
+  .note{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:10px;font-style:italic;}
+
+  /* Results */
+  .results{display:none;}
+  .results.show{display:block;animation:rise .3s ease;}
+  .scorecard{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:30px;text-align:center;margin-bottom:24px;}
+  .ring-wrap{position:relative;width:170px;height:170px;margin:6px auto 12px;}
+  .ring-wrap svg{transform:rotate(-90deg);}
+  .ring-pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring-pct .big{font-size:42px;font-weight:800;font-family:"Helvetica Neue",Arial,sans-serif;line-height:1;}
+  .ring-pct .small{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;}
+  .grade-letter{font-family:"Helvetica Neue",Arial,sans-serif;font-size:20px;font-weight:800;margin:4px 0 2px;}
+  .verdict-line{color:var(--ink-soft);font-style:italic;}
+  .breakdown{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .bd{background:#f6f2e8;border:1px solid var(--line);border-radius:10px;padding:12px 18px;min-width:110px;}
+  .bd .n{font-size:24px;font-weight:800;} .bd .l{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin-top:2px;}
+  .chapter-scores{margin-top:20px;text-align:left;max-width:430px;margin-left:auto;margin-right:auto;}
+  .cs-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;}
+  .cs-row .lab{flex:0 0 150px;font-weight:600;}
+  .cs-bar{flex:1;height:10px;background:#e7e1d4;border-radius:999px;overflow:hidden;border:1px solid var(--line);}
+  .cs-bar > i{display:block;height:100%;background:var(--accent);}
+  .cs-row .val{flex:0 0 56px;text-align:right;color:var(--ink-soft);font-weight:700;}
+  .review-h{font-family:"Helvetica Neue",Arial,sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-deep);margin:26px 0 12px;}
+  .rev{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--wrong);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+  .rev.ok{border-left-color:var(--correct);} .rev.partial{border-left-color:var(--gold);}
+  .rev .rq{font-size:15px;margin-bottom:8px;}
+  .rev .ra{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;margin:3px 0;}
+  .rev .ra .k{font-weight:700;}
+  .rev .your.bad{color:var(--wrong);} .rev .corr{color:var(--correct);}
+  .rev .why{font-size:13.5px;margin-top:8px;background:#f6f2e8;padding:9px 11px;border-radius:8px;}
+  .toprow{display:flex;gap:10px;justify-content:center;margin-bottom:26px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="eyebrow">NURS 5312 · Psychopharmacology · Module 1</div>
+    <h1>Exam 1 Practice — Set 3</h1>
+    <div class="sub">Stahl Ch. 1–3 · 38 vignette MCQs + 12 matching · built to the exam review &amp; supplement</div>
+  </header>
+
+  <div id="examView">
+    <div class="toolbar">
+      <div class="timer-toggle">
+        <span>Proctorio pace timer (1.2 min/Q)</span>
+        <div class="switch" id="timerSwitch"><i></i></div>
+      </div>
+      <div class="timer-display" id="timerDisplay" style="display:none;">1:12</div>
+    </div>
+
+    <div class="meta-bar">
+      <div class="qcount">Item <b><span id="curNum">1</span></b> of <b>50</b></div>
+      <div class="scorechip" id="liveScore">Answered 0 / 50</div>
+    </div>
+    <div class="progress"><i id="progBar"></i></div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="qnum">Question <span id="qHeadNum">1</span></div>
+        <div class="tags">
+          <span class="badge" id="typeBadge">MCQ</span>
+          <span class="badge" id="chBadge" style="background:var(--gold)">Ch 1</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="stem" id="stem"></p>
+        <div class="note-line" id="noteLine" style="display:none;"></div>
+        <ul class="opts" id="opts"></ul>
+        <div id="matchArea" style="display:none;"></div>
+      </div>
+      <div class="rationale" id="rationale"></div>
+      <div class="controls">
+        <button class="btn-ghost" id="backBtn">‹ Back</button>
+        <div class="spacer"></div>
+        <button class="btn-primary" id="submitBtn">Submit Answer</button>
+        <button class="btn-primary" id="nextBtn">Next ›</button>
+      </div>
+    </div>
+
+    <div class="nav-dots" id="dots"></div>
+
+    <div class="finish-cta">
+      <button class="btn-gold" id="finishBtn">Submit Exam for Final Grade</button>
+      <div class="note">Submit anytime. Unanswered items count as incorrect. Matching is scored all-or-nothing per item.</div>
+    </div>
+  </div>
+
+  <div class="results" id="resultsView">
+    <div class="scorecard">
+      <div class="ring-wrap">
+        <svg width="170" height="170" viewBox="0 0 170 170">
+          <circle cx="85" cy="85" r="74" fill="none" stroke="#e7e1d4" stroke-width="14"/>
+          <circle id="ring" cx="85" cy="85" r="74" fill="none" stroke="#3a5a8c" stroke-width="14" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
+        </svg>
+        <div class="ring-pct"><div class="big" id="pctBig">0%</div><div class="small" id="rawScore">0 / 50</div></div>
+      </div>
+      <div class="grade-letter" id="gradeLetter">—</div>
+      <div class="verdict-line" id="verdictLine"></div>
+      <div class="breakdown">
+        <div class="bd"><div class="n" id="bdCorrect" style="color:var(--correct)">0</div><div class="l">Correct</div></div>
+        <div class="bd"><div class="n" id="bdWrong" style="color:var(--wrong)">0</div><div class="l">Incorrect</div></div>
+        <div class="bd"><div class="n" id="bdBlank">0</div><div class="l">Unanswered</div></div>
+      </div>
+      <div class="chapter-scores" id="chapterScores"></div>
+    </div>
+    <div class="toprow">
+      <button class="btn-ghost" id="reviewToggle">Show Full Review</button>
+      <button class="btn-primary" id="retakeBtn">Retake Exam</button>
+    </div>
+    <div id="reviewList" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+// NURS 5312 - Exam 1 Practice SET 3 - MCQ portion (38 new vignettes)
+// Targets the supplement's flagged "EXAM FOCUS" items + new angles. No repeats from sets 1-2.
+const MCQS = [
+  // -------- CHAPTER 1 (14) --------
+  {
+    ch: 1,
+    q: "An exam review states 'neurons that fire together wire together.' A student is asked to name the theorist and the principle this describes. The best answer is:",
+    options: ["Stahl's law of neurotransmission", "Hebbian learning (Donald Hebb)", "The monoamine hypothesis", "Excitation\u2013secretion coupling"],
+    answer: 1,
+    rationale: "The phrase 'neurons that fire together wire together' is Hebbian learning, proposed by Donald Hebb (1949) \u2014 the foundational rule of neuroplasticity, expressed cellularly as long-term potentiation (LTP). (Exam 1 Supplement \u2014 Neuroplasticity; Ch. 1)"
+  },
+  {
+    ch: 1,
+    q: "A student must identify the cellular mechanism of learning and memory in which repeated co-activation strengthens a synapse by adding more AMPA receptors to the postsynaptic membrane. This is:",
+    options: ["Long-term depression (LTD)", "Long-term potentiation (LTP)", "Reuptake inhibition", "Volume transmission"],
+    answer: 1,
+    rationale: "Long-term potentiation (LTP) strengthens synapses by adding more AMPA receptors to the postsynaptic membrane. Its opposite, LTD, weakens synapses by removing AMPA receptors. Both require NMDA receptor activation. (Exam 1 Supplement)"
+  },
+  {
+    ch: 1,
+    q: "Both LTP and LTD depend on one receptor acting as the 'coincidence detector' \u2014 it opens only when the presynaptic and postsynaptic neurons fire simultaneously, letting calcium in. Which receptor is this?",
+    options: ["AMPA receptor", "NMDA receptor", "GABA-A receptor", "D2 receptor"],
+    answer: 1,
+    rationale: "The NMDA receptor is the coincidence detector: it requires simultaneous presynaptic glutamate release AND postsynaptic depolarization (to remove the Mg2+ block), admitting Ca2+ that triggers LTP/LTD. (Exam 1 Supplement)"
+  },
+  {
+    ch: 1,
+    q: "A growth factor described as 'fertilizer for neurons' promotes new synapses and neuronal survival; antidepressants raise it over weeks, while ketamine raises it within hours. This molecule is:",
+    options: ["cAMP", "BDNF (brain-derived neurotrophic factor)", "GABA", "Substance P"],
+    answer: 1,
+    rationale: "BDNF promotes synaptogenesis, dendritic growth, and neuronal survival. Antidepressants increase BDNF over weeks (delayed response); ketamine releases BDNF within hours (rapid effect). (Exam 1 Supplement)"
+  },
+  {
+    ch: 1,
+    q: "A patient with chronic untreated depression shows measurable hippocampal shrinkage on MRI. The instructor explains that successful antidepressant treatment can reverse this by:",
+    options: [
+      "Permanently removing the hippocampus",
+      "Restoring BDNF and neuroplasticity (neurogenesis)",
+      "Blocking all serotonin receptors",
+      "Inducing CYP450 enzymes"
+    ],
+    answer: 1,
+    rationale: "Chronic depression shrinks the hippocampus; antidepressants reverse this structural change by restoring BDNF, neuroplasticity, and adult hippocampal neurogenesis \u2014 actual rewiring, not just symptom suppression. (Exam 1 Supplement)"
+  },
+  {
+    ch: 1,
+    q: "An exam item asks: what is the ULTIMATE cellular function that neurotransmission modifies? Immediate effects are electrical, but the deepest, lasting effect is:",
+    options: [
+      "Reuptake speed",
+      "Gene expression (leading to new proteins and neuroplasticity)",
+      "Blood-brain barrier permeability",
+      "First-pass metabolism"
+    ],
+    answer: 1,
+    rationale: "The supplement flags this directly: neurotransmission's ultimate effect is modifying GENE EXPRESSION \u2014 turning genes on/off, building new proteins, and remodeling synapses (neuroplasticity). Immediate effect = ion flow; ultimate effect = gene expression. (Exam 1 Supplement; Ch. 1)"
+  },
+  {
+    ch: 1,
+    q: "A transcription factor activated by Ca2+ or cAMP enters the nucleus and switches on genes for synaptic proteins; all antidepressants and mood stabilizers ultimately converge on it. This transcription factor is:",
+    options: ["CREB", "GSK-3", "Ras", "SNAP-25"],
+    answer: 0,
+    rationale: "CREB is the transcription factor activated downstream of Ca2+/cAMP that enters the nucleus and turns on synaptic-protein genes; it is the final common pathway for antidepressants and mood stabilizers. (Exam 1 Supplement, Table)"
+  },
+  {
+    ch: 1,
+    q: "A student traces signal flow through one neuron for an exam. Which sequence correctly orders the functional steps?",
+    options: [
+      "Axon terminal \u2192 axon \u2192 soma \u2192 dendrites",
+      "Dendrites (input) \u2192 soma (integration) \u2192 axon hillock (decision) \u2192 axon (transmission) \u2192 terminal (output)",
+      "Soma \u2192 dendrites \u2192 terminal \u2192 axon",
+      "Dendrites \u2192 axon \u2192 terminal \u2192 soma"
+    ],
+    answer: 1,
+    rationale: "Signal always flows input\u2192output: dendrites receive, soma integrates, the axon hillock decides (threshold ~ -55 mV), the axon transmits, and the terminal releases neurotransmitter. (Exam 1 Supplement \u2014 Neuron Morphology)"
+  },
+  {
+    ch: 1,
+    q: "At the axon hillock, the neuron 'decides' whether to fire. An action potential is generated only when the summed input crosses approximately what threshold?",
+    options: ["-90 mV", "-70 mV", "-55 mV", "+40 mV"],
+    answer: 2,
+    rationale: "The resting membrane potential is about -70 mV; the axon hillock triggers an action potential when depolarization reaches the threshold of roughly -55 mV, snapping voltage-gated Na+ channels open. (Exam 1 Supplement \u2014 Action Potential)"
+  },
+  {
+    ch: 1,
+    q: "The resting membrane potential (~ -70 mV) is maintained by a pump that moves 3 Na+ out and 2 K+ in. This pump is the:",
+    options: ["VMAT2", "Sodium\u2013potassium ATPase", "Monoamine oxidase", "Alpha-2-delta subunit"],
+    answer: 1,
+    rationale: "The sodium\u2013potassium ATPase continuously pumps 3 Na+ out and 2 K+ in, maintaining the resting membrane potential near -70 mV. (Exam 1 Supplement \u2014 Action Potential)"
+  },
+  {
+    ch: 1,
+    q: "An exam question asks which neurotransmitter has the MOST presynaptic reuptake transporter subtypes. The answer is:",
+    options: [
+      "Serotonin (SERT)",
+      "Dopamine (DAT)",
+      "Glutamate (EAAT 1\u20135)",
+      "GABA (GAT1)"
+    ],
+    answer: 2,
+    rationale: "Glutamate has the most transporter subtypes \u2014 the excitatory amino acid transporters EAAT 1\u20135 (five subtypes), located mainly on glia. No approved drugs block them because doing so would cause excitotoxicity. (Exam 1 Supplement \u2014 flagged exam item)"
+  },
+  {
+    ch: 1,
+    q: "Conversely, which two neurotransmitters have NO plasma-membrane reuptake transporter at all and are instead destroyed entirely by enzymes?",
+    options: [
+      "Serotonin and dopamine",
+      "Acetylcholine and histamine",
+      "GABA and glutamate",
+      "Norepinephrine and dopamine"
+    ],
+    answer: 1,
+    rationale: "Acetylcholine (destroyed by AChE) and histamine (destroyed by MAO-B and HNMT) have no reuptake pumps. This is why Alzheimer's is treated with an AChE inhibitor (donepezil), not a reuptake inhibitor. (Exam 1 Supplement \u2014 flagged exam item)"
+  },
+  {
+    ch: 1,
+    q: "A patient asks why donepezil for Alzheimer's works by blocking an enzyme rather than a reuptake pump. The best explanation is that acetylcholine:",
+    options: [
+      "Has five reuptake transporters",
+      "Has no reuptake pump and is destroyed in the cleft by acetylcholinesterase",
+      "Is stored by SERT",
+      "Is never released into the synapse"
+    ],
+    answer: 1,
+    rationale: "Acetylcholine has no reuptake transporter; it is broken down in the synaptic cleft by acetylcholinesterase (AChE). Blocking AChE (donepezil) is the only way to raise ACh, since there is no pump to block. (Five Targets guide; Exam 1 Supplement)"
+  },
+  {
+    ch: 1,
+    q: "A student reviewing brain anatomy notes that the cholinergic neurons most associated with memory \u2014 and the first to degenerate in Alzheimer's disease \u2014 originate in which structure?",
+    options: ["Raphe nuclei", "Locus coeruleus", "Basal nucleus of Meynert", "Substantia nigra"],
+    answer: 2,
+    rationale: "Acetylcholine-producing neurons originate in the basal nucleus of Meynert; their degeneration is a hallmark of Alzheimer's disease and underlies the memory failure. (Module 1 Notes; Five Targets guide)"
+  },
+
+  // -------- CHAPTER 2 (16) --------
+  {
+    ch: 2,
+    q: "A student studying ADHD stimulants learns that amphetamine is more powerful than methylphenidate because amphetamine acts at TWO pumps. Besides DAT, which transporter does amphetamine also target?",
+    options: ["SERT", "VMAT2", "GAT1", "EAAT"],
+    answer: 1,
+    rationale: "Methylphenidate blocks only DAT. Amphetamine targets both DAT and the vesicular VMAT2 \u2014 acting as a false substrate, displacing dopamine from vesicles and reversing DAT to flood the cleft \u2014 making it more potent. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    q: "Amphetamine is described as causing 'reverse transport' at DAT. What does this mean?",
+    options: [
+      "It permanently destroys DAT",
+      "It flips DAT to pump dopamine OUT into the synaptic cleft instead of in",
+      "It converts dopamine into serotonin",
+      "It blocks the vesicle from forming"
+    ],
+    answer: 1,
+    rationale: "Reverse transport means amphetamine flips DAT's direction, actively pumping dopamine OUT into the cleft rather than reclaiming it \u2014 flooding the synapse rather than merely blocking cleanup. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    q: "A patient on long-term antipsychotic therapy develops involuntary chewing, tongue protrusion, and facial grimacing after months of treatment. This is tardive dyskinesia. The FDA-approved treatments work by inhibiting which transporter?",
+    options: ["DAT", "SERT", "VMAT2", "NET"],
+    answer: 2,
+    rationale: "Tardive dyskinesia is treated with VMAT2 inhibitors (valbenazine, deutetrabenazine), which reduce how much dopamine is packed into vesicles and released \u2014 the only FDA-approved TD treatments. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    q: "Cocaine produces intense euphoria and high abuse potential because, unlike a selective reuptake inhibitor, it blocks how many plasma-membrane monoamine pumps?",
+    options: [
+      "Only SERT",
+      "Only DAT",
+      "All three \u2014 DAT, SERT, and NET simultaneously",
+      "None \u2014 it works on enzymes"
+    ],
+    answer: 2,
+    rationale: "Cocaine blocks DAT, SERT, and NET simultaneously, so dopamine, serotonin, and norepinephrine all build up at once \u2014 explaining its powerful reinforcing effect and high abuse potential. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    q: "In the prefrontal cortex, where DAT is sparse, a genetic variant of the COMT enzyme affects working memory. A person with the faster 'Val' variant of COMT Val158Met would be expected to have:",
+    options: [
+      "More dopamine in the PFC and better working memory",
+      "Less dopamine in the PFC and worse working memory",
+      "No dopamine anywhere in the brain",
+      "Elevated serotonin only"
+    ],
+    answer: 1,
+    rationale: "The Val variant produces a faster COMT enzyme, so prefrontal dopamine is degraded faster \u2014 less dopamine available, worse working memory, and higher cognitive vulnerability. The Met (slower) variant preserves more PFC dopamine. (Five Targets guide \u2014 NP Pearl)"
+  },
+  {
+    ch: 2,
+    q: "A student must distinguish where MAO versus COMT act on dopamine. Which statement is correct?",
+    options: [
+      "MAO works outside the neuron; COMT works inside",
+      "MAO works inside the neuron; COMT works outside (extracellularly) in the cleft",
+      "Both work only inside the vesicle",
+      "Neither acts on dopamine"
+    ],
+    answer: 1,
+    rationale: "MAO is intracellular (inside the presynaptic neuron) and COMT is extracellular (acting in the cleft/surrounding tissue). COMT is the primary dopamine cleanup in the PFC where DAT is sparse. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    q: "An exam question contrasts two MAO subtypes. Which pairing of preferential substrates is correct?",
+    options: [
+      "MAO-A mainly dopamine/histamine; MAO-B mainly serotonin/NE",
+      "MAO-A mainly serotonin/norepinephrine; MAO-B mainly dopamine/histamine",
+      "Both subtypes act only on GABA",
+      "MAO-A acts only on glutamate"
+    ],
+    answer: 1,
+    rationale: "MAO-A preferentially breaks down serotonin and norepinephrine; MAO-B preferentially breaks down dopamine and histamine. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    q: "A patient on an irreversible MAOI requires a 2-week washout before starting an SSRI. Why does the drug's effect outlast its presence in the body?",
+    options: [
+      "The MAOI weakly and temporarily binds the enzyme",
+      "The MAOI forms a covalent bond that permanently destroys the enzyme, so the body must synthesize new MAO",
+      "The SSRI destroys the liver",
+      "MAO is never needed again"
+    ],
+    answer: 1,
+    rationale: "An irreversible (suicide) inhibitor forms a covalent bond that permanently inactivates MAO; function returns only when the body synthesizes brand-new enzyme \u2014 about 2 weeks \u2014 so the effect outlasts the drug. (Five Targets guide; Module 1 Notes)"
+  },
+  {
+    ch: 2,
+    q: "A reversible enzyme inhibitor differs from an irreversible one in that it:",
+    options: [
+      "Permanently fuses to the enzyme",
+      "Can be displaced by the substrate and wears off when the drug is cleared",
+      "Always causes hypertensive crisis",
+      "Cannot affect CYP450 enzymes"
+    ],
+    answer: 1,
+    rationale: "A reversible inhibitor binds weakly and competes with the substrate; it can be displaced, and its effect ends when the drug is cleared \u2014 unlike an irreversible inhibitor that destroys the enzyme. (Module 1 Notes)"
+  },
+  {
+    ch: 2,
+    q: "A patient on an MAOI eats aged cheese and cured meats and develops a severe headache and dangerously high blood pressure. This 'cheese effect' occurs because unmetabolized tyramine triggers:",
+    options: [
+      "A massive release of norepinephrine \u2192 hypertensive crisis",
+      "Serotonin syndrome",
+      "Profound sedation",
+      "Hypoglycemia"
+    ],
+    answer: 0,
+    rationale: "MAO normally degrades dietary tyramine. With MAO inhibited, tyramine floods the bloodstream and provokes a massive norepinephrine release, producing a hypertensive crisis (severe headache, stroke risk). (Five Targets guide \u2014 Danger 2)"
+  },
+  {
+    ch: 2,
+    q: "A drug is metabolized into an active form that is itself therapeutic and has a very long half-life. Which is a classic example of an active metabolite?",
+    options: [
+      "Fluoxetine \u2192 norfluoxetine",
+      "Lithium \u2192 lithium",
+      "Donepezil \u2192 water",
+      "Tyramine \u2192 cheese"
+    ],
+    answer: 0,
+    rationale: "Fluoxetine is metabolized to norfluoxetine, an active metabolite with a very long half-life. (Codeine\u2192morphine via CYP2D6 is another example.) (Exam 1 Supplement \u2014 Metabolism table)"
+  },
+  {
+    ch: 2,
+    q: "A heavy smoker is hospitalized and abruptly stops smoking; his clozapine level rises and he becomes oversedated. This occurs because smoking INDUCES which CYP450 enzyme?",
+    options: ["CYP2D6", "CYP3A4", "CYP1A2", "CYP2C9"],
+    answer: 2,
+    rationale: "Smoking induces CYP1A2, lowering clozapine and olanzapine levels. When smoking stops, induction is lost, metabolism slows, and clozapine levels climb \u2014 risking toxicity. (Exam 1 Supplement \u2014 Metabolism exam focus)"
+  },
+  {
+    ch: 2,
+    q: "A patient is told a new drug is a 'first-pass effect' concern when taken orally. What does the first-pass effect describe?",
+    options: [
+      "The drug crosses the blood-brain barrier immediately",
+      "Oral drugs are absorbed into the portal vein and metabolized by the liver before reaching systemic circulation, reducing bioavailability",
+      "The drug is excreted unchanged by the kidney",
+      "The drug binds plasma proteins permanently"
+    ],
+    answer: 1,
+    rationale: "First-pass effect: orally absorbed drug travels via the portal vein to the liver, which metabolizes a significant portion before it reaches systemic circulation \u2014 lowering bioavailability. This is why some drugs are given SL, IM, or IV. (Exam 1 Supplement \u2014 Absorption)"
+  },
+  {
+    ch: 2,
+    q: "A clinician chooses a sublingual formulation specifically to avoid the first-pass effect. Which routes BYPASS first-pass hepatic metabolism?",
+    options: [
+      "Oral and rectal only",
+      "Sublingual, IM, IV, and transdermal",
+      "Only oral",
+      "No route can bypass it"
+    ],
+    answer: 1,
+    rationale: "Sublingual, intramuscular, intravenous, and transdermal routes bypass the GI tract/portal circulation and thus avoid first-pass hepatic metabolism, increasing bioavailability. (Exam 1 Supplement \u2014 ADME route table)"
+  },
+  {
+    ch: 2,
+    q: "A psychotropic drug must reach the brain. Which property allows most psychotropic drugs to cross the blood-brain barrier?",
+    options: [
+      "High water solubility (hydrophilic)",
+      "Lipophilicity (fat solubility)",
+      "Large molecular size",
+      "Strong negative charge"
+    ],
+    answer: 1,
+    rationale: "The blood-brain barrier's tight junctions admit lipophilic (fat-soluble) molecules. Most psychotropic drugs are designed to be lipophilic so they cross the BBB. (Exam 1 Supplement \u2014 Distribution)"
+  },
+
+  {
+    ch: 2,
+    q: "A patient with bipolar disorder is started on lithium. The nurse reviews that lithium is excreted almost entirely unchanged by one organ and competes with sodium for reabsorption. Which statement reflects correct monitoring?",
+    options: [
+      "Lithium is cleared by the liver, so check LFTs only",
+      "Lithium is renally excreted; dehydration, low-sodium diet, NSAIDs, and ACE inhibitors can raise levels dangerously",
+      "Lithium has no clinically important interactions",
+      "Lithium is excreted by the lungs"
+    ],
+    answer: 1,
+    rationale: "Lithium is excreted entirely by the kidneys, unchanged, and competes with sodium for reabsorption. Dehydration, low-sodium diet, NSAIDs, and ACE inhibitors reduce its excretion and raise levels toward toxicity \u2014 so renal function and hydration must be monitored. (Exam 1 Supplement \u2014 Excretion NP Pearl)"
+  },
+
+  // -------- CHAPTER 3 (8) --------
+  {
+    ch: 3,
+    q: "An exam review specifically asks for the THREE states of voltage-sensitive sodium channels. A student identifies the inactivated state. What characterizes it?",
+    options: [
+      "Open with Na+ flooding in",
+      "Closed and ready to open",
+      "Closed and unable to reopen until the membrane repolarizes (refractory)",
+      "Permanently destroyed"
+    ],
+    answer: 2,
+    rationale: "The three VSSC states are resting (closed/ready), open (Na+ flooding in), and inactivated (closed, cannot reopen until repolarization \u2014 the refractory period). Lamotrigine/carbamazepine preferentially block the inactivated state. (Exam 1 Supplement \u2014 flagged exam item)"
+  },
+  {
+    ch: 3,
+    q: "Lamotrigine can stop a seizure (neurons firing hundreds of times/second) yet leave normal neural activity intact. This selectivity is explained by:",
+    options: [
+      "Use-dependent blockade \u2014 it preferentially blocks rapidly/abnormally firing channels",
+      "Permanent destruction of all sodium channels",
+      "Blocking GABA receptors",
+      "Inducing CYP1A2"
+    ],
+    answer: 0,
+    rationale: "Use-dependent blockade means the drug binds preferentially to channels that are firing frequently (open/inactivated states), so it dampens overactive neurons while sparing normally firing ones \u2014 why lamotrigine stops seizures selectively. (Five Targets guide; Exam 1 Supplement)"
+  },
+  {
+    ch: 3,
+    q: "A nurse is taught that pregabalin and gabapentin, despite their names, are NOT GABA drugs. Where do they actually act?",
+    options: [
+      "The GABA-A chloride channel",
+      "The alpha-2-delta subunit of voltage-gated calcium channels",
+      "The NMDA glycine site",
+      "SERT"
+    ],
+    answer: 1,
+    rationale: "Pregabalin and gabapentin bind the alpha-2-delta subunit of voltage-gated calcium channels, reducing calcium influx and neurotransmitter release. The 'GABA' in their names is historical \u2014 they do not act on GABA receptors. (Five Targets guide \u2014 KEY)"
+  },
+  {
+    ch: 3,
+    q: "By reducing calcium entry at the axon terminal, pregabalin decreases release of a pain-signaling neuropeptide in the spinal cord. Which neuropeptide?",
+    options: ["BDNF", "Substance P", "cAMP", "Acetylcholine"],
+    answer: 1,
+    rationale: "Pregabalin lowers calcium influx at the terminal, reducing release of substance P (and glutamate) \u2014 weakening the pain signal at its source. (Five Targets guide)"
+  },
+  {
+    ch: 3,
+    q: "Calcium flooding into the axon terminal triggers vesicle fusion through a family of proteins that act like molecular zippers (synaptobrevin, SNAP-25, syntaxin). These are:",
+    options: ["SNARE proteins", "G proteins", "Transcription factors", "EAATs"],
+    answer: 0,
+    rationale: "SNARE proteins (synaptobrevin, SNAP-25, syntaxin) dock and fuse vesicles to the terminal membrane when calcium arrives, releasing neurotransmitter. Botulinum toxin works by destroying SNARE proteins. (Five Targets guide \u2014 firing sequence)"
+  },
+  {
+    ch: 3,
+    q: "A benzodiazepine overdose is reversed with a specific antagonist that occupies the same allosteric site. This reversal agent is:",
+    options: ["Naloxone", "Flumazenil", "Valbenazine", "Donepezil"],
+    answer: 1,
+    rationale: "Flumazenil is a benzodiazepine antagonist that occupies the benzodiazepine allosteric site, reversing benzo effects. It does NOT reverse alcohol or barbiturates, and is short-acting (re-sedation possible). (Five Targets guide)"
+  },
+  {
+    ch: 3,
+    q: "A student is asked why a benzodiazepine alone rarely causes fatal respiratory depression, but a barbiturate can. The key difference is that benzodiazepines:",
+    options: [
+      "Directly open the chloride channel without GABA",
+      "Require GABA to be present (a 'ceiling'), while high-dose barbiturates can open the channel without GABA",
+      "Block the chloride channel entirely",
+      "Have no effect on GABA-A"
+    ],
+    answer: 1,
+    rationale: "Benzodiazepines are GABA-dependent PAMs \u2014 they only enhance GABA's effect, giving a safety ceiling. Barbiturates at high dose can open the chloride channel directly without GABA, removing the ceiling and risking fatal respiratory depression. (Five Targets guide \u2014 NP Pearl)"
+  },
+  {
+    ch: 3,
+    q: "A patient on lamotrigine is counseled about a rare but life-threatening skin reaction, and told the dose must be titrated slowly \u2014 especially if combined with valproate. The reaction and the interaction are:",
+    options: [
+      "Serotonin syndrome; valproate lowers lamotrigine levels",
+      "Stevens-Johnson syndrome; valproate raises lamotrigine levels by inhibiting its metabolism",
+      "Tardive dyskinesia; valproate has no interaction",
+      "Hypertensive crisis; valproate induces metabolism"
+    ],
+    answer: 1,
+    rationale: "Lamotrigine carries a risk of Stevens-Johnson syndrome, minimized by slow titration. Valproate inhibits lamotrigine metabolism, raising its levels and increasing rash risk \u2014 so dosing must be especially cautious when combined. (Five Targets guide \u2014 NP Pearl)"
+  }
+];
+// NURS 5312 - Exam 1 Practice SET 3 - MATCHING portion (12 sets)
+// Each set: a prompt, and pairs [left, right]. The quiz shuffles the right column.
+// Categories drawn from the uploaded study tables + review sheet ("matching of transporters to NTs").
+const MATCHES = [
+  {
+    ch: 2,
+    title: "Transporters \u2192 Neurotransmitters",
+    note: "The exam review explicitly states there will be matching of transporters to neurotransmitters.",
+    pairs: [
+      ["SERT", "Serotonin"],
+      ["NET", "Norepinephrine"],
+      ["DAT", "Dopamine"],
+      ["GAT1", "GABA"],
+      ["EAAT 1\u20135", "Glutamate"]
+    ],
+    rationale: "SERT\u2192serotonin, NET\u2192norepinephrine, DAT\u2192dopamine, GAT1\u2192GABA, EAAT 1\u20135\u2192glutamate. VMAT2 (not shown) packages all monoamines + histamine into vesicles. (Tables 2-1, 2-2; Five Targets guide)"
+  },
+  {
+    ch: 1,
+    title: "Neurotransmitter \u2192 Where Produced",
+    note: "Brain location of each neurotransmitter's cell bodies.",
+    pairs: [
+      ["Serotonin", "Raphe nuclei"],
+      ["Norepinephrine", "Locus coeruleus"],
+      ["Dopamine", "Substantia nigra & VTA"],
+      ["Acetylcholine", "Basal nucleus of Meynert"],
+      ["Histamine", "Tuberomammillary nucleus"]
+    ],
+    rationale: "Serotonin\u2192raphe nuclei; NE\u2192locus coeruleus; dopamine\u2192substantia nigra & VTA; ACh\u2192basal nucleus of Meynert; histamine\u2192tuberomammillary nucleus (hypothalamus). (Module 1 Notes; review sheet)"
+  },
+  {
+    ch: 2,
+    title: "Agonist Type \u2192 Definition",
+    note: "The agonist spectrum at a receptor.",
+    pairs: [
+      ["Full agonist", "Activates receptor maximally"],
+      ["Partial agonist", "Stabilizes at intermediate level"],
+      ["Antagonist", "Blocks receptor \u2014 no activation (silent)"],
+      ["Inverse agonist", "Produces effect below baseline"]
+    ],
+    rationale: "Full agonist = maximal activation; partial agonist = submaximal/stabilizing; antagonist = silent block at baseline; inverse agonist = drives activity below the resting baseline. (Five Targets guide; review sheet)"
+  },
+  {
+    ch: 3,
+    title: "Ion \u2192 Effect on the Neuron",
+    note: "Direction of flow and resulting effect.",
+    pairs: [
+      ["Na+ (in)", "Depolarization (excitatory)"],
+      ["K+ (out)", "Repolarization (inhibitory)"],
+      ["Cl- (in)", "Inhibition (hyperpolarization)"],
+      ["Ca2+ (in)", "Neurotransmitter release"]
+    ],
+    rationale: "Na+ in\u2192depolarization; K+ out\u2192repolarization; Cl- in\u2192inhibition/hyperpolarization; Ca2+ in\u2192triggers neurotransmitter release. (Module 1 Notes ion table; review sheet)"
+  },
+  {
+    ch: 1,
+    title: "Neuron Part \u2192 Function",
+    note: "Signal flows input \u2192 output.",
+    pairs: [
+      ["Dendrites", "Receive signals \u2014 input"],
+      ["Soma", "Integrate signals \u2014 decision"],
+      ["Axon", "Conduct impulse \u2014 transmission"],
+      ["Axon terminal", "Release neurotransmitter \u2014 output"]
+    ],
+    rationale: "Dendrites (input) \u2192 soma (integration) \u2192 axon (transmission) \u2192 terminal (output). The axon hillock is the decision point where threshold is checked. (Exam 1 Supplement; review sheet)"
+  },
+  {
+    ch: 1,
+    title: "Neurotransmission Type \u2192 Key Feature",
+    note: "Three modes of neurotransmission.",
+    pairs: [
+      ["Classic", "Pre \u2192 post, synapse required"],
+      ["Retrograde", "Post \u2192 pre, feedback signal"],
+      ["Volume", "No synapse, diffuses widely"]
+    ],
+    rationale: "Classic = presynaptic\u2192postsynaptic across a synapse; retrograde = postsynaptic\u2192presynaptic feedback (e.g., nitric oxide); volume = diffusion to distant receptors with no synapse. (Module 1 Notes; review sheet)"
+  },
+  {
+    ch: 3,
+    title: "VSSC State \u2192 Description",
+    note: "The three states of voltage-sensitive sodium channels (flagged exam item).",
+    pairs: [
+      ["Resting", "Closed \u2014 ready to open"],
+      ["Open", "Na+ flowing in"],
+      ["Inactivated", "Closed \u2014 cannot reopen yet"]
+    ],
+    rationale: "Resting (closed/ready) \u2192 open (Na+ flowing in) \u2192 inactivated (closed, cannot reopen until repolarization). Lamotrigine preferentially blocks the inactivated state. (Exam 1 Supplement \u2014 flagged item)"
+  },
+  {
+    ch: 2,
+    title: "Dopamine Pathway \u2192 Origin \u2192 Destination/Function",
+    note: "The four dopamine pathways.",
+    pairs: [
+      ["Mesolimbic", "VTA \u2192 nucleus accumbens (positive symptoms)"],
+      ["Mesocortical", "VTA \u2192 prefrontal cortex (negative/cognitive symptoms)"],
+      ["Nigrostriatal", "Substantia nigra \u2192 striatum (motor/EPS)"],
+      ["Tuberoinfundibular", "Hypothalamus \u2192 pituitary (prolactin)"]
+    ],
+    rationale: "Mesolimbic (VTA\u2192nucleus accumbens) = positive symptoms; mesocortical (VTA\u2192PFC) = negative/cognitive; nigrostriatal (SN\u2192striatum) = motor/EPS; tuberoinfundibular (hypothalamus\u2192pituitary) = prolactin. (Module 1 Notes)"
+  },
+  {
+    ch: 2,
+    title: "Receptor Blockade \u2192 Side Effect",
+    note: "Match each receptor blockade to its characteristic effect.",
+    pairs: [
+      ["H1 (histamine)", "Sedation & weight gain"],
+      ["M1 (muscarinic)", "Dry mouth, constipation, blurred vision"],
+      ["Alpha-1 adrenergic", "Orthostatic hypotension"],
+      ["D2 (tuberoinfundibular)", "Elevated prolactin"]
+    ],
+    rationale: "H1 block\u2192sedation/weight gain; M1 block\u2192anticholinergic effects; alpha-1 block\u2192orthostatic hypotension; D2 block in tuberoinfundibular\u2192hyperprolactinemia. (Module 1 Notes Table; Stahl Ch. 2)"
+  },
+  {
+    ch: 2,
+    title: "Enzyme \u2192 What It Breaks Down",
+    note: "The 'janitor' enzymes.",
+    pairs: [
+      ["MAO-A", "Serotonin & norepinephrine"],
+      ["MAO-B", "Dopamine & histamine"],
+      ["COMT", "Dopamine outside the neuron (PFC)"],
+      ["AChE", "Acetylcholine"]
+    ],
+    rationale: "MAO-A\u2192serotonin/NE; MAO-B\u2192dopamine/histamine; COMT\u2192dopamine extracellularly (key in PFC); AChE\u2192acetylcholine (target of donepezil). (Five Targets guide)"
+  },
+  {
+    ch: 3,
+    title: "Drug \u2192 Molecular Target",
+    note: "Match each drug to the channel/receptor it acts on.",
+    pairs: [
+      ["Benzodiazepines", "GABA-A chloride channel (PAM)"],
+      ["Lamotrigine", "Voltage-gated sodium channel (VSSC)"],
+      ["Pregabalin/Gabapentin", "Alpha-2-delta subunit of calcium channel"],
+      ["Ketamine", "NMDA glutamate receptor (NAM)"]
+    ],
+    rationale: "Benzodiazepines = GABA-A PAM; lamotrigine = VSSC (use-dependent); pregabalin/gabapentin = alpha-2-delta of VSCC; ketamine = NMDA antagonist/NAM. (Five Targets guide)"
+  },
+  {
+    ch: 2,
+    title: "The Five Drug Targets \u2192 Nickname / Example",
+    note: "Stahl's five molecular targets of psychotropic drugs.",
+    pairs: [
+      ["12-TM transporter", "The Pump \u2014 SSRIs"],
+      ["7-TM G-protein receptor", "The Doorbell \u2014 haloperidol"],
+      ["Enzyme", "The Janitor \u2014 MAOIs / donepezil"],
+      ["Ligand-gated ion channel", "The Pet Door \u2014 benzodiazepines"],
+      ["Voltage-gated ion channel", "The Pressure Sensor \u2014 lamotrigine"]
+    ],
+    rationale: "Five targets: pump (12-TM transporter/SSRIs), doorbell (7-TM GPCR/haloperidol), janitor (enzyme/MAOIs, donepezil), pet door (ligand-gated channel/benzodiazepines), pressure sensor (voltage-gated channel/lamotrigine). (Five Targets guide)"
+  }
+];
+
+// Build a unified ITEMS array: MCQs first, then matching, interleaved? Keep grouped: 38 MCQ then 12 match.
+const ITEMS = [];
+MCQS.forEach(m => ITEMS.push({type:'mcq', ch:m.ch, q:m.q, options:m.options, answer:m.answer, rationale:m.rationale}));
+MATCHES.forEach(m => ITEMS.push({type:'match', ch:m.ch, title:m.title, note:m.note, pairs:m.pairs, rationale:m.rationale}));
+
+const N = ITEMS.length;
+const $ = id => document.getElementById(id);
+
+const state = {
+  cur:0,
+  selMcq: Array(N).fill(null),
+  lockMcq: Array(N).fill(null),
+  selMatch: ITEMS.map(it => it.type==='match' ? Array(it.pairs.length).fill('') : null),
+  lockMatch: Array(N).fill(false),
+  shuffledRights: ITEMS.map(it => it.type==='match' ? shuffle(it.pairs.map(p=>p[1])) : null),
+  timerOn:false, timeLeft:72, timerId:null
+};
+
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function isLocked(i){ const it=ITEMS[i]; return it.type==='mcq' ? state.lockMcq[i]!==null : state.lockMatch[i]; }
+
+function render(){
+  const i = state.cur, it = ITEMS[i];
+  $('curNum').textContent = i+1;
+  $('qHeadNum').textContent = i+1;
+  $('chBadge').textContent = 'Ch ' + it.ch;
+  $('typeBadge').textContent = it.type==='mcq' ? 'MCQ' : 'MATCHING';
+  $('typeBadge').className = 'badge ' + (it.type==='mcq'?'type-mcq':'type-match');
+
+  const locked = isLocked(i);
+
+  if(it.type==='mcq'){
+    $('stem').textContent = it.q;
+    $('noteLine').style.display='none';
+    $('opts').style.display='block';
+    $('matchArea').style.display='none';
+    renderMcq(i, it, locked);
+  } else {
+    $('stem').textContent = it.title;
+    $('noteLine').style.display='block';
+    $('noteLine').textContent = it.note || '';
+    $('opts').style.display='none';
+    $('matchArea').style.display='block';
+    renderMatch(i, it, locked);
+  }
+
+  renderRationale(i, it, locked);
+
+  $('backBtn').disabled = (i===0);
+  const sub=$('submitBtn'), nxt=$('nextBtn');
+  if(locked){
+    sub.style.display='none'; nxt.style.display='inline-block';
+    nxt.textContent = (i===N-1) ? 'Finish ›' : 'Next ›';
+  } else {
+    sub.style.display='inline-block'; nxt.style.display='none';
+    sub.disabled = !isAnswered(i);
+  }
+
+  updateProgress(); renderDots();
+  if(state.timerOn && !locked) startTimer(); else stopTimer();
+}
+
+function isAnswered(i){
+  const it=ITEMS[i];
+  if(it.type==='mcq') return state.selMcq[i]!==null;
+  return state.selMatch[i].every(v=>v!=='');
+}
+
+function renderMcq(i, it, locked){
+  const ul=$('opts'); ul.innerHTML='';
+  const letters=['A','B','C','D'];
+  it.options.forEach((opt,idx)=>{
+    const li=document.createElement('li'); li.className='opt';
+    const sel = locked ? state.lockMcq[i] : state.selMcq[i];
+    if(sel===idx) li.classList.add('selected');
+    if(locked){
+      li.classList.add('locked');
+      if(idx===it.answer) li.classList.add('correct');
+      else if(idx===state.lockMcq[i]) li.classList.add('wrong');
+    }
+    li.innerHTML='<span class="mark">'+letters[idx]+'</span><span class="txt">'+opt+'</span>';
+    if(!locked) li.onclick=()=>{ state.selMcq[i]=idx; render(); };
+    ul.appendChild(li);
+  });
+}
+
+function renderMatch(i, it, locked){
+  const area=$('matchArea'); area.innerHTML='';
+  const instr=document.createElement('div'); instr.className='match-instructions';
+  instr.textContent = locked ? 'Your matches are shown below.' : 'For each item on the left, choose the matching answer on the right.';
+  area.appendChild(instr);
+  const grid=document.createElement('div'); grid.className='match-grid';
+  const rights = state.shuffledRights[i];
+  it.pairs.forEach((pair,ri)=>{
+    const row=document.createElement('div'); row.className='match-row';
+    const correctRight = pair[1];
+    const chosen = state.selMatch[i][ri];
+    if(locked){
+      if(chosen===correctRight) row.classList.add('correct'); else row.classList.add('wrong');
+    }
+    const left=document.createElement('div'); left.className='match-left'; left.textContent=pair[0];
+    const rightWrap=document.createElement('div'); rightWrap.className='match-right';
+    const sel=document.createElement('select'); sel.className='match-select'+(locked?' locked':'');
+    const blank=document.createElement('option'); blank.value=''; blank.textContent='— choose —'; sel.appendChild(blank);
+    rights.forEach(r=>{ const o=document.createElement('option'); o.value=r; o.textContent=r; if(chosen===r)o.selected=true; sel.appendChild(o); });
+    if(!locked){ sel.onchange=()=>{ state.selMatch[i][ri]=sel.value; const s=$('submitBtn'); s.disabled=!isAnswered(i); }; }
+    rightWrap.appendChild(sel);
+    if(locked && chosen!==correctRight){
+      const ca=document.createElement('div'); ca.className='match-correct-answer'; ca.textContent='Correct: '+correctRight; rightWrap.appendChild(ca);
+    }
+    const vic=document.createElement('div'); vic.className='verdict-icon';
+    if(locked) vic.textContent = chosen===correctRight ? '✓' : '✗';
+    row.appendChild(left); row.appendChild(rightWrap); row.appendChild(vic);
+    grid.appendChild(row);
+  });
+  area.appendChild(grid);
+}
+
+function renderRationale(i, it, locked){
+  const rat=$('rationale');
+  if(!locked){ rat.className='rationale'; rat.innerHTML=''; return; }
+  let correct, verdictTxt, verdictCls;
+  if(it.type==='mcq'){
+    correct = state.lockMcq[i]===it.answer;
+    verdictTxt = correct?'✓ Correct':'✗ Incorrect'; verdictCls = correct?'ok':'no';
+  } else {
+    const got = it.pairs.filter((p,ri)=>state.selMatch[i][ri]===p[1]).length;
+    const all = it.pairs.length;
+    correct = got===all;
+    if(correct){ verdictTxt='✓ All '+all+' correct'; verdictCls='ok'; }
+    else if(got===0){ verdictTxt='✗ Incorrect ('+got+'/'+all+')'; verdictCls='no'; }
+    else { verdictTxt='Partial ('+got+'/'+all+' correct — scored as incorrect)'; verdictCls='partial'; }
+  }
+  rat.className='rationale show';
+  rat.innerHTML='<span class="verdict '+verdictCls+'">'+verdictTxt+'</span><br><b class="rlabel">Rationale:</b> '+it.rationale;
+}
+
+function updateProgress(){
+  const answered = ITEMS.filter((it,i)=>isLocked(i)).length;
+  $('liveScore').textContent='Answered '+answered+' / '+N;
+  $('progBar').style.width=((state.cur+1)/N*100)+'%';
+}
+
+function renderDots(){
+  const wrap=$('dots'); wrap.innerHTML='';
+  ITEMS.forEach((it,idx)=>{
+    const d=document.createElement('div'); d.className='dot'+(it.type==='match'?' ismatch':'');
+    d.textContent=idx+1;
+    if(idx===state.cur) d.classList.add('cur');
+    if(isLocked(idx)) d.classList.add(itemCorrect(idx)?'ans-correct':'ans-wrong');
+    d.onclick=()=>{ state.cur=idx; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+    wrap.appendChild(d);
+  });
+}
+
+function itemCorrect(i){
+  const it=ITEMS[i];
+  if(it.type==='mcq') return state.lockMcq[i]===it.answer;
+  return it.pairs.every((p,ri)=>state.selMatch[i][ri]===p[1]);
+}
+
+$('submitBtn').onclick=()=>{
+  const i=state.cur, it=ITEMS[i];
+  if(!isAnswered(i)) return;
+  if(it.type==='mcq') state.lockMcq[i]=state.selMcq[i];
+  else state.lockMatch[i]=true;
+  stopTimer(); render();
+};
+$('nextBtn').onclick=()=>{ if(state.cur<N-1){state.cur++;render();window.scrollTo({top:0,behavior:'smooth'});} else finish(); };
+$('backBtn').onclick=()=>{ if(state.cur>0){state.cur--;render();window.scrollTo({top:0,behavior:'smooth'});} };
+$('finishBtn').onclick=()=>finish();
+
+// Timer
+$('timerSwitch').onclick=()=>{
+  state.timerOn=!state.timerOn;
+  $('timerSwitch').classList.toggle('on',state.timerOn);
+  $('timerDisplay').style.display = state.timerOn?'block':'none';
+  if(state.timerOn && !isLocked(state.cur)) startTimer(); else stopTimer();
+};
+function startTimer(){
+  stopTimer();
+  state.timeLeft=72;
+  updateTimerDisplay();
+  state.timerId=setInterval(()=>{
+    state.timeLeft--;
+    updateTimerDisplay();
+    if(state.timeLeft<=0){
+      stopTimer();
+      // auto-lock with current selection (or blank) to mimic exam pacing
+      const i=state.cur, it=ITEMS[i];
+      if(it.type==='mcq') state.lockMcq[i]=state.selMcq[i];
+      else state.lockMatch[i]=true;
+      render();
+    }
+  },1000);
+}
+function stopTimer(){ if(state.timerId){clearInterval(state.timerId);state.timerId=null;} }
+function updateTimerDisplay(){
+  const m=Math.floor(state.timeLeft/60), s=state.timeLeft%60;
+  const d=$('timerDisplay'); d.textContent=m+':'+(s<10?'0':'')+s;
+  d.classList.toggle('warn', state.timeLeft<=15);
+}
+
+function finish(){
+  stopTimer();
+  let correct=0,wrong=0,blank=0;
+  const ch={1:{c:0,t:0},2:{c:0,t:0},3:{c:0,t:0}};
+  ITEMS.forEach((it,i)=>{
+    ch[it.ch].t++;
+    if(!isLocked(i)){ blank++; }
+    else if(itemCorrect(i)){ correct++; ch[it.ch].c++; }
+    else { wrong++; }
+  });
+  const pct=Math.round(correct/N*100);
+  $('examView').style.display='none';
+  $('resultsView').classList.add('show');
+  $('pctBig').textContent=pct+'%';
+  $('rawScore').textContent=correct+' / '+N;
+  $('bdCorrect').textContent=correct; $('bdWrong').textContent=wrong; $('bdBlank').textContent=blank;
+
+  let letter,verdict,color;
+  if(pct>=90){letter='A';verdict='Excellent — well prepared for Module 1.';color='#2f7d4f';}
+  else if(pct>=80){letter='B';verdict='Solid. Review the misses and you are in good shape.';color='#3a5a8c';}
+  else if(pct>=70){letter='C';verdict='Passing — tighten the weaker chapter before the exam.';color='#b07d2b';}
+  else if(pct>=60){letter='D';verdict='Shaky — focus tonight on the low chapter below.';color='#c06a2b';}
+  else {letter='F';verdict='Needs work — re-read the supplement and retake.';color='#b23b3b';}
+  $('gradeLetter').textContent='Grade: '+letter; $('gradeLetter').style.color=color;
+  $('verdictLine').textContent=verdict;
+  const ring=$('ring'); ring.style.stroke=color;
+  setTimeout(()=>{ring.style.transition='stroke-dashoffset 1s ease';ring.style.strokeDashoffset=465*(1-pct/100);},80);
+
+  const names={1:'Ch 1 · Neurotransmission',2:'Ch 2 · Transporters/Receptors/Enzymes',3:'Ch 3 · Ion Channels'};
+  const cs=$('chapterScores'); cs.innerHTML='';
+  [1,2,3].forEach(c=>{
+    const p=Math.round(ch[c].c/ch[c].t*100);
+    const row=document.createElement('div'); row.className='cs-row';
+    row.innerHTML='<span class="lab">'+names[c]+'</span><span class="cs-bar"><i style="width:'+p+'%"></i></span><span class="val">'+ch[c].c+'/'+ch[c].t+'</span>';
+    cs.appendChild(row);
+  });
+  buildReview();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function buildReview(){
+  const list=$('reviewList'); list.innerHTML='';
+  const h=document.createElement('div'); h.className='review-h'; h.textContent='Item-by-Item Review';
+  list.appendChild(h);
+  const letters=['A','B','C','D'];
+  ITEMS.forEach((it,i)=>{
+    const div=document.createElement('div');
+    if(it.type==='mcq'){
+      const ans=state.lockMcq[i]; const correct=ans===it.answer;
+      div.className='rev '+(correct?'ok':'');
+      const your = ans===null ? '<div class="ra your bad"><span class="k">Your answer:</span> (blank)</div>'
+        : '<div class="ra your '+(correct?'':'bad')+'"><span class="k">Your answer:</span> '+letters[ans]+'. '+it.options[ans]+'</div>';
+      div.innerHTML='<div class="rq"><b>Q'+(i+1)+' · MCQ · Ch '+it.ch+'.</b> '+it.q+'</div>'+your+
+        '<div class="ra corr"><span class="k">Correct:</span> '+letters[it.answer]+'. '+it.options[it.answer]+'</div>'+
+        '<div class="why"><b>Rationale:</b> '+it.rationale+'</div>';
+    } else {
+      const got = it.pairs.filter((p,ri)=>state.selMatch[i][ri]===p[1]).length;
+      const all = it.pairs.length; const correct=got===all;
+      div.className='rev '+(correct?'ok':(got>0?'partial':''));
+      let rows='';
+      it.pairs.forEach((p,ri)=>{
+        const chosen=state.selMatch[i][ri]||'(blank)';
+        const ok=state.selMatch[i][ri]===p[1];
+        rows+='<div class="ra"><span class="k">'+p[0]+':</span> <span class="'+(ok?'corr':'your bad')+'">'+chosen+'</span>'+
+          (ok?'':' <span class="corr">→ '+p[1]+'</span>')+'</div>';
+      });
+      div.innerHTML='<div class="rq"><b>Q'+(i+1)+' · MATCHING · Ch '+it.ch+'.</b> '+it.title+' ('+got+'/'+all+' correct)</div>'+rows+
+        '<div class="why"><b>Rationale:</b> '+it.rationale+'</div>';
+    }
+    list.appendChild(div);
+  });
+}
+
+$('reviewToggle').onclick=()=>{
+  const rl=$('reviewList'); const showing=rl.style.display!=='none';
+  rl.style.display=showing?'none':'block';
+  $('reviewToggle').textContent=showing?'Show Full Review':'Hide Full Review';
+};
+$('retakeBtn').onclick=()=>{
+  state.cur=0;
+  state.selMcq=Array(N).fill(null); state.lockMcq=Array(N).fill(null);
+  state.selMatch=ITEMS.map(it=>it.type==='match'?Array(it.pairs.length).fill(''):null);
+  state.lockMatch=Array(N).fill(false);
+  state.shuffledRights=ITEMS.map(it=>it.type==='match'?shuffle(it.pairs.map(p=>p[1])):null);
+  $('resultsView').classList.remove('show');
+  $('reviewList').style.display='none'; $('reviewToggle').textContent='Show Full Review';
+  $('examView').style.display='block';
+  render(); window.scrollTo({top:0,behavior:'smooth'});
+};
+
+render();
+</script>
+</body>
+</html>
