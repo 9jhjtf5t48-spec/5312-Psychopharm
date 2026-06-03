@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Neurotransmitters Practice Exam (Ch 1–3)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E8;
+    --paper-2:#FBF8F1;
+    --ink:#16302E;
+    --ink-soft:#3C5754;
+    --line:#D9D0BF;
+    --teal:#13524E;
+    --teal-deep:#0C3A37;
+    --gold:#B8893B;
+    --correct:#2E7D5B;
+    --correct-bg:#E3F1E8;
+    --wrong:#B5403A;
+    --wrong-bg:#F6E4E2;
+    --shadow:0 12px 40px -18px rgba(12,58,55,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:
+     radial-gradient(120% 90% at 80% -10%, #EFE7D6 0%, transparent 55%),
+     radial-gradient(120% 90% at -10% 110%, #E9F0EA 0%, transparent 50%),
+     var(--paper);
+    color:var(--ink);font-family:'Spline Sans',system-ui,sans-serif;line-height:1.55;
+    min-height:100vh;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px;}
+
+  /* ---------- header ---------- */
+  header.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px;flex-wrap:wrap;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:15px;letter-spacing:.3px;color:var(--teal-deep);}
+  .brand span{color:var(--gold);}
+  .meta{font-size:12.5px;color:var(--ink-soft);font-weight:500;letter-spacing:.2px;}
+
+  /* ---------- progress ---------- */
+  .progress-row{display:flex;align-items:center;gap:12px;margin:18px 0 22px;}
+  .pbar{flex:1;height:7px;background:#E4DBC9;border-radius:20px;overflow:hidden;}
+  .pfill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold));
+    border-radius:20px;transition:width .45s cubic-bezier(.4,0,.2,1);}
+  .pcount{font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;}
+
+  /* ---------- start / end cards ---------- */
+  .hero{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;
+    padding:34px 30px;box-shadow:var(--shadow);}
+  .hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:33px;line-height:1.1;
+    color:var(--teal-deep);margin-bottom:6px;letter-spacing:-.5px;}
+  .hero .sub{color:var(--gold);font-family:'Fraunces',serif;font-style:italic;font-size:18px;margin-bottom:20px;}
+  .hero p{color:var(--ink-soft);font-size:15px;margin-bottom:14px;}
+  .facts{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 26px;}
+  .chip{background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px 13px;
+    font-size:12.5px;font-weight:600;color:var(--teal);display:flex;gap:7px;align-items:center;}
+  .chip b{color:var(--ink);}
+  ul.guide{list-style:none;margin:6px 0 0;}
+  ul.guide li{position:relative;padding-left:22px;margin-bottom:9px;font-size:14px;color:var(--ink-soft);}
+  ul.guide li::before{content:"";position:absolute;left:2px;top:8px;width:8px;height:8px;
+    background:var(--gold);border-radius:50%;}
+
+  /* ---------- buttons ---------- */
+  .btn{font-family:'Spline Sans',sans-serif;font-weight:600;font-size:15px;cursor:pointer;
+    border:none;border-radius:12px;padding:13px 26px;transition:transform .12s ease,box-shadow .2s ease,background .2s;}
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--teal);color:#fbf8f1;box-shadow:0 8px 22px -10px rgba(19,82,78,.8);}
+  .btn-primary:hover{background:var(--teal-deep);}
+  .btn-primary:disabled{background:#B9C4BD;color:#eef2ee;cursor:not-allowed;box-shadow:none;}
+  .btn-ghost{background:transparent;color:var(--teal);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--teal);}
+  .btn-ghost:disabled{opacity:.4;cursor:not-allowed;}
+  .btn-finish{background:var(--gold);color:#2a1d06;box-shadow:0 8px 22px -10px rgba(184,137,59,.85);}
+  .btn-finish:hover{filter:brightness(1.05);}
+
+  /* ---------- question card ---------- */
+  .qcard{background:var(--paper-2);border:1px solid var(--line);border-radius:18px;
+    padding:28px 26px 26px;box-shadow:var(--shadow);animation:rise .4s cubic-bezier(.2,.7,.3,1);}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .qhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px;}
+  .qnum{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--ink-soft);letter-spacing:.4px;}
+  . chtag,.chtag{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--teal);background:#E7EEE8;border:1px solid #CFE0D2;padding:4px 10px;border-radius:30px;}
+  .stem{font-size:16.5px;line-height:1.6;color:var(--ink);margin-bottom:20px;}
+  .stem em{font-style:italic;color:var(--teal-deep);}
+
+  .opts{display:flex;flex-direction:column;gap:11px;}
+  .opt{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);
+    border-radius:13px;padding:13px 15px;cursor:pointer;transition:border-color .15s,background .15s,transform .1s;}
+  .opt:hover{border-color:var(--teal);}
+  .opt.sel{border-color:var(--teal);background:#EFF4EF;}
+  .opt .key{flex:none;width:26px;height:26px;border-radius:8px;background:#EDE6D7;color:var(--teal-deep);
+    font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px;
+    transition:background .15s,color .15s;}
+  .opt.sel .key{background:var(--teal);color:#fbf8f1;}
+  .opt .otext{font-size:14.5px;color:var(--ink);padding-top:2px;}
+  .opt.correct{border-color:var(--correct);background:var(--correct-bg);}
+  .opt.correct .key{background:var(--correct);color:#fff;}
+  .opt.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .opt.wrong .key{background:var(--wrong);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.locked:hover{border-color:inherit;}
+
+  /* ---------- feedback ---------- */
+  .feedback{margin-top:18px;border-radius:13px;padding:16px 17px;border:1px solid;display:none;
+    animation:rise .35s ease;}
+  .feedback.show{display:block;}
+  .feedback.good{background:var(--correct-bg);border-color:#BFE0CC;}
+  .feedback.bad{background:var(--wrong-bg);border-color:#E8C9C6;}
+  .fb-tag{font-weight:700;font-size:13px;letter-spacing:.4px;display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+  .feedback.good .fb-tag{color:var(--correct);}
+  .feedback.bad .fb-tag{color:var(--wrong);}
+  .fb-rat{font-size:14px;line-height:1.6;color:var(--ink);}
+  .fb-rat b{color:var(--teal-deep);}
+
+  /* ---------- nav ---------- */
+  .navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px;}
+  .navrow .right{display:flex;gap:10px;}
+
+  /* ---------- results ---------- */
+  .ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0 24px;}
+  .ring{position:relative;width:172px;height:172px;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .score{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring .pct{font-family:'Fraunces',serif;font-weight:700;font-size:42px;line-height:1;color:var(--teal-deep);}
+  .ring .frac{font-size:13px;color:var(--ink-soft);font-weight:600;margin-top:3px;}
+  .verdict{font-family:'Fraunces',serif;font-size:20px;font-weight:600;text-align:center;}
+  .verdict.pass{color:var(--correct);}
+  .verdict.borderline{color:var(--gold);}
+  .verdict.fail{color:var(--wrong);}
+  .breakdown{margin:22px 0 10px;display:flex;flex-direction:column;gap:14px;}
+  .bd-row .bd-top{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;margin-bottom:6px;}
+  .bd-row .bd-top span:last-child{color:var(--ink-soft);}
+  .bd-bar{height:9px;background:#E4DBC9;border-radius:20px;overflow:hidden;}
+  .bd-bar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),var(--gold));}
+  .res-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:8px;}
+  .review-note{font-size:13px;color:var(--ink-soft);margin-top:18px;text-align:center;}
+
+  .hidden{display:none !important;}
+  @media(max-width:520px){
+    .wrap{padding:20px 14px 70px;}
+    .hero{padding:26px 20px;}.hero h1{font-size:27px;}
+    .qcard{padding:22px 17px;}
+    .stem{font-size:15.5px;}
+    .btn{padding:12px 18px;font-size:14px;}
+    .navrow{flex-direction:column-reverse;align-items:stretch;}
+    .navrow .right{justify-content:space-between;}
+    .navrow .btn{flex:1;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">NURS&nbsp;5312 · <span>Psychopharmacology</span></div>
+    <div class="meta">Practice Exam · Neurotransmitters · Ch 1–3</div>
+  </header>
+
+  <!-- progress (hidden on start/result) -->
+  <div class="progress-row hidden" id="progressRow">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="pcount" id="pcount">1 / 50</div>
+  </div>
+
+  <!-- START -->
+  <section id="startScreen">
+    <div class="hero">
+      <h1>Neurotransmitters — Foundations &amp; the Seven NTs (Ch 1–3)</h1>
+      <div class="sub">50 questions · strictly Chapters 1–3 content</div>
+      <p>A self-test built from your instructor's key points and exam-review blueprint, your study guides, and Stahl's <em>Essential Psychopharmacology</em> (5th ed.), Chapters 1–3.</p>
+      <div class="facts">
+        <div class="chip">📋 <b>50</b>&nbsp;questions</div>
+        <div class="chip">🧱 Foundations (Ch 1–3) · <b>20</b></div>
+        <div class="chip">🧠 The 7 NTs · <b>16</b></div>
+        <div class="chip">🔄 Transporters &amp; Balance · <b>14</b></div>
+        <div class="chip">✅ Pass ≥ <b>80%</b></div>
+      </div>
+      <ul class="guide">
+        <li>Pick an answer, then <b>Submit</b> to lock it in and read the rationale.</li>
+        <li>Use <b>Back</b> and <b>Next</b> to move; answered questions stay locked for review.</li>
+        <li>On the last item, <b>Finish &amp; Grade</b> gives your score plus a chapter breakdown.</li>
+      </ul>
+      <button class="btn btn-primary" id="startBtn" style="margin-top:8px;">Begin Exam →</button>
+    </div>
+  </section>
+
+  <!-- QUESTION -->
+  <section id="quizScreen" class="hidden"></section>
+
+  <!-- RESULTS -->
+  <section id="resultScreen" class="hidden"></section>
+</div>
+
+<script>
+const QUESTIONS = [
+{ch:"Foundations (Ch 1–3)",stem:"A defining feature of chemical neurotransmission is that the signal is converted in the sequence:",
+ opts:["chemical → electrical → chemical","electrical → chemical → electrical","electrical only, start to finish","chemical only, start to finish"],ans:1,
+ rat:"Within a neuron the signal is electrical (action potential); it triggers <b>chemical</b> release (neurotransmitter) across the synapse, which generates a new <b>electrical</b> signal in the next neuron — electrical → chemical → electrical."},
+{ch:"Foundations (Ch 1–3)",stem:"When an excitatory neurotransmitter binds its receptor, it produces an excitatory postsynaptic potential (EPSP), which:",
+ opts:["Hyperpolarizes the neuron, moving it away from firing","Depolarizes the neuron, moving it toward firing","Has no effect on the membrane potential","Permanently inactivates the neuron"],ans:1,
+ rat:"An <b>EPSP</b> depolarizes the postsynaptic membrane (toward threshold), making the neuron more likely to fire."},
+{ch:"Foundations (Ch 1–3)",stem:"An inhibitory neurotransmitter produces an inhibitory postsynaptic potential (IPSP), which:",
+ opts:["Depolarizes the neuron toward firing","Hyperpolarizes the neuron, away from firing","Always triggers an action potential","Increases neurotransmitter release"],ans:1,
+ rat:"An <b>IPSP</b> hyperpolarizes the membrane (more negative), moving the neuron away from threshold — the basis of inhibition (e.g., by GABA)."},
+{ch:"Foundations (Ch 1–3)",stem:"Whether a neuron reaches threshold and fires is determined by:",
+ opts:["A single excitatory input, always","The net summation of all excitatory (EPSP) and inhibitory (IPSP) inputs","The amount of myelin present","The number of vesicles only"],ans:1,
+ rat:"Firing depends on the <b>net summation</b> of excitatory and inhibitory inputs; only if the balance crosses threshold does an action potential occur."},
+{ch:"Foundations (Ch 1–3)",stem:"Neurotransmitter is released from synaptic vesicles into the cleft — triggered by calcium influx — through the process of:",
+ opts:["Reuptake","Exocytosis","Passive diffusion through the membrane","Active transport into the vesicle"],ans:1,
+ rat:"Calcium entry triggers vesicle fusion and <b>exocytosis</b>, dumping neurotransmitter into the synaptic cleft."},
+{ch:"Foundations (Ch 1–3)",stem:"Normal neurotransmission flows in the anterograde direction, meaning from the:",
+ opts:["Postsynaptic neuron back to the presynaptic neuron","Presynaptic neuron to the postsynaptic neuron","Axon back into the dendrites","Synapse directly into the bloodstream"],ans:1,
+ rat:"<b>Anterograde</b> transmission runs presynaptic → postsynaptic (the usual forward direction); retrograde signaling is the less common reverse direction."},
+{ch:"Foundations (Ch 1–3)",stem:"During development and learning, synapses that are not used are eliminated — a “use it or lose it” process called:",
+ opts:["Synaptogenesis","Synaptic pruning","Myelination","Reuptake"],ans:1,
+ rat:"<b>Synaptic pruning</b> removes unused synapses, refining circuits — a normal part of neurodevelopment and experience-dependent plasticity."},
+{ch:"Foundations (Ch 1–3)",stem:"The programmed cell death that removes excess neurons during normal brain development is called:",
+ opts:["Necrosis","Apoptosis","Excitotoxicity","Demyelination"],ans:1,
+ rat:"<b>Apoptosis</b> is programmed (orderly) cell death used to prune excess neurons during development — distinct from necrosis (injury-driven death)."},
+{ch:"Foundations (Ch 1–3)",stem:"Most psychotropic drugs act at one of four molecular sites: transporters, receptors, enzymes, and:",
+ opts:["Myelin sheaths","Ion channels","Ribosomes","Blood vessels"],ans:1,
+ rat:"Stahl frames the major molecular targets as transporters, receptors, enzymes, and <b>ion channels</b> — the organizing scheme of Chapters 2 and 3."},
+{ch:"Foundations (Ch 1–3)",stem:"A receptor on the presynaptic neuron that senses and regulates that neuron's own neurotransmitter release is an autoreceptor; a receptor on the target cell is a:",
+ opts:["Postsynaptic receptor","Second autoreceptor","Reuptake transporter","Voltage sensor"],ans:0,
+ rat:"Autoreceptors (presynaptic) provide feedback on the neuron's own release; receptors on the receiving cell are <b>postsynaptic</b> receptors that mediate the signal."},
+{ch:"Foundations (Ch 1–3)",stem:"A negative allosteric modulator (NAM) binds a site separate from the neurotransmitter's binding site and:",
+ opts:["Maximally activates the receptor by itself","Reduces the neurotransmitter's effect at the receptor","Has no effect at all","Permanently destroys the receptor"],ans:1,
+ rat:"A <b>NAM</b> dampens the receptor's response to its natural neurotransmitter (the opposite of a positive allosteric modulator like a benzodiazepine at GABA-A)."},
+{ch:"Foundations (Ch 1–3)",stem:"The two major receptor superfamilies targeted in psychopharmacology are ligand-gated ion channels and:",
+ opts:["Voltage-gated sodium channels","G-protein-coupled receptors","Reuptake transporters","Nuclear DNA"],ans:1,
+ rat:"The two big receptor superfamilies are <b>ligand-gated ion channels</b> (fast/ionotropic) and <b>G-protein-coupled receptors</b> (slower/metabotropic)."},
+{ch:"Foundations (Ch 1–3)",stem:"A reuptake transporter normally moves neurotransmitter:",
+ opts:["From inside the neuron out into the cleft","From the synaptic cleft back into the presynaptic neuron","From the vesicle into the nucleus","Across the blood–brain barrier"],ans:1,
+ rat:"Reuptake transporters (SERT/NET/DAT) pull neurotransmitter <b>out of the cleft back into the presynaptic neuron</b>, terminating its signal; blocking them keeps it in the synapse longer."},
+{ch:"Foundations (Ch 1–3)",stem:"A drug that binds a receptor with high affinity but has no efficacy (cannot activate it) is functioning as a(n):",
+ opts:["Full agonist","Antagonist","Partial agonist","Inverse agonist"],ans:1,
+ rat:"<b>Affinity</b> is the ability to bind; <b>efficacy</b> is the ability to activate. A drug that binds but cannot activate is an antagonist — it occupies the site and blocks agonists."},
+{ch:"Foundations (Ch 1–3)",stem:"GABA-A, nicotinic acetylcholine, 5-HT3, and glycine receptors share a common pentameric structure, meaning each is built from:",
+ opts:["A single subunit","Five subunits arranged around a central ion pore","A G-protein complex","Twelve transmembrane transporter domains"],ans:1,
+ rat:"These ligand-gated ion channels are <b>pentameric</b> — five subunits surrounding a central pore — a shared structural motif among fast ionotropic receptors."},
+{ch:"Foundations (Ch 1–3)",stem:"Excitatory ligand-gated channels typically conduct cations (Na+/Ca2+); inhibitory ligand-gated channels such as GABA-A conduct:",
+ opts:["Cations as well","Anions such as chloride (Cl-)","No ions at all","Glucose"],ans:1,
+ rat:"Excitatory channels pass cations (depolarizing); inhibitory channels pass <b>anions like chloride</b>, hyperpolarizing the cell and reducing firing."},
+{ch:"Foundations (Ch 1–3)",stem:"Carbamazepine and phenytoin reduce excessive neuronal firing primarily by blocking:",
+ opts:["Voltage-gated sodium channels","Dopamine receptors","Serotonin transporters","GABA-A receptors"],ans:0,
+ rat:"Like several anticonvulsant mood stabilizers, carbamazepine and phenytoin block <b>voltage-gated sodium channels</b> (preferentially in rapidly firing neurons), dampening hyperexcitable circuits."},
+{ch:"Foundations (Ch 1–3)",stem:"When an ion channel opens, the ions move:",
+ opts:["Only with energy supplied by ATP","Passively, down their electrochemical gradient","Always outward, regardless of gradient","Only when a G-protein is attached"],ans:1,
+ rat:"Ion channels allow <b>passive</b> flow down the electrochemical gradient — no ATP required (unlike pumps such as the Na+/K+ ATPase, which use energy)."},
+{ch:"Foundations (Ch 1–3)",stem:"Ion channels are major drug targets in psychiatry and neurology primarily because they:",
+ opts:["Synthesize neurotransmitters","Regulate how easily a neuron fires (its excitability)","Produce the myelin sheath","Store genetic information"],ans:1,
+ rat:"By controlling ion flow, channels set <b>neuronal excitability</b> — so channel-acting drugs can calm overactive circuits in seizures, mania, anxiety, and pain."},
+{ch:"Foundations (Ch 1–3)",stem:"The anticonvulsant/mood stabilizer valproate acts in part by blocking sodium channels and by enhancing the activity of which inhibitory neurotransmitter system?",
+ opts:["Dopamine","GABA","Glutamate","Histamine"],ans:1,
+ rat:"Valproate's actions include voltage-gated sodium-channel blockade and enhancement of <b>GABA</b> activity, increasing inhibition — useful in epilepsy and bipolar disorder."},
+{ch:"The 7 Neurotransmitters",stem:"The four “monoamine” neurotransmitters — sharing a similar chemical structure and all packaged by VMAT2 — are:",
+ opts:["Serotonin, dopamine, norepinephrine, and histamine","Glutamate, GABA, glycine, and aspartate","Acetylcholine, glutamate, GABA, and glycine","Dopamine, GABA, glutamate, and serotonin"],ans:0,
+ rat:"The monoamines are <b>serotonin, dopamine, norepinephrine, and histamine</b>; all four are loaded into vesicles by VMAT2. Acetylcholine and the amino-acid transmitters are not monoamines."},
+{ch:"The 7 Neurotransmitters",stem:"The catecholamines specifically are:",
+ opts:["Dopamine, norepinephrine, and epinephrine","Serotonin and histamine","GABA and glutamate","Acetylcholine and glycine"],ans:0,
+ rat:"<b>Catecholamines</b> (a catechol ring plus an amine) = dopamine, norepinephrine, and epinephrine. Serotonin is an indolamine — a monoamine but not a catecholamine."},
+{ch:"The 7 Neurotransmitters",stem:"Serotonin (from the raphe nuclei) is generally an ___ neurotransmitter that regulates mood, sleep, appetite, and impulse control.",
+ opts:["excitatory","inhibitory","purely motor","purely sensory"],ans:1,
+ rat:"Serotonin is broadly <b>inhibitory/modulatory</b>, governing mood, sleep, appetite, pain, and impulse control; low serotonin is linked to depression and anxiety."},
+{ch:"The 7 Neurotransmitters",stem:"Dopamine is unusual among the classic transmitters in that it can be:",
+ opts:["Only excitatory","Only inhibitory","Both excitatory and inhibitory, depending on the receptor (D1 vs D2 families)","Neither excitatory nor inhibitory"],ans:2,
+ rat:"Dopamine is <b>excitatory at D1-family</b> receptors and <b>inhibitory at D2-family</b> receptors, so its net effect depends on the receptor and pathway."},
+{ch:"The 7 Neurotransmitters",stem:"Norepinephrine (from the locus coeruleus) is an excitatory transmitter central to:",
+ opts:["Fight-or-flight, alertness, and focus","Vision only","Cerebrospinal fluid production","Bone growth"],ans:0,
+ rat:"Norepinephrine drives the <b>fight-or-flight response, arousal, alertness, and attention</b> — relevant to PTSD, ADHD, and depression (SNRIs)."},
+{ch:"The 7 Neurotransmitters",stem:"Glutamate is described as the brain's “gas pedal” because it:",
+ opts:["Slows neuronal firing","Is the main excitatory transmitter that turns neurons ON","Produces sedation","Has no receptors"],ans:1,
+ rat:"Glutamate is the widespread <b>excitatory</b> neurotransmitter (“gas pedal”), essential for learning and memory; in excess it causes excitotoxicity."},
+{ch:"The 7 Neurotransmitters",stem:"GABA is described as the brain's “brakes” because it:",
+ opts:["Excites neurons","Inhibits neurons by reducing their firing","Triggers neurotransmitter release","Builds myelin"],ans:1,
+ rat:"GABA is the main <b>inhibitory</b> transmitter (“brakes”), slowing firing and reducing anxiety; benzodiazepines enhance GABA-A function."},
+{ch:"The 7 Neurotransmitters",stem:"Acetylcholine (from the basal nucleus of Meynert) supports which functions and is depleted in Alzheimer's disease?",
+ opts:["Memory, attention, and muscle activation","Vision and balance only","Membrane repolarization","Prolactin inhibition"],ans:0,
+ rat:"Acetylcholine governs <b>memory, attention, and muscle activation</b>; loss of cholinergic neurons in Alzheimer's underlies cognitive decline and the use of AChE inhibitors."},
+{ch:"The 7 Neurotransmitters",stem:"Beyond its peripheral allergic role, histamine functions centrally to:",
+ opts:["Promote wakefulness and alertness","Inhibit all neurons","Produce dopamine","Form myelin"],ans:0,
+ rat:"Central histamine <b>promotes wakefulness</b>; blocking H1 receptors causes sedation (and weight gain), which is why antihistamines make you drowsy."},
+{ch:"The 7 Neurotransmitters",stem:"A deficiency of serotonin is most classically linked to:",
+ opts:["Psychosis","Depression and anxiety","Parkinsonism","Hypertensive crisis"],ans:1,
+ rat:"Low serotonin is associated with <b>depression and anxiety</b> — the rationale for SSRIs, which block SERT to raise synaptic serotonin."},
+{ch:"The 7 Neurotransmitters",stem:"Reduced GABAergic (inhibitory) activity predisposes to:",
+ opts:["Sedation","Anxiety and seizures","Weight gain","Bradycardia"],ans:1,
+ rat:"Insufficient GABA inhibition leaves circuits hyperexcitable → <b>anxiety and seizures</b>; benzodiazepines (GABA-A positive allosteric modulators) treat both."},
+{ch:"The 7 Neurotransmitters",stem:"Glutamate's role extends beyond learning and memory; it is the transmitter that, in excess, can cause:",
+ opts:["Excitotoxic neuronal injury","Galactorrhea","Orthostatic hypotension","Tardive dyskinesia"],ans:0,
+ rat:"Because glutamate is strongly excitatory, <b>excess glutamate</b> overstimulates neurons and causes excitotoxic injury (calcium overload)."},
+{ch:"The 7 Neurotransmitters",stem:"Which pairing for norepinephrine is correct?",
+ opts:["Excess → depression; deficit → anxiety","Excess → anxiety and hyperarousal; deficit → low energy and poor focus","Excess → sedation; deficit → mania","Excess and deficit both cause psychosis"],ans:1,
+ rat:"NE <b>excess</b> produces anxiety, hyperarousal, and tachycardia; <b>deficiency</b> produces fatigue, poor concentration, and depressed mood."},
+{ch:"The 7 Neurotransmitters",stem:"Acetylcholine acts at two receptor families. The fast, ligand-gated ion-channel type is the ___ receptor.",
+ opts:["muscarinic","nicotinic","adrenergic","dopaminergic"],ans:1,
+ rat:"<b>Nicotinic</b> ACh receptors are fast ligand-gated ion channels; muscarinic ACh receptors are slower G-protein-coupled receptors (M1 blockade causes anticholinergic effects)."},
+{ch:"The 7 Neurotransmitters",stem:"Serotonin differs structurally from dopamine and norepinephrine in that serotonin is a(n):",
+ opts:["Catecholamine","Indolamine","Amino-acid transmitter","Gaseous transmitter"],ans:1,
+ rat:"Serotonin is an <b>indolamine</b>, whereas dopamine and norepinephrine are catecholamines; all three are monoamines but fall into different chemical classes."},
+{ch:"The 7 Neurotransmitters",stem:"Unlike the monoamines, glutamate and GABA are classified as:",
+ opts:["Amino-acid neurotransmitters","Catecholamines","Peptide hormones","Gaseous transmitters"],ans:0,
+ rat:"Glutamate and GABA (and glycine) are <b>amino-acid neurotransmitters</b> — the workhorses of fast excitation and inhibition — distinct from the monoamines."},
+{ch:"Transporters & Balance",stem:"Acetylcholine acts on two receptor families: fast, ionotropic ___ receptors and slower, G-protein-coupled ___ receptors.",
+ opts:["muscarinic; nicotinic","nicotinic; muscarinic","alpha; beta","D1; D2"],ans:1,
+ rat:"<b>Nicotinic</b> ACh receptors are ligand-gated ion channels (fast); <b>muscarinic</b> ACh receptors are G-protein-coupled (slower). Anticholinergic side effects come from blocking muscarinic (M1) receptors."},
+{ch:"Transporters & Balance",stem:"The vesicular transporter VMAT2 packages which neurotransmitters into vesicles?",
+ opts:["Only dopamine","Dopamine, serotonin, norepinephrine, and histamine","GABA and glutamate","Acetylcholine only"],ans:1,
+ rat:"<b>VMAT2</b> loads all four monoamines (dopamine, serotonin, norepinephrine, histamine) into vesicles; VMAT2 inhibitors (valbenazine) reduce dopamine storage to treat tardive dyskinesia."},
+{ch:"Transporters & Balance",stem:"Acetylcholine is loaded into vesicles by a separate vesicular transporter called:",
+ opts:["VMAT2","VAChT (vesicular acetylcholine transporter)","SERT","GAT1"],ans:1,
+ rat:"Acetylcholine uses <b>VAChT</b> for vesicular packaging (monoamines use VMAT2)."},
+{ch:"Transporters & Balance",stem:"Tiagabine, an anticonvulsant, raises GABA levels by blocking which GABA reuptake transporter?",
+ opts:["GAT1","SERT","DAT","VMAT2"],ans:0,
+ rat:"Tiagabine blocks <b>GAT1</b>, the GABA reuptake transporter, keeping GABA in the synapse longer to enhance inhibition."},
+{ch:"Transporters & Balance",stem:"Glycine is unusual in that it acts as an inhibitory transmitter (notably in the spinal cord) and also as a:",
+ opts:["Reuptake pump","Required co-agonist at the NMDA receptor","Catecholamine","Vesicular transporter"],ans:1,
+ rat:"Glycine is inhibitory in the spinal cord but is also a required <b>co-agonist</b> (with glutamate) at NMDA receptors in the brain — a dual role."},
+{ch:"Transporters & Balance",stem:"The reuptake transporters SERT, NET, DAT, and GAT1 all belong to which family of sodium-powered pumps?",
+ opts:["SLC6 (Solute Carrier Family 6)","CYP450","The G-protein-coupled receptor family","The VMAT family"],ans:0,
+ rat:"SERT, NET, DAT, and the GABA transporter belong to the <b>SLC6</b> (Solute Carrier Family 6) of sodium-dependent reuptake pumps."},
+{ch:"Transporters & Balance",stem:"MDMA (ecstasy) produces its acute effects largely by reversing which transporter, causing a massive neurotransmitter release?",
+ opts:["DAT","SERT (serotonin transporter)","GAT1","VMAT2 only"],ans:1,
+ rat:"MDMA reverses <b>SERT</b>, flooding the synapse with serotonin — the basis of its acute effects and serotonergic toxicity."},
+{ch:"Transporters & Balance",stem:"Cocaine differs from methylphenidate in that it blocks:",
+ opts:["Only DAT","DAT, SERT, and NET simultaneously","Only SERT","No transporters at all"],ans:1,
+ rat:"Cocaine blocks <b>all three</b> monoamine reuptake pumps (DAT, SERT, NET) at once, flooding their clefts — a key reason for its intense reinforcing effect. Methylphenidate blocks DAT primarily."},
+{ch:"Transporters & Balance",stem:"A receptor located on the presynaptic neuron that provides negative feedback on neurotransmitter release is called a(n):",
+ opts:["Postsynaptic receptor","Autoreceptor","Heteroreceptor only","Reuptake transporter"],ans:1,
+ rat:"An <b>autoreceptor</b> senses the neuron's own released transmitter and dials down further release; blocking it (e.g., the alpha-2 autoreceptor) increases release."},
+{ch:"Transporters & Balance",stem:"Blocking a reuptake transporter such as SERT produces what immediate effect in the synapse?",
+ opts:["Less neurotransmitter, because release stops","More neurotransmitter, because it is not pumped back out","No change in neurotransmitter level","Conversion of the neurotransmitter to DNA"],ans:1,
+ rat:"Blocking reuptake leaves <b>more</b> neurotransmitter in the synapse to keep stimulating receptors; this molecular effect is immediate, although clinical benefit takes weeks."},
+{ch:"Transporters & Balance",stem:"A drug that occupies a receptor and produces a submaximal response that cannot be exceeded no matter the dose is a:",
+ opts:["Full agonist","Partial agonist","Silent antagonist","Inverse agonist"],ans:1,
+ rat:"A <b>partial agonist</b> has a built-in ceiling — a submaximal effect regardless of dose — which lets it stabilize signaling (e.g., aripiprazole at D2)."},
+{ch:"Transporters & Balance",stem:"Which sequence correctly orders the speed of receptor signaling?",
+ opts:["G-protein-coupled receptors act faster than ligand-gated ion channels","Ligand-gated ion channels act in milliseconds; G-protein-coupled receptors act more slowly","Both act over hours","Neither produces any cellular effect"],ans:1,
+ rat:"<b>Ligand-gated ion channels</b> (ionotropic) open in milliseconds; <b>G-protein-coupled</b> (metabotropic) receptors act more slowly through second-messenger cascades."},
+{ch:"Transporters & Balance",stem:"SERT, NET, and DAT are located on the presynaptic plasma membrane, whereas VMAT2 is located on the:",
+ opts:["Postsynaptic membrane","Vesicle membrane inside the neuron","Myelin sheath","Nuclear membrane"],ans:1,
+ rat:"Plasma-membrane transporters (SERT/NET/DAT) clear transmitter from the synaptic cleft; the vesicular transporter <b>VMAT2</b> sits on the vesicle membrane and packages transmitter for storage."},
+{ch:"Transporters & Balance",stem:"A transporter differs from a receptor in that a transporter's primary job is to:",
+ opts:["Trigger a second-messenger cascade","Physically move the neurotransmitter across the membrane","Generate an action potential","Synthesize new neurotransmitter"],ans:1,
+ rat:"A <b>transporter</b> moves (carries) neurotransmitter across the membrane — for reuptake or vesicular storage — rather than generating a signaling response the way a receptor does."}
+];
+
+/* ---------- state ---------- */
+let cur = 0;
+const N = QUESTIONS.length;
+const answers = new Array(N).fill(null);   // selected index
+const locked  = new Array(N).fill(false);  // submitted?
+
+const startScreen = document.getElementById('startScreen');
+const quizScreen  = document.getElementById('quizScreen');
+const resultScreen= document.getElementById('resultScreen');
+const progressRow = document.getElementById('progressRow');
+const pfill = document.getElementById('pfill');
+const pcount= document.getElementById('pcount');
+
+document.getElementById('startBtn').addEventListener('click', ()=>{
+  startScreen.classList.add('hidden');
+  progressRow.classList.remove('hidden');
+  quizScreen.classList.remove('hidden');
+  render();
+});
+
+function updateProgress(){
+  const answered = locked.filter(Boolean).length;
+  pfill.style.width = (answered/N*100)+'%';
+  pcount.textContent = (cur+1)+' / '+N;
+}
+
+function render(){
+  const q = QUESTIONS[cur];
+  const isLocked = locked[cur];
+  const sel = answers[cur];
+  const isLast = cur === N-1;
+  const allAnswered = locked.every(Boolean);
+
+  let optsHtml = q.opts.map((o,i)=>{
+    let cls='opt';
+    if(isLocked){
+      cls+=' locked';
+      if(i===q.ans) cls+=' correct';
+      else if(i===sel) cls+=' wrong';
+    } else if(i===sel){ cls+=' sel'; }
+    const key='ABCD'[i];
+    return `<div class="${cls}" data-i="${i}">
+        <div class="key">${key}</div><div class="otext">${o}</div></div>`;
+  }).join('');
+
+  let fbHtml='';
+  if(isLocked){
+    const correct = sel===q.ans;
+    fbHtml = `<div class="feedback show ${correct?'good':'bad'}">
+        <div class="fb-tag">${correct?'✓ Correct':'✗ Incorrect — answer: '+'ABCD'[q.ans]}</div>
+        <div class="fb-rat">${q.rat}</div></div>`;
+  }
+
+  // nav / action buttons
+  let actionBtn;
+  if(!isLocked){
+    actionBtn = `<button class="btn btn-primary" id="submitBtn" ${sel===null?'disabled':''}>Submit Answer</button>`;
+  } else if(isLast){
+    actionBtn = `<button class="btn btn-finish" id="finishBtn">Finish &amp; Grade →</button>`;
+  } else {
+    actionBtn = `<button class="btn btn-primary" id="nextBtn">Next →</button>`;
+  }
+  // allow finishing early once everything is answered (show on any locked question)
+  const earlyFinish = (allAnswered && !isLast)
+     ? `<button class="btn btn-finish" id="finishBtn2">Finish &amp; Grade</button>` : '';
+
+  quizScreen.innerHTML = `
+    <div class="qcard">
+      <div class="qhead">
+        <div class="qnum">Question ${cur+1}</div>
+        <div class="chtag">${q.ch}</div>
+      </div>
+      <div class="stem">${q.stem}</div>
+      <div class="opts" id="opts">${optsHtml}</div>
+      ${fbHtml}
+      <div class="navrow">
+        <button class="btn btn-ghost" id="backBtn" ${cur===0?'disabled':''}>← Back</button>
+        <div class="right">${earlyFinish}${actionBtn}</div>
+      </div>
+    </div>`;
+
+  // option clicks (only if not locked)
+  if(!isLocked){
+    document.querySelectorAll('#opts .opt').forEach(el=>{
+      el.addEventListener('click',()=>{
+        answers[cur]=parseInt(el.dataset.i);
+        render();
+      });
+    });
+    const sb=document.getElementById('submitBtn');
+    if(sb) sb.addEventListener('click',()=>{ locked[cur]=true; updateProgress(); render(); });
+  }
+
+  const back=document.getElementById('backBtn');
+  if(back) back.addEventListener('click',()=>{ if(cur>0){cur--;render();updateProgress();} });
+  const next=document.getElementById('nextBtn');
+  if(next) next.addEventListener('click',()=>{ if(cur<N-1){cur++;render();updateProgress();} });
+  const fin=document.getElementById('finishBtn');
+  if(fin) fin.addEventListener('click',showResults);
+  const fin2=document.getElementById('finishBtn2');
+  if(fin2) fin2.addEventListener('click',showResults);
+
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showResults(){
+  const unanswered = locked.filter(x=>!x).length;
+  if(unanswered>0){
+    if(!confirm(unanswered+' question(s) are still unanswered and will be counted wrong. Finish and grade now?')) return;
+  }
+  // tally
+  let correct=0;
+  const byCh={};
+  QUESTIONS.forEach((q,i)=>{
+    if(!byCh[q.ch]) byCh[q.ch]={c:0,t:0};
+    byCh[q.ch].t++;
+    if(locked[i] && answers[i]===q.ans){ correct++; byCh[q.ch].c++; }
+  });
+  const pct = Math.round(correct/N*100);
+  let verdict, vClass;
+  if(pct>=90){verdict='Strong — exam-ready';vClass='pass';}
+  else if(pct>=80){verdict='Passing — tighten the weak spots';vClass='pass';}
+  else if(pct>=70){verdict='Just under — review before tomorrow';vClass='borderline';}
+  else{verdict='Below passing — needs more review';vClass='fail';}
+
+  const R=78, C=2*Math.PI*R, off=C*(1-pct/100);
+  const ringColor = pct>=80?'var(--correct)':(pct>=70?'var(--gold)':'var(--wrong)');
+
+  const order=["Foundations (Ch 1–3)","The 7 Neurotransmitters","Transporters & Balance"];
+  const bd = order.map(ch=>{
+    const d=byCh[ch]; const p=Math.round(d.c/d.t*100);
+    return `<div class="bd-row">
+      <div class="bd-top"><span>${ch}</span><span>${d.c}/${d.t} · ${p}%</span></div>
+      <div class="bd-bar"><i style="width:${p}%"></i></div></div>`;
+  }).join('');
+
+  progressRow.classList.add('hidden');
+  quizScreen.classList.add('hidden');
+  resultScreen.classList.remove('hidden');
+  resultScreen.innerHTML = `
+    <div class="hero">
+      <h1 style="font-size:27px;margin-bottom:18px;">Your Result <span style="font-family:'Spline Sans';font-size:13px;font-weight:500;color:var(--ink-soft);">· pass ≥ 80%</span></h1>
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg width="172" height="172" viewBox="0 0 172 172">
+            <circle cx="86" cy="86" r="${R}" fill="none" stroke="#E4DBC9" stroke-width="12"/>
+            <circle cx="86" cy="86" r="${R}" fill="none" stroke="${ringColor}" stroke-width="12"
+              stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"
+              style="transition:stroke-dashoffset 1.1s cubic-bezier(.2,.7,.3,1)" id="ringArc"/>
+          </svg>
+          <div class="score"><div class="pct">${pct}%</div><div class="frac">${correct} / ${N} correct</div></div>
+        </div>
+        <div class="verdict ${vClass}">${verdict}</div>
+      </div>
+      <div class="breakdown">${bd}</div>
+      <div class="res-actions">
+        <button class="btn btn-ghost" id="reviewBtn">Review all 50 with rationales</button>
+        <button class="btn btn-primary" id="retakeBtn">Retake exam</button>
+      </div>
+      <div class="review-note">Tip: the chapter with the lowest bar is where an hour of review pays off most tonight.</div>
+    </div>`;
+
+  requestAnimationFrame(()=>{ setTimeout(()=>{ document.getElementById('ringArc').style.strokeDashoffset=off; },80); });
+  document.getElementById('retakeBtn').addEventListener('click',()=>{
+    for(let i=0;i<N;i++){answers[i]=null;locked[i]=false;} cur=0;
+    resultScreen.classList.add('hidden'); progressRow.classList.remove('hidden');
+    quizScreen.classList.remove('hidden'); render();
+  });
+  document.getElementById('reviewBtn').addEventListener('click',showReview);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showReview(){
+  resultScreen.innerHTML = `<div class="hero" style="padding:24px 22px;">
+      <h1 style="font-size:24px;margin-bottom:4px;">Answer Review</h1>
+      <p style="margin-bottom:18px;">All 50 questions with the correct answer and rationale.</p>
+      <div id="revList"></div>
+      <button class="btn btn-primary" id="backToScore" style="margin-top:10px;">← Back to score</button>
+    </div>`;
+  const list = document.getElementById('revList');
+  list.innerHTML = QUESTIONS.map((q,i)=>{
+    const sel=answers[i]; const got = locked[i] && sel===q.ans;
+    const yourAns = (sel===null)?'<i>(no answer)</i>':('ABCD'[sel]+'. '+q.opts[sel]);
+    return `<div style="border-top:1px solid var(--line);padding:16px 0;">
+      <div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:6px;">
+        <span class="qnum">Q${i+1} · ${q.ch}</span>
+        <span style="font-weight:700;font-size:12.5px;color:${got?'var(--correct)':'var(--wrong)'}">${got?'✓ correct':'✗ missed'}</span>
+      </div>
+      <div class="stem" style="font-size:14.5px;margin-bottom:10px;">${q.stem}</div>
+      <div style="font-size:13.5px;margin-bottom:4px;"><b style="color:var(--correct)">Correct:</b> ${'ABCD'[q.ans]}. ${q.opts[q.ans]}</div>
+      <div style="font-size:13.5px;margin-bottom:10px;color:var(--ink-soft)"><b>Your answer:</b> ${yourAns}</div>
+      <div class="fb-rat" style="font-size:13.5px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;">${q.rat}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('backToScore').addEventListener('click',showResults);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
