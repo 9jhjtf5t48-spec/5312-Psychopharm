@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam II Practice (Module Format, 50 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,5.3vw,37px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+    padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .sata-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+    margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.multi .ltr{border-radius:6px;}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;
+    border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam II Practice — Module Format (50 MCQ)</h1>
+  <p class="sub">Built in your module-quiz style: select-all-that-apply, none/all-of-these options, vignettes, fill-in-the-blank, with Stahl-referenced rationales. Answer all, then submit to grade.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>
+    Original practice questions written from the Exam II review topics, in the format of your module quizzes. Stahl page numbers cited where verifiable; otherwise chapter-level. Use for self-study; verify clinical details against current references.
+  </footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 50 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+// correct is a NUMBER for single-answer, an ARRAY for select-all-that-apply (SATA)
+const Q = [
+ // ---- Hypotheses ----
+ ["Hypotheses","The recognized neurotransmitter hypotheses of psychosis include (select all that apply):",
+   ["Dopamine","Glutamate / NMDA","Serotonin","GABA","Histamine"],[0,1,2,3],"Stahl, Ch. 4 (~p. 79). The four hypotheses are dopamine, glutamate/NMDA, serotonin, and GABA; histamine is not one of them."],
+ ["Hypotheses","The serotonin theory of psychosis centers on hyperactivity at which receptor?",
+   ["5HT-1A","5HT-2A","5HT-3","None of these"],1,"Stahl, Ch. 4 (~p. 111). Excess 5HT-2A activity drives the glutamate/dopamine imbalance; 5HT-2A antagonism defines \u201catypical\u201d agents."],
+ ["Hypotheses","In the NMDA-hypofunction model, the under-active NMDA receptors sit primarily on __________.",
+   ["Dopamine neurons in the VTA","Cortical GABA interneurons","Pituitary lactotrophs","None of these"],1,"Stahl, Ch. 4. Hypofunctional NMDA receptors on GABA interneurons reduce inhibition, releasing excess glutamate downstream."],
+ ["Hypotheses","Which agents reproduce a schizophrenia-like state, supporting the glutamate/NMDA hypothesis?",
+   ["SSRIs","PCP and ketamine","Benzodiazepines","None of these"],1,"Stahl, Ch. 4. PCP and ketamine are NMDA antagonists that mimic positive and negative symptoms."],
+ ["Hypotheses","Which statements about the dopamine hypothesis are accurate?",
+   ["Mesolimbic hyperactivity produces positive symptoms","Mesocortical hypoactivity produces negative symptoms","D2 is the principal target of antipsychotics","All of these answers are correct"],3,"Stahl, Ch. 4 (~pp. 89\u201395). All three statements are core to the dopamine hypothesis."],
+ ["Hypotheses","Dopamine is synthesized from the amino acid __________.",
+   ["Tryptophan","Tyrosine","Histidine","Glutamate"],1,"Stahl, Ch. 4. Tyrosine \u2192 DOPA \u2192 dopamine; tryptophan is the precursor for serotonin."],
+ ["Hypotheses","The GABA hypothesis links decreased cortical GABAergic inhibition to which feature of psychosis?",
+   ["Hyperprolactinemia","Disorganization","Sedation","None of these"],1,"Stahl, Ch. 4. Reduced cortical GABA inhibition is associated with disorganization."],
+
+ // ---- Symptoms / dimensions ----
+ ["Symptoms","Which of the following are POSITIVE symptoms of psychosis (select all that apply)?",
+   ["Delusions","Avolition","Disorganized speech","Hallucinations","Blunted affect"],[0,2,3],"Stahl, Ch. 4 (~p. 77). Positive symptoms are added experiences (delusions, disorganized speech, hallucinations); avolition and blunted affect are negative."],
+ ["Symptoms","Which of the following are NEGATIVE symptoms (select all that apply)?",
+   ["Alogia","Hallucinations","Avolition","Anhedonia","Delusions"],[0,2,3],"Stahl, Ch. 4. Alogia, avolition, and anhedonia are losses of normal function; hallucinations and delusions are positive symptoms."],
+ ["Symptoms","The most common type of hallucination in schizophrenia is __________.",
+   ["Visual","Auditory","Tactile","None of these"],1,"Stahl, Ch. 4. Auditory hallucinations are by far the most common."],
+ ["Symptoms","The cognitive symptoms of schizophrenia are best described as:",
+   ["Short-term memory loss like dementia","Executive dysfunction","Pure amnesia for recent events","None of these"],1,"Stahl, Ch. 4. The emphasis is executive dysfunction, NOT the short-term memory loss of dementia."],
+ ["Symptoms","\u201cPoor verbal fluency and problems with serial learning\u201d represent which symptom dimension?",
+   ["Positive","Affective","Cognitive","Aggressive","None of these"],2,"Stahl, Ch. 4. These are cognitive symptoms."],
+ ["Symptoms","In Stahl's localization model, cognitive symptoms map hypothetically to the __________.",
+   ["Amygdala","Dorsolateral prefrontal cortex","Nucleus accumbens","None of these"],1,"Stahl, Ch. 4. Cognitive symptoms localize to the DLPFC (aggressive \u2192 amygdala, affective \u2192 VMPFC/orbitofrontal)."],
+ ["Symptoms","Poor hygiene in a patient with schizophrenia is best categorized as which negative-symptom domain?",
+   ["Alogia","Avolition","Anhedonia","Asociality"],1,"Stahl, Ch. 4. Avolition (reduced drive/persistence) commonly manifests as poor personal hygiene."],
+
+ // ---- Course of illness ----
+ ["Course","The correct sequence of the course of schizophrenia is:",
+   ["Psychosis \u2192 prodrome \u2192 residual","Prodrome \u2192 psychosis \u2192 residual","Residual \u2192 prodrome \u2192 psychosis","None of these"],1,"Stahl, Ch. 4. The illness moves prodrome \u2192 active psychosis \u2192 residual phase."],
+ ["Course","The strongest predictor of long-term outcome in first-episode psychosis is __________.",
+   ["The patient's age","Duration of untreated psychosis","Family income","None of these"],1,"Stahl, Ch. 4. Longer duration of untreated psychosis predicts worse outcomes."],
+ ["Course","Which of the following are TRUE about the chronic course of schizophrenia?",
+   ["Negative/cognitive symptoms can persist between episodes","Each relapse may lower baseline functioning","Untreated psychosis may be neurotoxic","All of these answers are correct"],3,"Stahl, Ch. 4. All three reflect the chronic, often progressive course."],
+
+ // ---- Dopamine pathways ----
+ ["Pathways","Hyperactivity of which dopamine pathway is thought to be responsible for positive symptoms?",
+   ["Nigrostriatal","Mesocortical","Mesolimbic","Tuberoinfundibular"],2,"Stahl, Ch. 4 (~p. 91). Mesolimbic hyperdopaminergia produces hallucinations and delusions."],
+ ["Pathways","Which dopamine pathway contains roughly 80% of the brain's dopamine?",
+   ["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"Stahl, Ch. 4. The nigrostriatal (motor) pathway holds ~80% of brain dopamine."],
+ ["Pathways","D2 blockade in the tuberoinfundibular pathway causes __________.",
+   ["Extrapyramidal symptoms","Hyperprolactinemia","Sedation","None of these"],1,"Stahl, Ch. 5. Dopamine normally inhibits prolactin; blocking it raises prolactin."],
+ ["Pathways","Underactivity of the mesocortical pathway contributes to which symptom cluster?",
+   ["Positive symptoms","Negative and cognitive symptoms","Motor symptoms","None of these"],1,"Stahl, Ch. 4. Mesocortical hypodopaminergia underlies negative/cognitive symptoms."],
+ ["Pathways","D2 blockade in the nigrostriatal pathway can produce which effects (select all that apply)?",
+   ["Acute dystonia","Galactorrhea","Parkinsonism","Tardive dyskinesia","Visual hallucinations"],[0,2,3],"Stahl, Ch. 5. Nigrostriatal D2 blockade yields the EPS spectrum (dystonia, parkinsonism, tardive dyskinesia); galactorrhea is tuberoinfundibular."],
+ ["Pathways","Which pathway governs movement/coordination and is therefore the origin of EPS and tardive dyskinesia?",
+   ["Nigrostriatal","Mesolimbic","Mesocortical","Tuberoinfundibular"],0,"Stahl, Ch. 4. The nigrostriatal motor pathway is the source of EPS."],
+ ["Pathways","Antipsychotic-induced hyperprolactinemia may present with which findings (select all that apply)?",
+   ["Galactorrhea","Amenorrhea","Gynecomastia","Resting tremor","Fever"],[0,1,2],"Stahl, Ch. 5. Elevated prolactin causes galactorrhea, amenorrhea, and gynecomastia; tremor/fever are unrelated."],
+
+ // ---- FGA / Haldol ----
+ ["FGA","First-generation antipsychotics act primarily by __________.",
+   ["5HT-2A antagonism","D2 receptor antagonism","D2 partial agonism","None of these"],1,"Stahl, Ch. 5. FGAs are strong D2 antagonists."],
+ ["FGA","Compared with low-potency agents, high-potency FGAs (haloperidol) cause MORE __________.",
+   ["Sedation","Extrapyramidal symptoms","Orthostatic hypotension","Anticholinergic effects"],1,"Stahl, Ch. 5. Higher potency = tighter D2 binding = more EPS."],
+ ["FGA","Low-potency FGAs (e.g., chlorpromazine) are associated with which \u201cAnti-HAM\u201d effects (select all that apply)?",
+   ["Sedation","Orthostatic hypotension","Anticholinergic effects","EPS as the predominant problem","Agranulocytosis"],[0,1,2],"Stahl, Ch. 5. Low potency = histamine/alpha-1/muscarinic blockade (sedation, orthostasis, anticholinergic)."],
+ ["FGA","A severely agitated patient refuses oral medication and blood draws, and IV access cannot be obtained. The best route for an antipsychotic is __________.",
+   ["PO","Dissolvable PO","IV","IM"],3,"Stahl, Ch. 5. IM is used for acute agitation when oral is refused and IV is unavailable; a depot requires a prior oral trial."],
+ ["FGA","Haloperidol's most concerning cardiac effect is __________.",
+   ["Widened QRS","QTc prolongation","Bradycardia","None of these"],1,"Stahl, Ch. 5. Haloperidol prolongs the QTc (especially IV), risking Torsades; widened QRS points to TCAs."],
+ ["FGA","Which pairing of long-term ocular deposits is correct?",
+   ["Chlorpromazine \u2192 retina; thioridazine \u2192 cornea","Chlorpromazine \u2192 cornea; thioridazine \u2192 retina","Both cause corneal deposits","None of these"],1,"Stahl, Ch. 5. Chlorpromazine \u2192 corneal deposits; thioridazine \u2192 retinal deposits."],
+ ["FGA","Before administering a long-acting depot injection, the clinician should first __________.",
+   ["Obtain an MRI","Confirm the patient tolerated the oral form","Load with lithium","None of these"],1,"Stahl, Ch. 5. \u201cPO before depot\u201d \u2014 a depot lasts weeks, so confirm oral tolerability first."],
+
+ // ---- SGA mechanism ----
+ ["SGA mechanism","Second-generation antipsychotics reduce EPS relative to FGAs largely by adding __________.",
+   ["Muscarinic agonism","5HT-2A antagonism","D1 agonism","None of these"],1,"Stahl, Ch. 5. 5HT-2A blockade restores dopamine in the nigrostriatal tract, lowering EPS."],
+ ["SGA mechanism","The defining feature of \u201catypicality\u201d is:",
+   ["Stronger D2 blockade than FGAs","Higher affinity for 5HT-2A than D2, or D2 partial agonism","Pure anticholinergic action","None of these"],1,"Stahl, Ch. 5. Atypicals favor 5HT-2A over D2 or act as D2 partial agonists."],
+ ["SGA mechanism","Which statements about D2 partial agonists are TRUE?",
+   ["They stabilize rather than fully block dopamine","Aripiprazole is the prototype","They carry lower EPS risk than FGAs","All of these answers are correct"],3,"Stahl, Ch. 5. Partial agonists act as a \u201cdimmer switch,\u201d with aripiprazole as the prototype and low EPS."],
+ ["SGA mechanism","Relative to FGAs, second-generation agents carry a HIGHER risk of __________.",
+   ["Acute dystonia","Metabolic syndrome","Tardive dyskinesia","None of these"],1,"Stahl, Ch. 5. SGAs trade lower neurologic risk for higher metabolic risk."],
+
+ // ---- SGA specific drugs ----
+ ["SGA drugs","Which SGA carries the HIGHEST risk of hyperprolactinemia?",
+   ["Quetiapine","Risperidone","Clozapine","Aripiprazole"],1,"Stahl, Ch. 5. Risperidone most elevates prolactin (\u201cRise to a pair\u201d)."],
+ ["SGA drugs","Which SGA has the greatest metabolic/weight-gain liability?",
+   ["Ziprasidone","Lurasidone","Olanzapine","Aripiprazole"],2,"Stahl, Ch. 5. Olanzapine has the worst metabolic profile (\u201cO = Obesity\u201d)."],
+ ["SGA drugs","Which SGA is the most sedating with the lowest EPS, useful in Parkinson's disease psychosis?",
+   ["Risperidone","Quetiapine","Haloperidol","None of these"],1,"Stahl, Ch. 5. Quetiapine (\u201cQuiet-apine\u201d) is very sedating with minimal EPS."],
+ ["SGA drugs","A patient is started on an SGA that must be taken with at least ~500 calories, and an EKG is ordered for QTc monitoring. Which agent?",
+   ["Olanzapine","Ziprasidone","Clozapine","Aripiprazole"],1,"Stahl, Ch. 5. Ziprasidone needs food for absorption and prolongs the QTc."],
+ ["SGA drugs","Which agent is a D2 partial agonist best suited for maintenance therapy and antidepressant augmentation rather than acute psychosis?",
+   ["Haloperidol","Aripiprazole","Olanzapine","None of these"],1,"Stahl, Ch. 5. Aripiprazole suits maintenance/augmentation more than acute psychosis."],
+ ["SGA drugs","Lurasidone (Latuda) is characterized by which features (select all that apply)?",
+   ["Low metabolic risk","Use in bipolar depression","Should be taken with food (~350 cal)","High prolactin elevation","Corneal deposits"],[0,1,2],"Stahl, Ch. 5. Lurasidone has low metabolic risk, treats bipolar depression, and requires food for absorption."],
+ ["SGA drugs","Paliperidone is the active metabolite of __________.",
+   ["Olanzapine","Risperidone","Quetiapine","None of these"],1,"Stahl, Ch. 5. Paliperidone is risperidone's active metabolite and shares its prolactin liability."],
+
+ // ---- Clozapine ----
+ ["Clozapine","Clozapine is appropriately reserved for __________.",
+   ["First-line schizophrenia","Treatment-resistant schizophrenia after \u22652 failed agents","Acute agitation in the ED","Insomnia"],1,"Stahl, Ch. 5. Clozapine is the most effective agent but used only after other antipsychotics fail."],
+ ["Clozapine","A patient on clozapine who recently moved and missed monitoring presents with fever, sore throat, and WBC 0.9/mm\u00b3. The most likely cause is __________.",
+   ["A viral upper respiratory infection only","Clozapine-induced agranulocytosis","Lithium toxicity","None of these"],1,"Stahl, Ch. 5. Fever + sore throat + very low WBC on clozapine signals agranulocytosis (requires ANC monitoring; stop if ANC < 1500)."],
+ ["Clozapine","Clozapine is associated with which serious risks (select all that apply)?",
+   ["Agranulocytosis","Seizures","Myocarditis","Corneal deposits","Hyperthyroidism"],[0,1,2],"Stahl, Ch. 5. Clozapine can cause agranulocytosis, seizures, and myocarditis (plus heavy sialorrhea)."],
+
+ // ---- NMS ----
+ ["NMS","Features of neuroleptic malignant syndrome include (select all that apply):",
+   ["Lead-pipe rigidity","High fever","Autonomic instability","Hyperreflexia and myoclonus","Altered mental status"],[0,1,2,4],"Stahl, Ch. 5. NMS = rigidity + fever + autonomic instability + altered mental status; hyperreflexia/myoclonus point to serotonin syndrome instead."],
+ ["NMS","Management of neuroleptic malignant syndrome includes all of the following EXCEPT __________.",
+   ["Stopping the antipsychotic","Dantrolene or bromocriptine","Antipyretics to break the fever","Supportive ICU care and physical cooling"],2,"Stahl, Ch. 5. Antipyretics are ineffective for NMS hyperthermia; use physical cooling."],
+ ["NMS","Classic laboratory findings in NMS include __________.",
+   ["Low CK and clear urine","Elevated CK with myoglobinuria","Elevated TSH","None of these"],1,"Stahl, Ch. 5. Muscle breakdown raises CK and produces \u201ccola-colored\u201d (myoglobinuric) urine."],
+
+ // ---- Tardive dyskinesia / EPS ----
+ ["Tardive dyskinesia","Tardive dyskinesia is thought to result from __________.",
+   ["Acute dopamine excess","Chronic D2 blockade causing receptor upregulation/supersensitivity","Serotonin depletion","None of these"],1,"Stahl, Ch. 5. Long-term D2 blockade upregulates/sensitizes receptors, often irreversibly (~3\u20135%/yr on FGAs)."],
+ ["Tardive dyskinesia","Appropriate steps for managing tardive dyskinesia include (select all that apply):",
+   ["Switching toward clozapine","Starting a VMAT2 inhibitor","Adding an anticholinergic","Increasing the high-potency FGA dose","Stopping the AIMS screening"],[0,1],"Stahl, Ch. 5. Switch to clozapine and/or use a VMAT2 inhibitor; anticholinergics can worsen TD and dose increases mask it."]
+];
+
+const quiz = document.getElementById('quiz');
+const countEl = document.getElementById('count');
+const submitBtn = document.getElementById('submit');
+const retakeBtn = document.getElementById('retake');
+const banner = document.getElementById('banner');
+const LETTERS = ['A','B','C','D','E'];
+const isSATA = qi => Array.isArray(Q[qi][3]);
+let answers = Q.map(q => Array.isArray(q[3]) ? [] : null);
+let graded = false;
+
+function arraysEqual(a, b){
+  if(a.length !== b.length) return false;
+  const s = [...a].sort((x,y)=>x-y), t = [...b].sort((x,y)=>x-y);
+  return s.every((v,i)=>v===t[i]);
+}
+function build(){
+  quiz.innerHTML = '';
+  Q.forEach((item, qi)=>{
+    const [topic, stem, opts, correct, rationale] = item;
+    const sata = Array.isArray(correct);
+    const card = document.createElement('div');
+    card.className = 'q'; card.id = 'q'+qi;
+    card.innerHTML = '<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span>'+
+      '<div class="stem">'+stem+(sata?'<span class="sata-tag">select all that apply</span>':'')+'</div>';
+    opts.forEach((o, oi)=>{
+      const d = document.createElement('div');
+      d.className = 'opt' + (sata?' multi':'');
+      d.dataset.qi = qi; d.dataset.oi = oi;
+      d.innerHTML = '<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick = ()=>{
+        if(graded) return;
+        if(sata){
+          const arr = answers[qi];
+          const idx = arr.indexOf(oi);
+          if(idx>=0) arr.splice(idx,1); else arr.push(oi);
+        } else {
+          answers[qi] = oi;
+        }
+        render();
+      };
+      card.appendChild(d);
+    });
+    const rat = document.createElement('div');
+    rat.className = 'rat';
+    const ans = sata ? correct.map(i=>LETTERS[i]).join(', ') : LETTERS[correct];
+    rat.innerHTML = '<b>Answer: '+ans+'.</b> '+rationale;
+    card.appendChild(rat);
+    quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item, qi)=>{
+    const correct = item[3];
+    const sata = Array.isArray(correct);
+    const opts = document.querySelectorAll('#q'+qi+' .opt');
+    opts.forEach((d, oi)=>{
+      d.className = 'opt' + (sata?' multi':'');
+      if(!graded){
+        const chosen = sata ? answers[qi].includes(oi) : answers[qi]===oi;
+        if(chosen) d.classList.add('sel');
+      } else {
+        const isCorrect = sata ? correct.includes(oi) : oi===correct;
+        const chosen = sata ? answers[qi].includes(oi) : answers[qi]===oi;
+        if(isCorrect) d.classList.add('correct');
+        else if(chosen) d.classList.add('wrong');
+      }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded', graded);
+  });
+  const answered = answers.filter((a,qi)=> isSATA(qi) ? a.length>0 : a!==null).length;
+  countEl.textContent = answered+' / '+Q.length+' answered';
+  submitBtn.disabled = answered<Q.length || graded;
+}
+function gradeQuiz(){
+  graded = true;
+  let score = 0;
+  Q.forEach((item, qi)=>{
+    const correct = item[3];
+    if(Array.isArray(correct)){ if(arraysEqual(answers[qi], correct)) score++; }
+    else { if(answers[qi]===correct) score++; }
+  });
+  const pct = Math.round(score/Q.length*100);
+  const pass = pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor = pass ? 'var(--teal)' : 'var(--amber)';
+  banner.style.background = pass ? 'var(--teal-soft)' : '#FBF1DC';
+  banner.style.color = pass ? 'var(--teal-deep)' : '#7E4E10';
+  banner.innerHTML = '<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+
+    (pass ? 'Solid \u2014 above the 80% mark. Review any reds below.' : 'Keep going \u2014 review the rationales on the missed items below.')+
+    ' (Select-all items are scored all-or-nothing, like your module quizzes.)</p>';
+  render();
+  submitBtn.style.display='none';
+  retakeBtn.style.display='inline-block';
+  countEl.textContent = 'Scored '+score+' / '+Q.length;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function retake(){
+  answers = Q.map(q => Array.isArray(q[3]) ? [] : null);
+  graded = false;
+  banner.style.display='none';
+  submitBtn.style.display='inline-block';
+  retakeBtn.style.display='none';
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+submitBtn.onclick = gradeQuiz;
+retakeBtn.onclick = retake;
+build();
+</script>
+</body>
+</html>
