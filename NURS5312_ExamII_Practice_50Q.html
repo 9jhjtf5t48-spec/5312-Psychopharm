@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam II Practice (50 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(27px,5.5vw,38px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+    padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+    margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;
+    border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam II Practice — 50 Questions</h1>
+  <p class="sub">Psychosis &amp; schizophrenia · dopamine pathways · antipsychotics (FGA/SGA) · Clozapine · NMS · tardive dyskinesia. Answer all, then submit to grade.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>
+    Original practice questions written from the NURS 5312 Exam II review topics. Use for self-study; verify clinical details against current references.
+  </footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 50 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+const Q = [
+ // ---- Hypotheses ----
+ ["Hypotheses","The dopamine hypothesis describes which neurotransmitter as the \u201cfinal common pathway\u201d of psychosis?",
+   ["GABA","Dopamine","Acetylcholine","Glutamate"],1,"Every drug that treats positive symptoms acts on dopamine (D2), making it the final common pathway; glutamate and serotonin act upstream."],
+ ["Hypotheses","Per the dopamine hypothesis, positive symptoms arise from excess dopamine in which pathway?",
+   ["Mesocortical","Nigrostriatal","Mesolimbic","Tuberoinfundibular"],2,"Mesolimbic hyperdopaminergia drives hallucinations and delusions."],
+ ["Hypotheses","The glutamate/NMDA hypothesis proposes that psychosis results from:",
+   ["Excess NMDA receptor activity","NMDA receptor hypofunction on GABA interneurons \u2192 excess downstream glutamate","Loss of glutamate neurons in the striatum","Blockade of AMPA receptors by dopamine"],1,"Hypoactive NMDA receptors on inhibitory interneurons remove the brake on glutamate, over-driving the dopamine system."],
+ ["Hypotheses","Which agents best support the NMDA-hypofunction hypothesis by mimicking schizophrenia?",
+   ["LSD and psilocybin","PCP and ketamine","Cocaine and amphetamine","Benzodiazepines"],1,"PCP and ketamine are NMDA antagonists that reproduce both positive and negative symptoms."],
+ ["Hypotheses","The serotonin hypothesis of psychosis implicates overactivity at which receptor?",
+   ["5HT-1A","5HT-3","5HT-2A","5HT-2C"],2,"Excess 5HT-2A stimulation drives glutamate/dopamine imbalance; 5HT-2A antagonism is the hallmark of \u201catypical\u201d antipsychotics."],
+ ["Hypotheses","Which substances support the serotonin hypothesis because they are 5HT-2A agonists that cause hallucinations?",
+   ["Opioids","Psychedelics such as LSD","Barbiturates","SSRIs"],1,"Classic psychedelics act as 5HT-2A agonists and produce hallucinations."],
+ ["Hypotheses","The GABA hypothesis attributes which feature of psychosis to reduced cortical inhibition?",
+   ["Hyperprolactinemia","Disorganization","Motor rigidity","Sedation"],1,"Decreased GABAergic cortical inhibition is linked to disorganization."],
+
+ // ---- Symptoms / dimensions ----
+ ["Symptoms","Which of the following is a POSITIVE symptom of schizophrenia?",
+   ["Avolition","Hallucinations","Alogia","Blunted affect"],1,"Positive symptoms are added experiences (hallucinations, delusions, disorganization); the others are negative symptoms."],
+ ["Symptoms","Which of the following is a NEGATIVE symptom?",
+   ["Delusions","Disorganized speech","Avolition","Auditory hallucinations"],2,"Avolition (reduced motivation) is a loss of normal function = negative symptom."],
+ ["Symptoms","Poor hygiene in a patient with schizophrenia best reflects which negative-symptom domain?",
+   ["Alogia","Avolition","Anhedonia","Asociality"],1,"Avolition (reduced drive/persistence) commonly manifests as poor personal hygiene."],
+ ["Symptoms","Cognitive symptoms of schizophrenia are best characterized as:",
+   ["Short-term memory loss like dementia","Executive dysfunction","Pure attention-deficit hyperactivity","Amnesia for recent events"],1,"Stahl emphasizes executive dysfunction (goal maintenance, attention, problem-solving), NOT the short-term memory loss of dementia."],
+ ["Symptoms","\u201cPoor verbal fluency and problems with serial learning\u201d fall under which symptom dimension?",
+   ["Positive","Affective","Cognitive","Aggressive"],2,"These are cognitive symptoms of schizophrenia."],
+ ["Symptoms","Cognitive symptoms localize hypothetically to which brain region?",
+   ["Amygdala","Dorsolateral prefrontal cortex","Nucleus accumbens","Cerebellum"],1,"In Stahl's localization model, cognitive symptoms map to the DLPFC."],
+
+ // ---- Course of illness ----
+ ["Course","What is the correct sequence of the course of schizophrenia?",
+   ["Psychosis \u2192 prodrome \u2192 residual","Prodrome \u2192 psychosis \u2192 residual","Residual \u2192 prodrome \u2192 psychosis","Prodrome \u2192 residual \u2192 psychosis"],1,"The illness moves prodrome \u2192 active psychosis \u2192 residual phase."],
+ ["Course","Subsyndromal negative symptoms appearing before full diagnostic criteria are met describe the:",
+   ["Residual phase","Prodrome","Acute psychotic break","Remission"],1,"Prodromal negative symptoms precede the full syndrome and are important to detect early."],
+ ["Course","The strongest predictor of long-term outcome in first-episode psychosis is:",
+   ["Patient age","Duration of untreated psychosis","Family income","Gender alone"],1,"Longer duration of untreated psychosis predicts worse outcomes \u2014 the basis for early intervention."],
+
+ // ---- Dopamine pathways ----
+ ["Pathways","Which dopamine pathway contains roughly 80% of the brain's dopamine?",
+   ["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"The nigrostriatal (motor) pathway holds ~80% of brain dopamine."],
+ ["Pathways","The mesolimbic pathway projects from the VTA to the:",
+   ["Prefrontal cortex","Nucleus accumbens","Striatum","Pituitary"],1,"VTA \u2192 nucleus accumbens; hyperactivity here drives positive symptoms."],
+ ["Pathways","Low dopamine activity in the mesocortical pathway is associated with:",
+   ["Positive symptoms","Negative and cognitive symptoms","EPS","Hyperprolactinemia"],1,"Mesocortical hypodopaminergia underlies negative/cognitive symptoms."],
+ ["Pathways","D2 blockade in the nigrostriatal pathway causes:",
+   ["Hyperprolactinemia","Extrapyramidal symptoms","Improved cognition","Weight gain"],1,"Blocking the motor pathway produces EPS."],
+ ["Pathways","D2 blockade in the tuberoinfundibular pathway causes:",
+   ["EPS","Hyperprolactinemia","Sedation","Orthostasis"],1,"Dopamine normally inhibits prolactin; blocking it raises prolactin."],
+ ["Pathways","Hyperprolactinemia from antipsychotics typically presents with:",
+   ["Tremor and rigidity","Galactorrhea, amenorrhea, gynecomastia","Fever and confusion","Dry mouth and constipation"],1,"Elevated prolactin causes galactorrhea, menstrual changes, and gynecomastia."],
+ ["Pathways","The tuberoinfundibular pathway projects from the hypothalamus to the:",
+   ["Striatum","Pituitary","Nucleus accumbens","Cerebellum"],1,"Hypothalamus \u2192 pituitary, regulating prolactin release."],
+
+ // ---- FGA / Haldol ----
+ ["FGA","First-generation antipsychotics work primarily by:",
+   ["5HT-2A antagonism","D2 receptor antagonism","D2 partial agonism","Muscarinic agonism"],1,"FGAs are strong D2 antagonists."],
+ ["FGA","Compared with low-potency agents, high-potency FGAs (e.g., haloperidol) cause MORE:",
+   ["Sedation","Extrapyramidal symptoms","Orthostatic hypotension","Anticholinergic effects"],1,"Higher potency = tighter D2 binding = more EPS."],
+ ["FGA","Low-potency FGAs (e.g., chlorpromazine) are most associated with which cluster?",
+   ["High EPS","Anti-HAM effects (sedation, hypotension, anticholinergic)","Agranulocytosis","QRS widening"],1,"Low potency = more histamine/alpha-1/muscarinic blockade (\u201cAnti-HAM\u201d)."],
+ ["FGA","Haloperidol's signature cardiac risk is:",
+   ["Widened QRS","QTc prolongation / Torsades","Bradycardia","Atrial fibrillation"],1,"Haldol prolongs the QTc (especially IV), risking Torsades."],
+ ["FGA","Long-term chlorpromazine is associated with deposits in the:",
+   ["Retina","Cornea","Lens only","Optic nerve"],1,"Chlorpromazine \u2192 corneal deposits (\u201cC = Cornea\u201d)."],
+ ["FGA","Thioridazine is specifically associated with deposits in the:",
+   ["Cornea","Retina","Sclera","Conjunctiva"],1,"Thioridazine \u2192 retinal deposits / pigmentary retinopathy."],
+ ["FGA","A severely agitated patient refusing oral meds and blood draws is best given which agent IM for rapid control?",
+   ["Aripiprazole","Haloperidol","Lithium","Buspirone"],1,"High-potency haloperidol IM (often with lorazepam \u00b1 diphenhydramine) is used for acute agitation."],
+
+ // ---- SGA mechanism ----
+ ["SGA mechanism","Second-generation antipsychotics reduce EPS relative to FGAs largely by adding:",
+   ["Muscarinic agonism","5HT-2A antagonism","D1 agonism","NMDA antagonism"],1,"Adding 5HT-2A blockade restores dopamine in the nigrostriatal tract, lowering EPS."],
+ ["SGA mechanism","5HT-2A antagonism lowers EPS because serotonin normally:",
+   ["Increases dopamine release","Inhibits dopamine release (acts as a brake)","Has no effect on dopamine","Destroys dopamine neurons"],1,"5HT-2A acts as a brake on dopamine; blocking it \u201creleases the brake,\u201d restoring nigrostriatal DA."],
+ ["SGA mechanism","Which agent is a D2 PARTIAL agonist often called a \u201cdopamine stabilizer\u201d?",
+   ["Risperidone","Olanzapine","Aripiprazole","Ziprasidone"],2,"Aripiprazole partially agonizes D2 \u2014 a dimmer switch rather than full blockade."],
+ ["SGA mechanism","A partial D2 agonist differs from a full antagonist in that it:",
+   ["Completely blocks all dopamine signaling","Provides partial dopamine tone, stabilizing rather than abolishing it","Increases dopamine synthesis","Blocks serotonin only"],1,"Partial agonism caps excess dopamine while preserving some tone, reducing motor side effects."],
+
+ // ---- SGA specific drugs ----
+ ["SGA drugs","Which SGA carries the HIGHEST risk of hyperprolactinemia?",
+   ["Quetiapine","Risperidone","Clozapine","Aripiprazole"],1,"Risperidone most raises prolactin (\u201cRise to a pair\u201d)."],
+ ["SGA drugs","Which SGA has the greatest metabolic/weight-gain liability?",
+   ["Ziprasidone","Lurasidone","Olanzapine","Aripiprazole"],2,"Olanzapine has the worst metabolic profile (\u201cO = Obesity\u201d)."],
+ ["SGA drugs","Which SGA is the most sedating with the lowest EPS, making it useful in Parkinson's disease psychosis?",
+   ["Risperidone","Quetiapine","Haloperidol","Paliperidone"],1,"Quetiapine (\u201cQuiet-apine\u201d) is very sedating with minimal EPS."],
+ ["SGA drugs","Which SGA must be taken with food and is known for QTc prolongation?",
+   ["Olanzapine","Ziprasidone","Clozapine","Aripiprazole"],1,"Ziprasidone needs \u2265500 cal for absorption and prolongs QTc (\u201cGeo needs an EKG\u201d)."],
+ ["SGA drugs","Lurasidone (Latuda) is notable for:",
+   ["Highest prolactin elevation","Low metabolic risk and use in bipolar depression","Agranulocytosis","Corneal deposits"],1,"Lurasidone has low metabolic risk and treats bipolar depression (take with \u2265350 cal)."],
+ ["SGA drugs","Which agent is best for maintenance therapy and antidepressant augmentation but is NOT ideal for an acute psychotic episode?",
+   ["Haloperidol","Aripiprazole","Olanzapine","Chlorpromazine"],1,"Aripiprazole (partial agonist) suits maintenance/augmentation more than acute psychosis."],
+ ["SGA drugs","Cariprazine's distinctive receptor profile is its high affinity for:",
+   ["5HT-3","D3","Muscarinic M1","Histamine H1"],1,"Cariprazine has notable D3 affinity, which may aid negative/cognitive symptoms."],
+
+ // ---- Clozapine ----
+ ["Clozapine","Clozapine is appropriately reserved for:",
+   ["First-line schizophrenia","Treatment-resistant schizophrenia after \u22652 failed agents","Acute agitation in the ED","Insomnia"],1,"Clozapine is the most effective agent but used only after other antipsychotics fail."],
+ ["Clozapine","The life-threatening hematologic side effect of clozapine requiring serial monitoring is:",
+   ["Thrombocytosis","Agranulocytosis","Polycythemia","Eosinophilia"],1,"Agranulocytosis mandates ANC monitoring and a registry."],
+ ["Clozapine","Clozapine should generally be discontinued if the ANC falls below:",
+   ["3500","2500","1500","500 only"],2,"Stop clozapine when ANC < 1500 (with stricter thresholds for severe neutropenia)."],
+
+ // ---- NMS ----
+ ["NMS","Which tetrad best describes neuroleptic malignant syndrome?",
+   ["Rigidity, hyperthermia, autonomic instability, altered mental status","Tremor, diarrhea, hyperreflexia, agitation","Rash, fever, eosinophilia, lymphadenopathy","Bradycardia, hypothermia, flaccidity, coma"],0,"NMS = lead-pipe rigidity + high fever + autonomic instability + altered mental status (high CK)."],
+ ["NMS","First-line management of NMS includes all EXCEPT:",
+   ["Stopping the antipsychotic","Dantrolene or bromocriptine","Antipyretics to control the fever","Supportive ICU care and physical cooling"],2,"Antipyretics are ineffective for NMS hyperthermia; use physical cooling instead."],
+ ["NMS","NMS is distinguished from serotonin syndrome primarily by:",
+   ["Lead-pipe rigidity (vs. myoclonus/hyperreflexia)","Presence of diarrhea","Absence of fever","Pinpoint pupils"],0,"NMS shows lead-pipe rigidity; serotonin syndrome features myoclonus and hyperreflexia."],
+
+ // ---- Tardive dyskinesia / EPS ----
+ ["Tardive dyskinesia","Tardive dyskinesia is thought to result from:",
+   ["Acute dopamine excess","Chronic D2 blockade causing receptor upregulation/supersensitivity","Serotonin depletion","Glutamate toxicity in the cerebellum"],1,"Long-term D2 blockade upregulates/sensitizes receptors, often irreversibly (~3\u20135%/yr on FGAs)."],
+ ["Tardive dyskinesia","Appropriate management of tardive dyskinesia includes:",
+   ["Adding an anticholinergic","Switching toward clozapine and/or a VMAT2 inhibitor","Increasing the high-potency FGA dose","Starting propranolol as first-line"],1,"Switch to clozapine or use a VMAT2 inhibitor; anticholinergics can worsen TD."],
+ ["Tardive dyskinesia","An acute dystonic reaction (e.g., torticollis) occurring within hours of a high-potency FGA is best treated with:",
+   ["Propranolol","Diphenhydramine or benztropine","Dantrolene","Lithium"],1,"Acute dystonia responds to anticholinergics/antihistamines (benztropine, diphenhydramine) IM/IV."]
+];
+
+const quiz = document.getElementById('quiz');
+const countEl = document.getElementById('count');
+const submitBtn = document.getElementById('submit');
+const retakeBtn = document.getElementById('retake');
+const banner = document.getElementById('banner');
+const LETTERS = ['A','B','C','D'];
+let answers = new Array(Q.length).fill(null);
+let graded = false;
+
+function build(){
+  quiz.innerHTML = '';
+  Q.forEach((item, qi)=>{
+    const [topic, stem, opts, correct, rationale] = item;
+    const card = document.createElement('div');
+    card.className = 'q'; card.id = 'q'+qi;
+    card.innerHTML = '<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span>'+
+      '<div class="stem">'+stem+'</div>';
+    opts.forEach((o, oi)=>{
+      const d = document.createElement('div');
+      d.className = 'opt'; d.dataset.qi = qi; d.dataset.oi = oi;
+      d.innerHTML = '<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick = ()=>{ if(graded) return; answers[qi]=oi; render(); };
+      card.appendChild(d);
+    });
+    const rat = document.createElement('div');
+    rat.className = 'rat';
+    rat.innerHTML = '<b>Answer: '+LETTERS[correct]+'.</b> '+rationale;
+    card.appendChild(rat);
+    quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item, qi)=>{
+    const correct = item[3];
+    const opts = document.querySelectorAll('#q'+qi+' .opt');
+    opts.forEach((d, oi)=>{
+      d.className = 'opt';
+      if(!graded){ if(answers[qi]===oi) d.classList.add('sel'); }
+      else {
+        if(oi===correct) d.classList.add('correct');
+        else if(answers[qi]===oi) d.classList.add('wrong');
+      }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded', graded);
+  });
+  const answered = answers.filter(a=>a!==null).length;
+  countEl.textContent = answered+' / '+Q.length+' answered';
+  submitBtn.disabled = answered<Q.length || graded;
+}
+function gradeQuiz(){
+  graded = true;
+  let score = 0;
+  Q.forEach((item, qi)=>{ if(answers[qi]===item[3]) score++; });
+  const pct = Math.round(score/Q.length*100);
+  const pass = pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor = pass ? 'var(--teal)' : 'var(--amber)';
+  banner.style.background = pass ? 'var(--teal-soft)' : '#FBF1DC';
+  banner.style.color = pass ? 'var(--teal-deep)' : '#7E4E10';
+  banner.innerHTML = '<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+
+    (pass ? 'Solid \u2014 above the 80% mark. Review any reds below.' : 'Keep going \u2014 review the rationales on the missed items below.')+'</p>';
+  render();
+  submitBtn.style.display='none';
+  retakeBtn.style.display='inline-block';
+  countEl.textContent = 'Scored '+score+' / '+Q.length;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function retake(){
+  answers = new Array(Q.length).fill(null);
+  graded = false;
+  banner.style.display='none';
+  submitBtn.style.display='inline-block';
+  retakeBtn.style.display='none';
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+submitBtn.onclick = gradeQuiz;
+retakeBtn.onclick = retake;
+build();
+</script>
+</body>
+</html>
