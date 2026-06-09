@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 2 Practice · Su26 Review · Set 2 (50 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,5.3vw,37px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .sata-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.multi .ltr{border-radius:6px;}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam 2 Practice — Su26 Review · Set 2 (50 MCQ)</h1>
+  <p class="sub">Second pass on the Su26 Exam 2 Review — all-new questions (no overlap with Set 1) across the same topics: dopamine/receptors, symptoms, pathways, FGA vs. atypical, partial agonists, Clozapine, EPS, cardiometabolic risk, and serotonin/GABA-glutamate. Answer all 50, then submit.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>Original practice questions written from the Ch 4/5/6 key points, in your module-quiz format. Use for self-study; verify clinical details against current references.</footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 50 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+// correct = NUMBER (single answer) or ARRAY (select all that apply)
+const Q = [
+ ["Dopamine & receptors","Which dopamine receptor subtype is EXCITATORY?",["D1","D2","D3","D4"],0,"Review: D1 is excitatory, D2 is inhibitory."],
+ ["Dopamine & receptors","The cell bodies of the mesolimbic and mesocortical pathways originate in the __________.",["substantia nigra","ventral tegmental area (VTA)","locus coeruleus","raphe nuclei"],1,"The VTA gives rise to the mesolimbic and mesocortical projections (substantia nigra = nigrostriatal)."],
+ ["Symptoms","Which of the following are positive symptoms (select all that apply)?",["Paranoid delusions","Auditory hallucinations","Looseness of associations","Poverty of speech","Social withdrawal"],[0,1,2],"Poverty of speech (alogia) and withdrawal are negative symptoms."],
+ ["Symptoms","Positive symptoms respond well to D2 antagonists, but __________ symptoms generally respond poorly.",["manic","negative and cognitive","anxiety","None of these"],1,"D2 blockade does little for negative/cognitive symptoms (mesocortical hypodopaminergia)."],
+ ["Symptoms","Anhedonia, asociality, and avolition are examples of __________ symptoms.",["positive","negative","cognitive","None of these"],1,"These are core negative symptoms."],
+ ["Symptoms","Incoherent, derailed speech (\u201cword salad\u201d) is classified as a __________ symptom.",["negative","positive","affective","None of these"],1,"Disorganized speech is a positive symptom."],
+ ["Symptoms","Cognitive symptoms of schizophrenia primarily reflect dysfunction of the __________.",["amygdala","dorsolateral prefrontal cortex","nucleus accumbens","cerebellum"],1,"Cognitive dimension \u2192 DLPFC."],
+ ["Symptoms","Which symptom cluster is most associated with long-term functional and vocational disability?",["Positive symptoms","Negative and cognitive symptoms","Acute hallucinations","None of these"],1,"Negative/cognitive symptoms drive long-term disability and respond least to D2 blockade."],
+ ["Hypotheses","PCP and ketamine can reproduce schizophrenia-like symptoms because they block __________.",["dopamine D2 receptors","NMDA receptors","GABA receptors","None of these"],1,"NMDA antagonism supports the glutamate hypothesis of psychosis."],
+ ["Hypotheses","Amphetamine can worsen or precipitate psychosis because it __________.",["blocks dopamine reuptake and increases dopamine release","blocks NMDA receptors","increases GABA","None of these"],0,"Boosting synaptic dopamine supports the dopamine hypothesis."],
+ ["Pathways","Approximately what proportion of the brain's dopamine is contained in the nigrostriatal pathway?",["~20%","~50%","~80%","~5%"],2,"The nigrostriatal (motor) pathway holds roughly 80%."],
+ ["Pathways","Hyperprolactinemia from antipsychotics can present clinically as __________.",["hypertension","galactorrhea, amenorrhea, or sexual dysfunction","tremor","None of these"],1,"Elevated prolactin \u2192 galactorrhea, menstrual changes, gynecomastia, sexual dysfunction."],
+ ["Pathways","Extrapyramidal symptoms occur when D2 receptors are blocked in the __________ pathway.",["mesolimbic","mesocortical","nigrostriatal","tuberoinfundibular"],2,"Nigrostriatal D2 blockade \u2192 EPS."],
+ ["Pathways","Which pathway\u2013effect pairings are correct (select all that apply)?",["Mesolimbic \u2192 positive symptoms","Mesocortical \u2192 negative/cognitive symptoms","Tuberoinfundibular \u2192 prolactin regulation","Nigrostriatal \u2192 reward and pleasure"],[0,1,2],"Reward/pleasure is mesolimbic; the nigrostriatal pathway is motor."],
+ ["Pathways","The mesocortical pathway projects primarily to the __________.",["striatum","prefrontal cortex","pituitary","spinal cord"],1,"Mesocortical \u2192 prefrontal cortex (negative/cognitive/affective symptoms)."],
+ ["Pathways","Antipsychotic-induced galactorrhea results from D2 blockade in which pathway?",["Nigrostriatal","Tuberoinfundibular","Mesolimbic","Mesocortical"],1,"Tuberoinfundibular D2 blockade removes dopamine\u2019s inhibition of prolactin."],
+ ["Epidemiology","Besides winter\u2013spring birth, which is a recognized risk factor for schizophrenia?",["High socioeconomic status","Family history / genetics","Living at high altitude","None of these"],1,"Genetics/family history (and prenatal complications) are established risk factors."],
+ ["FGA vs atypical","Which generation of antipsychotics carries the HIGHER risk of EPS?",["First-generation (typicals)","Second-generation (atypicals)","Equal risk","Neither causes EPS"],0,"Typicals (strong, selective D2 blockade) have more EPS."],
+ ["FGA vs atypical","Atypical antipsychotics are distinguished from typicals by added action at which receptor?",["Histamine H1","5-HT2A","Muscarinic M1","None of these"],1,"5-HT2A antagonism (or D2 partial agonism) defines atypicality."],
+ ["FGA vs atypical","At approximately what D2-receptor occupancy do extrapyramidal symptoms typically emerge?",["20%","50%","Greater than 80%","100% only"],2,">80% D2 occupancy tends to produce EPS; ~65% gives efficacy."],
+ ["FGA vs atypical","Ziprasidone must be taken with at least how many calories of food?",["100","250","500","No food requirement"],2,"Ziprasidone needs ~500 calories for adequate absorption."],
+ ["FGA vs atypical","High-potency typical antipsychotics (e.g., haloperidol, fluphenazine) are MOST associated with __________.",["anticholinergic effects","extrapyramidal symptoms","sedation","weight gain"],1,"High-potency typicals \u2192 prominent EPS."],
+ ["FGA vs atypical","Low-potency typicals (e.g., chlorpromazine) are most associated with __________.",["EPS","sedation, orthostasis, and anticholinergic effects","hyperreflexia","None of these"],1,"Low-potency = more H1/alpha-1/M1 (anti-HAM) effects, less EPS."],
+ ["FGA vs atypical","Which receptor blockade best explains antipsychotic-induced sedation?",["Dopamine D2","Histamine H1","Serotonin 5-HT2A","None of these"],1,"H1 antagonism drives sedation."],
+ ["Partial agonists","Aripiprazole behaves as a functional D2 __________ when synaptic dopamine is high.",["agonist","antagonist","reuptake inhibitor","None of these"],1,"As a partial agonist it acts antagonist-like in high-dopamine states, agonist-like when low."],
+ ["Partial agonists","Because cariprazine preferentially targets D3 receptors, it is thought to help especially with __________.",["acute dystonia","negative symptoms and cognition","hyperprolactinemia","None of these"],1,"D3 preference is linked to benefits for negative/cognitive symptoms."],
+ ["Partial agonists","Which agents are NOT D2 partial agonists (select all that apply)?",["Olanzapine","Quetiapine","Risperidone","Aripiprazole","Cariprazine"],[0,1,2],"Aripiprazole and cariprazine ARE partial agonists; the other three are antagonists."],
+ ["Partial agonists","Compared with full D2 antagonists, partial agonists carry a LOWER risk of __________.",["nausea","hyperprolactinemia and EPS","insomnia","None of these"],1,"Partial agonism keeps prolactin low and reduces EPS."],
+ ["Clozapine","Before and during clozapine therapy, the patient, prescriber, and pharmacy must be enrolled in the __________.",["PDMP","Clozapine REMS program","340B program","None of these"],1,"The Clozapine REMS governs prescribing and ANC monitoring."],
+ ["Clozapine","A patient one month into clozapine develops fever, chest pain, and tachycardia. You should suspect __________.",["akathisia","myocarditis","tardive dyskinesia","None of these"],1,"Myocarditis is an early, life-threatening clozapine risk."],
+ ["Clozapine","Clozapine is uniquely indicated for treatment-resistant schizophrenia and for reducing __________.",["weight","suicidality","prolactin","None of these"],1,"Clozapine is FDA-indicated to reduce suicidal behavior in schizophrenia/schizoaffective disorder."],
+ ["Clozapine","If the absolute neutrophil count falls below threshold on clozapine, you should __________.",["increase the dose","hold/discontinue the drug and monitor counts","add an anticholinergic","None of these"],1,"A significant ANC drop requires holding/stopping clozapine per the REMS."],
+ ["EPS","A fixed, twisted neck posture (torticollis) shortly after starting haloperidol is __________.",["akathisia","acute dystonia","tardive dyskinesia","drug-induced parkinsonism"],1,"Acute dystonia \u2014 sustained muscle contraction, often early and high-potency-related."],
+ ["EPS","Restlessness, pacing, and an inability to sit still soon after an antipsychotic describes __________.",["akathisia","dystonia","parkinsonism","tardive dyskinesia"],0,"Akathisia = subjective/motor restlessness."],
+ ["EPS","Tremor, bradykinesia, and rigidity resembling Parkinson disease in an antipsychotic patient is __________.",["acute dystonia","drug-induced parkinsonism","akathisia","tardive dyskinesia"],1,"Drug-induced parkinsonism mimics idiopathic PD."],
+ ["EPS","Repetitive lip-smacking and tongue movements after years of antipsychotic use suggests __________.",["acute dystonia","tardive dyskinesia","akathisia","NMS"],1,"Late-onset orofacial dyskinesias = tardive dyskinesia."],
+ ["EPS","First-line treatment for drug-induced parkinsonism is __________.",["a VMAT2 inhibitor","an anticholinergic (benztropine) or amantadine","propranolol","dantrolene"],1,"Anticholinergics/amantadine; also reduce or switch the antipsychotic."],
+ ["EPS","Besides propranolol, akathisia may respond to which adjunct?",["A benzodiazepine","A VMAT2 inhibitor","Dantrolene","None of these"],0,"Benzodiazepines are a recognized akathisia adjunct."],
+ ["EPS","Which features point to NMS rather than serotonin syndrome (select all that apply)?",["Lead-pipe rigidity","Hyporeflexia","Hyperthermia","Autonomic instability","Hyperreflexia with clonus"],[0,1,2,3],"NMS = rigidity, hyporeflexia, fever, autonomic instability; hyperreflexia/clonus suggests serotonin syndrome."],
+ ["EPS","Which laboratory finding is a hallmark of NMS?",["Low potassium","Markedly elevated creatine kinase (CK)","Elevated TSH","None of these"],1,"Muscle breakdown from rigidity raises CK (rhabdomyolysis risk)."],
+ ["EPS","Which acute EPS can be a medical emergency due to potential laryngeal involvement?",["Akathisia","Acute dystonia (laryngospasm)","Tardive dyskinesia","Drug-induced parkinsonism"],1,"Laryngeal dystonia can compromise the airway \u2014 treat urgently with anticholinergics."],
+ ["Cardiometabolic","Patients on olanzapine or clozapine require routine monitoring of __________.",["prolactin only","weight/BMI, fasting glucose, and lipids","ANC only","None of these"],1,"Metabolic monitoring: weight, glucose, lipids (and BP)."],
+ ["Cardiometabolic","Which atypical is comparatively weight-neutral and reasonable for a metabolic-syndrome-prone patient?",["Olanzapine","Lurasidone","Clozapine","Quetiapine"],1,"Lurasidone (like ziprasidone/aripiprazole) is relatively weight-neutral."],
+ ["Cardiometabolic","Antipsychotic-associated metabolic syndrome includes which findings (select all that apply)?",["Weight gain","Hyperglycemia","Dyslipidemia","Hypertension","Agranulocytosis"],[0,1,2,3],"Metabolic syndrome = weight, glucose, lipids, BP; agranulocytosis is a hematologic effect."],
+ ["5-HT2A / NTs","Serotonin acting at 5-HT2A receptors tends to __________ dopamine release in the nigrostriatal pathway.",["increase","decrease","not affect","None of these"],1,"5-HT2A activity brakes dopamine \u2014 which is why 5-HT2A antagonism releases dopamine and lowers EPS."],
+ ["5-HT2A / NTs","Which statement about the glutamate\u2013GABA relationship is correct?",["GABA is excitatory and is made from glutamate","Glutamate is excitatory and is the precursor to the inhibitory transmitter GABA","Both are inhibitory","Both are excitatory"],1,"Glutamate (excitatory) is converted to GABA (inhibitory)."],
+ ["5-HT2A / NTs","Excessive glutamate activity (excitotoxicity) can cause __________.",["increased GABA tone","neuronal injury and cell death","sedation","None of these"],1,"Over-excitation via glutamate is neurotoxic."],
+ ["5-HT2A / NTs","5-HT2A antagonism contributes to the LOWER __________ risk of atypical antipsychotics.",["metabolic","extrapyramidal-symptom","seizure","None of these"],1,"Blocking 5-HT2A restores nigrostriatal dopamine, reducing EPS."],
+ ["5-HT2A / NTs","The serotonin hypothesis is supported by the psychotomimetic (hallucinogenic) effects of __________.",["a benzodiazepine","LSD, a 5-HT2A agonist","a beta-blocker","None of these"],1,"LSD agonizes 5-HT2A and can produce hallucinations, supporting the serotonin hypothesis."],
+ ["Cardiometabolic","Which atypical is most sedating with the lowest EPS, often chosen for Parkinson disease psychosis?",["Risperidone","Quetiapine","Aripiprazole","Haloperidol"],1,"Quetiapine \u2014 highly sedating, minimal EPS."]
+];
+
+const quiz=document.getElementById('quiz'),countEl=document.getElementById('count'),submitBtn=document.getElementById('submit'),retakeBtn=document.getElementById('retake'),banner=document.getElementById('banner');
+const LETTERS=['A','B','C','D','E'];
+const isSATA=qi=>Array.isArray(Q[qi][3]);
+let answers=Q.map(q=>Array.isArray(q[3])?[]:null), graded=false;
+function arraysEqual(a,b){if(a.length!==b.length)return false;const s=[...a].sort((x,y)=>x-y),t=[...b].sort((x,y)=>x-y);return s.every((v,i)=>v===t[i]);}
+function build(){
+  quiz.innerHTML='';
+  Q.forEach((item,qi)=>{
+    const [topic,stem,opts,correct,rationale]=item, sata=Array.isArray(correct);
+    const card=document.createElement('div'); card.className='q'; card.id='q'+qi;
+    card.innerHTML='<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span><div class="stem">'+stem+(sata?'<span class="sata-tag">select all that apply</span>':'')+'</div>';
+    opts.forEach((o,oi)=>{
+      const d=document.createElement('div'); d.className='opt'+(sata?' multi':''); d.dataset.qi=qi; d.dataset.oi=oi;
+      d.innerHTML='<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick=()=>{ if(graded)return; if(sata){const a=answers[qi],i=a.indexOf(oi); if(i>=0)a.splice(i,1); else a.push(oi);} else answers[qi]=oi; render(); };
+      card.appendChild(d);
+    });
+    const rat=document.createElement('div'); rat.className='rat';
+    rat.innerHTML='<b>Answer: '+(sata?correct.map(i=>LETTERS[i]).join(', '):LETTERS[correct])+'.</b> '+rationale;
+    card.appendChild(rat); quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item,qi)=>{
+    const correct=item[3], sata=Array.isArray(correct);
+    document.querySelectorAll('#q'+qi+' .opt').forEach((d,oi)=>{
+      d.className='opt'+(sata?' multi':'');
+      if(!graded){ if(sata?answers[qi].includes(oi):answers[qi]===oi) d.classList.add('sel'); }
+      else { const ic=sata?correct.includes(oi):oi===correct, ch=sata?answers[qi].includes(oi):answers[qi]===oi; if(ic)d.classList.add('correct'); else if(ch)d.classList.add('wrong'); }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded',graded);
+  });
+  const answered=answers.filter((a,qi)=>isSATA(qi)?a.length>0:a!==null).length;
+  countEl.textContent=answered+' / '+Q.length+' answered';
+  submitBtn.disabled=answered<Q.length||graded;
+}
+function gradeQuiz(){
+  graded=true; let score=0;
+  Q.forEach((item,qi)=>{const c=item[3]; if(Array.isArray(c)){if(arraysEqual(answers[qi],c))score++;} else if(answers[qi]===c)score++;});
+  const pct=Math.round(score/Q.length*100), pass=pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor=pass?'var(--teal)':'var(--amber)';
+  banner.style.background=pass?'var(--teal-soft)':'#FBF1DC';
+  banner.style.color=pass?'var(--teal-deep)':'#7E4E10';
+  banner.innerHTML='<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+(pass?'Solid \u2014 above the 80% mark. Review any reds below.':'Keep going \u2014 review the rationales on the missed items below.')+' (Select-all items are graded all-or-nothing.)</p>';
+  render(); submitBtn.style.display='none'; retakeBtn.style.display='inline-block';
+  countEl.textContent='Scored '+score+' / '+Q.length; window.scrollTo({top:0,behavior:'smooth'});
+}
+function retake(){ answers=Q.map(q=>Array.isArray(q[3])?[]:null); graded=false; banner.style.display='none'; submitBtn.style.display='inline-block'; retakeBtn.style.display='none'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+submitBtn.onclick=gradeQuiz; retakeBtn.onclick=retake; build();
+</script>
+</body>
+</html>
