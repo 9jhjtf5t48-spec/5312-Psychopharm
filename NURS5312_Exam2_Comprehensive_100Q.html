@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 2 Comprehensive Practice (Ch 4–6, 100 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,5.3vw,37px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .sata-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.multi .ltr{border-radius:6px;}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam 2 Comprehensive Practice — Ch 4–6 (100 MCQ)</h1>
+  <p class="sub">Built strictly from the Key Points (Ch 4/5/6) and the Su26 Exam 2 Review, in your module-quiz format. 100 questions — answer all, then submit to grade.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>Original practice questions written from the Ch 4/5/6 key points, in your module-quiz format. Use for self-study; verify clinical details against current references.</footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 100 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+// correct = NUMBER (single answer) or ARRAY (select all that apply)
+const Q = [
+ ["Ch 4 \u00b7 Symptoms","The positive symptoms of psychosis include (select all that apply):",["Hallucinations","Delusions","Disorganized thought","Flat affect","Anhedonia"],[0,1,2],"Ch 4 \u2014 Positive = added experiences; flat affect and anhedonia are negative."],
+ ["Ch 4 \u00b7 Symptoms","Negative symptoms of schizophrenia include (select all that apply):",["Flat affect","Anhedonia","Avolition","Social withdrawal","Hallucinations"],[0,1,2,3],"Ch 4 \u2014 Hallucinations are a positive symptom."],
+ ["Ch 4 \u00b7 Symptoms","Which are cognitive symptoms of schizophrenia (select all that apply)?",["Impaired attention","Working memory deficits","Executive dysfunction","Delusions","Flat affect"],[0,1,2],"Ch 4 \u2014 Cognitive domain: attention, working memory, executive function."],
+ ["Ch 4 \u00b7 Symptoms","Affective symptoms in schizophrenia include:",["Depression and anxiety","Hallucinations","Rigidity","None of these"],0,"Ch 4 \u2014 The affective domain includes depression and anxiety."],
+ ["Ch 4 \u00b7 Symptoms","Disorganized thought/speech is classified as a __________ symptom.",["negative","positive","cognitive","None of these"],1,"Ch 4 \u2014 Disorganized thought is a positive symptom."],
+ ["Ch 4 \u00b7 Symptoms","Avolition and social withdrawal are __________ symptoms.",["positive","negative","affective","None of these"],1,"Ch 4 \u2014 These are core negative symptoms."],
+ ["Ch 4 \u00b7 Symptoms","Which symptom domain is most associated with working memory deficits and executive dysfunction?",["Positive","Negative","Cognitive","Affective"],2,"Ch 4 \u2014 Cognitive symptoms = attention, working memory, executive dysfunction."],
+ ["Ch 4 \u00b7 Symptoms","Flat affect with no hallucinations or delusions reflects predominantly __________ symptoms.",["positive","negative","cognitive","None of these"],1,"Ch 4 \u2014 Flattening/withdrawal are negative symptoms."],
+ ["Ch 4 \u00b7 Pathways","Hyperactivity of which dopamine pathway is responsible for positive symptoms?",["Nigrostriatal","Tuberoinfundibular","Mesocortical","Mesolimbic"],3,"Ch 4 \u2014 Mesolimbic hyperdopaminergia \u2192 positive symptoms."],
+ ["Ch 4 \u00b7 Pathways","Hypodopaminergia in which pathway is associated with negative and cognitive symptoms?",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],1,"Ch 4 \u2014 Mesocortical hypodopaminergia \u2192 negative/cognitive symptoms."],
+ ["Ch 4 \u00b7 Pathways","D2 blockade in the nigrostriatal pathway causes:",["Hyperprolactinemia","Extrapyramidal symptoms","Sedation","None of these"],1,"Ch 4 \u2014 Nigrostriatal (motor) D2 blockade \u2192 EPS."],
+ ["Ch 4 \u00b7 Pathways","D2 blockade in the tuberoinfundibular pathway causes:",["EPS","Hyperprolactinemia","Weight gain","None of these"],1,"Ch 4 \u2014 Dopamine inhibits prolactin; blocking it raises prolactin."],
+ ["Ch 4 \u00b7 Pathways","Dopamine in the nigrostriatal pathway primarily controls:",["Mood","Movement","Prolactin","None of these"],1,"Ch 4 \u2014 The nigrostriatal pathway controls movement."],
+ ["Ch 4 \u00b7 Pathways","Which pathway plays a role in cognitive and executive function?",["Mesocortical","Nigrostriatal","Tuberoinfundibular","Mesolimbic"],0,"Ch 4 \u2014 The mesocortical pathway projects to the PFC (cognition/executive function)."],
+ ["Ch 4 \u00b7 Pathways","D2 blockade in the mesolimbic pathway:",["improves hallucinations and delusions","worsens EPS","raises prolactin","None of these"],0,"Ch 4 \u2014 Blocking mesolimbic D2 reduces positive symptoms."],
+ ["Ch 4 \u00b7 Pathways","D2 blockade in the mesocortical pathway may:",["improve positive symptoms","worsen negative and cognitive symptoms","raise prolactin","None of these"],1,"Ch 4 \u2014 Mesocortical D2 blockade can worsen negative/cognitive symptoms."],
+ ["Ch 4 \u00b7 Receptors","Which statement about dopamine receptors is correct?",["D1 is inhibitory and D2 is excitatory","D1 is excitatory and D2 is inhibitory","Both are excitatory","Both are inhibitory"],1,"Review \u2014 D1 excitatory, D2 inhibitory."],
+ ["Ch 4 \u00b7 Receptors","Positive symptoms are associated with __________ dopamine.",["decreased","increased","unchanged","None of these"],1,"Review \u2014 Increased (mesolimbic) dopamine \u2192 positive symptoms."],
+ ["Ch 4 \u00b7 Receptors","Negative symptoms are caused by decreased dopamine and involve which receptors?",["D1","D2","5-HT2A","None of these"],0,"Review \u2014 Negative symptoms involve D1 receptors."],
+ ["Ch 5 \u00b7 Mechanism","All effective antipsychotic-spectrum drugs reduce dopamine signaling at which receptor in the mesolimbic pathway?",["D1","D2","5-HT2A","None of these"],1,"Ch 5 \u2014 D2 modulation in the mesolimbic pathway is necessary for efficacy."],
+ ["Ch 4 \u00b7 Hypotheses","The three theories/hypotheses of psychosis are:",["Dopamine, glutamate, and serotonin","GABA, norepinephrine, and dopamine","Glutamate, histamine, and serotonin","None of these"],0,"Review \u2014 Dopamine, glutamate, serotonin."],
+ ["Ch 4 \u00b7 Hypotheses","The serotonin hyperfunction hypothesis proposes imbalance at which receptor?",["5-HT1A","5-HT2C","5-HT2A","None of these"],2,"Ch 4 \u2014 Excess 5-HT2A activity is implicated."],
+ ["Ch 4 \u00b7 Hypotheses","NMDA antagonists such as ketamine and PCP can produce psychosis-like symptoms, supporting the role of:",["serotonin","glutamate","GABA","None of these"],1,"Ch 4 \u2014 Supports the glutamate (NMDA) hypothesis."],
+ ["Ch 4 \u00b7 Glutamate/GABA","In the NMDA hypofunction hypothesis, NMDA receptor hypofunction occurs on:",["dopamine neurons","GABA interneurons","pituitary cells","None of these"],1,"Ch 4 \u2014 NMDA hypofunction on GABA interneurons reduces inhibition."],
+ ["Ch 4 \u00b7 Glutamate/GABA","NMDA receptor hypofunction on GABA interneurons leads to:",["reduced glutamate","excess glutamate release and dopamine dysregulation","increased GABA","None of these"],1,"Ch 4 \u2014 Loss of inhibitory control \u2192 excess glutamate + dopamine dysregulation."],
+ ["Ch 4 \u00b7 Glutamate/GABA","Reduced GABA interneuron activity in the cortex results in:",["organized signaling","disorganized cortical signaling and impaired cognition","hyperprolactinemia","None of these"],1,"Ch 4 \u2014 Reduced GABA \u2192 disorganized cortical signaling, impaired cognition."],
+ ["Ch 4 \u00b7 Glutamate/GABA","Glutamate dysfunction may contribute to which symptom domains (select all that apply)?",["Positive symptoms","Negative symptoms","Cognitive impairment","Hyperprolactinemia"],[0,1,2],"Ch 4 \u2014 Glutamate abnormalities span positive, negative, and cognitive domains."],
+ ["Ch 4 \u00b7 Glutamate/GABA","GABA's normal role in the cortex is to:",["excite neurons","regulate and limit firing (inhibitory)","raise dopamine","None of these"],1,"Ch 4 \u2014 GABA is inhibitory, limiting excessive firing."],
+ ["Ch 4 \u00b7 Glutamate/GABA","Which neurotransmitter is excitatory?",["GABA","Glutamate","Both","Neither"],1,"Review \u2014 Glutamate is the primary excitatory transmitter."],
+ ["Ch 4 \u00b7 Glutamate/GABA","Which neurotransmitter is the brain's \u201cmaster switch\u201d?",["GABA","Glutamate","Serotonin","None of these"],1,"Review \u2014 Glutamate, the dominant excitatory transmitter."],
+ ["Ch 4 \u00b7 Glutamate/GABA","Glutamate functions as a neurotransmitter but is also a(n):",["lipid","amino acid","hormone","None of these"],1,"Review \u2014 Glutamate is an amino acid (and precursor to GABA)."],
+ ["Ch 4 \u00b7 5-HT/DA","Blocking 5-HT2A receptors increases dopamine in the nigrostriatal pathway, resulting in:",["more EPS","fewer EPS","hyperprolactinemia","None of these"],1,"Ch 4/5 \u2014 5-HT2A blockade restores nigrostriatal dopamine \u2192 fewer EPS."],
+ ["Ch 4 \u00b7 5-HT/DA","5-HT2A blockade increases dopamine in the mesocortical pathway, which may:",["worsen positive symptoms","improve negative and cognitive symptoms","raise prolactin","None of these"],1,"Ch 4/5 \u2014 More mesocortical dopamine may improve negative/cognitive symptoms."],
+ ["Ch 4 \u00b7 Epidemiology","In the US, persons with schizophrenia are more likely to be born during which season/months?",["Summer (Jul\u2013Sep)","Winter / January\u2013April","Autumn (Oct\u2013Dec)","Birth season is unrelated"],1,"Review/lecture \u2014 winter birth (the handout phrases it Jan\u2013April)."],
+ ["Ch 4 \u00b7 Dopamine","Where is dopamine primarily produced?",["Locus coeruleus","Ventral tegmental area and substantia nigra","Raphe nuclei","None of these"],1,"Review \u2014 VTA and substantia nigra (locus coeruleus = norepinephrine)."],
+ ["Ch 5 \u00b7 FGA","First-generation (typical) antipsychotics act primarily by:",["5-HT2A antagonism","strong D2 antagonism","D2 partial agonism","None of these"],1,"Ch 5 \u2014 Typicals are strong D2 antagonists."],
+ ["Ch 5 \u00b7 FGA","Typical antipsychotics are effective for __________ symptoms but carry high EPS and prolactin risk.",["negative","positive","cognitive","None of these"],1,"Ch 5 \u2014 D2 blockade treats positive symptoms."],
+ ["Ch 5 \u00b7 FGA","High-potency typicals such as haloperidol and fluphenazine are associated with more:",["sedation","EPS","orthostasis","weight gain"],1,"Ch 5 \u2014 High-potency typicals \u2192 more EPS."],
+ ["Ch 5 \u00b7 FGA","Low-potency typicals such as chlorpromazine are associated with more (select all that apply):",["Sedation","Orthostasis","Anticholinergic effects","Predominant EPS"],[0,1,2],"Ch 5 \u2014 Low-potency = H1/alpha-1/M1 effects (anti-HAM), less EPS."],
+ ["Ch 5 \u00b7 Receptors","Which receptor blockade explains antipsychotic-induced sedation and weight gain?",["Histamine H1","Muscarinic M1","Alpha-1","None of these"],0,"Ch 5 \u2014 H1 blockade \u2192 sedation and weight gain."],
+ ["Ch 5 \u00b7 Receptors","Alpha-1 receptor blockade by antipsychotics causes:",["anticholinergic effects","orthostatic hypotension","sedation","None of these"],1,"Ch 5 \u2014 Alpha-1 blockade \u2192 orthostatic hypotension."],
+ ["Ch 5 \u00b7 SGA","Atypical (second-generation) antipsychotics are characterized by:",["strong D2 only","moderate D2 antagonism plus strong 5-HT2A antagonism","D1 agonism","None of these"],1,"Ch 5 \u2014 Atypicals add strong 5-HT2A antagonism to moderate D2 blockade."],
+ ["Ch 5 \u00b7 SGA","Compared with typicals, atypicals offer (select all that apply):",["Lower EPS risk","Broader symptom coverage (mood, anxiety, agitation)","Some benefit for negative/cognitive symptoms","Higher prolactin than typicals"],[0,1,2],"Ch 5 \u2014 Lower EPS, broader coverage; typicals raise prolactin more."],
+ ["Ch 5 \u00b7 SGA","A key limitation of atypical antipsychotics is (select all that apply):",["Metabolic side effects","Weight gain","Dyslipidemia","Higher EPS than typicals"],[0,1,2],"Ch 5 \u2014 Atypicals trade EPS for metabolic risk."],
+ ["Ch 5 \u00b7 SGA","Which are examples of atypical antipsychotics (select all that apply)?",["Risperidone","Olanzapine","Quetiapine","Haloperidol","Clozapine"],[0,1,2,4],"Ch 5 \u2014 Haloperidol is a typical (first-generation) agent."],
+ ["Ch 5 \u00b7 Occupancy","Clinical response and side effects of antipsychotics are strongly related to the degree of:",["5-HT2A occupancy","D2 receptor occupancy","H1 occupancy","None of these"],1,"Ch 5 \u2014 Response/side effects track D2 occupancy."],
+ ["Ch 5 \u00b7 Occupancy","Antipsychotics generally must occupy approximately what percentage of D2 receptors to be effective?",["20\u201330%","60\u201380%","90\u2013100%","10\u201315%"],1,"Review \u2014 ~65% for efficacy, >80% drives EPS (roughly the 60\u201380% window)."],
+ ["Ch 5 \u00b7 5-HT2A","As an antagonist, blocking 5-HT2A receptors tends to __________ prolactin.",["increase","decrease","not affect","None of these"],1,"Review \u2014 5-HT2A antagonism lowers prolactin and offsets D2-driven elevation."],
+ ["Ch 5 \u00b7 Partial agonists","Partial dopamine agonists provide:",["full D2 blockade","functional antagonism when dopamine is high and stimulation when it is low","no D2 activity","None of these"],1,"Ch 5 \u2014 Partial agonists stabilize dopamine signaling."],
+ ["Ch 5 \u00b7 Partial agonists","Which medications are D2 partial agonists (select all that apply)?",["Aripiprazole","Brexpiprazole","Cariprazine","Risperidone","Olanzapine"],[0,1,2],"Ch 5 \u2014 The \u201c-prazole/-prazine\u201d trio; risperidone and olanzapine are antagonists."],
+ ["Ch 5 \u00b7 Partial agonists","Partial dopamine agonists carry a lower risk of:",["sedation","hyperprolactinemia","nausea","None of these"],1,"Ch 5 \u2014 Partial agonism preserves dopamine and keeps prolactin low."],
+ ["Ch 5 \u00b7 Partial agonists","Which agent is a potent D3 partial agonist?",["Olanzapine","Cariprazine","Quetiapine","Risperidone"],1,"Review \u2014 Cariprazine is a D3-preferring partial agonist."],
+ ["Ch 5 \u00b7 5-HT subtypes","5-HT1A partial agonism contributes which effects?",["antidepressant and anxiolytic","EPS","prolactin elevation","None of these"],0,"Ch 5 \u2014 5-HT1A partial agonism adds antidepressant/anxiolytic effects."],
+ ["Ch 5 \u00b7 5-HT subtypes","5-HT2C antagonism may:",["enhance dopamine and norepinephrine in the frontal cortex","raise prolactin","cause EPS","None of these"],0,"Ch 5 \u2014 5-HT2C antagonism raises frontal DA/NE."],
+ ["Ch 5 \u00b7 5-HT subtypes","5-HT7 antagonism may provide:",["circadian and cognitive benefits","prolactin elevation","acute dystonia","None of these"],0,"Ch 5 \u2014 5-HT7 antagonism aids circadian rhythm and cognition."],
+ ["Ch 5 \u00b7 Broader uses","\u201cAntipsychotics\u201d are used beyond schizophrenia for (select all that apply):",["Bipolar disorder","MDD augmentation","Autism-related irritability/agitation","Hypertension"],[0,1,2],"Ch 5 \u2014 Used across bipolar, MDD augmentation, and autism-related irritability."],
+ ["Ch 5 \u00b7 Broader uses","The serotonin receptor effects (5-HT1A/2C/7) of these agents explain their use in:",["bipolar depression and MDD augmentation","asthma","hypertension","None of these"],0,"Ch 5 \u2014 Serotonin actions underlie mood/augmentation uses."],
+ ["Ch 5 \u00b7 Drugs","Which agent has a decreased risk of akathisia compared with aripiprazole?",["Brexpiprazole","Haloperidol","Risperidone","Ziprasidone"],0,"Review \u2014 Brexpiprazole has less akathisia/activation than aripiprazole."],
+ ["Ch 5 \u00b7 Drugs","Which antipsychotic must be taken with food for adequate absorption (select all that apply)?",["Ziprasidone","Lurasidone","Aripiprazole","Olanzapine"],[0,1],"Review \u2014 Ziprasidone (\u2265500 cal) and lurasidone (\u2265350 cal) require food."],
+ ["Ch 5 \u00b7 Drugs","Which atypical carries the highest risk of weight gain and metabolic effects?",["Ziprasidone","Lurasidone","Olanzapine","Aripiprazole"],2,"Ch 5 \u2014 Olanzapine has the worst metabolic profile."],
+ ["Ch 5 \u00b7 Drugs","For adolescent schizophrenia, risperidone is titrated to a target of approximately:",["3 mg/day","16 mg/day","0.25 mg/day","25 mg/day"],0,"Review \u2014 Start low (~0.5 mg), target ~3 mg/day (max ~6)."],
+ ["Ch 5 \u00b7 Receptors","Which receptor blockade produces anticholinergic effects?",["Histamine H1","Muscarinic M1","Alpha-1","None of these"],1,"Ch 5 \u2014 M1 blockade \u2192 anticholinergic effects."],
+ ["Ch 5 \u00b7 Clozapine","Clozapine is the most effective agent for:",["first-episode psychosis","treatment-resistant schizophrenia","acute mania","insomnia"],1,"Ch 5 \u2014 Gold standard for refractory/treatment-resistant schizophrenia."],
+ ["Ch 5 \u00b7 Clozapine","In addition to treating refractory psychosis, clozapine uniquely reduces:",["weight","suicidality","prolactin","None of these"],1,"Ch 5 \u2014 Clozapine reduces suicidality."],
+ ["Ch 5 \u00b7 Clozapine","Which are major risks of clozapine (select all that apply)?",["Agranulocytosis","Myocarditis","Seizures","Severe metabolic syndrome","Hyperprolactinemia"],[0,1,2,3],"Ch 5 \u2014 Clozapine has weak D2 action, so prolactin elevation is not a major risk."],
+ ["Ch 5 \u00b7 Clozapine","Clozapine requires strict monitoring of the:",["prolactin","absolute neutrophil count","TSH","None of these"],1,"Ch 5 \u2014 ANC monitoring for agranulocytosis."],
+ ["Ch 5 \u00b7 Clozapine","Why is clozapine NOT first-line for schizophrenia?",["It is ineffective","Its serious risks (e.g., agranulocytosis) reserve it for refractory cases","It has no side effects","None of these"],1,"Ch 5 \u2014 Reserved for treatment-resistant disease due to risk profile."],
+ ["Ch 5 \u00b7 EPS","What causes the extrapyramidal side effects of antipsychotics?",["5-HT2A blockade","D2 blockade in the nigrostriatal pathway","H1 blockade","None of these"],1,"Ch 5 \u2014 EPS arise from nigrostriatal D2 blockade."],
+ ["Ch 5 \u00b7 EPS","Akathisia is best treated with:",["an anticholinergic","propranolol","a VMAT2 inhibitor","dantrolene"],1,"Ch 5 \u2014 Propranolol is first-line for akathisia."],
+ ["Ch 5 \u00b7 EPS","Tardive dyskinesia is treated with:",["anticholinergics","VMAT2 inhibitors","beta-blockers","dantrolene"],1,"Ch 5 \u2014 VMAT2 inhibitors (valbenazine, deutetrabenazine); anticholinergics worsen TD."],
+ ["Ch 5 \u00b7 EPS","Tardive dyskinesia develops in approximately what percentage of patients per year of exposure?",["~5%","~30%","~50%","~0.1%"],0,"Review \u2014 Roughly 5% per year of exposure."],
+ ["Ch 5 \u00b7 EPS","Drug-induced parkinsonism is treated with:",["a VMAT2 inhibitor","an anticholinergic (benztropine) or amantadine","propranolol","dantrolene"],1,"Ch 5 \u2014 Anticholinergics/amantadine; reduce or switch the antipsychotic."],
+ ["Ch 5 \u00b7 EPS","Which antipsychotic movement effects are generally reversible (select all that apply)?",["Acute dystonia","Akathisia","Drug-induced parkinsonism","Tardive dyskinesia"],[0,1,2],"Ch 5 \u2014 Dystonia, akathisia, parkinsonism reverse with treatment; TD is often irreversible."],
+ ["Ch 5 \u00b7 NMS","Which findings characterize neuroleptic malignant syndrome (select all that apply)?",["Lead-pipe rigidity","Hyperthermia","Autonomic instability","Altered mental status","Hyperreflexia/clonus"],[0,1,2,3],"Ch 5 \u2014 Clonus/hyperreflexia suggests serotonin syndrome, not NMS."],
+ ["Ch 5 \u00b7 NMS","Management of NMS includes all of the following EXCEPT:",["stopping the antipsychotic","dantrolene or bromocriptine","supportive care and cooling","restarting the same agent immediately"],3,"Ch 5 \u2014 Never restart the offending drug acutely."],
+ ["Ch 5 \u00b7 Cardiometabolic","Which antipsychotics carry the HIGHEST cardiometabolic risk?",["Ziprasidone and lurasidone","Olanzapine and clozapine","Aripiprazole and brexpiprazole","Haloperidol"],1,"Ch 5 \u2014 Olanzapine and clozapine have the worst metabolic profiles."],
+ ["Ch 5 \u00b7 Cardiometabolic","Which antipsychotics carry the LOWEST cardiometabolic risk?",["Olanzapine and clozapine","Ziprasidone, lurasidone, and aripiprazole","Quetiapine","None of these"],1,"Ch 5 \u2014 Ziprasidone, lurasidone, aripiprazole are relatively weight-neutral."],
+ ["Ch 5 \u00b7 Cardiometabolic","Atypical-associated metabolic side effects include (select all that apply):",["Weight gain","Dyslipidemia","Hyperglycemia","Agranulocytosis"],[0,1,2],"Ch 5 \u2014 Metabolic syndrome = weight, lipids, glucose; agranulocytosis is hematologic (clozapine)."],
+ ["Ch 6 \u00b7 Mood networks","Mood disorders are best understood as:",["a single neurotransmitter deficit","dysregulation of interconnected neurotransmitter networks","a purely psychological problem","None of these"],1,"Ch 6 \u2014 Mood disorders reflect network-level dysregulation."],
+ ["Ch 6 \u00b7 Norepinephrine","Norepinephrine is critical for (select all that apply):",["Energy and alertness","Attention and concentration","Stress response","Motivation","Prolactin inhibition"],[0,1,2,3],"Ch 6 \u2014 NE supports energy, attention, stress response, and motivation."],
+ ["Ch 6 \u00b7 Norepinephrine","Deficient norepinephrine signaling is associated with (select all that apply):",["Fatigue","Psychomotor slowing","Impaired concentration","Low motivation","Agitation"],[0,1,2,3],"Ch 6 \u2014 Low NE \u2192 fatigue, slowing, poor concentration, low motivation; agitation is excess NE."],
+ ["Ch 6 \u00b7 Norepinephrine","Excessive norepinephrine activity may contribute to:",["fatigue","anxiety and agitation","low motivation","None of these"],1,"Ch 6 \u2014 Excess NE \u2192 anxiety and agitation."],
+ ["Ch 6 \u00b7 Norepinephrine","The primary source of norepinephrine is the:",["raphe nuclei","locus coeruleus","substantia nigra","None of these"],1,"Ch 6 \u2014 The locus coeruleus is the main NE nucleus."],
+ ["Ch 6 \u00b7 Norepinephrine","Norepinephrine projections to the prefrontal cortex support:",["emotional regulation","attention and executive function","autonomic control","None of these"],1,"Ch 6 \u2014 PFC projections \u2192 attention/executive function."],
+ ["Ch 6 \u00b7 Norepinephrine","Norepinephrine projections to the limbic system support:",["attention","emotional regulation","movement","None of these"],1,"Ch 6 \u2014 Limbic projections \u2192 emotional regulation."],
+ ["Ch 6 \u00b7 Norepinephrine","Norepinephrine projections to the hypothalamus regulate:",["movement","stress and autonomic control","prolactin","None of these"],1,"Ch 6 \u2014 Hypothalamic projections \u2192 stress/autonomic control."],
+ ["Ch 6 \u00b7 GABA","GABA is the brain's primary __________ neurotransmitter.",["excitatory","inhibitory","modulatory","None of these"],1,"Ch 6 \u2014 GABA is the primary inhibitory transmitter."],
+ ["Ch 6 \u00b7 GABA","Functions of GABA include (select all that apply):",["Reducing anxiety","Promoting sleep","Regulating emotional reactivity","Increasing psychomotor activity"],[0,1,2],"Ch 6 \u2014 GABA reduces anxiety, promotes sleep, regulates emotional reactivity."],
+ ["Ch 6 \u00b7 GABA","Reduced GABA function is associated with (select all that apply):",["Anxiety","Insomnia","Mood instability","Sedation"],[0,1,2],"Ch 6 \u2014 Low GABA \u2192 anxiety, insomnia, mood instability."],
+ ["Ch 6 \u00b7 GABA","GABA interneurons help regulate which systems (select all that apply)?",["Glutamate excitatory output","Dopamine firing","Serotonin signaling","Prolactin secretion"],[0,1,2],"Ch 6 \u2014 GABA interneurons modulate glutamate, dopamine, and serotonin."],
+ ["Ch 6 \u00b7 Antidepressants","Which antidepressant classes enhance norepinephrine signaling (select all that apply)?",["SNRIs","TCAs","NRIs","Benzodiazepines"],[0,1,2],"Ch 6 \u2014 SNRIs, TCAs, and NRIs raise NE."],
+ ["Ch 6 \u00b7 Antidepressants","Increasing norepinephrine improves (select all that apply):",["Energy","Concentration","Psychomotor slowing","Prolactin"],[0,1,2],"Ch 6 \u2014 More NE \u2192 better energy, concentration, less psychomotor slowing."],
+ ["Ch 6 \u00b7 Antidepressants","Excessive norepinephrine activation from antidepressants may worsen (select all that apply):",["Anxiety","Insomnia","Irritability","Fatigue"],[0,1,2],"Ch 6 \u2014 Too much NE \u2192 anxiety, insomnia, irritability."],
+ ["Ch 6 \u00b7 GABA meds","Direct GABAergic agents include (select all that apply):",["Benzodiazepines","Z-hypnotics","SNRIs","NRIs"],[0,1],"Ch 6 \u2014 Benzodiazepines and Z-hypnotics act directly on GABA."],
+ ["Ch 6 \u00b7 GABA meds","Valproate and some anticonvulsants modulate GABA indirectly and are used for:",["psychosis only","anxiety, agitation, and mood stabilization","hypertension","None of these"],1,"Ch 6 \u2014 Indirect GABA modulation for anxiety, agitation, mood stabilization."],
+ ["Ch 6 \u00b7 GABA meds","Risks of GABAergic agents include (select all that apply):",["Sedation","Dependence","Cognitive impairment","Hyperprolactinemia"],[0,1,2],"Ch 6 \u2014 Sedation, dependence, and cognitive impairment."],
+ ["Ch 6 \u00b7 Bipolar","In bipolar disorder, antidepressant-induced increases in norepinephrine may:",["prevent mania","trigger mania in vulnerable patients","lower mood","None of these"],1,"Ch 6 \u2014 NE increases can precipitate mania in vulnerable patients."],
+ ["Ch 6 \u00b7 Anxiety overlap","Anxiety commonly co-occurs with mood disorders because of shared (select all that apply):",["Hyperactive stress circuits","Excess norepinephrine output","Reduced GABA inhibition","Dopamine excess"],[0,1,2],"Ch 6 \u2014 Shared stress circuits, excess NE, reduced GABA."],
+ ["Ch 6 \u00b7 Treatment lens","For a patient with low energy, poor concentration, and psychomotor retardation, treatment should target:",["GABA enhancement","norepinephrine","dopamine blockade","None of these"],1,"Ch 6 \u2014 Target NE (SNRI/NRI) for low energy/concentration/psychomotor slowing."],
+ ["Ch 6 \u00b7 Treatment lens","For a patient with prominent anxiety, insomnia, and agitation, treatment should consider:",["norepinephrine enhancement","enhancing GABA","dopamine blockade","None of these"],1,"Ch 6 \u2014 Enhance GABA for anxiety, insomnia, agitation."]
+];
+
+const quiz=document.getElementById('quiz'),countEl=document.getElementById('count'),submitBtn=document.getElementById('submit'),retakeBtn=document.getElementById('retake'),banner=document.getElementById('banner');
+const LETTERS=['A','B','C','D','E'];
+const isSATA=qi=>Array.isArray(Q[qi][3]);
+let answers=Q.map(q=>Array.isArray(q[3])?[]:null), graded=false;
+function arraysEqual(a,b){if(a.length!==b.length)return false;const s=[...a].sort((x,y)=>x-y),t=[...b].sort((x,y)=>x-y);return s.every((v,i)=>v===t[i]);}
+function build(){
+  quiz.innerHTML='';
+  Q.forEach((item,qi)=>{
+    const [topic,stem,opts,correct,rationale]=item, sata=Array.isArray(correct);
+    const card=document.createElement('div'); card.className='q'; card.id='q'+qi;
+    card.innerHTML='<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span><div class="stem">'+stem+(sata?'<span class="sata-tag">select all that apply</span>':'')+'</div>';
+    opts.forEach((o,oi)=>{
+      const d=document.createElement('div'); d.className='opt'+(sata?' multi':''); d.dataset.qi=qi; d.dataset.oi=oi;
+      d.innerHTML='<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick=()=>{ if(graded)return; if(sata){const a=answers[qi],i=a.indexOf(oi); if(i>=0)a.splice(i,1); else a.push(oi);} else answers[qi]=oi; render(); };
+      card.appendChild(d);
+    });
+    const rat=document.createElement('div'); rat.className='rat';
+    rat.innerHTML='<b>Answer: '+(sata?correct.map(i=>LETTERS[i]).join(', '):LETTERS[correct])+'.</b> '+rationale;
+    card.appendChild(rat); quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item,qi)=>{
+    const correct=item[3], sata=Array.isArray(correct);
+    document.querySelectorAll('#q'+qi+' .opt').forEach((d,oi)=>{
+      d.className='opt'+(sata?' multi':'');
+      if(!graded){ if(sata?answers[qi].includes(oi):answers[qi]===oi) d.classList.add('sel'); }
+      else { const ic=sata?correct.includes(oi):oi===correct, ch=sata?answers[qi].includes(oi):answers[qi]===oi; if(ic)d.classList.add('correct'); else if(ch)d.classList.add('wrong'); }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded',graded);
+  });
+  const answered=answers.filter((a,qi)=>isSATA(qi)?a.length>0:a!==null).length;
+  countEl.textContent=answered+' / '+Q.length+' answered';
+  submitBtn.disabled=answered<Q.length||graded;
+}
+function gradeQuiz(){
+  graded=true; let score=0;
+  Q.forEach((item,qi)=>{const c=item[3]; if(Array.isArray(c)){if(arraysEqual(answers[qi],c))score++;} else if(answers[qi]===c)score++;});
+  const pct=Math.round(score/Q.length*100), pass=pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor=pass?'var(--teal)':'var(--amber)';
+  banner.style.background=pass?'var(--teal-soft)':'#FBF1DC';
+  banner.style.color=pass?'var(--teal-deep)':'#7E4E10';
+  banner.innerHTML='<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+(pass?'Solid \u2014 above the 80% mark. Review any reds below.':'Keep going \u2014 review the rationales on the missed items below.')+' (Select-all items are graded all-or-nothing.)</p>';
+  render(); submitBtn.style.display='none'; retakeBtn.style.display='inline-block';
+  countEl.textContent='Scored '+score+' / '+Q.length; window.scrollTo({top:0,behavior:'smooth'});
+}
+function retake(){ answers=Q.map(q=>Array.isArray(q[3])?[]:null); graded=false; banner.style.display='none'; submitBtn.style.display='inline-block'; retakeBtn.style.display='none'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+submitBtn.onclick=gradeQuiz; retakeBtn.onclick=retake; build();
+</script>
+</body>
+</html>
