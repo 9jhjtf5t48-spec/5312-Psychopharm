@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 2 Practice (Vela Format, 100 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,5.3vw,37px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .sata-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.multi .ltr{border-radius:6px;}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam 2 Practice — Vela Quiz Format (100 MCQ)</h1>
+  <p class="sub">100 new questions in the Ch 4 Quiz 2 format: mostly single-answer with a few select-all-that-apply, clinical vignettes, “None/All of these” options, and rationales citing chapter &amp; page. Rebalanced (lighter on dopamine synthesis). Answer all, then submit to grade.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>Original practice questions written from the Ch 4/5/6 key points, in your module-quiz format. Use for self-study; verify clinical details against current references.</footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 100 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+// correct = NUMBER (single answer) or ARRAY (select all that apply)
+const Q = [
+ ["1 \u00b7 Dopamine","From which amino acid is dopamine synthesized?",["Tryptophan","Tyrosine","Phenylalanine","Glutamate"],1,"Chapter 4, p. 79\u201380 (Fig 4-2) \u2014 tyrosine \u2192 DOPA (via tyrosine hydroxylase) \u2192 dopamine (via DOPA decarboxylase)."],
+ ["1 \u00b7 Dopamine","The cell bodies of dopamine neurons are located primarily in which region?",["Locus coeruleus","Ventral tegmental area and substantia nigra","Raphe nuclei","Hippocampus"],1,"Chapter 4, p. 79 \u2014 DA neurons originate in the VTA and substantia nigra (brainstem)."],
+ ["1 \u00b7 Dopamine","Which statement about dopamine receptors is correct?",["D1-like are excitatory; D2-like are inhibitory","D1-like are inhibitory; D2-like are excitatory","D1 is the primary antipsychotic target","Dopamine has no inhibitory receptors"],0,"Chapter 4, p. 80 \u2014 D1-like excitatory, D2-like inhibitory; D2 is the antipsychotic target."],
+ ["1 \u00b7 Dopamine","Which dopamine receptor is excitatory?",["D1","D2","D3","None of these"],0,"Chapter 4, p. 80 \u2014 D1-like (D1, D5) are excitatory."],
+ ["1 \u00b7 Dopamine","Negative symptoms are linked to decreased dopamine acting at which receptor?",["D1","D2","5-HT2A","All of these"],0,"Chapter 4, p. 94\u201395 \u2014 negative symptoms involve more D1 (reduced \u201csocial drive\u201d)."],
+ ["2 \u00b7 Schizophrenia","Select ALL that apply. Which are POSITIVE symptoms of schizophrenia?",["Hallucinations","Delusions","Disorganized speech","Avolition","Flat affect"],[0,1,2],"Chapter 4, p. 77\u201379 \u2014 positive = added/distorted function (hallucinations, delusions, disorganization); avolition/flat affect are negative."],
+ ["2 \u00b7 Schizophrenia","Select ALL that apply. Which are NEGATIVE symptoms (the \u201c5 A\u2019s\u201d)?",["Avolition","Anhedonia","Alogia","Hallucinations","Asociality"],[0,1,2,4],"Chapter 4, p. 94\u201395 \u2014 affect blunting, alogia, avolition, anhedonia, asociality."],
+ ["2 \u00b7 Schizophrenia","A patient believes the TV sends him secret messages and hears voices commenting on his actions. These are best categorized as:",["Negative symptoms","Positive symptoms","Cognitive symptoms","Affective symptoms"],1,"Chapter 4, p. 77\u201379 \u2014 delusions and hallucinations are positive symptoms."],
+ ["2 \u00b7 Schizophrenia","A patient sits motionless with little facial expression, has stopped bathing, and no longer enjoys anything. These are:",["Positive symptoms","Negative symptoms","Extrapyramidal symptoms","None of these"],1,"Chapter 4, p. 94\u201395 \u2014 avolition, blunted affect, and anhedonia are negative symptoms."],
+ ["2 \u00b7 Schizophrenia","Positive symptoms are associated with excess dopamine in which pathway, acting at which receptor?",["Mesocortical / D1","Mesolimbic / D2","Nigrostriatal / D2","Tuberoinfundibular / D1"],1,"Chapter 4, p. 91\u201392 \u2014 mesolimbic hyperdopaminergia at D2."],
+ ["2 \u00b7 Schizophrenia","Negative/cognitive symptoms reflect a dopamine deficit with more involvement of which receptor?",["D2","D1","5-HT2A","H1"],1,"Chapter 4, p. 94\u201395 \u2014 D1 involvement."],
+ ["2 \u00b7 Schizophrenia","Select ALL that apply. What are the three theories of psychosis?",["Dopamine","Serotonin","Glutamate / NMDA","GABA","Histamine"],[0,1,2],"Chapter 4, p. 141 \u2014 dopamine, serotonin, and glutamate (NMDA) hypotheses."],
+ ["2 \u00b7 Schizophrenia","According to the dopamine hypothesis, positive symptoms result from:",["Too little mesocortical dopamine","Too much mesolimbic dopamine","Too much nigrostriatal dopamine","None of these"],1,"Chapter 4, p. 141 \u2014 mesolimbic excess drives positive symptoms."],
+ ["2 \u00b7 Schizophrenia","The serotonin hypothesis centers on excess activity at which receptor?",["5-HT1A","5-HT2A","5-HT2C","5-HT7"],1,"Chapter 4, p. 132, 141 \u2014 5-HT2A hyperfunction."],
+ ["2 \u00b7 Schizophrenia","A student is brought to the ED with hallucinations and paranoia after taking PCP. PCP causes this by blocking which receptor (supporting which hypothesis)?",["D2 / dopamine","NMDA / glutamate","5-HT2A / serotonin","GABA-A / GABA"],1,"Chapter 4, p. 141 \u2014 NMDA antagonism supports the glutamate hypothesis."],
+ ["2 \u00b7 Schizophrenia","Which feature makes the NMDA-hypofunction (glutamate) hypothesis the most comprehensive?",["It explains only positive symptoms","It explains positive, negative, AND cognitive symptoms","It explains only prolactin effects","None of these"],1,"Chapter 4, p. 141 \u2014 NMDA antagonists reproduce all three symptom domains."],
+ ["2 \u00b7 Schizophrenia","In the glutamate hypothesis, the hypofunctional NMDA receptors are located on which cells?",["Dopamine neurons","GABA interneurons","Pituitary lactotrophs","None of these"],1,"Chapter 4 \u2014 NMDA hypofunction on GABA interneurons \u2192 downstream DA dysregulation."],
+ ["2 \u00b7 Schizophrenia","LSD supports the serotonin hypothesis because it acts as a:",["D2 antagonist","5-HT2A agonist (psychotomimetic)","GABA agonist","NMDA antagonist"],1,"Chapter 4, p. 132 \u2014 serotonergic hallucinogen at 5-HT2A."],
+ ["2 \u00b7 Schizophrenia","Which agents are first-line for schizophrenia?",["First- and second-generation antipsychotics","Benzodiazepines","Beta-blockers","SSRIs"],0,"Chapter 5 \u2014 FGAs, SGAs, and D2 partial agonists treat schizophrenia."],
+ ["2 \u00b7 Schizophrenia","The excitatory D1-like receptors include:",["D1 and D5","D2 and D3","D2 and D4","None of these"],0,"Chapter 4, p. 80 \u2014 D1-like = D1 and D5."],
+ ["2 \u00b7 Schizophrenia","The inhibitory D2-like receptors include:",["D1 and D5","D2, D3, and D4","Only D2","None of these"],1,"Chapter 4, p. 80 \u2014 D2-like = D2, D3, D4."],
+ ["3 \u00b7 Pathways","Which is one of the THREE classic dopamine pathways Stahl describes?",["Tuberoinfundibular","Mesolimbic","Thalamic","Spinal"],1,"Chapter 4, p. 78\u201379 \u2014 the three classic pathways are mesolimbic, mesocortical, nigrostriatal."],
+ ["3 \u00b7 Pathways","Hallucinations and delusions are linked to hyperactivity of which pathway?",["Mesocortical","Mesolimbic","Nigrostriatal","Tuberoinfundibular"],1,"Chapter 4 \u2014 mesolimbic."],
+ ["3 \u00b7 Pathways","Cognitive symptoms map to the mesocortical projection to which region?",["Amygdala","Dorsolateral prefrontal cortex (DLPFC)","Striatum","Pituitary"],1,"Chapter 4, p. 144\u2013146 \u2014 DLPFC."],
+ ["3 \u00b7 Pathways","Affective symptoms (mood/motivation) map to the mesocortical projection to which region?",["DLPFC","Ventromedial prefrontal cortex (VMPFC)","Substantia nigra","Thalamus"],1,"Chapter 4, p. 144\u2013146 \u2014 VMPFC."],
+ ["3 \u00b7 Pathways","Which pathway controls movement and, when blocked, produces EPS?",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"Chapter 4/5 \u2014 nigrostriatal."],
+ ["3 \u00b7 Pathways","Aggressive symptoms involve the orbitofrontal cortex and which structure?",["Cerebellum","Amygdala","Pituitary","None of these"],1,"Chapter 4, p. 144\u2013146 \u2014 amygdala (with serotonin involvement)."],
+ ["3 \u00b7 Pathways","Sleep and arousal are gated by which dopamine pathway?",["Mesolimbic","Thalamic","Nigrostriatal","Tuberoinfundibular"],1,"Chapter 4 \u2014 the thalamic dopamine pathway gates sleep/arousal."],
+ ["3 \u00b7 Pathways","Which pairing of D2 antagonism \u2192 effect is INCORRECT?",["Mesolimbic \u2192 reduced positive symptoms","Nigrostriatal \u2192 EPS","Tuberoinfundibular \u2192 hyperprolactinemia","Mesocortical \u2192 improved cognition"],3,"Chapter 5, p. 160 \u2014 mesocortical D2 blockade WORSENS cognition."],
+ ["3 \u00b7 Pathways","D2 blockade in the tuberoinfundibular pathway causes:",["EPS","Hyperprolactinemia","Reduced positive symptoms","None of these"],1,"Chapter 5, p. 160 \u2014 dopamine normally inhibits prolactin, so blockade raises it."],
+ ["3 \u00b7 Pathways","A patient on haloperidol develops galactorrhea and amenorrhea. This is due to D2 blockade in which pathway?",["Mesolimbic","Nigrostriatal","Tuberoinfundibular","Mesocortical"],2,"Chapter 5, p. 160 \u2014 tuberoinfundibular blockade \u2192 hyperprolactinemia."],
+ ["3 \u00b7 Pathways","Adding a partial agonist \u201cstabilizes\u201d dopamine. When dopamine is HIGH, it acts as a:",["Full agonist","Functional antagonist","NMDA blocker","None of these"],1,"Chapter 5, p. 195 \u2014 in high-dopamine states it functions as an antagonist."],
+ ["3 \u00b7 Pathways","When dopamine is LOW, a D2 partial agonist acts as a:",["Functional antagonist","Stimulator (functional agonist)","Pure blocker","None of these"],1,"Chapter 5, p. 195 \u2014 in low-dopamine states it provides partial stimulation."],
+ ["3 \u00b7 Pathways","Why are D2 partial agonists associated with FEWER side effects?",["They stabilize dopamine, preserving it where it is needed","They fully block all D2 receptors","They block only 5-HT2A","They strongly raise prolactin"],0,"Chapter 5, p. 195 \u2014 partial agonism stabilizes rather than fully blocking dopamine."],
+ ["3 \u00b7 Pathways","A patient with prominent negative symptoms and concern about prolactin is started on a D3-preferring partial agonist. Which drug?",["Haloperidol","Cariprazine","Risperidone","Olanzapine"],1,"Chapter 5 \u2014 cariprazine is the potent D3 partial agonist."],
+ ["3 \u00b7 Pathways","A patient develops tremor and rigidity from D2 blockade. The affected pathway is the:",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"Chapter 5, p. 160 \u2014 nigrostriatal pathway controls movement."],
+ ["4 \u00b7 Antipsychotics","First-generation antipsychotics act primarily as:",["5-HT2A antagonists","D2 antagonists","D2 partial agonists","None of these"],1,"Chapter 5, p. 201\u2013203 \u2014 FGAs are D2 antagonists."],
+ ["4 \u00b7 Antipsychotics","What pharmacologic feature distinguishes atypical (second-generation) antipsychotics?",["Added muscarinic agonism","Added 5-HT2A antagonism","Added NMDA antagonism","None of these"],1,"Chapter 5, p. 222 \u2014 D2 + 5-HT2A antagonism."],
+ ["4 \u00b7 Antipsychotics","Compared with typicals, atypicals PRIMARILY improve:",["EPS and prolactin elevation","Metabolic risk","Sedation","Seizure threshold"],0,"Chapter 5, p. 222\u2013240 \u2014 atypicals lower EPS/prolactin (metabolic risk is worse)."],
+ ["4 \u00b7 Antipsychotics","Antipsychotics are dosed to occupy approximately what percent of D2 receptors for efficacy?",["20\u201340%","60\u201380%","90\u2013100%","None of these"],1,"Chapter 5, p. 196 \u2014 at least 60\u201380%."],
+ ["4 \u00b7 Antipsychotics","Occupancy above ~80% of D2 receptors most increases the risk of:",["Metabolic syndrome","EPS","Agranulocytosis","None of these"],1,"Chapter 5 \u2014 >80% occupancy drives EPS."],
+ ["4 \u00b7 Antipsychotics","Which TWO agents must be taken with food for adequate absorption?",["Ziprasidone and lurasidone","Olanzapine and risperidone","Haloperidol and fluphenazine","Quetiapine and clozapine"],0,"Chapter 5 \u2014 ziprasidone (\u2265500 cal) and lurasidone (\u2265350 cal)."],
+ ["4 \u00b7 Antipsychotics","A patient on aripiprazole reports inner restlessness and pacing. Switching to which agent would likely reduce this activation/akathisia?",["Haloperidol","Brexpiprazole","Risperidone","Ziprasidone"],1,"Chapter 5 \u2014 brexpiprazole has less akathisia than aripiprazole."],
+ ["4 \u00b7 Antipsychotics","Which agent is the potent D3 partial agonist?",["Olanzapine","Cariprazine","Quetiapine","None of these"],1,"Chapter 5 \u2014 cariprazine."],
+ ["4 \u00b7 Antipsychotics","Which receptor blockade explains antipsychotic sedation and weight gain?",["Histamine H1","Alpha-1","Muscarinic M1","Dopamine D2"],0,"Chapter 5, p. 201\u2013203 \u2014 H1 blockade \u2192 sedation/weight gain."],
+ ["4 \u00b7 Antipsychotics","An elderly patient on chlorpromazine (low-potency typical) is most likely to experience:",["Severe EPS","Sedation and orthostasis","Agranulocytosis","None of these"],1,"Chapter 5, p. 201\u2013203 \u2014 low-potency typicals \u2192 sedation, orthostasis, anticholinergic effects."],
+ ["4 \u00b7 Antipsychotics","A patient on high-potency haloperidol is most likely to experience:",["Sedation","EPS","Weight gain","Orthostasis"],1,"Chapter 5, p. 201\u2013203 \u2014 high-potency typicals \u2192 EPS."],
+ ["4 \u00b7 Antipsychotics","Which agent causes the greatest prolactin elevation?",["Quetiapine","Risperidone","Aripiprazole","Clozapine"],1,"Chapter 5 \u2014 risperidone."],
+ ["4 \u00b7 Antipsychotics","Which is a second-generation (atypical) antipsychotic?",["Haloperidol","Olanzapine","Fluphenazine","Chlorpromazine"],1,"Chapter 5 \u2014 olanzapine."],
+ ["4 \u00b7 Antipsychotics","A patient with Parkinson disease develops psychosis. Which agent (low EPS, high sedation) is preferred?",["Haloperidol","Quetiapine","Risperidone","Fluphenazine"],1,"Chapter 5 \u2014 quetiapine."],
+ ["4 \u00b7 Antipsychotics","Which agents can cause EPS through D2 blockade?",["Haloperidol","Fluphenazine","Risperidone","All of these"],3,"Chapter 5 \u2014 all D2 blockers can cause EPS; high-potency typicals most."],
+ ["5 \u00b7 Clozapine","Clozapine is reserved for which patients?",["First-episode psychosis","Treatment-resistant schizophrenia","Acute mania","None of these"],1,"Chapter 5, p. 222 \u2014 treatment-resistant disease."],
+ ["5 \u00b7 Clozapine","Select ALL that apply. Which are life-threatening adverse effects of clozapine?",["Agranulocytosis","Myocarditis","Seizures","Hyperprolactinemia"],[0,1,2],"Chapter 5, p. 222 \u2014 agranulocytosis, myocarditis, seizures are life-threatening; clozapine actually lowers prolactin."],
+ ["5 \u00b7 Clozapine","Which lab must be monitored regularly during clozapine therapy?",["Prolactin","Absolute neutrophil count (ANC)","TSH","None of these"],1,"Chapter 5, p. 222 \u2014 ANC for agranulocytosis."],
+ ["5 \u00b7 Clozapine","A patient on clozapine for 3 weeks develops fever, sore throat, and malaise. The PRIORITY concern is:",["Myocarditis","Agranulocytosis","Tardive dyskinesia","Sialorrhea"],1,"Chapter 5, p. 222 \u2014 infection signs suggest agranulocytosis; check ANC."],
+ ["5 \u00b7 Clozapine","A patient 4 weeks into clozapine reports chest pain, dyspnea, and tachycardia. You suspect:",["Agranulocytosis","Myocarditis","Akathisia","Dystonia"],1,"Chapter 5, p. 222 \u2014 early myocarditis."],
+ ["5 \u00b7 Clozapine","Which finding is commonly noted on physical assessment of a clozapine patient?",["Hypersalivation (sialorrhea)","Hyperreflexia with clonus","Dilated pupils","Dry skin"],0,"Chapter 5, p. 222 \u2014 sialorrhea is characteristic; clonus suggests serotonin syndrome."],
+ ["5 \u00b7 Clozapine","Clozapine can be prescribed only by clinicians enrolled in the:",["DEA registry","Clozapine REMS","PDMP","None of these"],1,"Chapter 5 \u2014 Clozapine REMS."],
+ ["5 \u00b7 Clozapine","Despite its risks, clozapine is unique in that it:",["Raises prolactin the most","Reduces suicidality","Causes the most EPS","None of these"],1,"Chapter 5 \u2014 uniquely reduces suicidality."],
+ ["5 \u00b7 Clozapine","Clozapine is NOT first-line because of:",["Lack of efficacy","Agranulocytosis risk and monitoring burden","No drug interactions","None of these"],1,"Chapter 5, p. 222 \u2014 reserved due to agranulocytosis risk/monitoring despite high efficacy."],
+ ["5 \u00b7 Clozapine","Clozapine lowers the seizure threshold, making which a dose-related risk?",["Hyperprolactinemia","Seizures","Dystonia","None of these"],1,"Chapter 5 \u2014 dose-related seizure risk."],
+ ["5 \u00b7 Clozapine","A patient with schizophrenia has failed two adequate antipsychotic trials and now reports suicidal thoughts. Which agent is most appropriate?",["Haloperidol","Clozapine","Aripiprazole","Quetiapine"],1,"Chapter 5, p. 222 \u2014 treatment-resistant + suicidality favors clozapine."],
+ ["6 \u00b7 Side effects","Extrapyramidal symptoms are caused by D2 blockade in which pathway?",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"Chapter 5 \u2014 nigrostriatal."],
+ ["6 \u00b7 Side effects","A patient on a new antipsychotic cannot sit still and paces constantly (akathisia). First-line treatment is:",["Benztropine","Propranolol","A VMAT2 inhibitor","Dantrolene"],1,"Chapter 5, p. 187 \u2014 propranolol (beta-blocker)."],
+ ["6 \u00b7 Side effects","Hours after a haloperidol injection, a man's neck twists involuntarily and his eyes roll upward. This acute dystonia is treated with:",["Propranolol","Benztropine or diphenhydramine","A VMAT2 inhibitor","Lithium"],1,"Chapter 5 \u2014 anticholinergic/antihistamine reverses acute dystonia."],
+ ["6 \u00b7 Side effects","Which is an example of acute dystonia?",["Lip-smacking and tongue rolling","Oculogyric crisis","Inner restlessness","Tremor and rigidity"],1,"Chapter 5 \u2014 oculogyric crisis is dystonia; lip-smacking is TD, restlessness is akathisia, tremor/rigidity is parkinsonism."],
+ ["6 \u00b7 Side effects","A patient develops tremor, rigidity, and bradykinesia on an antipsychotic. This drug-induced parkinsonism is treated with:",["A VMAT2 inhibitor","An anticholinergic or amantadine","Propranolol","Dantrolene"],1,"Chapter 5 \u2014 anticholinergic or amantadine."],
+ ["6 \u00b7 Side effects","After a year on a first-generation antipsychotic, a patient develops repetitive lip-smacking and tongue movements. This tardive dyskinesia is treated with:",["An anticholinergic","A VMAT2 inhibitor","Propranolol","Benztropine"],1,"Chapter 5, p. 174 \u2014 VMAT2 inhibitors (valbenazine, deutetrabenazine)."],
+ ["6 \u00b7 Side effects","Approximately what percent of patients develop tardive dyskinesia per year of exposure?",["~5%","~30%","~50%","None of these"],0,"Chapter 5, p. 174 \u2014 ~5% per year."],
+ ["6 \u00b7 Side effects","Anticholinergic medications should be AVOIDED in which condition because they worsen it?",["Acute dystonia","Tardive dyskinesia","Parkinsonism","Akathisia"],1,"Chapter 5, p. 174 \u2014 anticholinergics worsen TD."],
+ ["6 \u00b7 Side effects","Select ALL that apply. Which are features of neuroleptic malignant syndrome (NMS)?",["Lead-pipe rigidity","Hyperthermia","Autonomic instability","Elevated CK","Hyperreflexia with clonus"],[0,1,2,3],"Chapter 5 \u2014 rigidity, hyperthermia, autonomic instability, \u2191CK; clonus/hyperreflexia points to serotonin syndrome."],
+ ["6 \u00b7 Side effects","A patient on an antipsychotic has high fever, severe rigidity, altered mental status, and CK of 5,000. Besides stopping the drug, treatment includes:",["Propranolol","Dantrolene or bromocriptine","Benztropine","A VMAT2 inhibitor"],1,"Chapter 5 \u2014 NMS: stop the drug + dantrolene or bromocriptine + supportive care."],
+ ["6 \u00b7 Side effects","Which of the following EPS is generally REVERSIBLE with treatment or dose reduction?",["Tardive dyskinesia","Acute dystonia","Both are always permanent","Neither responds to treatment"],1,"Chapter 5, p. 174 \u2014 acute dystonia/akathisia/parkinsonism are reversible; TD is often permanent."],
+ ["6 \u00b7 Side effects","Which EPS is often IRREVERSIBLE?",["Acute dystonia","Akathisia","Tardive dyskinesia","Parkinsonism"],2,"Chapter 5, p. 174 \u2014 TD is often permanent."],
+ ["6 \u00b7 Side effects","Which EPS \u2192 first-line treatment pairing is INCORRECT?",["Akathisia \u2192 propranolol","Dystonia \u2192 benztropine","Tardive dyskinesia \u2192 VMAT2 inhibitor","Parkinsonism \u2192 propranolol"],3,"Chapter 5 \u2014 parkinsonism is treated with an anticholinergic/amantadine, not propranolol."],
+ ["6 \u00b7 Side effects","The primary therapeutic action of antipsychotics is to:",["Enhance GABA","Reduce dopamine (D2) signaling","Block NMDA","None of these"],1,"Chapter 5 \u2014 reduce D2 signaling (atypicals also modulate 5-HT2A)."],
+ ["6 \u00b7 Side effects","A patient on risperidone develops restlessness and an urge to move. The BEST initial step is:",["Add a VMAT2 inhibitor","Start propranolol and consider dose reduction","Give dantrolene","None of these"],1,"Chapter 5, p. 187 \u2014 akathisia \u2192 propranolol \u00b1 dose reduction."],
+ ["6 \u00b7 Side effects","What is the common mechanism underlying antipsychotic-induced EPS?",["Excess acetylcholine alone","D2 blockade in the nigrostriatal pathway","Serotonin excess","None of these"],1,"Chapter 5 \u2014 nigrostriatal D2 blockade."],
+ ["7 \u00b7 Cardiometabolic","Select ALL that apply. Which agents carry the HIGHEST cardiometabolic risk?",["Olanzapine","Clozapine","Ziprasidone","Lurasidone"],[0,1],"Chapter 5, p. 197\u2013200 \u2014 olanzapine and clozapine are highest."],
+ ["7 \u00b7 Cardiometabolic","Which agent has the LOWEST cardiometabolic risk?",["Olanzapine","Lurasidone","Clozapine","Quetiapine"],1,"Chapter 5, p. 197\u2013200 \u2014 lurasidone (also ziprasidone, aripiprazole) is weight-neutral."],
+ ["7 \u00b7 Cardiometabolic","Which is a component of antipsychotic-associated metabolic syndrome?",["Bradycardia","Dyslipidemia","Hyperreflexia","Agranulocytosis"],1,"Chapter 5, p. 199\u2013200 \u2014 weight gain, dyslipidemia, hyperglycemia/insulin resistance."],
+ ["7 \u00b7 Cardiometabolic","A patient on olanzapine for 6 months gained 25 lb with elevated fasting glucose and triglycerides. This reflects:",["Agranulocytosis","Metabolic syndrome / insulin resistance","EPS","None of these"],1,"Chapter 5, p. 199\u2013200 \u2014 cardiometabolic effect/insulin resistance."],
+ ["7 \u00b7 Cardiometabolic","Which is part of cardiometabolic monitoring on antipsychotics?",["Absolute neutrophil count","Fasting glucose / HbA1c","Prolactin","TSH"],1,"Chapter 5, p. 199\u2013200 \u2014 glucose/HbA1c, lipids, weight, BP (ANC is clozapine-specific)."],
+ ["7 \u00b7 Cardiometabolic","Which agent is considered relatively weight-neutral?",["Olanzapine","Aripiprazole","Clozapine","None of these"],1,"Chapter 5 \u2014 aripiprazole."],
+ ["8 \u00b7 5-HT2A","As an antagonist, 5-HT2A blockade has what effect on prolactin?",["Increases it","Decreases it","No effect","None of these"],1,"Chapter 5, p. 184 \u2014 5-HT2A antagonism lowers prolactin."],
+ ["8 \u00b7 5-HT2A","5-HT2A antagonism offsets which D2-blockade effect?",["Sedation","Prolactin elevation","Weight gain","None of these"],1,"Chapter 5, p. 184 \u2014 restores dopamine to the tuberoinfundibular pathway, offsetting prolactin elevation."],
+ ["8 \u00b7 5-HT2A","The serotonin hyperfunction hypothesis implicates excess activity at:",["5-HT1A","5-HT2A","Dopamine D2","None of these"],1,"Chapter 4, p. 132 \u2014 5-HT2A."],
+ ["8 \u00b7 5-HT2A","By restoring dopamine to the tuberoinfundibular pathway, 5-HT2A antagonism tends to:",["Raise prolactin","Lower prolactin","Have no effect on prolactin","None of these"],1,"Chapter 5, p. 184 \u2014 lowers prolactin."],
+ ["8 \u00b7 5-HT2A","Which results from 5-HT2A antagonism in atypical antipsychotics?",["More hyperprolactinemia","Fewer EPS and lower prolactin","More EPS","Higher seizure risk"],1,"Chapter 5, p. 184 \u2014 raises dopamine in nigrostriatal/tuberoinfundibular \u2192 fewer EPS, lower prolactin."],
+ ["8 \u00b7 5-HT2A","Serotonergic hallucinogens like LSD act primarily at which receptor, supporting the serotonin hypothesis?",["5-HT2A","D2","NMDA","None of these"],0,"Chapter 4, p. 132 \u2014 5-HT2A."],
+ ["9 \u00b7 GABA/Glutamate","Which neurotransmitter is the major excitatory transmitter and the brain's \u201cmaster switch\u201d?",["GABA","Glutamate","Dopamine","None of these"],1,"Chapter 4, p. 96 \u2014 glutamate."],
+ ["9 \u00b7 GABA/Glutamate","Which neurotransmitter is the major INHIBITORY transmitter?",["Glutamate","GABA","Norepinephrine","None of these"],1,"Chapter 4 \u2014 GABA."],
+ ["9 \u00b7 GABA/Glutamate","Besides being a neurotransmitter, glutamate is also a(n):",["Lipid","Amino acid","Steroid","None of these"],1,"Chapter 4, p. 96 \u2014 amino acid."],
+ ["9 \u00b7 GABA/Glutamate","Which statement about glutamate is correct?",["It is the major inhibitory transmitter","It is excitatory and the brain\u2019s \u201cmaster switch\u201d","It is a lipid","It lowers prolactin"],1,"Chapter 4, p. 96 \u2014 glutamate is the major excitatory transmitter and an amino acid."],
+ ["9 \u00b7 GABA/Glutamate","Glutamate can excite and \u201cturn on\u201d virtually all:",["Glial cells","CNS neurons","Muscle fibers","None of these"],1,"Chapter 4, p. 96 \u2014 virtually all CNS neurons."],
+ ["9 \u00b7 GABA/Glutamate","Glutamate is the precursor to which inhibitory neurotransmitter?",["Dopamine","GABA","Serotonin","None of these"],1,"Chapter 4 \u2014 glutamate \u2192 GABA."],
+ ["10 \u00b7 Medications","Select ALL that apply. Which medications are D2 partial agonists?",["Aripiprazole","Brexpiprazole","Cariprazine","Haloperidol"],[0,1,2],"Chapter 5 \u2014 the \u201c-prazole/-prazine\u201d agents; haloperidol is a full antagonist."],
+ ["10 \u00b7 Medications","Per Stahl, risperidone is approved for schizophrenia/maintenance in patients of what age?",["Age 5 and older","Age 10 and older","Age 13 and older","Age 18 and older"],2,"Chapter 5, p. 234 \u2014 risperidone approved for schizophrenia at age 13 and older (bipolar \u2265 10; autism irritability 5\u201316)."],
+ ["10 \u00b7 Medications","A 14-year-old with schizophrenia is started on risperidone. Per the textbook, it is approved at age 13+ and should be given at:",["High doses","Low doses","No dose limit","None of these"],1,"Chapter 5, p. 234 \u2014 used at low doses; raises prolactin even at low doses, with weight-gain risk in children."],
+ ["10 \u00b7 Medications","Which D2 partial agonist is also a potent D3 partial agonist used for negative symptoms and mood?",["Aripiprazole","Brexpiprazole","Cariprazine","None of these"],2,"Chapter 5 \u2014 cariprazine (D3-preferring)."]
+];
+
+const quiz=document.getElementById('quiz'),countEl=document.getElementById('count'),submitBtn=document.getElementById('submit'),retakeBtn=document.getElementById('retake'),banner=document.getElementById('banner');
+const LETTERS=['A','B','C','D','E'];
+const isSATA=qi=>Array.isArray(Q[qi][3]);
+let answers=Q.map(q=>Array.isArray(q[3])?[]:null), graded=false;
+function arraysEqual(a,b){if(a.length!==b.length)return false;const s=[...a].sort((x,y)=>x-y),t=[...b].sort((x,y)=>x-y);return s.every((v,i)=>v===t[i]);}
+function build(){
+  quiz.innerHTML='';
+  Q.forEach((item,qi)=>{
+    const [topic,stem,opts,correct,rationale]=item, sata=Array.isArray(correct);
+    const card=document.createElement('div'); card.className='q'; card.id='q'+qi;
+    card.innerHTML='<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span><div class="stem">'+stem+(sata?'<span class="sata-tag">select all that apply</span>':'')+'</div>';
+    opts.forEach((o,oi)=>{
+      const d=document.createElement('div'); d.className='opt'+(sata?' multi':''); d.dataset.qi=qi; d.dataset.oi=oi;
+      d.innerHTML='<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick=()=>{ if(graded)return; if(sata){const a=answers[qi],i=a.indexOf(oi); if(i>=0)a.splice(i,1); else a.push(oi);} else answers[qi]=oi; render(); };
+      card.appendChild(d);
+    });
+    const rat=document.createElement('div'); rat.className='rat';
+    rat.innerHTML='<b>Answer: '+(sata?correct.map(i=>LETTERS[i]).join(', '):LETTERS[correct])+'.</b> '+rationale;
+    card.appendChild(rat); quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item,qi)=>{
+    const correct=item[3], sata=Array.isArray(correct);
+    document.querySelectorAll('#q'+qi+' .opt').forEach((d,oi)=>{
+      d.className='opt'+(sata?' multi':'');
+      if(!graded){ if(sata?answers[qi].includes(oi):answers[qi]===oi) d.classList.add('sel'); }
+      else { const ic=sata?correct.includes(oi):oi===correct, ch=sata?answers[qi].includes(oi):answers[qi]===oi; if(ic)d.classList.add('correct'); else if(ch)d.classList.add('wrong'); }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded',graded);
+  });
+  const answered=answers.filter((a,qi)=>isSATA(qi)?a.length>0:a!==null).length;
+  countEl.textContent=answered+' / '+Q.length+' answered';
+  submitBtn.disabled=answered<Q.length||graded;
+}
+function gradeQuiz(){
+  graded=true; let score=0;
+  Q.forEach((item,qi)=>{const c=item[3]; if(Array.isArray(c)){if(arraysEqual(answers[qi],c))score++;} else if(answers[qi]===c)score++;});
+  const pct=Math.round(score/Q.length*100), pass=pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor=pass?'var(--teal)':'var(--amber)';
+  banner.style.background=pass?'var(--teal-soft)':'#FBF1DC';
+  banner.style.color=pass?'var(--teal-deep)':'#7E4E10';
+  banner.innerHTML='<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+(pass?'Solid \u2014 above the 80% mark. Review any reds below.':'Keep going \u2014 review the rationales on the missed items below.')+' (Select-all items are graded all-or-nothing.)</p>';
+  render(); submitBtn.style.display='none'; retakeBtn.style.display='inline-block';
+  countEl.textContent='Scored '+score+' / '+Q.length; window.scrollTo({top:0,behavior:'smooth'});
+}
+function retake(){ answers=Q.map(q=>Array.isArray(q[3])?[]:null); graded=false; banner.style.display='none'; submitBtn.style.display='inline-block'; retakeBtn.style.display='none'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+submitBtn.onclick=gradeQuiz; retakeBtn.onclick=retake; build();
+</script>
+</body>
+</html>
