@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 2 Drug Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58;
+    --muted:#7E8C87; --line:#E4DDD0; --line-soft:#EFE9DD;
+    --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --amber:#B5711A; --amber-soft:#FBEFDC; --amber-deep:#7E4E10;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 8px 24px rgba(27,42,40,.07);
+    --r:16px;
+    --c-schizo:#534AB7; --c-schizo-bg:#EEEDFE;
+    --c-anti:#0F6E56;   --c-anti-bg:#E1F5EE;
+    --c-mood:#C2407E;   --c-mood-bg:#FBEAF0;
+    --c-anx:#185FA5;    --c-anx-bg:#E6F1FB;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+    min-height:100vh; padding:clamp(16px,4vw,40px);
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  header{margin-bottom:22px;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,6vw,40px);line-height:1.05;margin:6px 0 4px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0;}
+
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 18px;}
+  .chip{font-family:inherit;font-size:13px;font-weight:500;border:1px solid var(--line);background:var(--card);
+    color:var(--ink-soft);padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .15s;}
+  .chip:hover{border-color:var(--muted);}
+  .chip.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  .meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;font-size:13px;color:var(--muted);}
+  .pill{font-size:12px;font-weight:600;padding:4px 11px;border-radius:999px;letter-spacing:.02em;}
+
+  .scene{perspective:1600px;}
+  .card{
+    position:relative;width:100%;min-height:300px;cursor:pointer;
+    transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);
+  }
+  .card.flipped{transform:rotateY(180deg);}
+  .face{
+    position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+    padding:30px 32px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    overflow:auto;
+  }
+  .face.back{transform:rotateY(180deg);background:#FCFBF7;}
+  .side{position:absolute;top:16px;left:20px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+  .qtext{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(19px,3.6vw,24px);line-height:1.4;max-width:44ch;margin:8px 0;}
+  .atext{font-size:clamp(16px,3.2vw,18px);line-height:1.6;max-width:46ch;margin:8px 0;color:var(--ink);}
+  .atext b{color:var(--teal-deep);font-weight:600;}
+  .qtext b{font-weight:600;}
+  .hint{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);}
+  .status-tag{position:absolute;top:14px;right:18px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;}
+  .st-known{background:var(--teal-soft);color:var(--teal-deep);}
+  .st-review{background:var(--amber-soft);color:var(--amber-deep);}
+
+  .controls{display:flex;gap:10px;margin-top:16px;}
+  button.ctl{font-family:inherit;font-size:15px;font-weight:500;border:1px solid var(--line);background:var(--card);
+    color:var(--ink);padding:12px 16px;border-radius:12px;cursor:pointer;transition:all .14s;display:flex;align-items:center;justify-content:center;gap:7px;}
+  button.ctl:hover{border-color:var(--muted);background:#fff;}
+  button.ctl:active{transform:scale(.98);}
+  .ctl.icon{flex:0 0 auto;width:50px;font-size:19px;}
+  .ctl.flip{flex:1;background:var(--ink);color:#fff;border-color:var(--ink);}
+  .ctl.flip:hover{background:#0d1816;}
+
+  .judge{display:flex;gap:10px;margin-top:10px;}
+  .judge button{flex:1;font-family:inherit;font-size:14px;font-weight:600;border-radius:12px;padding:11px;cursor:pointer;border:1px solid;transition:all .14s;}
+  .judge button:active{transform:scale(.98);}
+  .j-review{background:var(--amber-soft);border-color:#EAD3A8;color:var(--amber-deep);}
+  .j-known{background:var(--teal-soft);border-color:#BFE0D2;color:var(--teal-deep);}
+
+  .bar{height:6px;border-radius:999px;background:var(--line-soft);overflow:hidden;margin:20px 0 8px;}
+  .bar > i{display:block;height:100%;background:var(--teal);width:0;transition:width .3s;}
+  .stats{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);}
+  .stats b{color:var(--ink);font-weight:600;}
+  .reset{margin-top:18px;text-align:center;}
+  .reset button{font-family:inherit;font-size:13px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+  kbd{font-family:inherit;font-size:11px;background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink-soft);}
+  @media(max-width:560px){.face{padding:26px 20px;}.ctl.icon{width:46px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+    <h1>Exam 2 Drug Flashcards</h1>
+    <p class="sub">Antipsychotics &amp; EPS medications from the Exam 2 study guide — atypicals, typicals, partial agonists, and EPS/emergency treatments. Tap a card to flip.</p>
+  </header>
+
+  <div class="filters" id="filters"></div>
+
+  <div class="meta">
+    <span id="counter">Card 1 of 1</span>
+    <span class="pill" id="topic">Topic</span>
+  </div>
+
+  <div class="scene">
+    <div class="card" id="card">
+      <div class="face front">
+        <span class="side">Question</span>
+        <span class="status-tag" id="st-front" style="display:none"></span>
+        <div class="qtext" id="q"></div>
+        <div class="hint">tap to reveal answer</div>
+      </div>
+      <div class="face back">
+        <span class="side">Answer</span>
+        <span class="status-tag" id="st-back" style="display:none"></span>
+        <div class="atext" id="a"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctl icon" id="prev" aria-label="Previous card">&larr;</button>
+    <button class="ctl flip" id="flip">Flip card</button>
+    <button class="ctl icon" id="next" aria-label="Next card">&rarr;</button>
+    <button class="ctl icon" id="shuffle" aria-label="Shuffle deck">&#8646;</button>
+  </div>
+
+  <div class="judge">
+    <button class="j-review" id="review">Review again</button>
+    <button class="j-known" id="known">I knew it</button>
+  </div>
+
+  <div class="bar"><i id="barfill"></i></div>
+  <div class="stats">
+    <span><b id="n-known">0</b> known</span>
+    <span><b id="n-review">0</b> to review</span>
+    <span><b id="n-left">0</b> unseen</span>
+  </div>
+
+  <div class="reset"><button id="reset">Reset all progress</button></div>
+
+  <footer>
+    Keyboard: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate · <kbd>space</kbd> flip · <kbd>K</kbd> known · <kbd>R</kbd> review<br>
+    Compiled from your NURS 5312 study guide. Verify dosing &amp; lab thresholds against current clinical references.
+  </footer>
+</div>
+
+<script>
+const CARDS = [
+  ["schizo","<b>Risperidone</b> \u2014 key facts?","Atypical (D2 + 5-HT2A antagonist). <b>Highest D2 affinity</b> with paliperidone \u2192 <b>highest prolactin</b> among SGAs. <b>Moderate</b> cardiometabolic risk. Teen schizophrenia target <b>1\u20133 mg/day</b> (approved age 13+); raises prolactin even at low doses."],
+  ["schizo","<b>Paliperidone</b> \u2014 key facts?","Active <b>metabolite of risperidone</b>. Shares the <b>highest D2 affinity \u2192 highest prolactin</b>. <b>Moderate</b> cardiometabolic risk."],
+  ["schizo","<b>Olanzapine</b> \u2014 key facts?","Atypical. <b>HIGHEST cardiometabolic risk</b> (with clozapine): weight gain, dyslipidemia, hyperglycemia, insulin resistance. An \u201c-apine\u201d (H1 + 5-HT2C \u2192 weight gain)."],
+  ["schizo","<b>Quetiapine</b> \u2014 key facts?","Atypical. Very <b>sedating</b>, <b>low EPS</b> \u2192 preferred in <b>Parkinson disease psychosis</b>. An \u201c-apine\u201d with metabolic risk."],
+  ["schizo","<b>Ziprasidone</b> \u2014 key facts?","Atypical. <b>Must be taken with food (\u2265500 calories)</b> for absorption. <b>LOW</b> cardiometabolic risk."],
+  ["schizo","<b>Lurasidone</b> (Latuda) \u2014 key facts?","Atypical. <b>Must be taken with food (\u2265350 calories)</b>. <b>LOW</b> cardiometabolic risk."],
+  ["schizo","<b>Clozapine</b> \u2014 key facts?","Reserved for <b>treatment-resistant</b> schizophrenia; uniquely <b>reduces suicidality</b>. Life-threatening: <b>agranulocytosis</b> (monitor ANC, REMS), <b>myocarditis</b> (~4\u20136 wks), <b>seizures</b> (lowers threshold). Also sialorrhea (M1/M4), <b>highest</b> cardiometabolic risk. <b>Not first-line.</b>"],
+  ["schizo","What defines an <b>atypical (SGA)</b> and why fewer EPS?","D2 antagonism <b>plus 5-HT2A antagonism</b>. 5-HT2A block raises nigrostriatal dopamine \u2192 <b>fewer EPS and lower prolactin</b> (\u201cserotonin breaks the brake\u201d). Trade-off: more metabolic effects."],
+  ["schizo","<b>Cardiometabolic risk \u2014 the three tiers?</b>","<b>High:</b> clozapine, olanzapine. <b>Moderate:</b> risperidone, paliperidone. <b>Low:</b> aripiprazole, ziprasidone, lurasidone."],
+  ["schizo","Which antipsychotics raise <b>prolactin</b> most vs. least?","<b>Most:</b> risperidone &amp; paliperidone (highest D2 affinity). <b>Least:</b> the partial agonists (aripiprazole), plus quetiapine and clozapine."],
+  ["schizo","Which two agents must be taken <b>with food</b>?","<b>Ziprasidone</b> (\u2265500 cal) and <b>lurasidone</b> (\u2265350 cal) \u2014 the \u201c-idones\u201d that need food for absorption."],
+  ["anti","<b>Haloperidol</b> \u2014 key facts?","<b>High-potency typical (FGA)</b>, D2 antagonist. Effective for positive symptoms; <b>HIGH EPS</b> and prolactin. \u201cHAL blocks FLUently.\u201d"],
+  ["anti","<b>Fluphenazine</b> \u2014 key facts?","<b>High-potency typical (FGA)</b>. High EPS and high prolactin (like haloperidol)."],
+  ["anti","<b>Chlorpromazine</b> \u2014 key facts?","<b>Low-potency typical (FGA)</b>. More <b>sedation, orthostasis, anticholinergic</b> effects (H1 / alpha-1 / M1 block); <b>less EPS</b> than high-potency. \u201cCHLOR makes you lazy.\u201d"],
+  ["anti","What defines a <b>typical (FGA)</b>?","Strong <b>D2 antagonism</b>. Effective for <b>positive</b> symptoms; <b>high EPS and prolactin</b>. High-potency \u2192 EPS; low-potency \u2192 sedation/orthostasis."],
+  ["mood","<b>Aripiprazole</b> \u2014 key facts?","<b>D2 partial agonist</b> (\u201cdopamine stabilizer\u201d). <b>Low prolactin</b>, weight-neutral (<b>low</b> cardiometabolic risk). <b>More akathisia</b> than brexpiprazole."],
+  ["mood","<b>Brexpiprazole</b> \u2014 key facts?","D2 partial agonist with <b>LESS akathisia</b> than aripiprazole (lower intrinsic activity). \u201c<b>bRExpiprazole = REduced REstlessness.</b>\u201d"],
+  ["mood","<b>Cariprazine</b> \u2014 key facts?","<b>D2/D3 partial agonist</b>, <b>D3-preferring</b> \u2192 targets <b>cognitive and negative</b> symptoms."],
+  ["mood","How does a <b>D2 partial agonist</b> \u201cstabilize\u201d dopamine?","Gives a small fixed signal: when dopamine is <b>HIGH</b> it acts as a <b>functional antagonist</b> (lowers it); when <b>LOW</b> it acts as a stimulator (raises it). Result: lower EPS &amp; prolactin."],
+  ["mood","Name the three <b>D2 partial agonists</b>.","<b>Aripiprazole, brexpiprazole, cariprazine</b> (the \u201c-prazole / -prazine\u201d agents)."],
+  ["anx","<b>Akathisia</b> \u2014 first-line drug?","<b>Propranolol</b> (beta-blocker). \u201cJittery \u2192 propranolol.\u201d Benzodiazepine as adjunct; reduce dose or switch."],
+  ["anx","<b>Acute dystonia</b> \u2014 treatment?","<b>Benztropine or diphenhydramine</b> (anticholinergic/antihistamine). Emergency if laryngospasm \u2014 give IM/IV. \u201cThe two B\u2019s unlock the twist.\u201d"],
+  ["anx","<b>Drug-induced parkinsonism</b> \u2014 treatment?","An <b>anticholinergic (benztropine) or amantadine</b>; reduce dose or switch."],
+  ["anx","<b>Tardive dyskinesia</b> \u2014 treatment &amp; key caution?","<b>VMAT2 inhibitors: valbenazine or deutetrabenazine.</b> <b>AVOID anticholinergics</b> \u2014 they worsen TD. (~5%/yr incidence; often irreversible.)"],
+  ["anx","<b>Neuroleptic malignant syndrome (NMS)</b> \u2014 treatment?","<b>STOP the antipsychotic</b> + supportive cooling/IV fluids, and <b>dantrolene or bromocriptine</b>. Never restart acutely. (\u201cFEVER\u201d: Fever, Encephalopathy, Vitals unstable, Elevated CK/WBC, Rigidity.)"]
+];
+const TOPICS = {
+  all:    {label:"All", color:"var(--ink)", bg:"#fff"},
+  schizo: {label:"Atypicals (SGA)", color:"var(--c-schizo)", bg:"var(--c-schizo-bg)"},
+  anti:   {label:"Typicals (FGA)", color:"var(--c-anti)", bg:"var(--c-anti-bg)"},
+  mood:   {label:"Partial agonists", color:"var(--c-mood)", bg:"var(--c-mood-bg)"},
+  anx:    {label:"EPS & emergency Rx", color:"var(--c-anx)", bg:"var(--c-anx-bg)"}
+};
+
+const KEY = "nurs5312_flash_v1";
+let progress = {};
+try{ progress = JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ progress = {}; }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(progress)); }catch(e){} }
+
+let filter = "all";
+let deck = [];
+let idx = 0;
+let flipped = false;
+
+const $ = id => document.getElementById(id);
+
+function cardId(i){ return CARDS.indexOf(i); }
+function buildDeck(){
+  deck = CARDS.map((c,i)=>i).filter(i => filter==="all" || CARDS[i][0]===filter);
+  idx = 0; flipped = false;
+}
+function renderFilters(){
+  const f = $("filters"); f.innerHTML = "";
+  Object.keys(TOPICS).forEach(k=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (k===filter?" active":"");
+    const count = k==="all" ? CARDS.length : CARDS.filter(c=>c[0]===k).length;
+    b.textContent = TOPICS[k].label + " (" + count + ")";
+    b.onclick = ()=>{ filter=k; buildDeck(); renderFilters(); render(); };
+    f.appendChild(b);
+  });
+}
+function render(){
+  if(deck.length===0){ buildDeck(); }
+  const i = deck[idx];
+  const c = CARDS[i];
+  const topic = TOPICS[c[0]];
+  $("card").classList.toggle("flipped", flipped);
+  $("q").innerHTML = c[1];
+  $("a").innerHTML = c[2];
+  $("counter").textContent = "Card " + (idx+1) + " of " + deck.length;
+  const pill = $("topic");
+  pill.textContent = topic.label;
+  pill.style.color = topic.color;
+  pill.style.background = topic.bg;
+
+  const state = progress[i];
+  ["st-front","st-back"].forEach(id=>{
+    const el = $(id);
+    if(state==="known"){ el.style.display=""; el.className="status-tag st-known"; el.textContent="known"; }
+    else if(state==="review"){ el.style.display=""; el.className="status-tag st-review"; el.textContent="review"; }
+    else { el.style.display="none"; }
+  });
+
+  const known = Object.values(progress).filter(v=>v==="known").length;
+  const review = Object.values(progress).filter(v=>v==="review").length;
+  const seen = known + review;
+  $("n-known").textContent = known;
+  $("n-review").textContent = review;
+  $("n-left").textContent = CARDS.length - seen;
+  $("barfill").style.width = Math.round(seen/CARDS.length*100) + "%";
+}
+function flip(){ flipped = !flipped; render(); }
+function go(d){ idx = (idx + d + deck.length) % deck.length; flipped = false; render(); }
+function judge(state){
+  const i = deck[idx];
+  progress[i] = state; save();
+  setTimeout(()=>go(1), 160);
+}
+function shuffle(){
+  for(let k=deck.length-1;k>0;k--){ const j=Math.floor(Math.random()*(k+1)); [deck[k],deck[j]]=[deck[j],deck[k]]; }
+  idx=0; flipped=false; render();
+}
+
+$("card").onclick = flip;
+$("flip").onclick = flip;
+$("next").onclick = ()=>go(1);
+$("prev").onclick = ()=>go(-1);
+$("shuffle").onclick = shuffle;
+$("known").onclick = ()=>judge("known");
+$("review").onclick = ()=>judge("review");
+$("reset").onclick = ()=>{ if(confirm("Reset all progress?")){ progress={}; save(); render(); } };
+
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowRight") go(1);
+  else if(e.key==="ArrowLeft") go(-1);
+  else if(e.key===" "){ e.preventDefault(); flip(); }
+  else if(e.key.toLowerCase()==="k") judge("known");
+  else if(e.key.toLowerCase()==="r") judge("review");
+});
+
+renderFilters();
+buildDeck();
+render();
+</script>
+</body>
+</html>
