@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stahl Ch 7–10 Companion — Mood, Anxiety, Pain & Sleep by Mechanism</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F7F9; --card:#FFFFFF; --ink:#1B2430; --muted:#5C6675; --faint:#8A93A1;
+    --line:#E3E7EC; --rule:#D5DAE1;
+    --c5:#6D4AA0; --c5bg:#EEE9F5;   /* antipsychotics */
+    --c7:#0E7C7B; --c7bg:#E6F2F1;   /* mood */
+    --c8:#B07D12; --c8bg:#F6EFDD;   /* anxiety */
+    --c9:#A65A38; --c9bg:#F5E8E1;   /* pain */
+    --c10:#37579E; --c10bg:#E7ECF7; /* sleep */
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; line-height:1.5; padding:32px 20px 60px;}
+  .wrap{max-width:1080px; margin:0 auto;}
+
+  header.top{margin-bottom:8px; border-bottom:2px solid var(--ink); padding-bottom:18px;}
+  .eyebrow{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); font-weight:600;}
+  h1{font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:clamp(27px,4.2vw,40px); line-height:1.08; margin:6px 0 8px; letter-spacing:-.01em;}
+  .sub{color:var(--muted); font-size:15px; max-width:74ch;}
+  .legendnote{margin-top:12px; font-size:12.5px; color:var(--faint);}
+  .legendnote b{color:var(--muted); font-weight:600;}
+
+  .chapter{margin-top:30px;}
+  .ch-head{display:flex; align-items:baseline; gap:12px; border-left:5px solid var(--c); padding:6px 0 6px 14px; margin-bottom:14px;}
+  .ch-num{font-family:"Newsreader",serif; font-size:13px; font-weight:600; letter-spacing:.05em; color:#fff; background:var(--c); padding:3px 10px; border-radius:6px; flex:none;}
+  .ch-title{font-family:"Newsreader",Georgia,serif; font-size:22px; font-weight:600; margin:0; letter-spacing:-.01em; color:var(--ink);}
+  .ch-title small{display:block; font-family:"IBM Plex Sans",sans-serif; font-size:12.5px; font-weight:500; color:var(--muted); letter-spacing:0; margin-top:2px;}
+
+  .network{background:var(--cbg); border:1px solid var(--line); border-radius:10px; padding:12px 15px; margin-bottom:14px; font-size:13.4px;}
+  .network .nlab{font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--c); display:block; margin-bottom:3px;}
+  .network b{color:var(--ink); font-weight:600;}
+
+  .mtable{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .mrow{display:grid; grid-template-columns:0.9fr 1.2fr 1.3fr; gap:0; border-bottom:1px solid var(--line);}
+  .mrow:last-child{border-bottom:none;}
+  .mrow.h{background:#FAFBFC;}
+  .mrow.h .mcell{font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--faint);}
+  .mcell{padding:10px 14px; font-size:13.3px; border-right:1px solid var(--line);}
+  .mcell:last-child{border-right:none;}
+  .mcell.cls{font-weight:600; color:var(--c);}
+  .mcell .mech{color:var(--muted);}
+  .mcell .drug{font-weight:600; color:var(--ink);}
+  .mcell .note{display:block; color:var(--faint); font-size:12px; margin-top:2px;}
+  @media (max-width:720px){
+    .mrow{grid-template-columns:1fr;}
+    .mrow.h{display:none;}
+    .mcell{border-right:none; border-bottom:1px dashed var(--rule); padding:7px 14px;}
+    .mcell:last-child{border-bottom:none;}
+    .mcell.cls{padding-top:11px; font-size:14px;}
+    .mcell:not(.cls)::before{font-size:10px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--faint); display:block; margin-bottom:1px;}
+    .mcell.mechcell::before{content:"Mechanism / target";}
+    .mcell.excell::before{content:"Examples & notes";}
+    body{padding:22px 14px 48px;}
+  }
+  .concepts{margin-top:12px; background:#1B2430; color:#E7ECF3; border-radius:10px; padding:13px 16px;}
+  .concepts .clab{font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:#7FB3B1; display:block; margin-bottom:7px;}
+  .concepts ul{margin:0; padding-left:0; list-style:none; display:grid; gap:6px;}
+  .concepts li{font-size:12.8px; color:#C7CFDA; padding-left:16px; position:relative;}
+  .concepts li::before{content:"→"; position:absolute; left:0; color:#6FA8A6;}
+  .concepts b{color:#fff; font-weight:600;}
+
+  footer.note{margin-top:32px; padding-top:16px; border-top:1px solid var(--rule); font-size:12px; color:var(--faint); max-width:80ch;}
+  footer.note b{color:var(--muted);}
+
+  @media print{
+    body{background:#fff; padding:0; font-size:10.5px;}
+    .chapter{break-inside:avoid;}
+    .concepts{background:#fff; color:#222; border:1px solid #ccc;}
+    .concepts .clab{color:#555;} .concepts li{color:#333;} .concepts li::before{color:#555;} .concepts b{color:#000;}
+    a{color:inherit; text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">NURS 5312 · Stahl Companion · Antipsychotics + Chapters 7–10</div>
+    <h1>Antipsychotics, mood, anxiety, pain &amp; sleep — by mechanism</h1>
+    <p class="sub">A Stahl-aligned map. Each chapter shows its core neurotransmitter network, then drug classes by their <b>mechanism / receptor target</b> — the way Stahl frames treatment — plus the key concepts he emphasizes. Antipsychotics (Ch 5) are included up front, since they recur as mood augmentation in Ch 7.</p>
+    <p class="legendnote"><b>Read each table:</b> Class → what it targets (transporter/receptor) → representative drugs &amp; notes. Doses omitted; this is a mechanism map, not a prescribing guide.</p>
+  </header>
+
+  <!-- CHAPTER 5 (ANTIPSYCHOTICS) -->
+  <section class="chapter" style="--c:var(--c5); --cbg:var(--c5bg);">
+    <div class="ch-head"><span class="ch-num">Ch 5</span><h2 class="ch-title">Antipsychotics<small>Targeting dopamine &amp; serotonin receptors</small></h2></div>
+    <div class="network"><span class="nlab">Network</span> Antipsychotics primarily <b>block D2 receptors</b> across four dopamine pathways: <b>mesolimbic</b> (positive symptoms — the therapeutic target), <b>mesocortical</b> (negative/cognitive), <b>nigrostriatal</b> (movement → EPS), and <b>tuberoinfundibular</b> (prolactin). Atypicals add <b>5-HT2A antagonism</b>, which raises dopamine in the nigrostriatal/tuberoinfundibular pathways → <b>fewer EPS and lower prolactin</b> than typicals.</div>
+    <div class="mtable">
+      <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
+      <div class="mrow"><span class="mcell cls">Typicals (FGA)</span><span class="mcell mechcell"><span class="mech">D2 antagonism (high-potency → EPS; low-potency → H1/α1/M1)</span></span><span class="mcell excell">High: <span class="drug">haloperidol, fluphenazine</span> · Low: <span class="drug">chlorpromazine, thioridazine</span><span class="note">"HAL blocks FLUently" (EPS); "CHLOR makes you lazy" (sedation/orthostasis). High prolactin. Thioridazine: notable QT prolongation.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Atypicals (SGA)</span><span class="mcell mechcell"><span class="mech">D2 antagonism + 5-HT2A antagonism</span></span><span class="mcell excell"><span class="drug">risperidone, paliperidone, olanzapine, quetiapine, ziprasidone, lurasidone</span><span class="note">Fewer EPS than typicals; metabolic risk. Risperidone &amp; paliperidone = highest prolactin. Ziprasidone (≥500 cal) &amp; lurasidone (≥350 cal) need food.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Partial agonists</span><span class="mcell mechcell"><span class="mech">D2 (± D3) partial agonism — "dopamine stabilizers"</span></span><span class="mcell excell"><span class="drug">aripiprazole, brexpiprazole, cariprazine</span><span class="note">Low prolactin, weight-neutral. Brexpiprazole = less akathisia; cariprazine (D3) targets negative/cognitive symptoms.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Clozapine</span><span class="mcell mechcell"><span class="mech">Broad D2/5-HT2A + multi-receptor; reserved for treatment resistance</span></span><span class="mcell excell"><span class="drug">clozapine</span><span class="note">Uniquely reduces suicidality. Agranulocytosis (ANC/REMS), myocarditis (wks 4–6), seizures, sialorrhea (M1/M4); highest metabolic risk. Not first-line.</span></span></div>
+    </div>
+    <div class="concepts"><span class="clab">Stahl / Vela concepts</span><ul>
+      <li><b>D2 occupancy:</b> ~60–80% needed for efficacy; exceeding ~80% → EPS <b>and</b> hyperprolactinemia.</li>
+      <li><b>Cardiometabolic tiers:</b> High = clozapine, olanzapine · Moderate = risperidone, paliperidone · Low = aripiprazole, ziprasidone, lurasidone.</li>
+      <li><b>"Serotonin breaks the brake":</b> 5-HT2A antagonism raises nigrostriatal dopamine → fewer EPS, and lowers prolactin (serotonin normally raises prolactin).</li>
+      <li><b>EPS treatments:</b> akathisia → propranolol; dystonia → benztropine/diphenhydramine; parkinsonism → amantadine/anticholinergic; tardive dyskinesia → VMAT2 inhibitor (avoid anticholinergics); NMS → stop drug + dantrolene/bromocriptine.</li>
+    </ul></div>
+  </section>
+
+  <!-- CHAPTER 7 -->
+  <section class="chapter" style="--c:var(--c7); --cbg:var(--c7bg);">
+    <div class="ch-head"><span class="ch-num">Ch 7</span><h2 class="ch-title">Treatments for Mood Disorders<small>"Antidepressants" and "mood stabilizers"</small></h2></div>
+    <div class="network"><span class="nlab">Network</span> Antidepressants act on the <b>trimonoamine system</b> — serotonin (5-HT), norepinephrine (NE), and dopamine (DA) — mostly by blocking reuptake transporters (SERT, NET, DAT) or blocking specific receptors. Benefit is <b>delayed (≈2–6 wks)</b> because it depends on downstream receptor desensitization and neuroplasticity (BDNF), not the immediate transporter block.</div>
+    <div class="mtable">
+      <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
+      <div class="mrow"><span class="mcell cls">SSRIs</span><span class="mcell mechcell"><span class="mech">Block serotonin reuptake (SERT)</span></span><span class="mcell excell"><span class="drug">fluoxetine, sertraline, paroxetine, citalopram, escitalopram, fluvoxamine</span><span class="note">First-line; GI/sexual SE, hyponatremia, discontinuation syndrome.</span></span></div>
+      <div class="mrow"><span class="mcell cls">SNRIs</span><span class="mcell mechcell"><span class="mech">Block SERT + NET (serotonin &amp; norepinephrine)</span></span><span class="mcell excell"><span class="drug">venlafaxine, desvenlafaxine, duloxetine, levomilnacipran</span><span class="note">Also used in pain; dose-dependent BP rise.</span></span></div>
+      <div class="mrow"><span class="mcell cls">NDRI</span><span class="mcell mechcell"><span class="mech">Block NET + DAT (norepinephrine &amp; dopamine; no serotonin)</span></span><span class="mcell excell"><span class="drug">bupropion</span><span class="note">Activating; weight-neutral; spares sexual function; lowers seizure threshold.</span></span></div>
+      <div class="mrow"><span class="mcell cls">α2-antagonist (NaSSA)</span><span class="mcell mechcell"><span class="mech">Blocks α2 (disinhibits NE &amp; 5-HT release) + 5-HT2A/2C, 5-HT3, H1</span></span><span class="mcell excell"><span class="drug">mirtazapine</span><span class="note">Sedating, increases appetite; good for insomnia/low weight; minimal sexual SE.</span></span></div>
+      <div class="mrow"><span class="mcell cls">SARIs</span><span class="mcell mechcell"><span class="mech">5-HT2A antagonist + SERT inhibition (+ H1/α1)</span></span><span class="mcell excell"><span class="drug">trazodone</span>, nefazodone<span class="note">Trazodone used low-dose for sleep; priapism risk.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Multimodal</span><span class="mcell mechcell"><span class="mech">SERT inhibition + 5-HT1A partial agonism + other 5-HT receptor actions</span></span><span class="mcell excell"><span class="drug">vortioxetine, vilazodone</span><span class="note">Vortioxetine targets cognition; lower sexual SE.</span></span></div>
+      <div class="mrow"><span class="mcell cls">TCAs</span><span class="mcell mechcell"><span class="mech">Block SERT/NET + unwanted H1, M1, α1, and Na⁺-channel blockade</span></span><span class="mcell excell"><span class="drug">amitriptyline, nortriptyline, imipramine</span><span class="note">Effective but anticholinergic, orthostatic, cardiotoxic in overdose.</span></span></div>
+      <div class="mrow"><span class="mcell cls">MAOIs</span><span class="mcell mechcell"><span class="mech">Inhibit MAO-A/B → raise all monoamines</span></span><span class="mcell excell"><span class="drug">phenelzine, tranylcypromine, selegiline</span><span class="note">Tyramine diet (hypertensive crisis); washout to avoid serotonin syndrome.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Mood stabilizers</span><span class="mcell mechcell"><span class="mech">"From above" (antimanic) vs "from below" (antidepressant pole)</span></span><span class="mcell excell"><span class="drug">lithium, valproate, carbamazepine</span> (above); <span class="drug">lamotrigine</span> (below); atypical antipsychotics (both)<span class="note">Lithium: narrow index, monitor renal/thyroid, ↓suicidality. Lamotrigine: slow titrate (SJS).</span></span></div>
+    </div>
+    <div class="concepts"><span class="clab">Stahl concepts</span><ul>
+      <li><b>"From above / from below":</b> mania is stabilized from above baseline; bipolar depression from below — lamotrigine works "from below."</li>
+      <li><b>Delayed onset:</b> transporter block is immediate, but symptom relief waits on receptor down-regulation and neuroplasticity/BDNF.</li>
+      <li><b>Augmentation</b> (partial response): add lithium, an atypical antipsychotic, L-methylfolate, thyroid (T3), or esketamine.</li>
+      <li><b>Don't treat bipolar depression with an antidepressant alone</b> — manic-switch risk; pair with a stabilizer/atypical.</li>
+    </ul></div>
+  </section>
+
+  <!-- CHAPTER 8 -->
+  <section class="chapter" style="--c:var(--c8); --cbg:var(--c8bg);">
+    <div class="ch-head"><span class="ch-num">Ch 8</span><h2 class="ch-title">Anxiety, Trauma, and Treatment<small>Fear circuits and their pharmacology</small></h2></div>
+    <div class="network"><span class="nlab">Circuit</span> Anxiety/fear is driven by an over-reactive <b>amygdala</b> and its loops with the prefrontal cortex and hippocampus. Treatments either <b>boost serotonin/NE</b> (SSRIs/SNRIs), <b>enhance GABA inhibition</b> (benzodiazepines), or <b>dampen excitatory release via calcium channels</b> (α2δ ligands).</div>
+    <div class="mtable">
+      <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
+      <div class="mrow"><span class="mcell cls">SSRIs / SNRIs</span><span class="mcell mechcell"><span class="mech">Block SERT (± NET)</span></span><span class="mcell excell"><span class="drug">sertraline, escitalopram, paroxetine; venlafaxine, duloxetine</span><span class="note">First-line, durable; delayed onset.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Benzodiazepines</span><span class="mcell mechcell"><span class="mech">Positive allosteric modulators at GABA-A (↑ Cl⁻ inhibition)</span></span><span class="mcell excell"><span class="drug">lorazepam, clonazepam, alprazolam, diazepam</span><span class="note">Rapid relief; tolerance/dependence — short-term/bridge use only.</span></span></div>
+      <div class="mrow"><span class="mcell cls">5-HT1A partial agonist</span><span class="mcell mechcell"><span class="mech">Partial agonist at 5-HT1A</span></span><span class="mcell excell"><span class="drug">buspirone</span><span class="note">GAD; non-sedating, no dependence, delayed onset.</span></span></div>
+      <div class="mrow"><span class="mcell cls">α2δ ligands</span><span class="mcell mechcell"><span class="mech">Bind α2δ subunit of voltage-gated Ca²⁺ channels → ↓ excitatory release</span></span><span class="mcell excell"><span class="drug">pregabalin, gabapentin</span><span class="note">Also used in pain; sedation, dizziness.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Antihistamine</span><span class="mcell mechcell"><span class="mech">H1 antagonist</span></span><span class="mcell excell"><span class="drug">hydroxyzine</span><span class="note">Non-dependence-forming PRN option.</span></span></div>
+      <div class="mrow"><span class="mcell cls">β-blockers</span><span class="mcell mechcell"><span class="mech">Block peripheral β-adrenergic somatic symptoms</span></span><span class="mcell excell"><span class="drug">propranolol</span><span class="note">Performance anxiety (tremor, palpitations).</span></span></div>
+      <div class="mrow"><span class="mcell cls">α1 antagonist</span><span class="mcell mechcell"><span class="mech">Blocks α1-adrenergic (reduces noradrenergic nightmares)</span></span><span class="mcell excell"><span class="drug">prazosin</span><span class="note">PTSD nightmares / sleep disturbance.</span></span></div>
+    </div>
+    <div class="concepts"><span class="clab">Stahl concepts</span><ul>
+      <li><b>Fear extinction &amp; reconsolidation:</b> CBT/exposure rewires the amygdala-PFC circuit; benzodiazepines can impair extinction learning.</li>
+      <li><b>Two levers on the same circuit:</b> serotonin/NE (slow, durable) vs GABA (fast, dependence-prone) vs calcium-channel dampening.</li>
+      <li><b>PTSD:</b> SSRIs (sertraline, paroxetine) first-line; avoid benzodiazepines; prazosin for nightmares.</li>
+    </ul></div>
+  </section>
+
+  <!-- CHAPTER 9 -->
+  <section class="chapter" style="--c:var(--c9); --cbg:var(--c9bg);">
+    <div class="ch-head"><span class="ch-num">Ch 9</span><h2 class="ch-title">Chronic Pain and Its Treatment<small>Ascending pain &amp; descending modulation</small></h2></div>
+    <div class="network"><span class="nlab">Pathway</span> Pain signals ascend the spinal cord, while <b>descending NE &amp; 5-HT pathways</b> from the brainstem normally inhibit them. In chronic/neuropathic pain and fibromyalgia, this becomes <b>central sensitization</b>. The drug targets overlap with mood/anxiety — boosting NE/5-HT or dampening calcium-channel excitability.</div>
+    <div class="mtable">
+      <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
+      <div class="mrow"><span class="mcell cls">SNRIs</span><span class="mcell mechcell"><span class="mech">Block SERT + NET → strengthen descending inhibition</span></span><span class="mcell excell"><span class="drug">duloxetine, milnacipran, levomilnacipran</span><span class="note">Diabetic neuropathy, fibromyalgia, chronic musculoskeletal pain.</span></span></div>
+      <div class="mrow"><span class="mcell cls">α2δ ligands</span><span class="mcell mechcell"><span class="mech">Bind α2δ of voltage-gated Ca²⁺ channels → ↓ excitatory transmission</span></span><span class="mcell excell"><span class="drug">pregabalin, gabapentin</span><span class="note">Neuropathic pain, fibromyalgia, postherpetic neuralgia.</span></span></div>
+      <div class="mrow"><span class="mcell cls">TCAs</span><span class="mcell mechcell"><span class="mech">Block SERT/NET + Na⁺ channels</span></span><span class="mcell excell"><span class="drug">amitriptyline, nortriptyline</span><span class="note">Neuropathic pain; anticholinergic limits.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Opioids</span><span class="mcell mechcell"><span class="mech">μ-opioid receptor agonists</span></span><span class="mcell excell"><span class="drug">morphine, oxycodone, hydromorphone</span><span class="note">Effective but tolerance, dependence, OUD, respiratory depression.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Na⁺-channel agents</span><span class="mcell mechcell"><span class="mech">Block voltage-gated sodium channels</span></span><span class="mcell excell"><span class="drug">carbamazepine</span> (trigeminal neuralgia), lidocaine<span class="note">Select neuropathic syndromes.</span></span></div>
+    </div>
+    <div class="concepts"><span class="clab">Stahl concepts</span><ul>
+      <li><b>Shared circuitry:</b> chronic pain uses the same NE/5-HT and calcium-channel mechanisms as depression/anxiety — which is why antidepressants and anticonvulsants treat pain.</li>
+      <li><b>Fibromyalgia = central pain:</b> a disorder of central sensitization, not peripheral tissue damage; responds to SNRIs and α2δ ligands, not opioids.</li>
+      <li><b>Descending inhibition</b> is the therapeutic target SNRIs strengthen.</li>
+    </ul></div>
+  </section>
+
+  <!-- CHAPTER 10 -->
+  <section class="chapter" style="--c:var(--c10); --cbg:var(--c10bg);">
+    <div class="ch-head"><span class="ch-num">Ch 10</span><h2 class="ch-title">Sleep and Wakefulness<small>The wake/sleep switch and its drugs</small></h2></div>
+    <div class="network"><span class="nlab">Switch</span> <b>Wakefulness</b> is driven by the ascending arousal system — <b>histamine (H1), orexin/hypocretin, norepinephrine, dopamine, serotonin, and acetylcholine</b>. <b>Sleep</b> is promoted by <b>GABA</b> (the VLPO "off-switch") and <b>melatonin</b> (circadian). Orexin stabilizes wakefulness — its loss causes narcolepsy. <em>(This is the basis for the Exam-2 fact that sleep is regulated by the RAS/H1/5-HT, not a dopamine pathway.)</em></div>
+    <div class="mtable">
+      <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
+      <div class="mrow"><span class="mcell cls">GABA-A PAMs</span><span class="mcell mechcell"><span class="mech">Enhance GABA-A inhibition (promote sleep)</span></span><span class="mcell excell">Z-drugs <span class="drug">zolpidem, zaleplon, eszopiclone</span>; benzodiazepines<span class="note">Dependence, falls in elderly, complex sleep behaviors.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Melatonin agonists</span><span class="mcell mechcell"><span class="mech">MT1/MT2 receptor agonism (circadian)</span></span><span class="mcell excell"><span class="drug">ramelteon, melatonin</span><span class="note">Sleep-onset; no dependence.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Orexin antagonists (DORAs)</span><span class="mcell mechcell"><span class="mech">Block orexin receptors → reduce wake drive</span></span><span class="mcell excell"><span class="drug">suvorexant, lemborexant, daridorexant</span><span class="note">Newer; for sleep-maintenance insomnia.</span></span></div>
+      <div class="mrow"><span class="mcell cls">H1 antagonists</span><span class="mcell mechcell"><span class="mech">Block histamine H1 (promote sleep)</span></span><span class="mcell excell">low-dose <span class="drug">doxepin</span>, diphenhydramine<span class="note">Doxepin selective at low dose; anticholinergic load with diphenhydramine.</span></span></div>
+      <div class="mrow"><span class="mcell cls">SARI (off-label)</span><span class="mcell mechcell"><span class="mech">H1 + 5-HT2A + α1 antagonism</span></span><span class="mcell excell"><span class="drug">trazodone</span><span class="note">Common off-label sleep aid.</span></span></div>
+      <div class="mrow"><span class="mcell cls">Wake-promoting</span><span class="mcell mechcell"><span class="mech">↑ DA/NE or histamine (treat hypersomnia/narcolepsy)</span></span><span class="mcell excell"><span class="drug">modafinil/armodafinil</span> (DAT), <span class="drug">solriamfetol</span> (DNRI), <span class="drug">pitolisant</span> (H3 inverse agonist → ↑histamine), stimulants, <span class="drug">sodium oxybate</span> (narcolepsy/cataplexy); caffeine (adenosine antagonist)<span class="note">Match to narcolepsy vs residual sleepiness.</span></span></div>
+    </div>
+    <div class="concepts"><span class="clab">Stahl concepts</span><ul>
+      <li><b>Wake/sleep is a switch:</b> arousal transmitters (H1, orexin, NE, DA, 5-HT, ACh) vs sleep promoters (GABA, melatonin) flip the state.</li>
+      <li><b>Orexin stabilizes wakefulness;</b> loss of orexin neurons → narcolepsy with cataplexy. Blocking orexin (DORAs) promotes sleep.</li>
+      <li><b>H1 = the sedation lever:</b> blocking histamine causes sleepiness — the same reason sedating antidepressants and antihistamines make you drowsy.</li>
+      <li><b>CBT-I is first-line</b> for chronic insomnia; avoid chronic benzodiazepines/Z-drugs.</li>
+    </ul></div>
+  </section>
+
+  <footer class="note">
+    <b>Study aid only — not a prescribing guide.</b> Organized to follow Stahl's mechanism-based framework for Chapters 7–10; drug lists are representative and doses are omitted. First-line/usage designations are general and vary with patient factors, comorbidities, and current guidelines. Verify against your Stahl edition, course materials, and authoritative references before any clinical application. Reflects general U.S. psychopharmacology practice as of 2026.
+  </footer>
+
+</div>
+</body>
+</html>
