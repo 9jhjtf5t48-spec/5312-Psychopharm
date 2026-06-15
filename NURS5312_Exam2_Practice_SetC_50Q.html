@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 2 Practice Set C (Vela, 50 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,5.3vw,37px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .sata-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.multi .ltr{border-radius:6px;}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam 2 Practice Set C — Vela (50 MCQ)</h1>
+  <p class="sub">50 fresh questions from Prof. Vela’s material — a mix of single-best-answer and clinical vignettes, with some EXCEPT items. All-new stems; corrected facts included. Answer all, then submit.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>Original practice questions written from the Ch 4/5/6 key points, in your module-quiz format. Use for self-study; verify clinical details against current references.</footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 50 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+// correct = NUMBER (single answer) or ARRAY (select all that apply)
+const Q = [
+ ["Dopamine","Dopamine cannot be given orally to correct a CNS dopamine deficit because it:",["Is destroyed by stomach acid","Cannot cross the blood-brain barrier","Has no central receptors","Is metabolized in the lungs"],1,"Ch 4 \u2014 dopamine can\u2019t cross the BBB, so it must be synthesized locally from tyrosine."],
+ ["Dopamine","A student traces dopamine synthesis. After tyrosine hydroxylase converts tyrosine to L-DOPA, the next enzyme converts L-DOPA to dopamine. It is:",["MAO","DOPA decarboxylase","COMT","VMAT2"],1,"Ch 4, p. 79\u201380 \u2014 DOPA decarboxylase converts L-DOPA \u2192 dopamine."],
+ ["Dopamine","The substantia nigra is the origin of which dopamine pathway?",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"Ch 4 \u2014 SN \u2192 nigrostriatal (movement); the VTA gives rise to the mesolimbic and mesocortical pathways."],
+ ["Schizophrenia","A 24-year-old reports that the radio is broadcasting his private thoughts to others. This symptom is best classified as:",["Negative","Positive","Cognitive","Affective"],1,"Ch 4 \u2014 a delusion is a positive symptom."],
+ ["Schizophrenia","A patient gives rambling, off-topic answers and cannot keep a coherent thread. This disorganized thinking is which symptom type?",["Negative","Positive","Cognitive","Affective"],1,"Ch 4 \u2014 disorganized thought/speech is a positive symptom."],
+ ["Schizophrenia","All of the following are NEGATIVE symptoms EXCEPT:",["Avolition","Alogia","Delusions","Anhedonia"],2,"Ch 4, p. 94\u201395 \u2014 delusions are positive; the rest are negative."],
+ ["Schizophrenia","The excitatory \u201cmaster switch\u201d neurotransmitter central to the NMDA-hypofunction theory of psychosis is:",["GABA","Glutamate","Dopamine","Serotonin"],1,"Ch 4, p. 96 \u2014 glutamate."],
+ ["Schizophrenia","A patient with chronic schizophrenia cannot plan, organize, or sustain attention at a new job. These deficits are:",["Positive","Cognitive","Affective","Motor"],1,"Ch 4 \u2014 cognitive symptom domain."],
+ ["Schizophrenia","Per the dopamine hypothesis, which combination is correct?",["Mesolimbic hyperdopaminergia \u2192 positive; mesocortical hypodopaminergia \u2192 negative","Mesolimbic hypodopaminergia \u2192 positive","Both pathways hyperdopaminergic","Both pathways hypodopaminergic"],0,"Ch 4 \u2014 mesolimbic excess drives positives; mesocortical deficit drives negatives."],
+ ["Schizophrenia","A patient develops paranoia and hallucinations after recreational ketamine use. This best supports which theory of psychosis?",["Dopamine","Serotonin","Glutamate (NMDA hypofunction)","GABA"],2,"Ch 4, p. 141 \u2014 ketamine blocks NMDA \u2192 glutamate hypothesis."],
+ ["Schizophrenia","Which neurotransmitter theory best explains positive, negative, AND cognitive symptoms together?",["Dopamine","Serotonin","Glutamate / NMDA hypofunction","Histamine"],2,"Ch 4, p. 141 \u2014 the most comprehensive model."],
+ ["Pathways","A woman on a typical antipsychotic stops menstruating and develops breast-milk discharge. The pathway responsible is:",["Mesolimbic","Nigrostriatal","Tuberoinfundibular","Mesocortical"],2,"Ch 5, p. 160 \u2014 tuberoinfundibular D2 blockade \u2192 hyperprolactinemia."],
+ ["Pathways","A patient on an antipsychotic reports trouble sleeping. Per Prof. Vela, sleep/arousal is governed by the RAS, histamine, and:",["Dopamine D2","Serotonin (5-HT2C)","Glutamate","GABA"],1,"Vela review \u2014 RAS + H1 + 5-HT2C regulate sleep/arousal (not a dopamine pathway)."],
+ ["Pathways","Per Prof. Vela, positive AND aggressive symptoms both localize to which pathway?",["Mesocortical","Mesolimbic","Nigrostriatal","Tuberoinfundibular"],1,"Vela review \u2014 mesolimbic hyperactivity."],
+ ["Pathways","Cognitive symptoms map to the mesocortical projection to the:",["Amygdala","Dorsolateral prefrontal cortex (DLPFC)","Striatum","Pituitary"],1,"Ch 4, p. 144\u2013146 \u2014 DLPFC."],
+ ["Pathways","Therapeutic reduction of positive symptoms results from D2 blockade in which pathway?",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],0,"Ch 5, p. 160 \u2014 mesolimbic."],
+ ["Pathways","A patient on aripiprazole maintains normal prolactin and few EPS. As a \u201cdopamine stabilizer,\u201d when dopamine is HIGH it acts as a:",["Full agonist","Functional antagonist","Pure blocker","NMDA blocker"],1,"Ch 5, p. 195 \u2014 functional antagonist in high-dopamine states."],
+ ["Pathways","Select ALL that apply. Why are D2 partial agonists associated with fewer side effects?",["They preserve nigrostriatal dopamine (less EPS)","They preserve tuberoinfundibular dopamine (less prolactin)","They stabilize dopamine rather than fully blocking it","They fully block all D2 receptors"],[0,1,2],"Ch 5, p. 195 \u2014 stabilization, not full blockade."],
+ ["Antipsychotics","A patient is prescribed lurasidone. You instruct them to take it:",["On an empty stomach","With at least 350 calories of food","Only with water at bedtime","Two hours after any meal"],1,"Ch 5 \u2014 lurasidone needs \u2265350 cal for absorption."],
+ ["Antipsychotics","A patient on ziprasidone reports it isn\u2019t helping; he takes it between meals with only water. The correction is to take it with:",["Antacids","At least 500 calories of food","Grapefruit juice","Nothing by mouth"],1,"Ch 5 \u2014 ziprasidone needs \u2265500 cal."],
+ ["Antipsychotics","Antipsychotics require approximately what D2 occupancy for efficacy?",["20\u201340%","60\u201380%","90\u2013100%","Exactly 100%"],1,"Ch 5, p. 196 \u2014 at least 60\u201380%."],
+ ["Antipsychotics","Exceeding ~80% D2 occupancy most increases the risk of:",["Sedation","EPS and hyperprolactinemia","Agranulocytosis","Weight loss"],1,"Ch 5 \u2014 >80% \u2192 EPS and hyperprolactinemia."],
+ ["Antipsychotics","A patient on high-potency haloperidol is at GREATEST risk for which adverse effect?",["Orthostasis","EPS","Weight gain","Heavy sedation"],1,"Ch 5, p. 201\u2013203 \u2014 high-potency typicals \u2192 EPS."],
+ ["Antipsychotics","A patient on chlorpromazine (low-potency) has orthostasis, sedation, and dry mouth. These reflect blockade of:",["D2","Histamine (H1), alpha-1, and muscarinic (M1)","NMDA","5-HT2A only"],1,"Ch 5, p. 201\u2013203 \u2014 low-potency typical effects."],
+ ["Antipsychotics","What pharmacologic feature distinguishes atypicals from typicals?",["Muscarinic agonism","Added 5-HT2A antagonism","NMDA blockade","GABA agonism"],1,"Ch 5, p. 222 \u2014 D2 + 5-HT2A antagonism."],
+ ["Antipsychotics","A patient with Parkinson disease psychosis needs an antipsychotic least likely to worsen movement. Best choice:",["Haloperidol","Quetiapine","Risperidone","Fluphenazine"],1,"Ch 5 \u2014 quetiapine (low EPS, sedating)."],
+ ["Clozapine","A patient on clozapine for 3 weeks calls with fever, chills, and a sore throat. The PRIORITY assessment is:",["Troponin","Absolute neutrophil count (CBC)","Prolactin","TSH"],1,"Ch 5, p. 222 \u2014 rule out agranulocytosis."],
+ ["Clozapine","A patient 5 weeks into clozapine reports chest pain and shortness of breath. The likely complication is:",["Agranulocytosis","Myocarditis","Tardive dyskinesia","Acute dystonia"],1,"Ch 5, p. 222 \u2014 myocarditis (typically first 4\u20136 weeks)."],
+ ["Clozapine","All of the following are true of clozapine EXCEPT:",["It is first-line for newly diagnosed schizophrenia","It reduces suicidality","It requires ANC monitoring","It can cause myocarditis"],0,"Ch 5, p. 222 \u2014 clozapine is reserved for treatment-resistant disease, not first-line."],
+ ["Clozapine","A clozapine patient drools heavily at night. This sialorrhea is attributed to effects at which receptors?",["D2/D3","M1/M4 (muscarinic)","H1","5-HT2A"],1,"Vela review \u2014 sialorrhea via M1/M4 interactions."],
+ ["Clozapine","Clozapine can be prescribed and dispensed only through the:",["State PDMP","Clozapine REMS","DEA registry","FDA hotline"],1,"Ch 5 \u2014 Clozapine REMS (prescriber, pharmacy, patient enrolled)."],
+ ["Side effects","A patient on a new antipsychotic paces and cannot sit still. The first-line treatment is:",["Benztropine","Propranolol","Valbenazine","Dantrolene"],1,"Ch 5, p. 187 \u2014 akathisia \u2192 propranolol."],
+ ["Side effects","Six hours after an IM antipsychotic, a young man\u2019s eyes deviate upward and his neck twists. The BEST immediate treatment is:",["Propranolol","IM diphenhydramine or benztropine","A VMAT2 inhibitor","Lithium"],1,"Ch 5 \u2014 acute dystonia \u2192 anticholinergic/antihistamine."],
+ ["Side effects","A patient on an antipsychotic for 2 years develops repetitive tongue and lip movements. Treatment is a VMAT2 inhibitor, and you must AVOID:",["Propranolol","Anticholinergics","Benzodiazepines","Beta-blockers"],1,"Ch 5, p. 174 \u2014 anticholinergics worsen tardive dyskinesia."],
+ ["Side effects","All of the following extrapyramidal effects are generally REVERSIBLE EXCEPT:",["Acute dystonia","Akathisia","Drug-induced parkinsonism","Tardive dyskinesia"],3,"Ch 5, p. 174 \u2014 TD is often irreversible."],
+ ["Side effects","A patient on an antipsychotic presents with fever, lead-pipe rigidity, confusion, and CK of 7,000. The diagnosis is:",["Serotonin syndrome","Neuroleptic malignant syndrome","Malignant hyperthermia","Acute dystonia"],1,"Ch 5 \u2014 dopamine-antagonist trigger + rigidity/fever/\u2191CK = NMS."],
+ ["Side effects","For the NMS patient, besides stopping the antipsychotic, treatment includes:",["Propranolol","Dantrolene or bromocriptine","Benztropine","A VMAT2 inhibitor"],1,"Ch 5 \u2014 NMS: stop drug + supportive care + dantrolene/bromocriptine."],
+ ["Side effects","Drug-induced parkinsonism is treated with an anticholinergic or:",["Propranolol","Amantadine","A VMAT2 inhibitor","Dantrolene"],1,"Ch 5 \u2014 anticholinergic or amantadine."],
+ ["Side effects","Extrapyramidal symptoms arise from D2 blockade in which pathway?",["Mesolimbic","Mesocortical","Nigrostriatal","Tuberoinfundibular"],2,"Ch 5 \u2014 nigrostriatal."],
+ ["Cardiometabolic","A patient with obesity and diabetes needs an antipsychotic. The BEST low-risk choice is:",["Olanzapine","Clozapine","Lurasidone","Quetiapine"],2,"Ch 5, p. 197\u2013200 \u2014 lurasidone is low cardiometabolic risk."],
+ ["Cardiometabolic","Per Prof. Vela\u2019s three tiers, risperidone and paliperidone fall into which cardiometabolic-risk category?",["High","Moderate","Low","None"],1,"Vela review \u2014 moderate tier."],
+ ["Cardiometabolic","A patient on olanzapine for 6 months has gained 30 lb with elevated glucose and lipids. This is consistent with:",["Agranulocytosis","Metabolic syndrome","EPS","NMS"],1,"Ch 5, p. 199\u2013200 \u2014 antipsychotic-associated metabolic syndrome."],
+ ["Cardiometabolic","Select ALL that apply. Which agents are LOW cardiometabolic risk?",["Aripiprazole","Ziprasidone","Lurasidone","Olanzapine"],[0,1,2],"Vela review \u2014 low tier = aripiprazole, ziprasidone, lurasidone; olanzapine is high."],
+ ["5-HT2A","Serotonin\u2019s effect on prolactin is to ______, so a 5-HT2A ANTAGONIST ______ prolactin.",["Lower it; raises","Raise it; lowers","Lower it; lowers","Raise it; raises"],1,"Vela review \u2014 serotonin raises prolactin (the \u201cgas\u201d); blocking 5-HT2A lowers prolactin."],
+ ["5-HT2A","A patient switched from haloperidol to an atypical now has lower prolactin. The atypical\u2019s 5-HT2A antagonism:",["Raises prolactin","Lowers prolactin","Has no effect on prolactin","Doubles prolactin"],1,"Ch 5, p. 184 \u2014 5-HT2A blockade decreases prolactin."],
+ ["5-HT2A","5-HT2A antagonism reduces EPS by raising dopamine in which pathway?",["Mesolimbic","Nigrostriatal","Tuberoinfundibular","Mesocortical"],1,"Ch 5, p. 184 \u2014 nigrostriatal."],
+ ["5-HT2A","The serotonin hyperfunction hypothesis is the rationale for BLOCKING which receptor?",["5-HT1A","5-HT2A","Dopamine D2","GABA-A"],1,"Ch 4, p. 132 \u2014 block 5-HT2A."],
+ ["GABA/Glutamate","Glutamate is excitatory and is also the direct precursor to which inhibitory neurotransmitter?",["Dopamine","GABA","Serotonin","Acetylcholine"],1,"Ch 4 \u2014 glutamate \u2192 GABA."],
+ ["GABA/Glutamate","All of the following describe glutamate EXCEPT:",["It is excitatory","It is the brain\u2019s master switch","It is an amino acid","It is the major inhibitory transmitter"],3,"Ch 4, p. 96 \u2014 GABA is inhibitory; glutamate is excitatory."],
+ ["GABA/Glutamate","In the NMDA-hypofunction model, underactive NMDA receptors on GABA interneurons lead to:",["Increased inhibition","Disinhibited glutamate output","Lower dopamine everywhere","Higher prolactin"],1,"Ch 4 \u2014 loss of the GABA brake \u2192 dysregulated glutamate."]
+];
+
+const quiz=document.getElementById('quiz'),countEl=document.getElementById('count'),submitBtn=document.getElementById('submit'),retakeBtn=document.getElementById('retake'),banner=document.getElementById('banner');
+const LETTERS=['A','B','C','D','E'];
+const isSATA=qi=>Array.isArray(Q[qi][3]);
+let answers=Q.map(q=>Array.isArray(q[3])?[]:null), graded=false;
+function arraysEqual(a,b){if(a.length!==b.length)return false;const s=[...a].sort((x,y)=>x-y),t=[...b].sort((x,y)=>x-y);return s.every((v,i)=>v===t[i]);}
+function build(){
+  quiz.innerHTML='';
+  Q.forEach((item,qi)=>{
+    const [topic,stem,opts,correct,rationale]=item, sata=Array.isArray(correct);
+    const card=document.createElement('div'); card.className='q'; card.id='q'+qi;
+    card.innerHTML='<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span><div class="stem">'+stem+(sata?'<span class="sata-tag">select all that apply</span>':'')+'</div>';
+    opts.forEach((o,oi)=>{
+      const d=document.createElement('div'); d.className='opt'+(sata?' multi':''); d.dataset.qi=qi; d.dataset.oi=oi;
+      d.innerHTML='<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick=()=>{ if(graded)return; if(sata){const a=answers[qi],i=a.indexOf(oi); if(i>=0)a.splice(i,1); else a.push(oi);} else answers[qi]=oi; render(); };
+      card.appendChild(d);
+    });
+    const rat=document.createElement('div'); rat.className='rat';
+    rat.innerHTML='<b>Answer: '+(sata?correct.map(i=>LETTERS[i]).join(', '):LETTERS[correct])+'.</b> '+rationale;
+    card.appendChild(rat); quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item,qi)=>{
+    const correct=item[3], sata=Array.isArray(correct);
+    document.querySelectorAll('#q'+qi+' .opt').forEach((d,oi)=>{
+      d.className='opt'+(sata?' multi':'');
+      if(!graded){ if(sata?answers[qi].includes(oi):answers[qi]===oi) d.classList.add('sel'); }
+      else { const ic=sata?correct.includes(oi):oi===correct, ch=sata?answers[qi].includes(oi):answers[qi]===oi; if(ic)d.classList.add('correct'); else if(ch)d.classList.add('wrong'); }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded',graded);
+  });
+  const answered=answers.filter((a,qi)=>isSATA(qi)?a.length>0:a!==null).length;
+  countEl.textContent=answered+' / '+Q.length+' answered';
+  submitBtn.disabled=answered<Q.length||graded;
+}
+function gradeQuiz(){
+  graded=true; let score=0;
+  Q.forEach((item,qi)=>{const c=item[3]; if(Array.isArray(c)){if(arraysEqual(answers[qi],c))score++;} else if(answers[qi]===c)score++;});
+  const pct=Math.round(score/Q.length*100), pass=pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor=pass?'var(--teal)':'var(--amber)';
+  banner.style.background=pass?'var(--teal-soft)':'#FBF1DC';
+  banner.style.color=pass?'var(--teal-deep)':'#7E4E10';
+  banner.innerHTML='<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+(pass?'Solid \u2014 above the 80% mark. Review any reds below.':'Keep going \u2014 review the rationales on the missed items below.')+' (Select-all items are graded all-or-nothing.)</p>';
+  render(); submitBtn.style.display='none'; retakeBtn.style.display='inline-block';
+  countEl.textContent='Scored '+score+' / '+Q.length; window.scrollTo({top:0,behavior:'smooth'});
+}
+function retake(){ answers=Q.map(q=>Array.isArray(q[3])?[]:null); graded=false; banner.style.display='none'; submitBtn.style.display='inline-block'; retakeBtn.style.display='none'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+submitBtn.onclick=gradeQuiz; retakeBtn.onclick=retake; build();
+</script>
+</body>
+</html>
