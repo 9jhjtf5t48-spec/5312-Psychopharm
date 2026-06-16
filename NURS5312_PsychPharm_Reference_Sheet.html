@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychopharmacology Reference Sheet — Disorders, Drugs & Combinations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F7F9;
+    --card:#FFFFFF;
+    --ink:#1B2430;
+    --muted:#5C6675;
+    --faint:#8A93A1;
+    --line:#E3E7EC;
+    --rule:#D5DAE1;
+    /* category accents */
+    --dep:#0E7C7B; --dep-bg:#E6F2F1;
+    --anx:#B07D12; --anx-bg:#F6EFDD;
+    --bip:#6D4AA0; --bip-bg:#EEE9F5;
+    --psy:#37579E; --psy-bg:#E7ECF7;
+    --ocd:#A8456A; --ocd-bg:#F6E7ED;
+    --ptsd:#4E6E8E; --ptsd-bg:#E9EEF3;
+    --adhd:#3C8758; --adhd-bg:#E5F1E9;
+    --ins:#5A5EA8; --ins-bg:#EAEAF5;
+    --sud:#A65A38; --sud-bg:#F5E8E1;
+    --ncd:#2F7E86; --ncd-bg:#E3F0F1;
+    --combo:#9A3B5C; --combo-bg:#F7E9EE;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    line-height:1.5; padding:32px 20px 60px;
+  }
+  .wrap{max-width:1120px; margin:0 auto;}
+
+  header.top{margin-bottom:26px; border-bottom:2px solid var(--ink); padding-bottom:18px;}
+  .eyebrow{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); font-weight:600;}
+  h1{
+    font-family:"Newsreader",Georgia,serif; font-weight:600;
+    font-size:clamp(28px,4.4vw,42px); line-height:1.08; margin:6px 0 8px; letter-spacing:-.01em;
+  }
+  .sub{color:var(--muted); font-size:15px; max-width:70ch;}
+  .legendnote{margin-top:12px; font-size:12.5px; color:var(--faint);}
+  .legendnote b{color:var(--muted); font-weight:600;}
+
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:24px;}
+  @media (max-width:760px){ .grid{grid-template-columns:1fr;} body{padding:22px 14px 48px;} }
+
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    border-left:5px solid var(--c,#999); overflow:hidden; transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .card:hover{box-shadow:0 6px 22px rgba(20,30,45,.07); transform:translateY(-1px);}
+  .card .head{
+    background:var(--cbg,#eee); padding:11px 16px; display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .card .head h2{
+    font-family:"Newsreader",Georgia,serif; font-size:19px; font-weight:600; margin:0; color:var(--c,#222); letter-spacing:-.01em;
+  }
+  .card .head .tag{font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--c,#555); opacity:.8;}
+  .card .body{padding:13px 16px 16px;}
+  .row{display:block; margin-bottom:10px;}
+  .row:last-child{margin-bottom:0;}
+  .lab{
+    font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--muted);
+    display:block; margin-bottom:2px;
+  }
+  .lab.fl{color:var(--c,#333);}
+  .val{font-size:14px; color:var(--ink);}
+  .val .drug{font-weight:600;}
+  .notes{font-size:12.6px; color:var(--muted); border-top:1px dashed var(--rule); padding-top:9px; margin-top:11px;}
+
+  /* combination section */
+  .combo-sec{margin-top:34px;}
+  .sec-h{
+    font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:24px; letter-spacing:-.01em;
+    display:flex; align-items:center; gap:12px; margin:0 0 4px;
+  }
+  .sec-h::after{content:""; flex:1; height:1px; background:var(--rule);}
+  .sec-tag{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--combo); background:var(--combo-bg); padding:3px 9px; border-radius:20px;}
+  .sec-intro{color:var(--muted); font-size:13.5px; margin:8px 0 18px; max-width:78ch;}
+
+  .combo-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px;}
+  @media (max-width:760px){ .combo-grid{grid-template-columns:1fr;} }
+  .cgroup{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .cgroup h3{font-size:14px; margin:0 0 10px; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .cgroup h3 .dot{width:9px; height:9px; border-radius:50%; background:var(--combo); flex:none;}
+  .combo{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 8px; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px;}
+  .combo:last-child{border-bottom:none;}
+  .pill{font-weight:600; color:var(--ink);}
+  .plus{color:var(--combo); font-weight:700;}
+  .arrow{color:var(--faint);}
+  .purpose{color:var(--muted); font-size:12.6px; width:100%;}
+
+  /* pearls */
+  .pearls{margin-top:30px; background:#1B2430; color:#EAEEF3; border-radius:12px; padding:20px 22px;}
+  .pearls h3{font-family:"Newsreader",serif; font-weight:500; margin:0 0 12px; font-size:18px; color:#fff;}
+  .pearls ul{margin:0; padding-left:0; list-style:none; display:grid; grid-template-columns:repeat(2,1fr); gap:9px 26px;}
+  @media (max-width:760px){ .pearls ul{grid-template-columns:1fr;} }
+  .pearls li{font-size:13px; color:#C7CFDA; padding-left:18px; position:relative;}
+  .pearls li::before{content:"→"; position:absolute; left:0; color:#6FA8A6;}
+  .pearls b{color:#fff; font-weight:600;}
+
+  footer.note{margin-top:30px; padding-top:16px; border-top:1px solid var(--rule); font-size:12px; color:var(--faint); max-width:80ch;}
+  footer.note b{color:var(--muted);}
+
+  @media print{
+    body{background:#fff; padding:0; font-size:11px;}
+    .card:hover{box-shadow:none; transform:none;}
+    .card,.cgroup,.pearls{break-inside:avoid;}
+    .pearls{background:#fff; color:#222; border:1px solid #ccc;}
+    .pearls h3,.pearls b{color:#000;}
+    .pearls li{color:#333;} .pearls li::before{color:#555;}
+    a{color:inherit; text-decoration:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">NURS 5312 · Psychopharmacology · Quick Reference</div>
+    <h1>What treats what — drugs by disorder &amp; combination strategies</h1>
+    <p class="sub">A study map of first-line agents, alternatives, and the augmentation/combination strategies used when a single drug isn't enough. Organized by disorder; cross-cutting combinations are grouped at the bottom.</p>
+    <p class="legendnote"><b>How to read each card:</b> First-line = typical starting choice · Other options = alternatives / later-line / situational · Notes = key cautions and monitoring. Drug <span class="drug" style="font-weight:600">names in bold</span> are representative, not exhaustive. Doses are intentionally omitted — this is an indication map, not a prescribing guide.</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- DEPRESSION -->
+    <div class="card" style="--c:var(--dep); --cbg:var(--dep-bg);">
+      <div class="head"><h2>Major Depressive Disorder</h2><span class="tag">Mood</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val"><span class="drug">SSRIs</span> (sertraline, escitalopram, fluoxetine, citalopram, paroxetine) · <span class="drug">SNRIs</span> (venlafaxine, duloxetine, desvenlafaxine)</span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val"><span class="drug">Bupropion</span> (NDRI), <span class="drug">mirtazapine</span>, <span class="drug">vortioxetine</span>, <span class="drug">vilazodone</span>; <span class="drug">TCAs</span> &amp; <span class="drug">MAOIs</span> (later-line); <span class="drug">esketamine</span> (treatment-resistant)</span></div>
+        <div class="notes">4–6 wks for full effect. Watch SIADH/hyponatremia, serotonin syndrome, discontinuation syndrome. Bupropion &amp; mirtazapine spare sexual function; bupropion lowers seizure threshold.</div>
+      </div>
+    </div>
+
+    <!-- ANXIETY -->
+    <div class="card" style="--c:var(--anx); --cbg:var(--anx-bg);">
+      <div class="head"><h2>Anxiety Disorders</h2><span class="tag">GAD · Panic · Social</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val"><span class="drug">SSRIs</span> and <span class="drug">SNRIs</span></span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val"><span class="drug">Buspirone</span> (GAD), <span class="drug">hydroxyzine</span>, <span class="drug">pregabalin/gabapentin</span>; <span class="drug">benzodiazepines</span> (short-term bridge only); <span class="drug">beta-blockers</span> (performance anxiety)</span></div>
+        <div class="notes">Avoid long-term benzodiazepines (dependence). Buspirone is non-sedating with no dependence but takes weeks. SSRIs/SNRIs are the durable choice.</div>
+      </div>
+    </div>
+
+    <!-- BIPOLAR -->
+    <div class="card" style="--c:var(--bip); --cbg:var(--bip-bg);">
+      <div class="head"><h2>Bipolar Disorder</h2><span class="tag">Mood stabilizing</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">Mania</span><span class="val"><span class="drug">Lithium</span>, <span class="drug">valproate</span>, atypical antipsychotics (<span class="drug">quetiapine, olanzapine, risperidone, aripiprazole, cariprazine, asenapine</span>)</span></div>
+        <div class="row"><span class="lab">Bipolar depression</span><span class="val"><span class="drug">Lurasidone</span>, <span class="drug">quetiapine</span>, <span class="drug">cariprazine</span>, <span class="drug">lumateperone</span>; <span class="drug">lamotrigine</span> (maintenance); <span class="drug">olanzapine-fluoxetine</span> combo</span></div>
+        <div class="notes">Avoid antidepressant monotherapy (manic-switch risk). Lithium: narrow therapeutic index — monitor levels, renal, thyroid. Lamotrigine: SJS risk, titrate slowly. Valproate: hepatotoxic, teratogenic.</div>
+      </div>
+    </div>
+
+    <!-- PSYCHOSIS -->
+    <div class="card" style="--c:var(--psy); --cbg:var(--psy-bg);">
+      <div class="head"><h2>Schizophrenia / Psychosis</h2><span class="tag">Antipsychotics</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val">Atypicals / SGAs (<span class="drug">risperidone, paliperidone, olanzapine, quetiapine, ziprasidone, lurasidone, aripiprazole</span>)</span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val">Typicals / FGAs (<span class="drug">haloperidol, fluphenazine, chlorpromazine</span>); <span class="drug">clozapine</span> for treatment-resistant disease</span></div>
+        <div class="notes">All block D2. Watch EPS, metabolic syndrome, hyperprolactinemia, QT. Clozapine: reserved for resistance, reduces suicidality, requires ANC monitoring (REMS), myocarditis risk weeks 4–6.</div>
+      </div>
+    </div>
+
+    <!-- OCD -->
+    <div class="card" style="--c:var(--ocd); --cbg:var(--ocd-bg);">
+      <div class="head"><h2>OCD</h2><span class="tag">Obsessive-Compulsive</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val"><span class="drug">SSRIs</span> — often at higher doses than for depression</span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val"><span class="drug">Clomipramine</span> (TCA); atypical antipsychotic augmentation for refractory cases</span></div>
+        <div class="notes">Needs higher doses and longer trials (8–12 wks) than depression. Pair with CBT / exposure-response prevention (ERP).</div>
+      </div>
+    </div>
+
+    <!-- PTSD -->
+    <div class="card" style="--c:var(--ptsd); --cbg:var(--ptsd-bg);">
+      <div class="head"><h2>PTSD</h2><span class="tag">Trauma</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val"><span class="drug">SSRIs</span> — sertraline &amp; paroxetine are FDA-approved; <span class="drug">SNRIs</span> (venlafaxine)</span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val"><span class="drug">Prazosin</span> (trauma nightmares / sleep); atypical antipsychotic adjunct in select cases</span></div>
+        <div class="notes">Trauma-focused psychotherapy is first-line overall. Avoid benzodiazepines (ineffective, risky).</div>
+      </div>
+    </div>
+
+    <!-- ADHD -->
+    <div class="card" style="--c:var(--adhd); --cbg:var(--adhd-bg);">
+      <div class="head"><h2>ADHD</h2><span class="tag">Attention</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val"><span class="drug">Stimulants</span> — methylphenidate &amp; amphetamines (lisdexamfetamine, mixed amphetamine salts)</span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val"><span class="drug">Atomoxetine</span> (NRI), alpha-2 agonists (<span class="drug">guanfacine ER, clonidine ER</span>), <span class="drug">bupropion</span> (off-label)</span></div>
+        <div class="notes">Stimulants are controlled substances. Monitor cardiovascular status, growth, sleep, appetite. Non-stimulants useful with tics, anxiety, or misuse risk.</div>
+      </div>
+    </div>
+
+    <!-- INSOMNIA -->
+    <div class="card" style="--c:var(--ins); --cbg:var(--ins-bg);">
+      <div class="head"><h2>Insomnia</h2><span class="tag">Sleep</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">First-line</span><span class="val">CBT-I (behavioral) is first-line overall</span></div>
+        <div class="row"><span class="lab">Other options</span><span class="val"><span class="drug">Trazodone</span>, <span class="drug">melatonin/ramelteon</span>, Z-drugs (<span class="drug">zolpidem, eszopiclone</span>), orexin antagonists (<span class="drug">suvorexant</span>), low-dose <span class="drug">doxepin</span>; <span class="drug">mirtazapine</span> if comorbid depression</span></div>
+        <div class="notes">Avoid chronic benzodiazepines/Z-drugs (dependence, falls in elderly). Match agent to sleep-onset vs sleep-maintenance problem.</div>
+      </div>
+    </div>
+
+    <!-- SUBSTANCE USE -->
+    <div class="card" style="--c:var(--sud); --cbg:var(--sud-bg);">
+      <div class="head"><h2>Substance Use Disorders</h2><span class="tag">Addiction</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">Alcohol</span><span class="val"><span class="drug">Naltrexone</span>, <span class="drug">acamprosate</span>, <span class="drug">disulfiram</span></span></div>
+        <div class="row"><span class="lab">Opioid (MOUD)</span><span class="val"><span class="drug">Buprenorphine</span>, <span class="drug">methadone</span>, <span class="drug">naltrexone</span></span></div>
+        <div class="row"><span class="lab">Tobacco</span><span class="val"><span class="drug">Varenicline</span>, <span class="drug">bupropion</span>, nicotine replacement</span></div>
+        <div class="notes">Pair with psychosocial treatment. Naltrexone is contraindicated with current opioid use (precipitates withdrawal). Offer naloxone for OUD.</div>
+      </div>
+    </div>
+
+    <!-- NEUROCOGNITIVE -->
+    <div class="card" style="--c:var(--ncd); --cbg:var(--ncd-bg);">
+      <div class="head"><h2>Alzheimer / Neurocognitive</h2><span class="tag">Dementia</span></div>
+      <div class="body">
+        <div class="row"><span class="lab fl">Mild–moderate</span><span class="val">Cholinesterase inhibitors (<span class="drug">donepezil, rivastigmine, galantamine</span>)</span></div>
+        <div class="row"><span class="lab">Moderate–severe</span><span class="val"><span class="drug">Memantine</span> (NMDA antagonist), often added to a cholinesterase inhibitor</span></div>
+        <div class="notes">Benefit is modest/symptomatic. Avoid anticholinergics (worsen cognition). Newer anti-amyloid antibodies (e.g., lecanemab) are emerging, specialist-managed.</div>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- COMBINATION & AUGMENTATION -->
+  <section class="combo-sec">
+    <h2 class="sec-h"><span class="sec-tag">Combos</span> Combination &amp; augmentation strategies</h2>
+    <p class="sec-intro">Used when a single agent gives partial response or to target different symptom clusters. "Augmentation" = adding a second agent to boost the first; "combination" = two antidepressants/agents together.</p>
+
+    <div class="combo-grid">
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Depression — partial / inadequate response</h3>
+        <div class="combo"><span class="purpose"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> <span class="pill">bupropion</span> <span class="arrow">→</span> adds dopamine/NE drive; helps energy, motivation, and counters sexual side effects</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> <span class="pill">mirtazapine</span> <span class="arrow">→</span> dual action; helps sleep, appetite, anxiety</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Venlafaxine</span> <span class="plus">+</span> <span class="pill">mirtazapine</span> <span class="arrow">→</span> "California rocket fuel" (Stahl) — robust dual mechanism</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> <span class="pill">atypical antipsychotic</span> <span class="arrow">→</span> aripiprazole, brexpiprazole, quetiapine XR, cariprazine are FDA-approved adjuncts</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Antidepressant</span> <span class="plus">+</span> <span class="pill">lithium</span> or <span class="pill">T3 (thyroid)</span> <span class="arrow">→</span> classic augmentation strategies</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Antidepressant</span> <span class="plus">+</span> <span class="pill">esketamine</span> <span class="arrow">→</span> treatment-resistant depression (REMS)</span></div>
+      </div>
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Bipolar depression</h3>
+        <div class="combo"><span class="purpose"><span class="pill">Lithium</span> or <span class="pill">lamotrigine</span> <span class="plus">+</span> <span class="pill">atypical antipsychotic</span> <span class="arrow">→</span> mood stabilizer plus an SGA with bipolar-depression evidence</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Olanzapine</span> <span class="plus">+</span> <span class="pill">fluoxetine</span> <span class="arrow">→</span> fixed combo (Symbyax) for bipolar depression &amp; treatment-resistant depression</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Avoid</span> <span class="arrow">→</span> antidepressant alone (risk of switch to mania)</span></div>
+      </div>
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Schizophrenia</h3>
+        <div class="combo"><span class="purpose"><span class="pill">Two failed antipsychotics</span> <span class="arrow">→</span> switch to <span class="pill">clozapine</span> (treatment-resistant standard)</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Clozapine</span> <span class="plus">+</span> augmentation <span class="arrow">→</span> reserved/specialist; routine antipsychotic polypharmacy is generally discouraged</span></div>
+      </div>
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Anxiety &amp; ADHD</h3>
+        <div class="combo"><span class="purpose"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> short-term <span class="pill">benzodiazepine</span> <span class="arrow">→</span> bridge during the weeks the SSRI takes to work, then taper the benzo</span></div>
+        <div class="combo"><span class="purpose"><span class="pill">Stimulant</span> <span class="plus">+</span> <span class="pill">alpha-2 agonist</span> (guanfacine/clonidine) <span class="arrow">→</span> ADHD augmentation; helps residual symptoms, tics, sleep</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PEARLS -->
+  <div class="pearls">
+    <h3>High-yield pearls</h3>
+    <ul>
+      <li><b>One class, many disorders:</b> SSRIs are first-line for depression, anxiety, OCD, and PTSD.</li>
+      <li><b>Side-effect-driven picks:</b> bupropion &amp; mirtazapine spare (or improve) sexual function; bupropion is also weight-neutral/activating.</li>
+      <li><b>Bipolar maintenance anchors:</b> lithium and lamotrigine; lamotrigine favors the depressive pole, not acute mania.</li>
+      <li><b>Clozapine = resistance:</b> only antipsychotic shown to reduce suicidality; ANC monitoring via REMS.</li>
+      <li><b>OCD differs:</b> higher SSRI doses, longer trials, ERP therapy.</li>
+      <li><b>Don't treat bipolar depression with an antidepressant alone</b> — pair with a stabilizer/SGA.</li>
+      <li><b>Augment, don't pile on:</b> for partial MDD response, add bupropion, mirtazapine, an SGA, or lithium.</li>
+      <li><b>MOUD &amp; alcohol:</b> buprenorphine/methadone/naltrexone for opioids; naltrexone/acamprosate/disulfiram for alcohol.</li>
+    </ul>
+  </div>
+
+  <footer class="note">
+    <b>Study aid only — not a prescribing guide.</b> Drug lists are representative, not exhaustive, and doses are intentionally omitted. First-line designations are general and vary by patient factors, comorbidities, and current guidelines. Always verify against your course material (Stahl), current clinical guidelines, and authoritative drug references before any clinical application. Reflects general U.S. psychopharmacology practice as of 2026.
+  </footer>
+
+</div>
+</body>
+</html>
