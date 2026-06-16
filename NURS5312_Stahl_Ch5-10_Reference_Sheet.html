@@ -16,6 +16,7 @@
     --c8:#B07D12; --c8bg:#F6EFDD;   /* anxiety */
     --c9:#A65A38; --c9bg:#F5E8E1;   /* pain */
     --c10:#37579E; --c10bg:#E7ECF7; /* sleep */
+    --combo:#9A3B5C; --combobg:#F7E9EE; /* combinations */
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;}
@@ -39,6 +40,9 @@
   .network{background:var(--cbg); border:1px solid var(--line); border-radius:10px; padding:12px 15px; margin-bottom:14px; font-size:13.4px;}
   .network .nlab{font-size:10.5px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--c); display:block; margin-bottom:3px;}
   .network b{color:var(--ink); font-weight:600;}
+  .treats{display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 9px; margin:0 0 12px; padding:7px 14px; background:var(--card); border:1px solid var(--line); border-left:4px solid var(--c); border-radius:8px;}
+  .treats .tlab{font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--c); flex:none;}
+  .treats .tx{font-size:13.2px; color:var(--ink); font-weight:500;}
 
   .mtable{background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
   .mrow{display:grid; grid-template-columns:0.9fr 1.2fr 1.3fr; gap:0; border-bottom:1px solid var(--line);}
@@ -72,6 +76,17 @@
   footer.note{margin-top:32px; padding-top:16px; border-top:1px solid var(--rule); font-size:12px; color:var(--faint); max-width:80ch;}
   footer.note b{color:var(--muted);}
 
+  .combo-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:14px;}
+  @media (max-width:720px){ .combo-grid{grid-template-columns:1fr;} }
+  .cgroup{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:13px 16px;}
+  .cgroup h3{font-size:13.5px; margin:0 0 9px; color:var(--ink); display:flex; align-items:center; gap:8px;}
+  .cgroup h3 .dot{width:9px; height:9px; border-radius:50%; background:var(--combo); flex:none;}
+  .combo{padding:7px 0; border-bottom:1px solid var(--line); font-size:13px; color:var(--muted);}
+  .combo:last-child{border-bottom:none;}
+  .combo .pill{font-weight:600; color:var(--ink);}
+  .combo .plus{color:var(--combo); font-weight:700; padding:0 2px;}
+  .combo .arrow{color:var(--faint); padding:0 2px;}
+
   @media print{
     body{background:#fff; padding:0; font-size:10.5px;}
     .chapter{break-inside:avoid;}
@@ -94,6 +109,7 @@
   <!-- CHAPTER 5 (ANTIPSYCHOTICS) -->
   <section class="chapter" style="--c:var(--c5); --cbg:var(--c5bg);">
     <div class="ch-head"><span class="ch-num">Ch 5</span><h2 class="ch-title">Antipsychotics<small>Targeting dopamine &amp; serotonin receptors</small></h2></div>
+    <div class="treats"><span class="tlab">Treats</span><span class="tx">Schizophrenia &amp; psychosis · acute mania (bipolar) · maintenance · adjunct in depression</span></div>
     <div class="network"><span class="nlab">Network</span> Antipsychotics primarily <b>block D2 receptors</b> across four dopamine pathways: <b>mesolimbic</b> (positive symptoms — the therapeutic target), <b>mesocortical</b> (negative/cognitive), <b>nigrostriatal</b> (movement → EPS), and <b>tuberoinfundibular</b> (prolactin). Atypicals add <b>5-HT2A antagonism</b>, which raises dopamine in the nigrostriatal/tuberoinfundibular pathways → <b>fewer EPS and lower prolactin</b> than typicals.</div>
     <div class="mtable">
       <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
@@ -113,6 +129,7 @@
   <!-- CHAPTER 7 -->
   <section class="chapter" style="--c:var(--c7); --cbg:var(--c7bg);">
     <div class="ch-head"><span class="ch-num">Ch 7</span><h2 class="ch-title">Treatments for Mood Disorders<small>"Antidepressants" and "mood stabilizers"</small></h2></div>
+    <div class="treats"><span class="tlab">Treats</span><span class="tx">Antidepressants → MDD, anxiety, OCD, PTSD · mood stabilizers → bipolar disorder (mania, depression, maintenance)</span></div>
     <div class="network"><span class="nlab">Network</span> Antidepressants act on the <b>trimonoamine system</b> — serotonin (5-HT), norepinephrine (NE), and dopamine (DA) — mostly by blocking reuptake transporters (SERT, NET, DAT) or blocking specific receptors. Benefit is <b>delayed (≈2–6 wks)</b> because it depends on downstream receptor desensitization and neuroplasticity (BDNF), not the immediate transporter block.</div>
     <div class="mtable">
       <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
@@ -137,6 +154,7 @@
   <!-- CHAPTER 8 -->
   <section class="chapter" style="--c:var(--c8); --cbg:var(--c8bg);">
     <div class="ch-head"><span class="ch-num">Ch 8</span><h2 class="ch-title">Anxiety, Trauma, and Treatment<small>Fear circuits and their pharmacology</small></h2></div>
+    <div class="treats"><span class="tlab">Treats</span><span class="tx">Generalized anxiety · panic disorder · social anxiety · PTSD &amp; trauma</span></div>
     <div class="network"><span class="nlab">Circuit</span> Anxiety/fear is driven by an over-reactive <b>amygdala</b> and its loops with the prefrontal cortex and hippocampus. Treatments either <b>boost serotonin/NE</b> (SSRIs/SNRIs), <b>enhance GABA inhibition</b> (benzodiazepines), or <b>dampen excitatory release via calcium channels</b> (α2δ ligands).</div>
     <div class="mtable">
       <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
@@ -158,6 +176,7 @@
   <!-- CHAPTER 9 -->
   <section class="chapter" style="--c:var(--c9); --cbg:var(--c9bg);">
     <div class="ch-head"><span class="ch-num">Ch 9</span><h2 class="ch-title">Chronic Pain and Its Treatment<small>Ascending pain &amp; descending modulation</small></h2></div>
+    <div class="treats"><span class="tlab">Treats</span><span class="tx">Neuropathic pain · fibromyalgia · diabetic neuropathy · chronic musculoskeletal pain</span></div>
     <div class="network"><span class="nlab">Pathway</span> Pain signals ascend the spinal cord, while <b>descending NE &amp; 5-HT pathways</b> from the brainstem normally inhibit them. In chronic/neuropathic pain and fibromyalgia, this becomes <b>central sensitization</b>. The drug targets overlap with mood/anxiety — boosting NE/5-HT or dampening calcium-channel excitability.</div>
     <div class="mtable">
       <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
@@ -177,6 +196,7 @@
   <!-- CHAPTER 10 -->
   <section class="chapter" style="--c:var(--c10); --cbg:var(--c10bg);">
     <div class="ch-head"><span class="ch-num">Ch 10</span><h2 class="ch-title">Sleep and Wakefulness<small>The wake/sleep switch and its drugs</small></h2></div>
+    <div class="treats"><span class="tlab">Treats</span><span class="tx">Insomnia (sleep-onset &amp; maintenance) · narcolepsy · excessive daytime sleepiness</span></div>
     <div class="network"><span class="nlab">Switch</span> <b>Wakefulness</b> is driven by the ascending arousal system — <b>histamine (H1), orexin/hypocretin, norepinephrine, dopamine, serotonin, and acetylcholine</b>. <b>Sleep</b> is promoted by <b>GABA</b> (the VLPO "off-switch") and <b>melatonin</b> (circadian). Orexin stabilizes wakefulness — its loss causes narcolepsy. <em>(This is the basis for the Exam-2 fact that sleep is regulated by the RAS/H1/5-HT, not a dopamine pathway.)</em></div>
     <div class="mtable">
       <div class="mrow h"><span class="mcell">Class</span><span class="mcell">Mechanism / target</span><span class="mcell">Examples &amp; notes</span></div>
@@ -193,6 +213,43 @@
       <li><b>H1 = the sedation lever:</b> blocking histamine causes sleepiness — the same reason sedating antidepressants and antihistamines make you drowsy.</li>
       <li><b>CBT-I is first-line</b> for chronic insomnia; avoid chronic benzodiazepines/Z-drugs.</li>
     </ul></div>
+  </section>
+
+  <!-- COMBINATION & AUGMENTATION -->
+  <section class="chapter" style="--c:var(--combo); --cbg:var(--combobg);">
+    <div class="ch-head"><span class="ch-num" style="background:var(--combo);">Combos</span><h2 class="ch-title">Combination &amp; Augmentation Strategies<small>Across chapters 5 &amp; 7–10 — when one agent isn't enough</small></h2></div>
+    <div class="network"><span class="nlab" style="color:var(--combo);">Concept</span> <b>Augmentation</b> = adding a second agent to boost the first; <b>combination</b> = two primary agents together. Most strategies pair drugs with <b>different mechanisms</b> to cover more symptom dimensions or pull from both mood poles.</div>
+    <div class="combo-grid">
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Depression — partial / inadequate response (Ch 7)</h3>
+        <div class="combo"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> <span class="pill">bupropion</span> <span class="arrow">→</span> adds DA/NE; energy, motivation, counters sexual side effects</div>
+        <div class="combo"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> <span class="pill">mirtazapine</span> <span class="arrow">→</span> dual action; sleep, appetite, anxiety</div>
+        <div class="combo"><span class="pill">Venlafaxine</span> <span class="plus">+</span> <span class="pill">mirtazapine</span> <span class="arrow">→</span> "California rocket fuel" (Stahl)</div>
+        <div class="combo"><span class="pill">Antidepressant</span> <span class="plus">+</span> <span class="pill">atypical antipsychotic</span> <span class="arrow">→</span> aripiprazole, brexpiprazole, quetiapine XR, cariprazine (FDA adjuncts)</div>
+        <div class="combo"><span class="pill">Antidepressant</span> <span class="plus">+</span> <span class="pill">lithium</span> or <span class="pill">T3 (thyroid)</span> <span class="arrow">→</span> classic augmentation</div>
+        <div class="combo"><span class="pill">Antidepressant</span> <span class="plus">+</span> <span class="pill">esketamine</span> <span class="arrow">→</span> treatment-resistant depression</div>
+      </div>
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Bipolar depression (Ch 7)</h3>
+        <div class="combo"><span class="pill">Lithium</span> or <span class="pill">lamotrigine</span> <span class="plus">+</span> <span class="pill">atypical antipsychotic</span> <span class="arrow">→</span> stabilizer plus an SGA with bipolar-depression evidence</div>
+        <div class="combo"><span class="pill">Olanzapine</span> <span class="plus">+</span> <span class="pill">fluoxetine</span> <span class="arrow">→</span> fixed combo (Symbyax) for bipolar depression &amp; treatment-resistant depression</div>
+        <div class="combo"><span class="pill">Avoid</span> <span class="arrow">→</span> antidepressant alone (manic-switch risk)</div>
+      </div>
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Anxiety (Ch 8)</h3>
+        <div class="combo"><span class="pill">SSRI/SNRI</span> <span class="plus">+</span> short-term <span class="pill">benzodiazepine</span> <span class="arrow">→</span> benzo bridges the weeks the SSRI takes to work, then taper</div>
+      </div>
+
+      <div class="cgroup">
+        <h3><span class="dot"></span>Chronic pain (Ch 9) &amp; Schizophrenia (Ch 5)</h3>
+        <div class="combo"><span class="pill">SNRI</span> <span class="plus">+</span> <span class="pill">α2δ ligand</span> (pregabalin/gabapentin) <span class="arrow">→</span> multi-mechanism for neuropathic pain / fibromyalgia</div>
+        <div class="combo"><span class="pill">Two failed antipsychotics</span> <span class="arrow">→</span> switch to <span class="pill">clozapine</span>; routine antipsychotic polypharmacy is discouraged</div>
+      </div>
+
+    </div>
   </section>
 
   <footer class="note">
