@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NURS 5312 — Exam 2 Practice (Ch 4–6, 50 MCQ)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2EA; --card:#FFFFFF; --ink:#1B2A28; --ink-soft:#4A5C58; --muted:#7E8C87;
+    --line:#E4DDD0; --line-soft:#EFE9DD; --teal:#0F6E56; --teal-soft:#E2F0EA; --teal-deep:#0A4D3C;
+    --red:#B23A3A; --red-soft:#FBE7E4; --amber:#B5711A;
+    --shadow:0 1px 2px rgba(27,42,40,.04),0 6px 20px rgba(27,42,40,.06); --r:14px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk',system-ui,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(14px,3vw,36px) clamp(12px,4vw,40px) 120px;}
+  .wrap{max-width:780px;margin:0 auto;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,5.3vw,37px);line-height:1.05;margin:6px 0 6px;letter-spacing:-.01em;}
+  .sub{color:var(--ink-soft);font-size:15px;margin:0 0 4px;}
+  .scorebanner{display:none;margin:16px 0;padding:18px 20px;border-radius:var(--r);border:1px solid;text-align:center;}
+  .scorebanner h2{font-family:'Fraunces',serif;font-weight:500;margin:0 0 4px;font-size:30px;}
+  .scorebanner p{margin:0;font-size:14px;}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:14px 0;}
+  .q .num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--teal);text-transform:uppercase;}
+  .q .topic{font-size:11px;color:var(--muted);float:right;font-weight:600;}
+  .q .stem{font-size:16.5px;font-weight:500;margin:6px 0 14px;}
+  .sata-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.04em;margin-left:6px;}
+  .opt{display:flex;gap:11px;align-items:flex-start;padding:11px 13px;border:1px solid var(--line);border-radius:10px;margin:7px 0;cursor:pointer;transition:all .12s;font-size:15px;}
+  .opt:hover{border-color:var(--muted);background:#FCFBF7;}
+  .opt.sel{border-color:var(--teal);background:var(--teal-soft);}
+  .opt .ltr{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--muted);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .opt.multi .ltr{border-radius:6px;}
+  .opt.sel .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .graded .opt{cursor:default;}
+  .opt.correct{border-color:var(--teal);background:var(--teal-soft);}
+  .opt.correct .ltr{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft);}
+  .opt.wrong .ltr{background:var(--red);border-color:var(--red);color:#fff;}
+  .rat{display:none;margin-top:11px;padding:11px 13px;border-left:3px solid var(--teal);background:#F3F8F5;border-radius:0 8px 8px 0;font-size:14px;color:var(--ink-soft);}
+  .graded .rat{display:block;}
+  .rat b{color:var(--teal-deep);}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,242,234,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px clamp(12px,4vw,40px);display:flex;align-items:center;gap:14px;justify-content:center;}
+  .bar .count{font-size:13px;color:var(--ink-soft);}
+  button{font-family:inherit;font-size:15px;font-weight:600;border-radius:11px;padding:12px 22px;cursor:pointer;border:1px solid;transition:all .14s;}
+  button:active{transform:scale(.98);}
+  .btn-primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .btn-primary:hover{background:#0d1816;}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;}
+  .btn-ghost{background:var(--card);color:var(--ink);border-color:var(--line);}
+  footer{margin-top:24px;text-align:center;font-size:12px;color:var(--muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">NURS 5312 · Neuropsychopharmacology</div>
+  <h1>Exam 2 Practice — Chapters 4–6 · Set C (50 MCQ)</h1>
+  <p class="sub">Psychosis &amp; schizophrenia networks · antipsychotics (incl. 5-HT subtypes &amp; beyond-psychosis uses) · mood disorders, norepinephrine &amp; GABA. High-yield set — answer all 50, then submit to grade.</p>
+
+  <div class="scorebanner" id="banner"></div>
+  <div id="quiz"></div>
+
+  <footer>Original practice questions written from the Ch 4/5/6 key points, in your module-quiz format. Use for self-study; verify clinical details against current references.</footer>
+</div>
+
+<div class="bar">
+  <span class="count" id="count">0 / 50 answered</span>
+  <button class="btn-primary" id="submit" disabled>Submit &amp; grade</button>
+  <button class="btn-ghost" id="retake" style="display:none;">Retake</button>
+</div>
+
+<script>
+// correct = NUMBER (single answer) or ARRAY (select all that apply)
+const Q = [["Ch 4 · Positive symptoms", "A 19-year-old believes his professors are inserting thoughts into his head and hears a voice narrating his actions. These are best classified as:", ["Cognitive symptoms", "Negative symptoms", "Affective symptoms", "Positive symptoms"], 3, "Delusions and hallucinations are positive symptoms. (Ch 4)"], ["Ch 4 · Negative symptoms", "A patient with schizophrenia shows little facial expression, gives brief unelaborated answers, and has withdrawn from friends. These are:", ["Cognitive symptoms", "Extrapyramidal symptoms", "Negative symptoms", "Positive symptoms"], 2, "Blunted affect, alogia, avolition, and social withdrawal are negative symptoms. (Ch 4)"], ["Ch 4 · Hypotheses", "The three leading neurotransmitter hypotheses of schizophrenia involve dopamine, serotonin, and:", ["Histamine", "Glutamate", "Acetylcholine", "GABA"], 1, "The three theories are dopamine, serotonin, and glutamate (NMDA hypofunction). (Ch 4)"], ["Ch 4 · Nigrostriatal", "A patient on a high-potency antipsychotic develops a resting tremor, rigidity, and shuffling gait. This drug-induced parkinsonism results from D2 blockade in the:", ["Mesolimbic pathway", "Tuberoinfundibular pathway", "Mesocortical pathway", "Nigrostriatal pathway"], 3, "Parkinsonism (an EPS) comes from D2 blockade in the nigrostriatal pathway. (Ch 4/5)"], ["Ch 4 · Tuberoinfundibular", "A man on risperidone develops breast tenderness and milky nipple discharge. This is caused by D2 blockade in the:", ["Nigrostriatal pathway", "Mesocortical pathway", "Mesolimbic pathway", "Tuberoinfundibular pathway"], 3, "Blocking tuberoinfundibular dopamine raises prolactin → gynecomastia/galactorrhea. (Ch 4/5)"], ["Ch 4 · Mesolimbic", "Per the dopamine hypothesis, positive symptoms arise from EXCESS dopamine activity in the:", ["Mesocortical pathway", "Tuberoinfundibular pathway", "Nigrostriatal pathway", "Mesolimbic pathway"], 3, "Mesolimbic overactivity drives positive symptoms. (Ch 4)"], ["Ch 4 · Mesocortical", "LOW dopamine activity in the mesocortical pathway is thought to produce:", ["Positive symptoms", "Acute dystonia", "Negative and cognitive symptoms", "Hyperprolactinemia"], 2, "Mesocortical hypoactivity underlies negative and cognitive symptoms. (Ch 4)"], ["Ch 4 · Neurotransmitters", "Which neurotransmitter is the brain's principal EXCITATORY transmitter and the precursor to GABA?", ["Glutamate", "Dopamine", "Acetylcholine", "Serotonin"], 0, "Glutamate is the master excitatory transmitter and precursor to inhibitory GABA. (Ch 4)"], ["Ch 4 · Glutamate hypothesis", "PCP intoxication can closely mimic schizophrenia. PCP supports the glutamate hypothesis because it is a(n):", ["NMDA receptor agonist", "NMDA receptor antagonist", "Serotonin reuptake inhibitor", "D2 receptor agonist"], 1, "PCP (like ketamine) is an NMDA antagonist, supporting the NMDA-hypofunction hypothesis. (Ch 4)"], ["Ch 4 · DA synthesis", "Dopamine is synthesized from tyrosine; the rate-limiting enzyme is:", ["COMT", "Monoamine oxidase", "Tyrosine hydroxylase", "DOPA decarboxylase"], 2, "Tyrosine hydroxylase is the rate-limiting first step. (Ch 4)"], ["Ch 4 · Epidemiology", "People who develop schizophrenia are disproportionately born in which season?", ["Early autumn", "Mid-summer", "No seasonal pattern", "Winter / early spring"], 3, "Winter/early-spring births carry higher risk (linked to second-trimester maternal infection). (Vela review)"], ["Ch 4 · Neurodevelopment", "Maternal influenza during which trimester is most associated with increased offspring schizophrenia risk?", ["Third trimester only", "Second trimester", "First trimester only", "No trimester association"], 1, "Second-trimester maternal viral infection is the classic association. (Vela review)"], ["Ch 4 · Symptom mapping", "The aggressive/hostile symptom domain of schizophrenia maps primarily to the:", ["Nigrostriatal pathway", "Amygdala (and orbitofrontal cortex)", "Mesocortical pathway", "Cerebellum"], 1, "Aggressive symptoms map to the amygdala/orbitofrontal cortex - not mesocortical. (Vela review)"], ["Ch 4 · Serotonin anatomy", "The cell bodies of serotonergic neurons are located in the:", ["Locus coeruleus", "Substantia nigra", "Striatum", "Raphe nuclei"], 3, "Serotonin neurons originate in the brainstem raphe nuclei. (Ch 4/6)"], ["Ch 4 · Negative symptoms", "All of the following are negative symptoms of schizophrenia EXCEPT:", ["Auditory hallucinations", "Avolition", "Blunted affect", "Alogia"], 0, "Hallucinations are a positive symptom; blunted affect, avolition, and alogia are negative symptoms. (Ch 4)"], ["Ch 5 · FGA vs SGA", "What receptor action distinguishes second-generation (atypical) antipsychotics from first-generation agents?", ["5-HT2A antagonism added to D2 antagonism", "Muscarinic agonism", "NMDA antagonism", "D1 agonism"], 0, "Atypicals add 5-HT2A antagonism to D2 blockade, lowering EPS and prolactin. (Ch 5)"], ["Ch 5 · D2 occupancy", "About what level of D2 receptor occupancy is needed for antipsychotic efficacy (with EPS/prolactin rising above it)?", ["95-100%", "20-40%", "60-80%", "10-20%"], 2, "Efficacy is about 60-80% D2 occupancy; >80% raises EPS/prolactin risk. (Ch 5)"], ["Ch 5 · EPS", "Two hours after his first haloperidol dose, a patient's neck and jaw muscles spasm and lock. The best acute treatment is:", ["Propranolol", "A VMAT2 inhibitor", "Dantrolene", "Benztropine or diphenhydramine"], 3, "Acute dystonia is treated with an anticholinergic (benztropine) or diphenhydramine. (Ch 5)"], ["Ch 5 · EPS", "A patient on an antipsychotic cannot sit still and paces constantly with inner restlessness. First-line treatment for this akathisia is:", ["Propranolol", "Bromocriptine", "Benztropine", "Valbenazine"], 0, "Akathisia is treated first-line with propranolol. (Ch 5)"], ["Ch 5 · Tardive dyskinesia", "A patient on haloperidol for 2 years develops involuntary chewing and tongue movements. Appropriate management includes:", ["Increasing the antipsychotic permanently", "Giving propranolol", "A VMAT2 inhibitor; avoid anticholinergics", "Adding benztropine"], 2, "Tardive dyskinesia is treated with VMAT2 inhibitors; anticholinergics can worsen it. (Ch 5)"], ["Ch 5 · NMS", "A patient develops fever, lead-pipe rigidity, autonomic instability, and very high CK after a dose increase. Management:", ["Give propranolol and continue", "Start a VMAT2 inhibitor", "Stop the antipsychotic; supportive care plus dantrolene/bromocriptine", "Add benztropine and continue"], 2, "This is NMS: stop the drug, supportive care, dantrolene and/or bromocriptine. (Ch 5)"], ["Ch 5 · Metabolic", "Which two antipsychotics carry the HIGHEST cardiometabolic risk?", ["Lurasidone and risperidone", "Haloperidol and fluphenazine", "Aripiprazole and ziprasidone", "Clozapine and olanzapine"], 3, "Highest tier: clozapine and olanzapine. (Vela review)"], ["Ch 5 · Metabolic", "Which group represents the LOW cardiometabolic risk tier?", ["Quetiapine, clozapine, olanzapine", "Clozapine, olanzapine, quetiapine", "Aripiprazole, ziprasidone, lurasidone", "Risperidone, paliperidone, olanzapine"], 2, "Low tier: aripiprazole, ziprasidone, lurasidone. (Vela review)"], ["Ch 5 · Metabolic", "Risperidone and paliperidone belong to which cardiometabolic risk tier?", ["High", "No risk", "Low", "Moderate"], 3, "Risperidone and paliperidone are the moderate cardiometabolic tier. (Vela review)"], ["Ch 5 · Prolactin", "Which two antipsychotics most strongly raise prolactin (highest D2 affinity)?", ["Clozapine and quetiapine", "Aripiprazole and brexpiprazole", "Risperidone and paliperidone", "Lurasidone and ziprasidone"], 2, "Risperidone and paliperidone raise prolactin the most. (Vela review)"], ["Ch 5 · Paliperidone", "Paliperidone is the active metabolite of:", ["Olanzapine", "Risperidone", "Quetiapine", "Aripiprazole"], 1, "Paliperidone is risperidone's active metabolite. (Vela review)"], ["Ch 5 · Pediatric dosing", "A 14-year-old is started on risperidone for schizophrenia. The typical target dose for adolescents is about:", ["1-3 mg/day", "0.25 mg/day", "10-12 mg/day", "6-8 mg/day"], 0, "Adolescent risperidone target is about 1-3 mg/day. (Vela review)"], ["Ch 5 · Clozapine", "Clozapine is reserved for treatment-resistant schizophrenia and is unique in that it:", ["Is first-line", "Has no monitoring requirements", "Reduces suicidality", "Causes the least sedation"], 2, "Clozapine uniquely reduces suicidality. (Ch 5)"], ["Ch 5 · Clozapine", "Because of agranulocytosis risk, clozapine requires regular monitoring of the:", ["Absolute neutrophil count (ANC)", "TSH", "Serum sodium", "Prolactin level"], 0, "ANC monitoring via REMS is required for clozapine. (Ch 5)"], ["Ch 5 · Clozapine", "A patient on clozapine for 5 weeks develops chest pain, fever, and tachycardia. The priority concern is:", ["Myocarditis", "Tardive dyskinesia", "Hyperprolactinemia", "Acute dystonia"], 0, "Clozapine-associated myocarditis classically presents around weeks 4-6. (Ch 5)"], ["Ch 5 · Administration", "Ziprasidone should be taken with a meal of at least:", ["100 calories", "No food needed", "1000 calories", "500 calories"], 3, "Ziprasidone requires food of at least 500 calories for absorption. (Vela review)"], ["Ch 5 · Administration", "Lurasidone should be taken with food of at least:", ["500 calories", "50 calories", "350 calories", "No food needed"], 2, "Lurasidone requires at least 350 calories with dosing. (Vela review)"], ["Ch 5 · Partial agonists", "Brexpiprazole causes less akathisia than aripiprazole because it has:", ["Lower intrinsic (partial) agonist activity at D2", "Higher full agonist activity", "No D2 activity", "Pure D2 antagonism"], 0, "Lower intrinsic activity means less restlessness ('bREXpiprazole = REduced REstlessness'). (Ch 5)"], ["Ch 5 · Partial agonists", "Cariprazine's partial agonism at the D3 receptor is associated with benefit for:", ["Sedation", "Negative and cognitive symptoms", "Acute dystonia", "Hyperprolactinemia"], 1, "Cariprazine (D3 partial agonist) helps negative/cognitive symptoms. (Ch 5)"], ["Ch 5 · Metabolic mechanism", "The '-apines' (clozapine, olanzapine, quetiapine) cause metabolic effects mainly through blockade of:", ["H1 and 5-HT2C receptors", "D2 receptors only", "NMDA receptors", "Alpha-2 receptors"], 0, "H1 and 5-HT2C antagonism drives weight/metabolic effects. (Ch 5)"], ["Ch 5 · FGA potency", "High-potency first-generation antipsychotics (haloperidol, fluphenazine) are most associated with:", ["Sedation and anticholinergic effects", "Metabolic syndrome", "Extrapyramidal symptoms", "No prolactin elevation"], 2, "High-potency FGAs cause EPS ('HAL blocks FLUently'). (Ch 5)"], ["Ch 5 · FGA potency", "Low-potency first-generation antipsychotics (chlorpromazine) are most associated with:", ["Predominant EPS", "Metabolic neutrality", "Sedation, orthostasis, and anticholinergic effects", "No histamine blockade"], 2, "Low-potency FGAs (H1/alpha-1/M1 blockade) cause sedation/anticholinergic effects ('CHLOR makes you lazy'). (Ch 5)"], ["Ch 5 · EPS (SATA)", "Select ALL that are recognized extrapyramidal symptoms:", ["Tardive dyskinesia", "Akathisia", "Agranulocytosis", "Acute dystonia", "Drug-induced parkinsonism"], [0, 1, 3, 4], "Akathisia, dystonia, parkinsonism, and TD are EPS; agranulocytosis is a clozapine hematologic effect. (Ch 5)"], ["Ch 6 · Monoamine hypothesis", "The monoamine hypothesis attributes depression to a deficiency of which neurotransmitters?", ["Acetylcholine and histamine", "Glutamate and GABA", "Serotonin, norepinephrine, and dopamine", "Orexin and melatonin"], 2, "The monoamine hypothesis centers on 5-HT, NE, and DA deficiency. (Ch 6)"], ["Ch 6 · Symptom mapping", "A depressed patient's main symptoms are anhedonia, low energy, and poor motivation. These map best to deficits in:", ["Dopamine and norepinephrine", "Serotonin alone", "Histamine", "GABA"], 0, "Reward, energy, and motivation symptoms map to dopamine/norepinephrine. (Ch 6)"], ["Ch 6 · Mania", "A manic episode requires abnormally elevated/irritable mood and increased activity lasting at least:", ["1 month", "2 weeks", "1 week (or any duration if hospitalization is required)", "1 day"], 2, "Mania: at least 1 week, or any duration if hospitalization is needed. (Ch 6)"], ["Ch 6 · Hypomania", "Hypomania is distinguished from mania primarily because it:", ["Lasts at least 2 weeks", "Always includes hallucinations", "Requires hospitalization", "Lasts at least 4 days and lacks psychosis or marked impairment"], 3, "Hypomania: at least 4 days, without psychosis, marked impairment, or hospitalization. (Ch 6)"], ["Ch 6 · Bipolar I", "Bipolar I disorder requires at least one lifetime episode of:", ["Mania", "Cyclothymia", "Major depression only", "Hypomania only"], 0, "Bipolar I requires at least one manic episode. (Ch 6)"], ["Ch 6 · Lithium", "Which mood stabilizer is the gold-standard for bipolar maintenance and also reduces suicidality?", ["Quetiapine", "Lamotrigine", "Lithium", "Carbamazepine"], 2, "Lithium is the maintenance gold-standard and uniquely reduces suicidality. (Ch 6/7)"], ["Ch 6 · MDD criteria", "A major depressive episode requires at least 5 of 9 symptoms present during the same period of at least:", ["1 month", "6 months", "1 week", "2 weeks"], 3, "MDE: at least 5 of 9 symptoms for at least 2 weeks. (Ch 6)"], ["Ch 6 · Rapid cycling", "Rapid-cycling bipolar disorder is defined as:", ["At least 2 episodes in a lifetime", "Mood swings within a single day", "At least 4 mood episodes in 12 months", "Episodes only in winter"], 2, "Rapid cycling = 4 or more mood episodes in 12 months. (Ch 6)"], ["Ch 6 · Progression", "Bipolar disorder may become progressive when episodes are undertreated, leading to:", ["Conversion to schizophrenia", "Resolution by age 25", "More frequent mixed/dysphoric episodes, rapid cycling, and treatment resistance", "Spontaneous permanent cure"], 2, "Undertreated episodes can 'kindle' a worsening course. (Ch 6)"], ["Ch 6 · Definitions", "A mood stabilizer is best defined as an agent that:", ["Only sedates the patient", "Blocks D2 receptors for psychosis", "Treats/prevents episodes without inducing the opposite mood pole", "Acts solely as an antidepressant"], 2, "A mood stabilizer treats and prevents episodes from above or below without flipping the patient to the opposite pole. (Ch 6)"], ["Ch 6 · NE anatomy", "The norepinephrine projections relevant to mood originate from the:", ["Raphe nuclei", "Locus coeruleus", "Tuberomammillary nucleus", "Substantia nigra"], 1, "Norepinephrine arises from the locus coeruleus. (Ch 6)"], ["Ch 6 · MDD criteria (SATA)", "Select ALL that are recognized symptoms in the diagnostic criteria for a major depressive episode:", ["Grandiosity", "Significant appetite/weight change", "Anhedonia", "Insomnia or hypersomnia", "Depressed mood"], [1, 2, 3, 4], "Depressed mood, anhedonia, sleep change, and appetite/weight change are MDE criteria; grandiosity is manic. (Ch 6)"]];
+
+
+const quiz=document.getElementById('quiz'),countEl=document.getElementById('count'),submitBtn=document.getElementById('submit'),retakeBtn=document.getElementById('retake'),banner=document.getElementById('banner');
+const LETTERS=['A','B','C','D','E'];
+const isSATA=qi=>Array.isArray(Q[qi][3]);
+let answers=Q.map(q=>Array.isArray(q[3])?[]:null), graded=false;
+function arraysEqual(a,b){if(a.length!==b.length)return false;const s=[...a].sort((x,y)=>x-y),t=[...b].sort((x,y)=>x-y);return s.every((v,i)=>v===t[i]);}
+function build(){
+  quiz.innerHTML='';
+  Q.forEach((item,qi)=>{
+    const [topic,stem,opts,correct,rationale]=item, sata=Array.isArray(correct);
+    const card=document.createElement('div'); card.className='q'; card.id='q'+qi;
+    card.innerHTML='<span class="topic">'+topic+'</span><span class="num">Question '+(qi+1)+'</span><div class="stem">'+stem+(sata?'<span class="sata-tag">select all that apply</span>':'')+'</div>';
+    opts.forEach((o,oi)=>{
+      const d=document.createElement('div'); d.className='opt'+(sata?' multi':''); d.dataset.qi=qi; d.dataset.oi=oi;
+      d.innerHTML='<span class="ltr">'+LETTERS[oi]+'</span><span>'+o+'</span>';
+      d.onclick=()=>{ if(graded)return; if(sata){const a=answers[qi],i=a.indexOf(oi); if(i>=0)a.splice(i,1); else a.push(oi);} else answers[qi]=oi; render(); };
+      card.appendChild(d);
+    });
+    const rat=document.createElement('div'); rat.className='rat';
+    rat.innerHTML='<b>Answer: '+(sata?correct.map(i=>LETTERS[i]).join(', '):LETTERS[correct])+'.</b> '+rationale;
+    card.appendChild(rat); quiz.appendChild(card);
+  });
+  render();
+}
+function render(){
+  Q.forEach((item,qi)=>{
+    const correct=item[3], sata=Array.isArray(correct);
+    document.querySelectorAll('#q'+qi+' .opt').forEach((d,oi)=>{
+      d.className='opt'+(sata?' multi':'');
+      if(!graded){ if(sata?answers[qi].includes(oi):answers[qi]===oi) d.classList.add('sel'); }
+      else { const ic=sata?correct.includes(oi):oi===correct, ch=sata?answers[qi].includes(oi):answers[qi]===oi; if(ic)d.classList.add('correct'); else if(ch)d.classList.add('wrong'); }
+    });
+    document.getElementById('q'+qi).classList.toggle('graded',graded);
+  });
+  const answered=answers.filter((a,qi)=>isSATA(qi)?a.length>0:a!==null).length;
+  countEl.textContent=answered+' / '+Q.length+' answered';
+  submitBtn.disabled=answered<Q.length||graded;
+}
+function gradeQuiz(){
+  graded=true; let score=0;
+  Q.forEach((item,qi)=>{const c=item[3]; if(Array.isArray(c)){if(arraysEqual(answers[qi],c))score++;} else if(answers[qi]===c)score++;});
+  const pct=Math.round(score/Q.length*100), pass=pct>=80;
+  banner.style.display='block';
+  banner.style.borderColor=pass?'var(--teal)':'var(--amber)';
+  banner.style.background=pass?'var(--teal-soft)':'#FBF1DC';
+  banner.style.color=pass?'var(--teal-deep)':'#7E4E10';
+  banner.innerHTML='<h2>'+score+' / '+Q.length+'  ('+pct+'%)</h2><p>'+(pass?'Solid \u2014 above the 80% mark. Review any reds below.':'Keep going \u2014 review the rationales on the missed items below.')+' (Select-all items are graded all-or-nothing.)</p>';
+  render(); submitBtn.style.display='none'; retakeBtn.style.display='inline-block';
+  countEl.textContent='Scored '+score+' / '+Q.length; window.scrollTo({top:0,behavior:'smooth'});
+}
+function retake(){ answers=Q.map(q=>Array.isArray(q[3])?[]:null); graded=false; banner.style.display='none'; submitBtn.style.display='inline-block'; retakeBtn.style.display='none'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+submitBtn.onclick=gradeQuiz; retakeBtn.onclick=retake; build();
+</script>
+</body>
+</html>
