@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NURS 5312 — Key Points Gap Fill (25 MCQ)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const questions = [
+  // ── BIG PICTURE FRAMING (MOOD) ──────────────────────────────────────
+  {
+    section: "Mood — Big Picture",
+    q: "According to the instructor's circuit-based framing, clinical improvement from antidepressants and mood stabilizers primarily reflects:",
+    options: ["An immediate increase in neurotransmitter levels at the synapse", "Adaptive changes in synapses and neural networks (circuit remodeling) that develop over time, not just immediate chemical increases", "A permanent and instantaneous correction of neurotransmitter deficiency", "Changes that occur exclusively in peripheral nervous tissue"],
+    answer: 1,
+    explain: "The 'treating circuits, not just chemicals' framing emphasizes that these agents alter multiple neurotransmitter systems AND intracellular signaling pathways that promote neuroplasticity — clinical improvement tracks with adaptive synaptic/network changes over time, not simply how fast the neurotransmitter level rises."
+  },
+  {
+    section: "Mood — Big Picture",
+    q: "The instructor's Key Points list four primary goals of pharmacologic treatment in mood disorders. Which set is complete and correct?",
+    options: ["Reducing depressive symptoms, increasing serotonin, blocking dopamine, improving sleep only", "Reducing depressive symptoms, preventing relapse, stabilizing mood swings, improving functioning", "Curing the underlying disorder permanently, eliminating need for future treatment, normalizing all labs, preventing all side effects", "Increasing BDNF, blocking MAO, enhancing GABA, reducing glutamate"],
+    answer: 1,
+    explain: "The four primary goals are: reducing depressive symptoms, preventing relapse, stabilizing mood swings, and improving functioning — a broader framework than simply 'treating the current episode.'"
+  },
+  {
+    section: "Mood — Big Picture",
+    q: "Per the instructor's framework, treatment selection in mood disorders depends most directly on which clinical distinction?",
+    options: ["The patient's age alone", "Whether the illness is unipolar depression, bipolar depression, or bipolar mania/mixed features", "Insurance coverage exclusively", "Whether the patient prefers pills or therapy"],
+    answer: 1,
+    explain: "Treatment selection hinges on illness polarity: unipolar depression, bipolar depression, or bipolar mania/mixed features — each requiring fundamentally different first-line strategies (e.g., antidepressant monotherapy is appropriate for unipolar but risky in bipolar)."
+  },
+
+  // ── MOOD STABILIZER MECHANISMS (genuinely new angle) ─────────────────
+  {
+    section: "Mood Stabilizer Mechanisms",
+    q: "Per the instructor's Key Points, lamotrigine's mechanism of action for bipolar depression prevention is best described as:",
+    options: ["Enhancing GABA and reducing excitatory signaling", "Sodium channel blockade affecting mood circuits exclusively", "Reducing glutamate release", "Direct dopamine-2 receptor antagonism"],
+    answer: 2,
+    explain: "Lamotrigine's mechanism is reducing glutamate release — distinct from valproate (enhances GABA, reduces excitatory signaling) and carbamazepine (sodium channel blockade). This mechanism difference helps explain lamotrigine's unique profile as most effective for bipolar depression PREVENTION rather than acute mania treatment."
+  },
+  {
+    section: "Mood Stabilizer Mechanisms",
+    q: "Per the instructor's Key Points, valproate's mechanism of action is best described as:",
+    options: ["Reducing glutamate release exclusively", "Enhancing GABA activity and reducing excitatory signaling — effective for mania and mixed states", "Pure sodium channel blockade with no GABA effect", "Selective serotonin reuptake inhibition"],
+    answer: 1,
+    explain: "Valproate enhances GABA (inhibitory) activity while reducing excitatory signaling — a combined mechanism that makes it effective for both mania and mixed states, distinguishing it from lamotrigine's more selective glutamate-reduction mechanism."
+  },
+  {
+    section: "Mood Stabilizer Mechanisms",
+    q: "Per the instructor's Key Points, carbamazepine's primary mechanism of action for mood stabilization is:",
+    options: ["GABA enhancement", "Sodium channel blockade — useful for rapid cycling", "Glutamate release reduction", "Dopamine-2 receptor blockade"],
+    answer: 1,
+    explain: "Carbamazepine's primary mechanism is sodium channel blockade, and it is highlighted as useful specifically for rapid cycling bipolar disorder."
+  },
+  {
+    section: "Mood Stabilizer Mechanisms",
+    q: "Which mood stabilizer mechanism pairing is correct, matching agent to mechanism?",
+    options: ["Lithium = sodium channel blockade; Valproate = glutamate reduction; Carbamazepine = GABA enhancement", "Lamotrigine = glutamate release reduction; Valproate = GABA enhancement + reduced excitatory signaling; Carbamazepine = sodium channel blockade", "Lithium = GABA enhancement; Lamotrigine = sodium channel blockade; Valproate = glutamate reduction", "All anticonvulsant mood stabilizers share an identical single mechanism"],
+    answer: 1,
+    explain: "Each anticonvulsant mood stabilizer has a distinct primary mechanism per the instructor's framework: lamotrigine reduces glutamate release, valproate enhances GABA while reducing excitatory signaling, and carbamazepine blocks sodium channels. Lithium's mechanism is distinct from all three — affecting second messenger systems and gene transcription."
+  },
+  {
+    section: "Mood Stabilizer Mechanisms",
+    q: "Per the instructor's Key Points, lithium's unique mechanism of action involves:",
+    options: ["Selective serotonin reuptake inhibition", "Multiple intracellular signaling pathways, including second messenger systems and gene transcription", "Pure GABA-A receptor positive allosteric modulation", "Direct blockade of voltage-sensitive sodium channels only"],
+    answer: 1,
+    explain: "Lithium is unique among mood stabilizers in acting through intracellular second messenger systems and gene transcription, rather than through a single neurotransmitter receptor or channel — contributing to its broad, somewhat mechanistically distinct clinical profile (including its specific anti-suicide benefit)."
+  },
+  {
+    section: "Antipsychotics in Mood Disorders",
+    q: "Per the instructor's Key Points, the benefit of second-generation antipsychotics in mood disorders (mania, bipolar depression, maintenance) relates most directly to:",
+    options: ["Pure norepinephrine reuptake inhibition", "Combined dopamine and serotonin receptor effects", "Exclusive GABA-A receptor enhancement", "Direct lithium-like second messenger effects"],
+    answer: 1,
+    explain: "The instructor's framework attributes antipsychotic benefit in mood disorders to their COMBINED dopamine and serotonin receptor effects — consistent with why many atypicals are approved across mania, bipolar depression, and maintenance therapy, often used alongside mood stabilizers."
+  },
+
+  // ── ANXIETY/TRAUMA CIRCUIT REGIONS (hippocampus = genuine gap) ────────
+  {
+    section: "Anxiety — Core Fear Circuit",
+    q: "Per the instructor's Key Points, the hippocampus's specific role within the fear/stress circuit is to:", 
+    options: ["Directly initiate the fear response upon threat detection", "Provide contextual memory, distinguishing safe from dangerous environments", "Serve as the sole site of serotonin synthesis", "Generate the autonomic/endocrine stress response directly"],
+    answer: 1,
+    explain: "While the amygdala detects threat and initiates fear responses, the hippocampus's distinct contribution is CONTEXTUAL MEMORY — helping the brain distinguish safe environments from dangerous ones based on prior experience. Dysfunction here contributes to overgeneralized fear responses in PTSD (fear triggered in objectively safe contexts)."
+  },
+  {
+    section: "Anxiety — Core Fear Circuit",
+    q: "Per the instructor's Key Points, which four brain regions/systems form the core fear and stress circuit?",
+    options: ["Amygdala, prefrontal cortex, hippocampus, brainstem/hypothalamus", "Cerebellum, basal ganglia, thalamus, occipital cortex", "Nucleus accumbens, substantia nigra, raphe nuclei, locus coeruleus only", "Wernicke's area, Broca's area, motor cortex, visual cortex"],
+    answer: 0,
+    explain: "The four core regions are: amygdala (threat detection, fear initiation), prefrontal cortex (regulates/inhibits fear, supports extinction), hippocampus (contextual memory, safe vs. dangerous discrimination), and brainstem/hypothalamus (autonomic and endocrine stress responses)."
+  },
+  {
+    section: "Anxiety — Glutamate & Extinction",
+    q: "Per the instructor's Key Points, which receptor's activity is specifically required for fear extinction learning (and thus for psychotherapy effectiveness)?",
+    options: ["GABA-A receptor", "NMDA glutamate receptor", "H1 histamine receptor", "Mu-opioid receptor"],
+    answer: 1,
+    explain: "NMDA receptor activity is specifically required for fear extinction learning — meaning glutamatergic signaling underlies the brain's ability to learn that a previously feared stimulus is now safe. This is also why NMDA-modulating agents are an emerging area of anxiety/PTSD treatment research, and why psychotherapy's effectiveness has a genuine neurobiological basis."
+  },
+
+  // ── PAIN: BRAIN REGIONS, DOPAMINE, WIND-UP, NEW DRUG CATEGORIES ──────
+  {
+    section: "Pain — Brain Regions",
+    q: "Per the instructor's Key Points, the insula's specific role in chronic pain processing is:",
+    options: ["Perception and spatial localization of pain", "Interoceptive awareness of bodily discomfort", "Cognitive appraisal and coping strategies", "Emotional distress related to pain"],
+    answer: 1,
+    explain: "The insula's distinct contribution is interoceptive awareness — the brain's sense of the body's internal physiological state, including bodily discomfort. This is different from the somatosensory cortex (perception/localization), the anterior cingulate cortex (emotional distress), and the prefrontal cortex (cognitive appraisal/coping)."
+  },
+  {
+    section: "Pain — Brain Regions",
+    q: "Match the pain-related brain region to its specific function per the instructor's framework: somatosensory cortex, anterior cingulate cortex (ACC), insula, prefrontal cortex.",
+    options: ["Somatosensory cortex = emotional distress; ACC = localization; insula = coping; PFC = interoception", "Somatosensory cortex = perception/localization; ACC = emotional distress; insula = interoceptive awareness; PFC = cognitive appraisal/coping", "All four regions perform an identical function in pain processing", "Somatosensory cortex = motivation; ACC = interoception; insula = localization; PFC = emotional distress"],
+    answer: 1,
+    explain: "Somatosensory cortex = perception and localization of pain. Anterior cingulate cortex = emotional distress related to pain. Insula = interoceptive awareness of bodily discomfort. Prefrontal cortex = cognitive appraisal and coping. The limbic system additionally handles mood/motivation aspects."
+  },
+  {
+    section: "Pain — Dopamine's Role",
+    q: "Per the instructor's Key Points, dopamine's specific contribution to chronic pain processing relates to:",
+    options: ["Direct nociceptor activation at the peripheral injury site", "Motivation and reward aspects of the pain experience", "Sole responsibility for descending pain inhibition", "Producing the sensory-discriminatory ('where/how much') component of pain"],
+    answer: 1,
+    explain: "While serotonin and norepinephrine handle descending pain inhibition and glutamate/GABA handle excitatory/inhibitory nociceptive balance, dopamine's distinct role is in the MOTIVATION and REWARD dimension of the pain experience — relevant to why chronic pain so often involves reduced motivation and overlaps with anhedonia."
+  },
+  {
+    section: "Pain — Central Sensitization Mechanism",
+    q: "The instructor's Key Points specifically name a phenomenon where repeated nociceptive input progressively increases spinal and cortical responsiveness. What is this phenomenon called?",
+    options: ["Allodynia", "The 'wind-up' phenomenon", "Peripheral sensitization", "Opioid-induced hyperalgesia"],
+    answer: 1,
+    explain: "The 'wind-up' phenomenon describes how repeated nociceptive input progressively increases spinal and cortical responsiveness over time, contributing to central sensitization — lower pain thresholds, pain without ongoing tissue damage, and widespread pain syndromes. Glutamate/NMDA receptor activation is central to maintaining this sensitized state."
+  },
+  {
+    section: "Pain — Opioid Risks",
+    q: "Per the instructor's Key Points, long-term opioid therapy can paradoxically cause which phenomenon, where pain sensitivity actually increases over time?",
+    options: ["Opioid-induced hyperalgesia", "Central sensitization exclusively from non-opioid causes", "Allodynia caused only by SNRIs", "Wind-up phenomenon caused exclusively by NSAIDs"],
+    answer: 0,
+    explain: "Opioid-induced hyperalgesia is a specific, paradoxical risk of long-term opioid use — patients can become MORE sensitive to pain over time despite continued or escalating opioid dosing. This, combined with tolerance and dependence risk, is why long-term opioid therapy is generally discouraged for chronic non-cancer pain."
+  },
+  {
+    section: "Pain — Additional Drug Categories",
+    q: "Per the instructor's Key Points, which topical agents are used in chronic pain management?",
+    options: ["Oral gabapentin and pregabalin only", "Lidocaine and capsaicin", "Oral opioids exclusively", "Systemic corticosteroids only"],
+    answer: 1,
+    explain: "Topical agents specifically named are lidocaine (a local anesthetic/sodium channel blocker) and capsaicin (depletes substance P from sensory neurons over repeated use) — both used for localized neuropathic pain conditions."
+  },
+  {
+    section: "Pain — Additional Drug Categories",
+    q: "Per the instructor's Key Points, muscle relaxants are useful in chronic pain management specifically when:",
+    options: ["The patient has comorbid depression only", "Muscle spasm is contributing to the pain presentation", "All patients with chronic pain, regardless of cause", "Used as first-line monotherapy for neuropathic pain"],
+    answer: 1,
+    explain: "Muscle relaxants are specifically indicated when muscle spasm is a contributing factor to the pain presentation — not a universal chronic pain treatment, and not first-line for neuropathic pain specifically (where alpha-2-delta ligands, SNRIs, or TCAs are preferred)."
+  },
+  {
+    section: "Pain — Psychological Interventions",
+    q: "Per the instructor's Key Points, cognitive behavioral therapy (CBT) for chronic pain specifically works by:",
+    options: ["Directly blocking nociceptor activity at the periphery", "Reducing catastrophizing and improving coping strategies", "Replacing the need for any pharmacologic treatment in all patients", "Acting as a direct NMDA receptor antagonist"],
+    answer: 1,
+    explain: "CBT for chronic pain specifically targets catastrophizing (the tendency to interpret pain as worse/more threatening than it is) and improves coping strategies — a psychological mechanism distinct from, but complementary to, pharmacologic approaches. Mindfulness-based approaches separately reduce pain-related distress."
+  },
+
+  // ── SLEEP: FLIP-FLOP SWITCH, MELATONIN, NARCOLEPSY TREATMENT ─────────
+  {
+    section: "Sleep — Flip-Flop Switch Model",
+    q: "Per the instructor's Key Points, the relationship between wake-promoting and sleep-promoting brain systems is best described by which model?",
+    options: ["Both systems are co-active simultaneously at all times with no interaction", "A 'flip-flop' switch model, in which wake and sleep systems mutually inhibit each other", "Wake systems have no influence on sleep systems whatsoever", "Sleep systems permanently suppress wake systems with no reciprocal inhibition"],
+    answer: 1,
+    explain: "The 'flip-flop' switch model describes mutual inhibition between wake-promoting systems (histamine, orexin, norepinephrine, serotonin, dopamine) and the sleep-promoting VLPO (GABA) — each side suppresses the other, creating relatively stable, discrete wake or sleep states rather than a gradual blend."
+  },
+  {
+    section: "Sleep — Ascending Arousal System",
+    q: "Per the instructor's Key Points, which five neurotransmitter systems make up the ascending arousal system promoting wakefulness?",
+    options: ["GABA, glycine, glutamate, aspartate, taurine", "Histamine (TMN), orexin (lateral hypothalamus), norepinephrine (locus coeruleus), serotonin (raphe nuclei), dopamine (VTA)", "Only histamine and orexin, with no other systems involved", "Acetylcholine, GABA, glutamate, dopamine, endorphins"],
+    answer: 1,
+    explain: "The ascending arousal system comprises five wake-promoting neurotransmitter systems: histamine (tuberomammillary nucleus), orexin (lateral hypothalamus), norepinephrine (locus coeruleus), serotonin (raphe nuclei), and dopamine (ventral tegmental area) — all mutually inhibited by the sleep-promoting VLPO via GABA in the flip-flop model."
+  },
+  {
+    section: "Sleep — Melatonin & Circadian Signaling",
+    q: "Per the instructor's Key Points, melatonin's specific functional role in the circadian system is to:",
+    options: ["Directly block orexin receptors", "Signal darkness and sleep readiness to the body", "Serve as the primary wake-promoting neurotransmitter", "Replace the function of the SCN entirely"],
+    answer: 1,
+    explain: "Melatonin's specific signaling role is to communicate darkness and sleep readiness — released by the pineal gland under SCN control as light decreases, helping align the body's internal clock with the external light-dark cycle. Circadian misalignment (disrupted melatonin/SCN signaling) can worsen both insomnia and mood disorders."
+  },
+  {
+    section: "Sleep — Narcolepsy Treatment",
+    q: "Per the instructor's Key Points, narcolepsy (caused by orexin deficiency) is treated using which general treatment strategies?",
+    options: ["Dual orexin receptor antagonists (DORAs), since blocking the remaining orexin signal helps", "Stimulants and other wake-promoting agents", "High-dose benzodiazepines as first-line", "Avoiding all psychiatric medications entirely"],
+    answer: 1,
+    explain: "Since narcolepsy results from a DEFICIENCY of orexin (not excess), treatment uses stimulants and wake-promoting agents to compensate for lost arousal drive — the opposite logic of DORAs, which are used for insomnia (where orexin signaling needs to be reduced, not boosted)."
+  },
+  {
+    section: "Sleep — Receptor Profiles & Side Effects",
+    q: "Per the instructor's Key Points, sedating psychiatric medications often act through blockade of which receptors, while activating medications often work by enhancing which neurotransmitters?",
+    options: ["Sedating = blocks H1 and alpha-1 receptors; Activating = enhances dopamine and norepinephrine", "Sedating = enhances dopamine; Activating = blocks H1 receptors", "Sedating and activating medications work through identical receptor mechanisms", "Sedating = blocks NMDA; Activating = blocks GABA-A"],
+    answer: 0,
+    explain: "Sedating medications commonly block H1 (histamine) and alpha-1 (norepinephrine) receptors — removing wake-promoting signals. Activating medications commonly enhance dopamine and/or norepinephrine signaling. Understanding a drug's receptor profile helps predict its sleep-related side effects before prescribing."
+  },
+];
+
+function KeyPointsGapFill() {
+  const [answers, setAnswers] = React.useState({});
+  const [submitted, setSubmitted] = React.useState(false);
+  const [showAll, setShowAll] = React.useState(false);
+  const [mode, setMode] = React.useState("start");
+
+  const score = questions.filter((q, i) => answers[i] === q.answer).length;
+  const pct = submitted ? Math.round((score / questions.length) * 100) : 0;
+  const missedOnly = questions.filter((q, i) => answers[i] !== q.answer);
+
+  function selectAnswer(qi, ai) {
+    if (submitted) return;
+    setAnswers(prev => ({ ...prev, [qi]: ai }));
+  }
+  function getStatus(qi, ai, correct) {
+    if (!submitted) return answers[qi] === ai ? "selected" : "unselected";
+    if (ai === correct) return "correct";
+    if (answers[qi] === ai) return "wrong";
+    return "unselected";
+  }
+  const optionClass = (status) => {
+    const base = "w-full text-left px-4 py-3 rounded-lg border text-sm leading-snug transition-all ";
+    if (status === "correct") return base + "bg-green-100 border-green-500 text-green-900 font-semibold";
+    if (status === "wrong") return base + "bg-red-100 border-red-400 text-red-900";
+    if (status === "selected") return base + "bg-indigo-100 border-indigo-500 text-indigo-900 font-medium";
+    return base + "bg-white border-gray-200 hover:border-indigo-300 hover:bg-indigo-50 text-gray-800";
+  };
+
+  if (mode === "start") return (
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+      <div className="max-w-lg w-full bg-white rounded-2xl shadow-lg p-8 text-center">
+        <div className="text-5xl mb-3">📋</div>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Key Points Doc — Gap Fill</h1>
+        <p className="text-gray-500 text-sm mb-2">25 questions — items from the instructor's official Key Points (Ch 7-10) never tested before</p>
+        <p className="text-gray-400 text-xs mb-6">Mood stabilizer mechanisms (lamotrigine/valproate/carbamazepine) · Hippocampus's role in fear · NMDA & fear extinction · Pain brain regions (insula, dopamine) · Wind-up phenomenon · Opioid-induced hyperalgesia · Flip-flop sleep switch · Melatonin signaling · Narcolepsy treatment</p>
+        <button onClick={() => setMode("quiz")}
+          className="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition text-lg">
+          Start →
+        </button>
+      </div>
+    </div>
+  );
+
+  if (mode === "quiz") return (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center justify-between mb-4 bg-white rounded-xl px-4 py-3 shadow-sm">
+          <span className="font-bold text-indigo-700 text-sm">Key Points Gap Fill — 25 Questions</span>
+          <span className="text-xs text-gray-500">{Object.keys(answers).length} / {questions.length} answered</span>
+        </div>
+        <div className="h-1.5 bg-gray-200 rounded-full mb-6">
+          <div className="h-1.5 bg-indigo-500 rounded-full transition-all"
+            style={{ width: `${(Object.keys(answers).length / questions.length) * 100}%` }} />
+        </div>
+        <div className="space-y-6">
+          {questions.map((q, qi) => (
+            <div key={qi} className="rounded-xl border-2 border-teal-300 bg-teal-50 p-5 shadow-sm">
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">Q{qi + 1}</span>
+                <span className="text-xs text-gray-400 italic">{q.section}</span>
+              </div>
+              <p className="font-semibold text-gray-900 mb-4 leading-snug">{q.q}</p>
+              <div className="space-y-2">
+                {q.options.map((opt, ai) => (
+                  <button key={ai} onClick={() => selectAnswer(qi, ai)}
+                    className={optionClass(getStatus(qi, ai, q.answer))}>
+                    <span className="font-bold text-xs mr-2 text-gray-400">{["A","B","C","D"][ai]}.</span>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-8 mb-12 flex justify-center">
+          <button onClick={() => { setSubmitted(true); setMode("review"); window.scrollTo(0,0); }}
+            className="px-10 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition text-lg shadow">
+            Submit & See Score
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-3xl mx-auto">
+        <div className={`rounded-2xl p-6 mb-6 text-white shadow-lg ${pct >= 80 ? "bg-green-600" : pct >= 60 ? "bg-amber-500" : "bg-red-500"}`}>
+          <div className="text-4xl font-black mb-1">{score} / {questions.length}</div>
+          <div className="text-lg font-semibold opacity-90">{pct}% — {pct >= 80 ? "Fully covered now." : "Review explanations below."}</div>
+        </div>
+        <div className="flex justify-end mb-4">
+          <button onClick={() => setShowAll(s => !s)}
+            className="px-3 py-1.5 rounded-full text-xs font-bold border bg-white text-gray-600 border-gray-300 hover:border-indigo-400">
+            {showAll ? "Missed only" : "Show all"}
+          </button>
+        </div>
+        <div className="space-y-6 mb-12">
+          {(showAll ? questions : missedOnly).map((q) => {
+            const qi = questions.indexOf(q);
+            const userCorrect = answers[qi] === q.answer;
+            return (
+              <div key={qi} className="rounded-xl border-2 border-teal-300 bg-teal-50 p-5 shadow-sm">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">Q{qi + 1}</span>
+                  <span className="text-xs text-gray-400 italic">{q.section}</span>
+                  <span className="ml-auto">{userCorrect ? <span className="text-xs font-bold text-green-600">✓ Correct</span> : <span className="text-xs font-bold text-red-500">✗ Missed</span>}</span>
+                </div>
+                <p className="font-semibold text-gray-900 mb-3 leading-snug">{q.q}</p>
+                <div className="space-y-2 mb-3">
+                  {q.options.map((opt, ai) => (
+                    <div key={ai} className={optionClass(getStatus(qi, ai, q.answer))}>
+                      <span className="font-bold text-xs mr-2 text-gray-400">{["A","B","C","D"][ai]}.</span>
+                      {opt}
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-white rounded-lg px-4 py-3 border border-gray-200 text-sm text-gray-700 leading-relaxed">
+                  <span className="font-bold text-indigo-700">Why: </span>{q.explain}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="text-center pb-8">
+          <button onClick={() => { setAnswers({}); setSubmitted(false); setMode("quiz"); window.scrollTo(0,0); }}
+            className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition">
+            Retake
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<KeyPointsGapFill />);
+</script>
+</body>
+</html>
