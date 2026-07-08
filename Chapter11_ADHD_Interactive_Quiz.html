@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter 11 ADHD Quiz</title>
+<style>
+  :root {
+    --green: #1E7A4A;
+    --green-light: #e8f5ee;
+    --red: #B03A2E;
+    --red-light: #fbeceb;
+    --bg: #ffffff;
+    --border: #d8dde3;
+    --text: #2b2f36;
+    --muted: #6b7280;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 24px 12px 60px;
+    color: var(--text);
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  header h1 {
+    color: var(--green);
+    font-size: 1.5rem;
+    margin: 0 0 4px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+  .progress-bar-outer {
+    background: #e5e9ed;
+    border-radius: 20px;
+    height: 10px;
+    overflow: hidden;
+    margin: 16px 0 8px;
+  }
+  .progress-bar-inner {
+    background: var(--green);
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-text {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .qnum {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 6px;
+  }
+  .qtext {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .option:hover { background: #f7f9fa; }
+  .option input { margin-top: 3px; }
+  .option.selected {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+  .option.correct {
+    border-color: var(--green);
+    background: var(--green-light);
+    font-weight: 600;
+  }
+  .option.incorrect {
+    border-color: var(--red);
+    background: var(--red-light);
+  }
+  .option.disabled { cursor: default; pointer-events: none; }
+  .feedback {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: var(--green-light); color: #145232; }
+  .feedback.incorrect-fb { background: var(--red-light); color: #7a2a20; }
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  button {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: var(--green); color: white; }
+  .btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
+  .btn-primary:hover:not(:disabled) { opacity: 0.9; }
+  #quizArea { display: block; }
+  #resultsArea { display: none; text-align: center; }
+  #resultsArea h2 { color: var(--green); font-size: 1.8rem; margin-bottom: 4px; }
+  #resultsArea .score-big { font-size: 3rem; font-weight: 700; color: var(--green); margin: 12px 0; }
+  #resultsArea .score-sub { color: var(--muted); margin-bottom: 20px; }
+  .review-item {
+    text-align: left;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .review-item .qtext { font-size: 0.95rem; }
+  .review-item .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+  }
+  .tag-correct { background: var(--green-light); color: var(--green); }
+  .tag-incorrect { background: var(--red-light); color: var(--red); }
+  .review-answer { font-size: 0.88rem; margin-top: 6px; color: var(--text); }
+  .review-rationale { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+  .jump-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 6px;
+    margin: 16px 0;
+  }
+  .jump-btn {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0;
+    cursor: pointer;
+  }
+  .jump-btn.answered { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .jump-btn.current { outline: 2px solid var(--green); outline-offset: 1px; }
+  @media (max-width: 480px) {
+    .jump-grid { grid-template-columns: repeat(8, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>NURS 5312 — Chapter 11: ADHD</h1>
+    <p>Interactive Practice Quiz &middot; 50 Questions</p>
+    <p>Based on Dr. Vela's Chapter 11 notes and Stahl's Essential Psychopharmacology, 5th ed.</p>
+  </header>
+
+  <div id="quizArea">
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+    <div class="progress-text" id="progressText">Question 1 of 50</div>
+
+    <div class="jump-grid" id="jumpGrid"></div>
+
+    <div class="card">
+      <div class="qnum" id="qnumLabel">QUESTION 1</div>
+      <div class="qtext" id="qtext"></div>
+      <div id="optionsContainer"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-secondary" id="prevBtn">← Previous</button>
+      <button class="btn-primary" id="nextBtn">Next →</button>
+    </div>
+  </div>
+
+  <div id="resultsArea">
+    <h2>Quiz Complete!</h2>
+    <div class="score-big" id="scoreBig"></div>
+    <div class="score-sub" id="scoreSub"></div>
+    <button class="btn-primary" id="retakeBtn">Retake Quiz</button>
+    <div style="margin-top:28px; text-align:left;">
+      <h3 style="color:var(--green);">Review All Questions</h3>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"q": "According to Stahl's framework, ADHD is best understood as a disorder resulting from:", "options": ["Global cortical atrophy", "Inefficient information processing in prefrontal cortex circuits due to imbalanced norepinephrine and dopamine", "Excess serotonin in the limbic system", "Primary dysfunction of the cerebellum"], "answer": 1, "rationale": "ADHD arises from inefficient PFC information processing driven by an imbalance of NE and DA, not global atrophy or a cerebellar or serotonin problem."}, {"q": "Which diagnostic criterion helps safeguard against patients seeking stimulants without an actual ADHD diagnosis?", "options": ["Symptoms occur only at school", "Symptoms must be present before age 12", "Symptoms occur only in adulthood", "Symptoms must be present for at least 5 years"], "answer": 1, "rationale": "The requirement that symptoms be present before age 12 is highlighted as a key safeguard against malingering for stimulant access."}, {"q": "Per DSM criteria discussed in your notes, ADHD symptoms must occur in at least how many settings?", "options": ["1", "2", "3", "4"], "answer": 1, "rationale": "Symptoms must occur in at least 2 settings (e.g., home and school/work)."}, {"q": "Which brain region, when dysfunctional, is most linked to executive dysfunction such as poor organization and difficulty prioritizing tasks?", "options": ["Orbitofrontal cortex", "Dorsal anterior cingulate cortex", "Dorsolateral prefrontal cortex", "Prefrontal motor cortex"], "answer": 2, "rationale": "The DLPFC governs sustained attention and problem-solving; dysfunction causes executive dysfunction (poor organization, prioritization)."}, {"q": "Which brain region is most associated with selective attention, and is tested using the Stroop task?", "options": ["Dorsolateral prefrontal cortex", "Orbitofrontal cortex", "Dorsal anterior cingulate cortex", "Prefrontal motor cortex"], "answer": 2, "rationale": "The dorsal anterior cingulate cortex governs selective attention and is tested with the Stroop task."}, {"q": "Impulsivity in ADHD is most closely linked to dysfunction of which brain region?", "options": ["Orbitofrontal cortex", "Dorsolateral prefrontal cortex", "Hippocampus", "Thalamus"], "answer": 0, "rationale": "The orbitofrontal cortex governs impulsivity (interrupting others, difficulty waiting turn)."}, {"q": "Hyperactivity in ADHD (fidgeting, difficulty remaining seated) is best explained by dysfunction of which region?", "options": ["Dorsal anterior cingulate cortex", "Prefrontal motor cortex", "Ventromedial prefrontal cortex", "Amygdala"], "answer": 1, "rationale": "The prefrontal motor cortex circuit is responsible for hyperactivity symptoms."}, {"q": "Which test is used to assess sustained attention/problem-solving associated with the DLPFC?", "options": ["Stroop test", "n-back test", "Trail Making Test", "Mini-Mental State Exam"], "answer": 1, "rationale": "The n-back test assesses DLPFC-mediated sustained attention and working memory/problem-solving."}, {"q": "In the \"signal-to-noise\" model of ADHD, norepinephrine is best described as:", "options": ["The noise", "The signal", "Irrelevant to PFC tuning", "A sedative"], "answer": 1, "rationale": "Norepinephrine strengthens the incoming signal via alpha-2A receptor stimulation \u2014 it is 'the signal.'"}, {"q": "In the \"signal-to-noise\" model of ADHD, dopamine's primary role is to:", "options": ["Strengthen the signal", "Decrease background noise via D1 receptor stimulation", "Directly cause sedation", "Block norepinephrine transporters"], "answer": 1, "rationale": "Dopamine decreases noise (background distraction) via D1 receptor stimulation."}, {"q": "The relationship between neurotransmitter level and PFC performance in ADHD follows what type of curve?", "options": ["Linear, dose-dependent curve", "Inverted U-shaped curve", "Exponential decay curve", "Flat, non-dose-dependent curve"], "answer": 1, "rationale": "PFC function follows an inverted U-shaped curve \u2014 too little or too much NE/DA impairs function; an optimal middle range is needed."}, {"q": "The intracellular gate that controls whether a neuronal signal 'leaks out' or is passed along efficiently is called the:", "options": ["NMDA channel", "HCN channel", "GABA-A channel", "Voltage-gated sodium channel"], "answer": 1, "rationale": "The HCN (hyperpolarization-activated cyclic nucleotide-gated) channel is the gate described in the signal-to-noise model."}, {"q": "Norepinephrine binding to alpha-2A receptors has what effect on the HCN channel?", "options": ["Opens it, weakening the signal", "Closes it, strengthening the signal", "Has no effect on the channel", "Permanently destroys the channel"], "answer": 1, "rationale": "NE binding alpha-2A closes the HCN gate, strengthening/preserving the signal."}, {"q": "Dopamine binding to D1 receptors has what effect on the HCN channel, and what is the consequence of excessive stimulation?", "options": ["Closes it; excessive stimulation has no downside", "Opens it; excessive stimulation can let signals leak out and get lost", "Has no effect on the gate", "Permanently closes it regardless of dose"], "answer": 1, "rationale": "Dopamine binding D1 opens the HCN gate; excessive dopamine stimulation can cause signal leakage, contributing to the inverted-U relationship."}, {"q": "In ADHD, norepinephrine and dopamine levels in the PFC are best described as:", "options": ["Both too high", "Both too low", "NE too high, DA too low", "NE too low, DA too high"], "answer": 1, "rationale": "ADHD is an under-aroused state \u2014 both NE and DA are too low, producing weak signal and high noise."}, {"q": "What percent occupancy of the dopamine transporter is considered the therapeutic 'sweet spot' for stimulant treatment of ADHD?", "options": ["10-20%", "30-40%", "50-60%", "90-100%"], "answer": 2, "rationale": "Therapeutic stimulant effect in ADHD is associated with 50-60% dopamine transporter occupancy."}, {"q": "The estimated heritability of ADHD is approximately:", "options": ["25%", "50%", "75%", "95%"], "answer": 2, "rationale": "ADHD has an estimated heritability of ~75%, one of the strongest genetic influences in psychiatry."}, {"q": "ADHD is hypothesized to result from delayed maturation of prefrontal cortex circuitry linked to abnormal:", "options": ["Myelination of the spinal cord", "Synapse formation and pruning during childhood", "Cerebellar vermis development", "Basal ganglia calcification"], "answer": 1, "rationale": "Delayed PFC maturation tied to abnormal synaptic pruning during childhood is the proposed developmental mechanism."}, {"q": "Which ADHD symptom domain tends to persist into adolescence and adulthood, while hyperactivity often declines?", "options": ["Hyperactivity itself", "Inattention and impulsivity", "Motor tics", "Auditory hallucinations"], "answer": 1, "rationale": "Inattention and impulsivity frequently persist through adolescence/adulthood, while overt hyperactivity often declines with age."}, {"q": "Methylphenidate's primary mechanism of action is best classified as a:", "options": ["Selective serotonin reuptake inhibitor", "Dopamine-norepinephrine reuptake inhibitor (DNRI)", "Alpha-2A adrenergic agonist", "NMDA receptor antagonist"], "answer": 1, "rationale": "Methylphenidate is a DNRI, blocking both the dopamine transporter and norepinephrine transporter."}, {"q": "Which isomer of methylphenidate is significantly more potent at binding the dopamine and norepinephrine transporters?", "options": ["L-isomer", "D-isomer", "Racemic mixture only", "Neither isomer binds transporters"], "answer": 1, "rationale": "The D-isomer of methylphenidate is significantly more potent than the L-isomer."}, {"q": "Methylphenidate's abuse potential is highest when administered via which route?", "options": ["Oral swallowing as prescribed", "Snorting or injecting (fast-onset kinetics)", "Sublingual administration", "Transdermal patch only"], "answer": 1, "rationale": "Fast-onset routes like snorting or injecting cause rapid dopamine spikes in the nucleus accumbens, producing euphoria and abuse potential."}, {"q": "Lisdexamfetamine (Vyvanse) reduces abuse potential primarily because it is:", "options": ["A short-acting immediate-release stimulant", "A prodrug requiring enzymatic cleavage before becoming active", "A selective norepinephrine reuptake inhibitor", "Metabolized entirely in the liver before reaching the brain"], "answer": 1, "rationale": "Vyvanse is an inactive prodrug (amphetamine linked to lysine) that must be enzymatically cleaved before becoming active, producing smoother, slower release and lower abuse potential."}, {"q": "Amphetamines increase synaptic dopamine primarily by:", "options": ["Blocking postsynaptic D2 receptors", "Reversing the direction of the dopamine transporter to 'dump' dopamine into the synapse", "Increasing acetylcholinesterase activity", "Enhancing GABA-A receptor function"], "answer": 1, "rationale": "Amphetamines act as competitive DAT/VMAT2 inhibitors and reverse DAT direction, causing dopamine to be released into the synapse."}, {"q": "Atomoxetine's mechanism of action is best described as:", "options": ["Selective dopamine reuptake inhibitor", "Selective norepinephrine reuptake inhibitor", "Nonselective monoamine oxidase inhibitor", "GABA-A positive allosteric modulator"], "answer": 1, "rationale": "Atomoxetine selectively blocks the norepinephrine transporter (NET)."}, {"q": "Atomoxetine raises both norepinephrine and dopamine specifically in the prefrontal cortex because:", "options": ["The PFC has abundant dopamine transporters that atomoxetine blocks directly", "The PFC has very few dopamine transporters, so the norepinephrine transporter clears dopamine there too", "Atomoxetine directly stimulates D1 receptors", "The PFC lacks norepinephrine transporters entirely"], "answer": 1, "rationale": "Because the PFC has few DATs, the NET clears dopamine there as well \u2014 blocking NET raises both NE and DA in the PFC specifically."}, {"q": "Why does atomoxetine have low abuse potential compared to stimulants?", "options": ["It has a bitter taste that discourages misuse", "It does not raise dopamine in the nucleus accumbens, which has abundant dopamine transporters unaffected by NET blockade", "It is a controlled substance with strict monitoring", "It causes immediate sedation"], "answer": 1, "rationale": "The nucleus accumbens has plenty of DATs handling dopamine clearance, so blocking NET doesn't raise dopamine there \u2014 no euphoria, low abuse potential."}, {"q": "What is a clinically relevant black-box warning associated with atomoxetine?", "options": ["Agranulocytosis", "Increased risk of suicidal ideation in children and adolescents", "QT prolongation in all age groups", "Malignant hyperthermia"], "answer": 1, "rationale": "Atomoxetine carries a black-box warning for increased suicidal ideation risk in children/adolescents."}, {"q": "How long does atomoxetine typically take to reach full therapeutic effect?", "options": ["Immediately (within hours)", "2-4 weeks", "6 months", "1 year"], "answer": 1, "rationale": "Unlike stimulants, atomoxetine requires 2-4 weeks to reach full therapeutic effect."}, {"q": "Atomoxetine may be a particularly good choice in a patient with ADHD and which comorbidity, given its additional properties?", "options": ["Comorbid depression", "Comorbid narcolepsy", "Comorbid hyperthyroidism", "Comorbid agranulocytosis"], "answer": 0, "rationale": "Atomoxetine has antidepressant properties, making it a good choice for comorbid depression."}, {"q": "Guanfacine's mechanism of action in treating ADHD is best described as:", "options": ["A selective serotonin reuptake inhibitor", "An alpha-2A adrenergic agonist that mimics norepinephrine at postsynaptic receptors", "A dopamine transporter blocker", "An NMDA receptor antagonist"], "answer": 1, "rationale": "Guanfacine directly activates postsynaptic alpha-2A receptors, mimicking norepinephrine's natural effect."}, {"q": "Compared to clonidine, guanfacine is:", "options": ["Equally selective for alpha-2A, 2B, and 2C receptors", "15-60 times more selective for the alpha-2A receptor subtype", "Only effective for hypertension, not ADHD", "More sedating and more likely to cause hypotension"], "answer": 1, "rationale": "Guanfacine is 15-60 times more selective for alpha-2A than clonidine, which also binds alpha-2B/2C, causing more sedation/hypotension."}, {"q": "Extended-release guanfacine is FDA-approved for ADHD in which of the following ways?", "options": ["Only as monotherapy, never in combination", "As monotherapy or as an augmenting agent added to stimulants", "Only for adults over 65", "Only as an as-needed medication"], "answer": 1, "rationale": "Guanfacine ER is FDA-approved as monotherapy and as an augmenting agent for patients not fully responding to stimulants alone."}, {"q": "Guanfacine is described in your notes as particularly useful for ADHD presenting with which additional symptom pattern?", "options": ["Oppositional symptoms", "Psychotic symptoms", "Catatonia", "Seizure disorder"], "answer": 0, "rationale": "Guanfacine is noted as good for ADHD with oppositional symptoms, related to low NE/DA tone in the PFC."}, {"q": "Bupropion's mechanism of action relevant to ADHD treatment is that of a(n):", "options": ["Selective serotonin reuptake inhibitor (SSRI)", "Norepinephrine-dopamine reuptake inhibitor (NDRI)", "Alpha-2A adrenergic agonist", "Monoamine oxidase inhibitor"], "answer": 1, "rationale": "Bupropion is an NDRI, blocking reuptake of both norepinephrine and dopamine."}, {"q": "Bupropion is most often used off-label for ADHD in patients who also have:", "options": ["Comorbid depression or who are trying to quit smoking", "Comorbid seizure disorder", "Comorbid narcolepsy", "Comorbid hyperprolactinemia"], "answer": 0, "rationale": "Bupropion is favored off-label for ADHD with comorbid depression or smoking cessation goals."}, {"q": "A notable precaution with bupropion use is that it:", "options": ["Raises the seizure threshold", "Lowers the seizure threshold", "Causes agranulocytosis", "Is contraindicated in all children"], "answer": 1, "rationale": "Bupropion lowers the seizure threshold, requiring caution."}, {"q": "Viloxazine ER, a newer ADHD treatment mentioned in your notes, acts as a selective norepinephrine reuptake inhibitor with additional activity at which receptors?", "options": ["5HT2B and 5HT2C", "D1 and D2", "Alpha-1 and beta-1", "NMDA and AMPA"], "answer": 0, "rationale": "Viloxazine ER is an SNRI with additional 5HT2B/5HT2C receptor activity, previously used for depression abroad."}, {"q": "Mazindol, a medication in testing for ADHD mentioned in your notes, is best classified as a:", "options": ["Selective dopamine reuptake inhibitor only", "Triple reuptake inhibitor (serotonin, norepinephrine, dopamine)", "GABA-A positive allosteric modulator", "Alpha-2A antagonist"], "answer": 1, "rationale": "Mazindol is a triple (5HT-NE-DA) reuptake inhibitor previously used as an appetite suppressant."}, {"q": "According to Stahl's recommended treatment prioritization for a patient with ADHD plus complex comorbidities, which condition should be stabilized FIRST?", "options": ["ADHD", "Nicotine dependence", "Substance/alcohol abuse", "Anxiety disorders"], "answer": 2, "rationale": "Substance/alcohol abuse must be stabilized first in the treatment prioritization order for complex comorbid ADHD."}, {"q": "In the treatment prioritization order for ADHD with comorbidities, which condition is often treated LAST in adults?", "options": ["Mood disorders", "ADHD", "Substance abuse", "Anxiety disorders"], "answer": 1, "rationale": "ADHD is often treated last in adults with complex comorbidities, to first ensure mood/substance stability."}, {"q": "For a patient with ADHD and comorbid anxiety, which treatment approach is generally favored?", "options": ["High-dose immediate-release stimulants as first choice", "Non-stimulant options (atomoxetine or guanfacine) or a lower, careful stimulant dose", "MAO inhibitors as first-line", "Avoiding all pharmacotherapy indefinitely"], "answer": 1, "rationale": "Non-stimulants or careful lower-dose stimulant use are favored in ADHD with comorbid anxiety, since stimulants can worsen anxiety symptoms."}, {"q": "Which of the following is an example of a stimulant medication used to treat ADHD?", "options": ["Atomoxetine", "Guanfacine", "Methylphenidate", "Bupropion"], "answer": 2, "rationale": "Methylphenidate (Ritalin, Concerta) is a stimulant; the other three are non-stimulant options."}, {"q": "Approximately what percentage of U.S. children are prescribed stimulant medications, per your video notes?", "options": ["~1%", "~6%", "~25%", "~50%"], "answer": 1, "rationale": "Your notes cite approximately 6% of U.S. children being prescribed stimulants."}, {"q": "What is the approximate response rate to stimulant treatment in ADHD, per your video notes?", "options": ["~10%", "~30%", "~70%", "~99%"], "answer": 2, "rationale": "Your notes cite an approximate 70% response rate to stimulant treatment."}, {"q": "Which of the following medications is LEAST likely to be abused among ADHD treatment options, per your notes?", "options": ["Methylphenidate", "Amphetamine salts", "Atomoxetine", "Lisdexamfetamine"], "answer": 2, "rationale": "Atomoxetine (an SNRI) is specifically noted as least likely to be abused among ADHD medications."}, {"q": "Sustained-release stimulant formulations are preferred over rapid, pulsatile administration because they:", "options": ["Cause more euphoria and better symptom control", "Avoid harmful dopamine spikes and reduce addiction risk", "Are less effective but safer", "Require less frequent monitoring of blood pressure"], "answer": 1, "rationale": "Sustained-release formulations avoid harmful dopamine spikes, reducing addiction risk, especially in adolescents and adults."}, {"q": "Which brain structure is linked to comorbid symptoms like mood instability, conduct disorder, and oppositional defiant disorder in patients with ADHD?", "options": ["Ventromedial prefrontal cortex (VMPFC)", "Suprachiasmatic nucleus", "Locus coeruleus only", "Cerebellar vermis"], "answer": 0, "rationale": "The VMPFC is linked to comorbid mood instability, conduct disorder, and oppositional defiant disorder symptoms."}, {"q": "The same pyramidal neuron in the prefrontal cortex can receive dopamine input from the ventral tegmental area (VTA) and norepinephrine input from which structure?", "options": ["Locus coeruleus", "Nucleus accumbens", "Substantia nigra", "Raphe nucleus"], "answer": 0, "rationale": "The locus coeruleus supplies norepinephrine input to the same PFC pyramidal neurons that receive VTA dopamine input."}, {"q": "Behavioral interventions (parent training, classroom strategies, organizational skills training) are most useful in ADHD treatment because they:", "options": ["Replace the need for any pharmacologic evaluation", "Improve real-world functioning and may allow a lower medication dose when combined with pharmacotherapy", "Are only appropriate for adults", "Directly increase dopamine transporter density"], "answer": 1, "rationale": "Behavioral interventions improve functional outcomes and, combined with medication, can allow for a lower required medication dose."}];
+
+let current = 0;
+let userAnswers = new Array(QUESTIONS.length).fill(null);
+
+const qnumLabel = document.getElementById('qnumLabel');
+const qtext = document.getElementById('qtext');
+const optionsContainer = document.getElementById('optionsContainer');
+const feedback = document.getElementById('feedback');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const jumpGrid = document.getElementById('jumpGrid');
+const quizArea = document.getElementById('quizArea');
+const resultsArea = document.getElementById('resultsArea');
+
+function buildJumpGrid() {
+  jumpGrid.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const b = document.createElement('button');
+    b.className = 'jump-btn';
+    b.textContent = i + 1;
+    b.onclick = () => { current = i; render(); };
+    jumpGrid.appendChild(b);
+  });
+}
+
+function updateJumpGrid() {
+  const btns = jumpGrid.querySelectorAll('.jump-btn');
+  btns.forEach((b, i) => {
+    b.classList.toggle('answered', userAnswers[i] !== null);
+    b.classList.toggle('current', i === current);
+  });
+}
+
+function render() {
+  const q = QUESTIONS[current];
+  qnumLabel.textContent = 'QUESTION ' + (current + 1);
+  qtext.textContent = q.q;
+  progressText.textContent = 'Question ' + (current + 1) + ' of ' + QUESTIONS.length;
+  progressBar.style.width = ((current) / QUESTIONS.length * 100) + '%';
+
+  optionsContainer.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const selected = userAnswers[current];
+
+  q.options.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    if (selected !== null) {
+      div.classList.add('disabled');
+      if (idx === q.answer) div.classList.add('correct');
+      else if (idx === selected && selected !== q.answer) div.classList.add('incorrect');
+    }
+    div.innerHTML = '<span><strong>' + letters[idx] + '.</strong> ' + opt + '</span>';
+    div.onclick = () => selectAnswer(idx);
+    optionsContainer.appendChild(div);
+  });
+
+  if (selected !== null) {
+    feedback.classList.add('show');
+    if (selected === q.answer) {
+      feedback.className = 'feedback show correct-fb';
+      feedback.textContent = '✓ Correct! ' + q.rationale;
+    } else {
+      feedback.className = 'feedback show incorrect-fb';
+      feedback.textContent = '✗ Not quite. ' + q.rationale;
+    }
+  } else {
+    feedback.classList.remove('show');
+    feedback.textContent = '';
+  }
+
+  prevBtn.disabled = current === 0;
+  nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+  updateJumpGrid();
+}
+
+function selectAnswer(idx) {
+  if (userAnswers[current] !== null) return;
+  userAnswers[current] = idx;
+  render();
+}
+
+prevBtn.onclick = () => { if (current > 0) { current--; render(); } };
+nextBtn.onclick = () => {
+  if (current < QUESTIONS.length - 1) { current++; render(); }
+  else { showResults(); }
+};
+
+function showResults() {
+  quizArea.style.display = 'none';
+  resultsArea.style.display = 'block';
+  let correctCount = 0;
+  QUESTIONS.forEach((q, i) => { if (userAnswers[i] === q.answer) correctCount++; });
+  const pct = Math.round((correctCount / QUESTIONS.length) * 100);
+  document.getElementById('scoreBig').textContent = correctCount + ' / ' + QUESTIONS.length;
+  document.getElementById('scoreSub').textContent = pct + '% correct';
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  QUESTIONS.forEach((q, i) => {
+    const isCorrect = userAnswers[i] === q.answer;
+    const div = document.createElement('div');
+    div.className = 'review-item';
+    const userAnsText = userAnswers[i] !== null ? letters[userAnswers[i]] + '. ' + q.options[userAnswers[i]] : '(not answered)';
+    const correctAnsText = letters[q.answer] + '. ' + q.options[q.answer];
+    div.innerHTML =
+      '<span class="tag ' + (isCorrect ? 'tag-correct' : 'tag-incorrect') + '">' + (isCorrect ? 'CORRECT' : 'INCORRECT') + '</span>' +
+      '<div class="qtext">' + (i+1) + '. ' + q.q + '</div>' +
+      '<div class="review-answer"><strong>Your answer:</strong> ' + userAnsText + '</div>' +
+      (isCorrect ? '' : '<div class="review-answer"><strong>Correct answer:</strong> ' + correctAnsText + '</div>') +
+      '<div class="review-rationale">' + q.rationale + '</div>';
+    reviewList.appendChild(div);
+  });
+}
+
+document.getElementById('retakeBtn').onclick = () => {
+  current = 0;
+  userAnswers = new Array(QUESTIONS.length).fill(null);
+  resultsArea.style.display = 'none';
+  quizArea.style.display = 'block';
+  render();
+};
+
+buildJumpGrid();
+render();
+</script>
+</body>
+</html>
