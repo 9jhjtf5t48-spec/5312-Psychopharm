@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam 4 Review — Set 3</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #ffffff; margin: 0; padding: 24px; color: #202124; }
+  .container { max-width: 760px; margin: 0 auto; }
+  .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .counter { font-size: 14px; color: #5f6368; }
+  .question-text { font-size: 17px; font-weight: 500; line-height: 1.6; margin: 0 0 24px; color: #202124; }
+  .option-btn { display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left; padding: 16px 18px; margin-bottom: 12px; border: none; border-radius: 10px; background: #f1f3f4; font-size: 15px; cursor: pointer; color: #202124; box-sizing: border-box; transition: background 0.15s; }
+  .option-btn:hover:not(:disabled) { background: #e8eaed; }
+  .option-btn:disabled { cursor: default; }
+  .option-letter { font-weight: 600; color: #5f6368; }
+  .option-correct { background: #e6f4ea !important; }
+  .option-correct .option-letter { color: #188038; }
+  .option-wrong { background: #fce8e6 !important; }
+  .option-wrong .option-letter { color: #c5221f; }
+  .feedback { margin: 4px 0 20px; font-size: 14.5px; line-height: 1.6; padding: 14px 16px; border-radius: 10px; background: #f8f9fa; border-left: 3px solid #dadce0; }
+  .feedback.correct-fb { border-left-color: #188038; color: #202124; }
+  .feedback.wrong-fb { border-left-color: #c5221f; color: #202124; }
+  .bottom-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+  .hint-toggle { background: none; border: none; color: #444746; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 0; }
+  .hint-box { display: none; font-size: 14px; color: #5f6368; margin: 10px 0 0; padding: 12px 14px; background: #f8f9fa; border-radius: 8px; }
+  .hint-box.open { display: block; }
+  .nav-btn { padding: 10px 24px; border-radius: 24px; border: none; background: #4650e5; color: #ffffff; font-size: 14.5px; font-weight: 500; cursor: pointer; }
+  .nav-btn:hover { background: #3a44c9; }
+  .final-card { text-align: center; padding: 48px 20px; }
+  .final-score { font-size: 34px; font-weight: 700; margin: 0 0 4px; }
+  .final-pct { font-size: 16px; color: #5f6368; margin: 0 0 24px; }
+  .restart-btn { padding: 10px 24px; border-radius: 24px; border: 1px solid #dadce0; background: #ffffff; color: #202124; font-size: 14.5px; font-weight: 500; cursor: pointer; }
+  .jump-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 28px; }
+  .jump-dot { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #dadce0; background: #ffffff; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #5f6368; }
+  .jump-dot.done-correct { background:#e6f4ea; border-color:#188038; color:#188038; }
+  .jump-dot.done-wrong { background:#fce8e6; border-color:#c5221f; color:#c5221f; }
+  .jump-dot.current { border-color:#4650e5; border-width:2px; }
+</style>
+</head>
+<body>
+<div class="container"><div id="quiz-app"></div></div>
+
+<script>
+const letters = ['A','B','C','D'];
+
+const questions = [
+{q:"Which sequence correctly describes buprenorphine induction?",o:["Dose immediately upon patient request, regardless of withdrawal status","Wait until objective/subjective withdrawal signs appear, then dose and titrate to symptom control","Load a high dose first, then taper down over 24 hours","Start with methadone, then transition to buprenorphine once stable"],a:1,e:"Correct induction requires waiting for withdrawal onset before dosing, then titrating upward as needed."},
+{q:"Which of the following is FALSE regarding buprenorphine/naloxone combination products?",o:["Naloxone deters IV misuse","Buprenorphine is a partial mu-agonist","Naloxone is well absorbed sublingually and provides most of the therapeutic effect","Premature dosing can precipitate withdrawal"],a:2,e:"Naloxone is poorly absorbed sublingually and contributes essentially nothing to the sublingual therapeutic effect; its role is purely to deter IV misuse."},
+{q:"Which statement about naltrexone formulations is correct?",o:["Oral and injectable naltrexone have identical adherence profiles","Injectable naltrexone's main advantage is reducing daily opportunities for impulsive discontinuation","Injectable naltrexone works faster than oral in an overdose emergency","Oral naltrexone is preferred for its longer duration of action"],a:1,e:"The long-acting injectable form removes the daily choice point that can lead to impulsive non-adherence."},
+{q:"Which pairing of eating disorder and defining feature is INCORRECT?",o:["Bulimia nervosa — binge-purge cycles at normal-ish weight","Anorexia nervosa — significantly low body weight with restriction","Binge eating disorder — recurrent binges without compensatory behaviors","Avoidant/restrictive food intake disorder — driven primarily by body image distortion"],a:3,e:"ARFID is driven by sensory sensitivity, lack of interest in eating, or fear of consequences (like choking) — not body image distortion, which distinguishes it from anorexia/bulimia."},
+{q:"Which medication is contraindicated in active bulimia nervosa with frequent purging?",o:["Sertraline","Fluoxetine","Bupropion","Escitalopram"],a:2,e:"Bupropion carries an increased seizure risk in this population and is generally avoided."},
+{q:"Which medication carries an FDA indication specifically for binge eating disorder (not bulimia or anorexia)?",o:["Naltrexone alone","Lisdexamfetamine","Donepezil","Guanfacine"],a:1,e:"Lisdexamfetamine is FDA-approved specifically for moderate-to-severe binge eating disorder."},
+{q:"A patient quitting smoking while on clozapine should be monitored for which change?",o:["Decreased clozapine levels requiring a dose increase","Increased clozapine levels, since cessation removes CYP1A2 induction from tobacco smoke","No change of any kind","Immediate need to discontinue clozapine"],a:1,e:"Quitting smoking removes CYP1A2 induction, which can raise clozapine levels and increase side-effect risk if the dose isn't reassessed."},
+{q:"Which mechanism best explains bupropion's role in tobacco cessation?",o:["Serotonin reuptake inhibition","Norepinephrine-dopamine reuptake inhibition, reducing craving/withdrawal","Direct nicotinic receptor blockade","Acetylcholinesterase inhibition"],a:1,e:"Bupropion's NDRI action reduces nicotine craving and withdrawal symptoms."},
+{q:"Which of the following is the recommended FIRST step in managing chronic insomnia?",o:["Start a long-term nightly benzodiazepine","Identify and address underlying contributors (pain, mood, substance use, other sleep disorders) plus sleep hygiene","Begin an antipsychotic for sedation","Refer immediately for a sleep study before any other action"],a:1,e:"Insomnia management starts with identifying and treating underlying contributors alongside reinforcing sleep hygiene."},
+{q:"A non-24-hour sleep-wake disorder is most commonly associated with which patient population?",o:["Shift workers with rotating schedules","Totally blind individuals lacking light entrainment to the SCN","Patients with obstructive sleep apnea","Patients with generalized anxiety disorder"],a:1,e:"Without light input to the SCN, the circadian clock free-runs and drifts relative to the 24-hour day — classically seen in total blindness."},
+{q:"Which statement about melatonergic/serotonergic hypnotics is TRUE?",o:["They are Schedule IV controlled substances like benzodiazepines","They act outside the GABA-A system and are not scheduled as controlled substances","They have higher abuse potential than Z-drugs","They cannot be used to treat insomnia"],a:1,e:"Because they act through different receptor systems than GABA-A, melatonergic/serotonergic hypnotics avoid controlled-substance scheduling."},
+{q:"Which of the following is NOT one of the neurotransmitter systems involved in the neurobiology of wakefulness?",o:["Histamine","Orexin","Acetylcholine","Endorphin"],a:3,e:"Wakefulness involves histamine, norepinephrine, dopamine, acetylcholine, and orexin — endorphins are not part of this core arousal system list."},
+{q:"For hypersomnia, which statement reflects correct first-line management?",o:["Wake-promoting medication should always be started immediately","Underlying causes should be addressed first, with medication reserved for persistent symptoms","Only benzodiazepines are appropriate treatment","Medication should never be used for hypersomnia"],a:1,e:"As with insomnia, hypersomnia management starts with addressing underlying causes before reaching for medication."},
+{q:"Which set of features correctly defines restless legs syndrome?",o:["Painless motor tics with no sensory component, worse during activity","An uncomfortable urge to move the legs, worse at rest/evening, relieved by movement","Symptoms exclusively occurring during REM sleep","A subtype of narcolepsy with cataplexy"],a:1,e:"RLS is a sensorimotor disorder defined by an uncomfortable urge to move, worse at rest and in the evening, relieved by movement."},
+{q:"Which class of medications is generally NOT recommended for a patient with restless legs syndrome?",o:["Iron supplementation when ferritin is low","Gabapentinoids","Dopamine-blocking agents (antiemetics, antipsychotics) and sedating antihistamines","Dopamine agonists"],a:2,e:"Dopamine antagonists and sedating antihistamines can precipitate or worsen RLS and are generally avoided."},
+{q:"Regarding receptor binding of Z-drugs (zolpidem, zaleplon, eszopiclone), which statement is accurate?",o:["They act at melatonin receptors","They act at the GABA-A complex, with some showing alpha-1 subunit selectivity linked to sedation","They block histamine H1 receptors exclusively","They antagonize orexin receptors"],a:1,e:"Z-drugs act at GABA-A, and certain agents show relative alpha-1 selectivity associated more with sedative than anxiolytic effects."},
+{q:"What is the primary concern with long half-life hypnotic agents, particularly in older adults?",o:["Rapid loss of effect after the first dose","Drug accumulation causing residual daytime sedation and increased fall risk","Increased risk of hypertension","Immediate tolerance development"],a:1,e:"Reduced clearance in older adults allows long half-life hypnotics to accumulate, producing daytime sedation and higher fall risk."},
+{q:"Along the sleep-wake arousal spectrum, which neurotransmitter is primarily sleep-PROMOTING, in contrast to the wake-promoting systems?",o:["Orexin","GABA","Norepinephrine","Histamine"],a:1,e:"GABA, largely from the VLPO, actively inhibits the wake-promoting arousal nuclei to permit sleep onset."},
+{q:"The suprachiasmatic nucleus (SCN) performs which primary function?",o:["Generates REM sleep directly","Serves as the master circadian pacemaker, entrained by retinal light input","Processes pain signals from the periphery","Regulates basal ganglia motor output"],a:1,e:"The SCN is the master circadian clock, synchronized daily via the retinohypothalamic tract."},
+{q:"Which two protein abnormalities are the hallmark pathological findings in Alzheimer's disease?",o:["Alpha-synuclein and Lewy bodies","Amyloid-beta plaques and hyperphosphorylated tau tangles","Huntingtin aggregates and ubiquitin inclusions","Prion protein and TDP-43"],a:1,e:"Amyloid-beta plaques (extracellular) and neurofibrillary tangles of hyperphosphorylated tau (intracellular) define AD pathology."},
+{q:"Which best characterizes the clinical course of Alzheimer's disease?",o:["Sudden onset with fluctuating alertness","Gradual, progressive, insidious decline in memory and cognition","Stepwise decline tied to discrete vascular events","Stable cognition with abrupt late motor symptoms"],a:1,e:"AD is marked by an insidious, steadily progressive course, distinguishing it from the fluctuating (Lewy body) or stepwise (vascular) patterns of other dementias."},
+{q:"The cognitive symptoms of Alzheimer's disease are most directly linked to a deficit in which neurotransmitter?",o:["Dopamine","Acetylcholine","Serotonin","GABA"],a:1,e:"Degeneration of cholinergic neurons reduces acetylcholine availability, contributing directly to AD-related cognitive symptoms."},
+{q:"Before starting a cognitive-enhancing medication for suspected dementia, which of these should be excluded or managed?",o:["Reversible causes such as thyroid dysfunction, B12/folate deficiency, depression, delirium, and polypharmacy","Nothing further is needed once a diagnosis is suspected","Only a family history questionnaire","A chest X-ray only"],a:0,e:"Reversible contributors to cognitive impairment must be ruled out before committing to a dementia diagnosis and treatment plan."},
+{q:"According to standard guidance, what is first-line treatment for agitation/aggression in dementia?",o:["Immediate initiation of an antipsychotic","Non-pharmacologic/behavioral and environmental strategies, with medication reserved for significant risk","High-dose benzodiazepines","Increasing the cholinesterase inhibitor dose"],a:1,e:"Behavioral/environmental interventions are recommended first, given the risks associated with antipsychotic use in dementia."},
+{q:"What is routinely considered, though used cautiously, for behavioral/psychotic symptoms of Alzheimer's when non-pharmacologic measures fail?",o:["Stimulant medications","Atypical antipsychotics, despite the associated black box mortality warning","High-dose opioids","Anticholinergic agents"],a:1,e:"Atypical antipsychotics may be used off-label with caution in severe cases, weighed against their black box mortality warning."},
+{q:"Donepezil's mechanism of action in Alzheimer's disease is:",o:["NMDA receptor blockade","Reversible acetylcholinesterase inhibition, increasing synaptic acetylcholine","Dopamine agonism","Serotonin 2A antagonism"],a:1,e:"Donepezil reversibly inhibits acetylcholinesterase, raising available acetylcholine."},
+{q:"Which safety concern is most associated with donepezil due to its cholinergic mechanism?",o:["Agranulocytosis","Bradycardia and syncope from increased vagal/cholinergic tone","QT prolongation as its primary risk","Hepatotoxicity as its primary risk"],a:1,e:"Increased peripheral cholinergic tone can slow heart rate and cause syncope, making baseline cardiac history relevant."},
+{q:"Which dementia subtype features fluctuating cognition, visual hallucinations, spontaneous parkinsonism, and marked antipsychotic sensitivity?",o:["Alzheimer's disease","Lewy body dementia","Frontotemporal dementia","Vascular dementia"],a:1,e:"This exact symptom cluster is the classic signature of Lewy body dementia."},
+{q:"Which dementia subtype presents earliest with personality/behavioral change or language difficulty, with memory relatively preserved?",o:["Alzheimer's disease","Lewy body dementia","Frontotemporal dementia","Vascular dementia"],a:2,e:"Frontotemporal dementia typically spares memory early, unlike Alzheimer's disease."},
+{q:"Which dementia subtype shows a stepwise decline tied to discrete cerebrovascular events with focal neurologic signs?",o:["Alzheimer's disease","Lewy body dementia","Frontotemporal dementia","Vascular dementia"],a:3,e:"A stepwise course linked to ischemic events is the hallmark of vascular dementia."},
+{q:"Degeneration of cholinergic projections from which structure is most central to memory loss in Alzheimer's disease?",o:["Cerebellum","Basal forebrain","Substantia nigra","Occipital cortex"],a:1,e:"Basal forebrain cholinergic neurons project widely to the hippocampus and cortex; their loss underlies AD memory impairment."},
+{q:"Which statement best differentiates impulsivity from compulsivity?",o:["They are unrelated with no shared mechanism","Impulsivity is reward-driven action without regard for consequences; compulsivity is repetitive behavior to reduce anxiety or prevent perceived harm","Compulsivity always precedes impulsivity developmentally","Impulsivity is exclusive to addiction, compulsivity exclusive to OCD"],a:1,e:"Both sit on a shared behavioral spectrum but differ in underlying motivation — reward-seeking versus anxiety/harm-avoidance."},
+{q:"Which dopamine pathway underlies reward and reinforcement in addiction?",o:["Nigrostriatal pathway","Mesolimbic pathway (VTA to nucleus accumbens)","Tuberoinfundibular pathway","Mesocortical pathway alone"],a:1,e:"The mesolimbic pathway from the VTA to the nucleus accumbens is the principal reward circuit."},
+{q:"As addictive behavior becomes habitual, control is thought to shift from which structure to which?",o:["Dorsal striatum to ventral striatum","Ventral striatum to dorsal striatum","Cerebellum to brainstem","Occipital to temporal lobe"],a:1,e:"With repeated use, control migrates from the reward-driven ventral striatum to the habit-driven dorsal striatum."},
+{q:"Which best distinguishes the functional roles of ventral versus dorsal striatum?",o:["Ventral = habit formation; dorsal = reward/motivation","Ventral = reward/motivation and impulsive drive; dorsal = habit formation and automatic behavior","Both regions perform identical functions","Ventral = vision; dorsal = hearing"],a:1,e:"Ventral striatum drives reward-seeking; dorsal striatum underlies learned, automatic habits."},
+{q:"ADHD is best conceptualized as a disorder primarily involving which network?",o:["Occipital-parietal network","Prefrontal cortical circuits","Cerebellar-vestibular network","Limbic-hippocampal network only"],a:1,e:"ADHD reflects dysregulation across prefrontal circuits governing attention, impulse control, and motor regulation."},
+{q:"Which brain region's dysfunction is most tied to motor hyperactivity in ADHD, per the symptoms-and-circuits model?",o:["Orbitofrontal cortex","Dorsolateral prefrontal cortex","Dorsal anterior cingulate cortex","Prefrontal motor regulation circuits"],a:3,e:"Motor hyperactivity maps to prefrontal motor circuits, distinct from the three attention/impulsivity-related regions."},
+{q:"Which region's dysfunction produces sustained-attention/problem-solving deficits in ADHD?",o:["Orbitofrontal cortex","Dorsolateral prefrontal cortex","Dorsal anterior cingulate cortex","Prefrontal motor regulation circuits"],a:1,e:"DLPFC governs working memory and sustained attention/executive problem-solving."},
+{q:"Which region's dysfunction produces impulsivity in ADHD?",o:["Orbitofrontal cortex","Dorsolateral prefrontal cortex","Dorsal anterior cingulate cortex","Prefrontal motor regulation circuits"],a:0,e:"OFC governs inhibitory control; dysfunction produces impulsive behavior."},
+{q:"Which region's dysfunction produces selective-attention deficits (distractibility) in ADHD?",o:["Orbitofrontal cortex","Dorsolateral prefrontal cortex","Dorsal anterior cingulate cortex","Prefrontal motor regulation circuits"],a:2,e:"dACC governs selective attention/filtering; dysfunction produces distractibility and carelessness."},
+{q:"Which statement about behavioral intervention in ADHD is accurate?",o:["It provides organizational structure and reinforcement that support self-regulation, complementing medication","It has no demonstrated clinical benefit","It should always replace medication entirely","It only benefits adult patients"],a:0,e:"Behavioral therapy builds compensatory structure/skills and typically augments, rather than replaces, medication."},
+{q:"Which of the following pairings of ADHD medication and mechanism is INCORRECT?",o:["Guanfacine — selective alpha-2A adrenergic agonist","Bupropion — norepinephrine-dopamine reuptake inhibitor","Atomoxetine — norepinephrine reuptake inhibitor that also raises PFC dopamine","Lisdexamfetamine — direct dopamine receptor agonist requiring no activation"],a:3,e:"Lisdexamfetamine is an inactive prodrug requiring enzymatic cleavage to release active d-amphetamine — it is not a direct receptor agonist."},
+{q:"Which ADHD medication carries a black box warning for increased suicidal ideation in children/adolescents due to its mechanism as a norepinephrine reuptake inhibitor?",o:["Guanfacine","Atomoxetine","Methylphenidate","Lisdexamfetamine"],a:1,e:"Atomoxetine carries this specific black box warning tied to its NET-inhibition mechanism."},
+{q:"Which ADHD non-stimulant does NOT carry a black box warning and works via alpha-2A adrenergic agonism?",o:["Atomoxetine","Bupropion","Guanfacine","Fluoxetine"],a:2,e:"Guanfacine, unlike atomoxetine or bupropion, does not carry a black box warning and works through alpha-2A agonism."},
+{q:"For comorbid ADHD and anxiety, which approach is generally recommended?",o:["Avoid treating either condition","Consider non-stimulant options or use stimulants cautiously, since stimulants can worsen anxiety in some patients","Always use the highest stimulant dose regardless of anxiety","Treat only the anxiety, never the ADHD"],a:1,e:"Because stimulants may exacerbate anxiety, non-stimulants are often favored or stimulants used cautiously with monitoring."},
+{q:"Which two neurotransmitters are primarily implicated in ADHD pathophysiology?",o:["Serotonin and histamine","Dopamine and norepinephrine","GABA and glutamate exclusively","Acetylcholine and melatonin"],a:1,e:"Dysregulated dopaminergic and noradrenergic signaling in prefrontal-striatal circuits underlies ADHD."},
+{q:"Which consideration is uniquely important when selecting ADHD medication for an adolescent/young adult versus a young child?",o:["No additional considerations apply at this age","Elevated substance misuse risk, favoring prodrug or non-stimulant options","This age group should never receive medication","Only short-acting formulations are appropriate"],a:1,e:"Given elevated misuse risk in this age range, agents with lower abuse potential are often preferred."},
+{q:"Which combination of factors should most guide ADHD treatment selection across the lifespan?",o:["Comorbidities, cardiovascular history, substance misuse risk, age, and desired duration of coverage","Only cost of the medication","Only pill color or shape","Whichever medication is most advertised"],a:0,e:"ADHD treatment selection requires weighing comorbidities, cardiac history, misuse risk, age, and coverage-duration needs together."},
+{q:"What is first-line treatment for OCD?",o:["Benzodiazepines as monotherapy","SSRIs, typically combined with CBT including exposure and response prevention","Atypical antipsychotics alone","Stimulant medications"],a:1,e:"SSRIs plus CBT/exposure and response prevention represent first-line OCD treatment."},
+{q:"Pseudobulbar affect is best described as:",o:["Voluntary, mood-congruent emotional expression","Involuntary episodes of crying/laughing that are exaggerated or incongruent with actual mood, linked to neurologic disease","A primary psychotic disorder with hallucinations","An anxiety disorder unrelated to neurologic conditions"],a:1,e:"Pseudobulbar affect involves involuntary, mood-incongruent emotional outbursts from neurologic conditions like stroke, MS, or ALS."}
+];
+
+let current = 0, score = 0;
+let userAnswers = new Array(questions.length).fill(null);
+
+function render() {
+  const app = document.getElementById('quiz-app');
+  const q = questions[current];
+  let html = '';
+  html += '<div class="top-row"><span class="counter">' + (current+1) + ' / ' + questions.length + '</span><span class="counter">Score: ' + score + '/' + userAnswers.filter(a=>a!==null).length + '</span></div>';
+  html += '<p class="question-text">' + q.q + '</p>';
+  html += '<div id="options"></div>';
+  html += '<div id="feedback"></div>';
+  html += '<div class="bottom-row"><div id="nav"></div></div>';
+  html += '<div class="jump-nav" id="jumpnav"></div>';
+  app.innerHTML = html;
+
+  const optDiv = document.getElementById('options');
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = '<span class="option-letter">' + letters[i] + '.</span><span>' + opt + '</span>';
+    btn.onclick = function() { selectAnswer(i); };
+    optDiv.appendChild(btn);
+  });
+  renderJumpNav();
+  if (userAnswers[current] !== null) showFeedback();
+  else document.getElementById('nav').innerHTML = '';
+}
+
+function renderJumpNav() {
+  const jn = document.getElementById('jumpnav');
+  jn.innerHTML = '';
+  questions.forEach((qq, idx) => {
+    const dot = document.createElement('div');
+    let cls = 'jump-dot';
+    if (idx === current) cls += ' current';
+    if (userAnswers[idx] !== null) cls += (userAnswers[idx] === questions[idx].a) ? ' done-correct' : ' done-wrong';
+    dot.className = cls;
+    dot.textContent = idx + 1;
+    dot.onclick = function() { current = idx; render(); };
+    jn.appendChild(dot);
+  });
+}
+
+function selectAnswer(i) {
+  if (userAnswers[current] !== null) return;
+  userAnswers[current] = i;
+  if (i === questions[current].a) score++;
+  showFeedback();
+  renderJumpNav();
+  document.querySelector('.top-row span:last-child').textContent = 'Score: ' + score + '/' + userAnswers.filter(a=>a!==null).length;
+}
+
+function showFeedback() {
+  const q = questions[current];
+  const chosen = userAnswers[current];
+  const optDiv = document.getElementById('options');
+  Array.from(optDiv.children).forEach((btn, i) => {
+    if (i === q.a) btn.classList.add('option-correct');
+    else if (i === chosen) btn.classList.add('option-wrong');
+    btn.disabled = true;
+  });
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (chosen === q.a ? 'correct-fb' : 'wrong-fb');
+  fb.innerHTML = (chosen === q.a ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + q.e;
+
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+  if (current < questions.length - 1) {
+    const next = document.createElement('button');
+    next.className = 'nav-btn';
+    next.textContent = 'Next';
+    next.onclick = function() { current++; render(); };
+    nav.appendChild(next);
+  } else {
+    const done = document.createElement('button');
+    done.className = 'nav-btn';
+    done.textContent = 'See final score';
+    done.onclick = function() { renderFinal(); };
+    nav.appendChild(done);
+  }
+}
+
+function renderFinal() {
+  const app = document.getElementById('quiz-app');
+  const pctScore = Math.round((score/questions.length)*100);
+  app.innerHTML =
+    '<div class="final-card"><p class="final-score">' + score + ' / ' + questions.length + '</p>' +
+    '<p class="final-pct">' + pctScore + '% correct</p>' +
+    '<button class="restart-btn" id="restart">Retake quiz</button></div>';
+  document.getElementById('restart').onclick = function() {
+    current = 0; score = 0; userAnswers = new Array(questions.length).fill(null);
+    render();
+  };
+}
+
+render();
+</script>
+</body>
+</html>
