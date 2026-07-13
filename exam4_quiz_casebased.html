@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam 4 Review — Case-Based Quiz</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 24px;
+    color: #202124;
+  }
+  .container { max-width: 760px; margin: 0 auto; }
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .counter { font-size: 14px; color: #5f6368; }
+  .question-text {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0 0 24px;
+    color: #202124;
+  }
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #f1f3f4;
+    font-size: 15px;
+    cursor: pointer;
+    color: #202124;
+    box-sizing: border-box;
+    transition: background 0.15s;
+  }
+  .option-btn:hover:not(:disabled) { background: #e8eaed; }
+  .option-btn:disabled { cursor: default; }
+  .option-letter { font-weight: 600; color: #5f6368; }
+  .option-correct { background: #e6f4ea !important; }
+  .option-correct .option-letter { color: #188038; }
+  .option-wrong { background: #fce8e6 !important; }
+  .option-wrong .option-letter { color: #c5221f; }
+  .feedback {
+    margin: 4px 0 20px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    border-left: 3px solid #dadce0;
+  }
+  .feedback.correct-fb { border-left-color: #188038; color: #202124; }
+  .feedback.wrong-fb { border-left-color: #c5221f; color: #202124; }
+  .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .hint-toggle {
+    background: none;
+    border: none;
+    color: #444746;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+  }
+  .hint-box {
+    display: none;
+    font-size: 14px;
+    color: #5f6368;
+    margin: 10px 0 0;
+    padding: 12px 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+  .hint-box.open { display: block; }
+  .nav-btn {
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: none;
+    background: #4650e5;
+    color: #ffffff;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .nav-btn:hover { background: #3a44c9; }
+  .final-card { text-align: center; padding: 48px 20px; }
+  .final-score { font-size: 34px; font-weight: 700; margin: 0 0 4px; }
+  .final-pct { font-size: 16px; color: #5f6368; margin: 0 0 24px; }
+  .restart-btn {
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: 1px solid #dadce0;
+    background: #ffffff;
+    color: #202124;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .jump-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 28px; }
+  .jump-dot {
+    width: 26px; height: 26px; border-radius: 50%; border: 1px solid #dadce0;
+    background: #ffffff; font-size: 11px; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; color: #5f6368;
+  }
+  .jump-dot.done-correct { background:#e6f4ea; border-color:#188038; color:#188038; }
+  .jump-dot.done-wrong { background:#fce8e6; border-color:#c5221f; color:#c5221f; }
+  .jump-dot.current { border-color:#4650e5; border-width:2px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="quiz-app"></div>
+</div>
+
+<script>
+const letters = ['A','B','C','D'];
+
+const questions = [
+{q:"A 9-year-old with ADHD consistently struggles to remain seated in class and often climbs on furniture. Per the symptoms-and-circuits model, which region is most tied to this motor hyperactivity?",o:["Orbitofrontal cortex (OFC)","Dorsolateral prefrontal cortex (DLPFC)","Dorsal anterior cingulate cortex (dACC)","Prefrontal motor cortex"],a:3,e:"Motor hyperactivity maps to prefrontal motor regulation circuits, distinct from the attention (DLPFC), impulsivity (OFC), and selective-attention (dACC) domains.",h:"Think about which region governs motor output/regulation rather than attention or inhibition."},
+{q:"A teenager with ADHD frequently blurts out answers in class and interrupts conversations without waiting his turn. Which circuit is most implicated?",o:["Orbitofrontal cortex (OFC)","Dorsolateral prefrontal cortex (DLPFC)","Dorsal anterior cingulate cortex (dACC)","Cerebellum"],a:0,e:"Impulsivity — acting before thinking — is linked to OFC dysfunction and its role in inhibitory control.",h:"This is a classic impulsivity symptom, not an attention symptom."},
+{q:"A college student with ADHD reports she can start assignments but can never finish them, losing track partway through multi-step tasks. Which circuit best explains this?",o:["Orbitofrontal cortex (OFC)","Dorsolateral prefrontal cortex (DLPFC)","Dorsal anterior cingulate cortex (dACC)","Prefrontal motor cortex"],a:1,e:"Sustained attention and follow-through on complex tasks are DLPFC functions; dysfunction produces disorganization and incomplete task execution.",h:"This describes a sustained-attention/executive-function problem."},
+{q:"A patient with ADHD is described as constantly distracted by irrelevant background noise and makes frequent careless errors on detailed work. Which circuit is most associated?",o:["Dorsal anterior cingulate cortex (dACC)","Orbitofrontal cortex (OFC)","Prefrontal motor cortex","Cerebellum"],a:0,e:"Selective attention — filtering out distractions — is a dACC function; dysfunction produces carelessness and distractibility.",h:"This is about filtering distractions, not sustaining focus over time."},
+{q:"Which two neurotransmitters are most centrally implicated in ADHD pathophysiology?",o:["Serotonin and histamine","Dopamine and norepinephrine","GABA and glutamate","Acetylcholine and melatonin"],a:1,e:"Dysregulated dopaminergic and noradrenergic signaling in prefrontal-striatal circuits underlies ADHD symptoms.",h:"These are the same two neurotransmitters targeted by most ADHD medications."},
+{q:"A 7-year-old is started on guanfacine ER for ADHD. The parent asks how it works and if there's a black box warning. What do you tell them?",o:["It's a selective alpha-2A adrenergic agonist that strengthens prefrontal signaling; it has no black box warning","It blocks dopamine transporters and carries a black box warning for dependence","It's a stimulant with high abuse potential","It's an SSRI with a suicidality warning"],a:0,e:"Guanfacine works via alpha-2A agonism in the PFC and, as a non-stimulant, does not carry a black box warning.",h:"This is a non-stimulant alternative to amphetamine/methylphenidate."},
+{q:"A patient with ADHD has a contraindication to stimulants and is started on bupropion instead. What should be part of your counseling?",o:["Bupropion works as an NDRI and carries the standard antidepressant black box warning for suicidality risk in young patients","Bupropion is a benzodiazepine and requires taper on discontinuation","Bupropion has no known black box warning","Bupropion works via serotonin reuptake inhibition"],a:0,e:"As an NDRI, bupropion carries the class-wide black box warning for suicidality risk in children/adolescents/young adults.",h:"Think about what black box warning applies to nearly all antidepressants."},
+{q:"A teenager begins atomoxetine for ADHD. Which teaching point is essential?",o:["It carries a black box warning for increased suicidal ideation in children/adolescents and works via norepinephrine reuptake inhibition","It has no black box warning of any kind","It works identically to methylphenidate by blocking the dopamine transporter","It requires no monitoring for mood changes"],a:0,e:"Atomoxetine's NET-inhibition mechanism (which indirectly raises PFC dopamine) comes with a black box warning for suicidal ideation in youth.",h:"This is the one non-stimulant most known for a suicidality warning."},
+{q:"A parent asks how Vyvanse (lisdexamfetamine) differs from short-acting amphetamine salts. What's the key point?",o:["Vyvanse is an inactive prodrug requiring enzymatic cleavage to release active d-amphetamine, giving smoother onset/offset and lower misuse potential","Vyvanse works through a completely different receptor mechanism unrelated to amphetamine","Vyvanse has zero abuse potential under any circumstance","Vyvanse is only activated by hepatic CYP2D6 metabolism"],a:0,e:"Lisdexamfetamine requires red-blood-cell enzymatic conversion to become active, producing a smoother, longer, less abuse-prone profile.",h:"Think 'prodrug' and 'rate-limited activation.'"},
+{q:"A patient has both ADHD and significant generalized anxiety. What treatment approach is generally recommended?",o:["Automatically avoid treating either condition simultaneously","Consider non-stimulant options (atomoxetine, alpha-2 agonists) or use stimulants cautiously, since stimulants can worsen anxiety in some patients","Always start with the highest stimulant dose regardless of anxiety symptoms","Treat only the anxiety and ignore the ADHD entirely"],a:1,e:"Because stimulants can exacerbate anxiety, non-stimulants are often favored, or stimulants are used cautiously with close monitoring.",h:"Consider what happens when you stimulate an already-anxious nervous system."},
+{q:"A clinician is selecting an ADHD medication for a college-aged patient. Which consideration is uniquely important at this age compared to a young child?",o:["No additional considerations apply","Elevated risk of substance misuse in this age group, favoring prodrug or non-stimulant options","This age group should never receive medication","Only short-acting immediate-release formulations are appropriate"],a:1,e:"Adolescents/young adults carry higher substance misuse risk, so agents with lower abuse potential are often preferred.",h:"Think about peak years for substance misuse risk and diversion."},
+{q:"When building an ADHD treatment plan across the lifespan, which combination of factors should most guide the decision?",o:["Comorbidities, cardiovascular history, substance misuse risk, patient age, and desired duration of coverage","Only which medication is cheapest","Only the pill's color or shape","Whichever medication the patient saw advertised"],a:0,e:"ADHD treatment selection weighs comorbidities, cardiac history, misuse risk, age, and coverage-duration needs together.",h:"This is a multi-factorial clinical decision, not a single-variable one."},
+{q:"How does behavioral intervention specifically help a child with ADHD, according to the review?",o:["It provides external structure, organizational strategies, and reinforcement systems that compensate for weak self-regulation","It has no demonstrated clinical benefit","It should always replace medication entirely","It only benefits adults with ADHD"],a:0,e:"Behavioral therapy builds compensatory structure/skills and is typically used to augment, not replace, medication.",h:"Consider what non-drug support does for organization and follow-through."},
+{q:"A patient beginning sublingual buprenorphine reports feeling completely comfortable, with no withdrawal symptoms currently present. What should you do?",o:["Give the first dose right away since comfort means it's safe","Delay dosing until objective withdrawal signs appear, to avoid precipitating withdrawal","Double the planned dose to ensure adequate coverage","Switch the plan to methadone instead"],a:1,e:"Buprenorphine given before withdrawal begins can displace remaining full agonist and precipitate abrupt, severe withdrawal.",h:"Timing is everything with a partial agonist that binds tightly to the mu receptor."},
+{q:"A patient asks why their buprenorphine film must dissolve under the tongue rather than being swallowed. What's the correct explanation?",o:["Swallowing destroys only the naloxone component","Buprenorphine has poor oral bioavailability, so sublingual absorption is required for it to work","It's a legal requirement with no pharmacologic basis","Swallowing triggers an allergic reaction in most patients"],a:1,e:"Buprenorphine is poorly absorbed via the GI tract, making the sublingual route pharmacologically necessary.",h:"This is about absorption, not legality."},
+{q:"What is the primary purpose of the naloxone component in combination buprenorphine/naloxone products?",o:["To enhance buprenorphine's analgesic effect","To deter intravenous misuse, since naloxone is active by injection but not sublingually","To treat comorbid depression","To extend buprenorphine's duration of action"],a:1,e:"Naloxone's poor sublingual bioavailability but full injectable activity discourages diversion for IV use.",h:"Think about what happens if someone tries to inject this combination product."},
+{q:"Which two conditions does naltrexone carry FDA approval for?",o:["Maintenance treatment supporting abstinence from opioids and alcohol","Generalized anxiety disorder and insomnia","Acute reversal of opioid overdose","Nicotine withdrawal and caffeine dependence"],a:0,e:"Naltrexone is approved for both opioid use disorder and alcohol use disorder maintenance treatment.",h:"This is a mu-opioid antagonist used for two very different substance use disorders."},
+{q:"A patient prefers monthly injectable naltrexone over the daily oral tablet. What's the most likely clinical reason to support this preference?",o:["The injection is cheaper for most patients","It removes the daily decision to keep taking medication, reducing chances of impulsive discontinuation","It works faster in an emergency overdose situation","It causes fewer injection-site reactions than any oral medication"],a:1,e:"Long-acting injectable naltrexone reduces the daily opportunity for impulsive non-adherence or relapse.",h:"Think about adherence, not cost or speed of action."},
+{q:"A patient with a normal BMI describes eating large quantities of food quickly, followed by self-induced vomiting, on a recurring basis. This is most consistent with:",o:["Anorexia nervosa","Bulimia nervosa","Avoidant/restrictive food intake disorder","Pica"],a:1,e:"Binge-purge cycles with near-normal body weight define bulimia nervosa.",h:"Weight is the key differentiator from anorexia here."},
+{q:"A patient with active bulimia nervosa who purges frequently needs an antidepressant. Which agent should generally be avoided?",o:["Sertraline","Bupropion","Fluoxetine","Escitalopram"],a:1,e:"Bupropion carries increased seizure risk in active bulimia/purging and is generally avoided in this population.",h:"This medication is contraindicated due to seizure threshold concerns."},
+{q:"Which medication carries a specific FDA indication for binge eating disorder?",o:["Fluoxetine","Lisdexamfetamine","Naltrexone alone","Topiramate as first-line"],a:1,e:"Lisdexamfetamine (Vyvanse) is FDA-approved specifically for moderate-to-severe binge eating disorder.",h:"This same medication also treats ADHD."},
+{q:"A patient stable on clozapine announces they just quit smoking. What should you anticipate?",o:["No change in clozapine levels, since nicotine doesn't affect metabolism","Clozapine levels may rise, since quitting removes the CYP1A2-inducing effect of tobacco smoke hydrocarbons","Clozapine levels will fall, requiring a dose increase","Clozapine must be stopped immediately due to interaction risk"],a:1,e:"Tobacco smoke hydrocarbons (not nicotine) induce CYP1A2; quitting removes this induction and can raise clozapine/olanzapine levels.",h:"This is a CYP450 induction/de-induction question."},
+{q:"Bupropion helps with tobacco cessation primarily through which mechanism?",o:["Direct antagonism of nicotinic receptors","Norepinephrine-dopamine reuptake inhibition, reducing craving and withdrawal","Acting as a nicotine substitute at the receptor","Serotonin reuptake inhibition"],a:1,e:"Bupropion's NDRI action reduces nicotine craving and withdrawal independent of direct nicotinic receptor activity.",h:"Same mechanism class used for depression and ADHD."},
+{q:"A patient with chronic insomnia demands a sleeping pill at their very first visit with no further discussion. What's the more appropriate approach?",o:["Start a benzodiazepine nightly with no further evaluation","Evaluate for underlying contributors (pain, mood, substance use, other sleep disorders) and reinforce sleep hygiene alongside considering medication","Refuse to discuss medication at all","Prescribe an antipsychotic for sedation"],a:1,e:"Insomnia management starts with identifying and addressing underlying contributors before or alongside pharmacotherapy.",h:"Think 'treat the cause, not just the symptom.'"},
+{q:"A totally blind patient describes a sleep schedule that drifts later each day, cycling in and out of alignment with normal daytime hours. This is most consistent with:",o:["Delayed sleep phase disorder","Non-24-hour sleep-wake disorder","Obstructive sleep apnea","Central sleep apnea"],a:1,e:"Non-24-hour sleep-wake disorder results from lack of light entrainment to the SCN, common in total blindness.",h:"This patient can't receive the light cue that normally resets the body clock."},
+{q:"Why are melatonin receptor agonists like ramelteon not classified as controlled substances, unlike benzodiazepines?",o:["They are less effective, so scheduling wasn't necessary","They act outside the GABA-A receptor system and lack meaningful abuse/dependence potential","They are only available through compounding pharmacies","They cause more side effects, so they were exempted"],a:1,e:"Controlled-substance scheduling for hypnotics tracks with GABA-A activity; melatonergic agents work through a different receptor system entirely.",h:"Think about which receptor system drives dependence risk."},
+{q:"Which combination of neurotransmitter systems is most responsible for maintaining wakefulness?",o:["GABA and glycine only","Histamine, norepinephrine, dopamine, acetylcholine, and orexin","Endorphins and substance P","Melatonin and adenosine"],a:1,e:"Multiple arousal-promoting systems act together to sustain wakefulness.",h:"Think of all the systems that go quiet when you fall asleep."},
+{q:"A patient with excessive daytime sleepiness wants to start a stimulant right away without further evaluation. What's the appropriate response?",o:["Agree immediately, since stimulants are always first-line for hypersomnia","Recommend first evaluating for reversible/comorbid causes and optimizing sleep habits before medication","Refuse to discuss the topic","Start a benzodiazepine instead"],a:1,e:"As with insomnia, hypersomnia management starts with identifying underlying causes before reaching for medication.",h:"Same principle as insomnia management, just for the opposite symptom."},
+{q:"A patient describes an uncomfortable, crawling sensation in the legs at night, relieved temporarily by walking. This is most consistent with:",o:["Restless legs syndrome","Nocturnal leg cramps","Peripheral neuropathy exclusively","Periodic limb movement disorder without sensory symptoms"],a:0,e:"An uncomfortable urge to move with relief on movement, worse at rest/evening, is characteristic of RLS.",h:"The relief-with-movement pattern is the key clue."},
+{q:"A patient with restless legs syndrome takes a first-generation antihistamine for allergies and an antiemetic for nausea. What should you consider?",o:["These medications have no relationship to RLS symptoms","Both classes can worsen RLS due to dopamine-blocking or antihistaminergic properties","These medications are first-line treatment for RLS","RLS cannot coexist with allergy or GI symptoms"],a:1,e:"Dopamine-blocking antiemetics and sedating antihistamines are known to worsen RLS.",h:"Both drug classes interfere with dopamine signaling or have sedating antihistamine properties."},
+{q:"Zolpidem and zaleplon show relative selectivity for which GABA-A subunit, tied to their sedative (rather than anxiolytic) profile?",o:["Alpha-2 subunit","Alpha-1 subunit","Alpha-3 subunit","Beta subunit exclusively"],a:1,e:"Alpha-1 selectivity is linked more to sedative-hypnotic effects than to anxiolytic effects.",h:"This is the same subunit associated with sedation rather than anxiolysis in benzodiazepine pharmacology."},
+{q:"An 80-year-old on a long half-life benzodiazepine nightly for years has had two recent falls. What's the most likely contributing factor?",o:["Drug accumulation causing residual daytime sedation and impaired psychomotor function","The medication has no relationship to fall risk in older adults","Tolerance has fully eliminated any sedative effect","The medication is improving the patient's balance"],a:0,e:"Long half-life hypnotics accumulate in older adults due to reduced clearance, increasing fall risk.",h:"Think pharmacokinetics — clearance slows with age, and the drug builds up."},
+{q:"Which brain structure functions as the circadian master pacemaker, receiving direct light input from the retina?",o:["Locus coeruleus","Suprachiasmatic nucleus","Ventral tegmental area","Nucleus basalis of Meynert"],a:1,e:"The SCN is entrained by light via the retinohypothalamic tract and governs circadian timing.",h:"This structure sits just above the optic chiasm."},
+{q:"On autopsy, a patient with progressive dementia shows extracellular protein plaques and intracellular tangles of an abnormally phosphorylated protein. This is classic for:",o:["Parkinson's disease","Alzheimer's disease","Huntington's disease","Multiple sclerosis"],a:1,e:"Amyloid-beta plaques (extracellular) and hyperphosphorylated tau tangles (intracellular) are the defining hallmarks of Alzheimer's disease.",h:"Two separate protein pathologies, one inside cells and one outside."},
+{q:"Which best describes the typical clinical course of Alzheimer's disease?",o:["Rapid onset over days with fluctuating alertness","Gradual, progressive decline in memory and cognition that eventually impairs daily function","Stable cognition with sudden late-stage motor symptoms only","Complete symptom resolution within months without treatment"],a:1,e:"AD is marked by an insidious, steadily progressive cognitive decline, unlike the fluctuating course of Lewy body dementia.",h:"Contrast this with the fluctuating course seen in another dementia subtype."},
+{q:"Loss of which neuron type is most directly tied to the acetylcholine deficit in Alzheimer's disease?",o:["Dopaminergic neurons in the substantia nigra","Cholinergic neurons, particularly those from the basal forebrain","Serotonergic neurons in the raphe nuclei","Motor neurons in the spinal cord"],a:1,e:"Cholinergic neuron loss, especially from the basal forebrain, reduces cortical/hippocampal acetylcholine and underlies AD-related cognitive symptoms.",h:"This is the same neuron type targeted by cholinesterase inhibitors."},
+{q:"A 72-year-old presents with new memory complaints. Before starting a cholinesterase inhibitor, what workup step is most important?",o:["Skip evaluation and start medication immediately given the patient's age","Screen for and address reversible contributors (thyroid dysfunction, B12/folate deficiency, depression, delirium, polypharmacy) and assess baseline cardiac status","Order genetic testing only","Refer directly to hospice"],a:1,e:"Reversible causes of cognitive impairment must be excluded, and cardiac status assessed given bradycardia risk with cholinesterase inhibitors.",h:"Think 'rule out the reversible causes first.'"},
+{q:"A family asks what should be tried first for their loved one's new dementia-related agitation and aggression. The most appropriate initial recommendation is:",o:["Start an atypical antipsychotic right away","Implement non-pharmacologic and behavioral/environmental strategies first, reserving medication for significant risk or distress","Begin a benzodiazepine as first-line","Increase the cholinesterase inhibitor dose to control behavior"],a:1,e:"Behavioral/environmental interventions are recommended first-line for dementia-related agitation, given antipsychotic risks in this population.",h:"Remember the black box warning that shapes this recommendation."},
+{q:"When non-pharmacologic strategies fail to control severe psychosis in a dementia patient, which class is sometimes used off-label with caution?",o:["Benzodiazepines as long-term monotherapy","Atypical antipsychotics, despite their black box mortality warning in this population","Stimulant medications","High-dose opioids"],a:1,e:"Atypical antipsychotics may be used cautiously off-label in severe cases despite the black box mortality warning.",h:"This class carries a well-known black box warning specific to dementia-related psychosis."},
+{q:"Donepezil improves cognitive symptoms in Alzheimer's disease through which mechanism?",o:["Blocking NMDA receptors to prevent excitotoxicity","Reversibly inhibiting acetylcholinesterase, increasing synaptic acetylcholine","Increasing dopamine release in the striatum","Blocking serotonin reuptake"],a:1,e:"Donepezil reversibly inhibits acetylcholinesterase, raising available acetylcholine to compensate for cholinergic neuron loss.",h:"The drug name hints at its target enzyme."},
+{q:"A patient newly started on donepezil reports dizziness and a slow heart rate. What's the best explanation?",o:["An idiosyncratic allergic reaction unrelated to mechanism","Increased cholinergic/vagal tone from acetylcholinesterase inhibition, which can cause bradycardia and syncope","A hepatotoxic reaction","QT prolongation as the primary mechanism"],a:1,e:"Cholinesterase inhibitors increase peripheral cholinergic/vagal tone, which can slow heart rate and cause syncope.",h:"Think about what happens to heart rate when vagal tone increases."},
+{q:"A family describes a dementia patient's vivid recurring visual hallucinations, day-to-day swings in alertness, and marked worsening when given an antipsychotic. This is most consistent with:",o:["Alzheimer's disease","Lewy body dementia","Frontotemporal dementia","Vascular dementia"],a:1,e:"Fluctuating cognition, visual hallucinations, and marked antipsychotic sensitivity together point to Lewy body dementia.",h:"This subtype is famous for extreme antipsychotic sensitivity."},
+{q:"A 58-year-old presents with progressive disinhibition, apathy, and word-finding difficulty, with day-to-day memory relatively intact. This is most consistent with:",o:["Alzheimer's disease","Lewy body dementia","Frontotemporal dementia","Vascular dementia"],a:2,e:"Early behavioral/personality change or language impairment with preserved memory is characteristic of frontotemporal dementia.",h:"Memory is spared early here, which rules out classic Alzheimer's."},
+{q:"A patient with a history of multiple small strokes shows cognitive decline that worsened in discrete steps after each event, with focal weakness. This is most consistent with:",o:["Alzheimer's disease","Lewy body dementia","Frontotemporal dementia","Vascular dementia"],a:3,e:"A stepwise decline tied to discrete ischemic events, with focal neurologic findings, is the classic pattern of vascular dementia.",h:"The 'stepwise' pattern is the giveaway here."},
+{q:"Cholinergic neurons projecting from which structure are most implicated in the memory impairment of Alzheimer's disease?",o:["Cerebellum","Basal forebrain","Substantia nigra","Occipital cortex"],a:1,e:"Basal forebrain cholinergic projections to the hippocampus and cortex are central to memory and are notably affected in AD.",h:"This structure sends cholinergic fibers widely to the cortex and hippocampus."},
+{q:"How would you best summarize the relationship between impulsivity and compulsivity for a student?",o:["They are unrelated and never coexist in the same patient","They represent two ends of a related behavioral spectrum: impulsivity driven by reward-seeking, compulsivity driven by anxiety reduction/harm avoidance","Compulsivity is simply a milder form of impulsivity","Impulsivity only occurs in children, compulsivity only in adults"],a:1,e:"Impulsivity and compulsivity share a construct but differ in underlying motivation — reward-seeking versus anxiety/harm reduction.",h:"Think of these as two ends of one spectrum, not opposites."},
+{q:"Which circuit is most responsible for the reinforcing, pleasurable effects of addictive substances?",o:["Nigrostriatal pathway","Mesolimbic pathway (VTA to nucleus accumbens)","Corticospinal tract","Tuberoinfundibular pathway"],a:1,e:"The mesolimbic dopamine pathway is the primary reward/reinforcement circuit implicated in addiction.",h:"This is the classic 'reward pathway' from the midbrain to the nucleus accumbens."},
+{q:"As substance use becomes more habitual and automatic, control is thought to shift from which structure to which structure?",o:["From the dorsal striatum to the ventral striatum","From the ventral striatum to the dorsal striatum","From the cerebellum to the brainstem","From the occipital cortex to the temporal cortex"],a:1,e:"With repeated use, behavioral control migrates from the reward-driven ventral striatum to the habit-driven dorsal striatum.",h:"Think 'reward-seeking' moving toward 'automatic habit.'"},
+{q:"A patient with OCD asks about first-line treatment options. What's the best response?",o:["Benzodiazepines as monotherapy for OCD symptoms","SSRIs, typically combined with cognitive behavioral therapy including exposure and response prevention","Atypical antipsychotics used alone as first-line","Stimulant medications"],a:1,e:"SSRIs combined with CBT/exposure and response prevention represent first-line treatment for OCD.",h:"Same drug class used first-line for depression, but often at higher doses here."},
+{q:"A patient with a history of stroke exhibits sudden, uncontrollable crying episodes that don't match their actual mood. This is most consistent with:",o:["Major depressive disorder","Pseudobulbar affect","Generalized anxiety disorder","Bipolar disorder, manic episode"],a:1,e:"Pseudobulbar affect involves involuntary, mood-incongruent emotional outbursts linked to neurologic conditions like stroke, MS, or ALS.",h:"The key clue is that the emotional display doesn't match the patient's actual internal mood."}
+];
+
+let current = 0, score = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let hintOpen = false;
+
+function render() {
+  hintOpen = false;
+  const app = document.getElementById('quiz-app');
+  const q = questions[current];
+
+  let html = '';
+  html += '<div class="top-row"><span class="counter">' + (current+1) + ' / ' + questions.length + '</span><span class="counter">Score: ' + score + '/' + userAnswers.filter(a=>a!==null).length + '</span></div>';
+  html += '<p class="question-text">' + q.q + '</p>';
+  html += '<div id="options"></div>';
+  html += '<div id="feedback"></div>';
+  html += '<div class="bottom-row">';
+  html += '<div><button class="hint-toggle" id="hintBtn">Hint ▾</button><div class="hint-box" id="hintBox">' + q.h + '</div></div>';
+  html += '<div id="nav"></div>';
+  html += '</div>';
+  html += '<div class="jump-nav" id="jumpnav"></div>';
+  app.innerHTML = html;
+
+  document.getElementById('hintBtn').onclick = function() {
+    hintOpen = !hintOpen;
+    document.getElementById('hintBox').classList.toggle('open', hintOpen);
+  };
+
+  const optDiv = document.getElementById('options');
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = '<span class="option-letter">' + letters[i] + '.</span><span>' + opt + '</span>';
+    btn.onclick = function() { selectAnswer(i); };
+    optDiv.appendChild(btn);
+  });
+
+  renderJumpNav();
+  if (userAnswers[current] !== null) showFeedback();
+  else {
+    const nav = document.getElementById('nav');
+    nav.innerHTML = '';
+  }
+}
+
+function renderJumpNav() {
+  const jn = document.getElementById('jumpnav');
+  jn.innerHTML = '';
+  questions.forEach((qq, idx) => {
+    const dot = document.createElement('div');
+    let cls = 'jump-dot';
+    if (idx === current) cls += ' current';
+    if (userAnswers[idx] !== null) {
+      cls += (userAnswers[idx] === questions[idx].a) ? ' done-correct' : ' done-wrong';
+    }
+    dot.className = cls;
+    dot.textContent = idx + 1;
+    dot.onclick = function() { current = idx; render(); };
+    jn.appendChild(dot);
+  });
+}
+
+function selectAnswer(i) {
+  if (userAnswers[current] !== null) return;
+  userAnswers[current] = i;
+  if (i === questions[current].a) score++;
+  showFeedback();
+  renderJumpNav();
+  document.querySelector('.top-row span:last-child').textContent = 'Score: ' + score + '/' + userAnswers.filter(a=>a!==null).length;
+}
+
+function showFeedback() {
+  const q = questions[current];
+  const chosen = userAnswers[current];
+  const optDiv = document.getElementById('options');
+  Array.from(optDiv.children).forEach((btn, i) => {
+    if (i === q.a) { btn.classList.add('option-correct'); }
+    else if (i === chosen) { btn.classList.add('option-wrong'); }
+    btn.disabled = true;
+  });
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (chosen === q.a ? 'correct-fb' : 'wrong-fb');
+  fb.innerHTML = (chosen === q.a ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + q.e;
+
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+  if (current < questions.length - 1) {
+    const next = document.createElement('button');
+    next.className = 'nav-btn';
+    next.textContent = 'Next';
+    next.onclick = function() { current++; render(); };
+    nav.appendChild(next);
+  } else {
+    const done = document.createElement('button');
+    done.className = 'nav-btn';
+    done.textContent = 'See final score';
+    done.onclick = function() { renderFinal(); };
+    nav.appendChild(done);
+  }
+}
+
+function renderFinal() {
+  const app = document.getElementById('quiz-app');
+  const pctScore = Math.round((score/questions.length)*100);
+  app.innerHTML =
+    '<div class="final-card">' +
+    '<p class="final-score">' + score + ' / ' + questions.length + '</p>' +
+    '<p class="final-pct">' + pctScore + '% correct</p>' +
+    '<button class="restart-btn" id="restart">Retake quiz</button>' +
+    '</div>';
+  document.getElementById('restart').onclick = function() {
+    current = 0; score = 0; userAnswers = new Array(questions.length).fill(null);
+    render();
+  };
+}
+
+render();
+</script>
+</body>
+</html>
