@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam 4 — Interactive Review</title>
+<style>
+  :root{
+    --ink:#1a2b2b;
+    --paper:#f6f4ee;
+    --panel:#ffffff;
+    --line:#d8d2c2;
+    --teal:#1f5f5b;
+    --teal-dark:#123f3c;
+    --clay:#b5563f;
+    --ok:#2f7a4f;
+    --bad:#a8402f;
+    --muted:#6b6f66;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --serif: "Iowan Old Style","Palatino Linotype", Palatino, Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family: var(--serif);
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px;}
+
+  header.top{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:6px;
+  }
+  header.top .label{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase;}
+  header.top h1{font-size:22px; margin:2px 0 0; font-weight:600;}
+  header.top .rx{font-family:var(--mono); font-size:11px; color:var(--muted); text-align:right;}
+
+  .progress-row{display:flex; align-items:center; gap:10px; margin:14px 0 20px;}
+  .progress-track{flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden;}
+  .progress-fill{height:100%; background:var(--teal); width:0%; transition:width .3s ease;}
+  .progress-text{font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap;}
+
+  #setup{
+    background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:22px;
+  }
+  #setup h2{margin-top:0; font-size:17px;}
+  #setup p{color:var(--muted); font-size:14.5px; line-height:1.55;}
+  .section-list{list-style:none; padding:0; margin:14px 0 20px; display:grid; gap:6px;}
+  .section-list li{
+    font-family:var(--mono); font-size:12.5px; display:flex; justify-content:space-between;
+    padding:7px 10px; background:var(--paper); border:1px solid var(--line); border-radius:3px;
+  }
+  .section-list li span.n{color:var(--teal-dark); font-weight:600;}
+  .start-btn{
+    display:inline-block; font-family:var(--mono); font-size:13px; letter-spacing:.03em;
+    background:var(--teal); color:#fff; border:none; padding:12px 22px; border-radius:3px;
+    cursor:pointer; text-transform:uppercase;
+  }
+  .start-btn:hover{background:var(--teal-dark);}
+
+  .section-tag{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--clay); margin-bottom:8px; display:block;
+  }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:4px;
+    padding:24px 24px 20px; margin-bottom:18px;
+  }
+  .qtext{font-size:18px; line-height:1.42; margin:0 0 18px; font-weight:600;}
+  .ref{font-family:var(--mono); font-size:11px; color:var(--muted); margin:-12px 0 16px;}
+  .opts{display:grid; gap:8px;}
+  .opt{
+    text-align:left; border:1px solid var(--line); background:#fff; border-radius:4px;
+    padding:12px 14px; font-family:var(--serif); font-size:15px; cursor:pointer; color:var(--ink);
+    line-height:1.4; transition:border-color .15s, background .15s;
+  }
+  .opt:hover{border-color:var(--teal);}
+  .opt.selected{border-color:var(--teal); background:#eef4f2;}
+  .opt.correct{border-color:var(--ok); background:#eaf5ee; font-weight:600;}
+  .opt.incorrect{border-color:var(--bad); background:#faeae7;}
+  .opt:disabled{cursor:default;}
+  .opt .letter{font-family:var(--mono); color:var(--muted); margin-right:8px;}
+
+  .explain{
+    margin-top:16px; padding:14px 16px; border-left:3px solid var(--teal);
+    background:#f0f2ea; font-size:14.5px; line-height:1.55; display:none;
+  }
+  .explain.show{display:block;}
+  .explain b{color:var(--teal-dark);}
+
+  .nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:16px;}
+  .next-btn{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.04em;
+    background:var(--ink); color:#fff; border:none; padding:10px 18px; border-radius:3px;
+    cursor:pointer; opacity:0; pointer-events:none; transition:opacity .2s;
+  }
+  .next-btn.show{opacity:1; pointer-events:auto;}
+  .next-btn:hover{background:var(--teal-dark);}
+  .skip-link{font-family:var(--mono); font-size:11px; color:var(--muted); background:none; border:none; cursor:pointer; text-decoration:underline;}
+
+  #results{display:none; background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:26px;}
+  #results h2{margin-top:0;}
+  .score-big{font-family:var(--mono); font-size:44px; color:var(--teal-dark); font-weight:700; margin:6px 0 2px;}
+  .score-sub{color:var(--muted); font-size:13.5px; margin-bottom:20px;}
+  .missed-item{
+    border-top:1px solid var(--line); padding:12px 0; font-size:14px;
+  }
+  .missed-item .q{font-weight:600; margin-bottom:4px;}
+  .missed-item .a{color:var(--ok); font-size:13.5px;}
+  .restart-btn{margin-top:20px;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <span class="label">NURS 5312 · Psychopharmacology</span>
+      <h1>Exam 4 Review — Ch. 10–13</h1>
+    </div>
+    <div class="rx">Sleep · Dementia · Impulsivity<br>ADHD · Addiction · Eating d/o · OCD</div>
+  </header>
+
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0 / 0</div>
+  </div>
+
+  <div id="setup">
+    <h2>Every line item from Dr. Vela's Exam 4 notes, as a question.</h2>
+    <p>48 questions built directly from her study guide, cross-referenced against Stahl's Essential Psychopharmacology (5th ed.), covering:</p>
+    <ul class="section-list" id="sectionList"></ul>
+    <button class="start-btn" onclick="startQuiz()">Begin Review →</button>
+  </div>
+
+  <div id="quizArea" class="hidden"></div>
+
+  <div id="results">
+    <h2>Session complete</h2>
+    <div class="score-big" id="scoreBig">–</div>
+    <div class="score-sub" id="scoreSub"></div>
+    <div id="missedList"></div>
+    <button class="start-btn restart-btn" onclick="location.reload()">Restart from beginning</button>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+// ===================== SLEEP & WAKEFULNESS =====================
+{s:"Sleep & Wakefulness", ref:"p.439, Fig 10-54", q:"A blind patient reports irregular, unpredictable sleep and wake times with both insomnia and daytime sleepiness. Which condition and treatment fit?",
+ o:["Advanced sleep phase disorder — treat with bright light therapy in the evening","Non-24-hour sleep-wake disorder — treat with tasimelteon","Delayed sleep phase disorder — treat with morning light exposure","REM sleep behavior disorder — treat with clonazepam"], c:1,
+ e:"<b>Non-24-hour sleep-wake disorder</b> occurs mainly in blind patients because light can't travel the retinohypothalamic tract to reset the suprachiasmatic nucleus. Without that daily reset, the body clock 'free-runs.' <b>Tasimelteon</b> activates MT1/MT2 melatonin receptors to re-synchronize the clock."},
+
+{s:"Sleep & Wakefulness", ref:"p.439", q:"Melatonin receptor MT2 is primarily responsible for which function?",
+ o:["Promoting sleep onset","Shifting/resetting the timing of the whole sleep-wake cycle","Blocking histamine to allow sleep","Stabilizing wakefulness once it begins"], c:1,
+ e:"<b>MT1</b> calms the body clock's alerting signal → promotes sleep onset. <b>MT2</b> shifts the timing of the entire cycle — this is why tasimelteon (an MT1/MT2 agonist) can re-synchronize a free-running clock."},
+
+{s:"Sleep & Wakefulness", ref:"p.428", q:"Low-dose trazodone and low-dose doxepin promote sleep primarily through which mechanism?",
+ o:["Agonism at GABA-A receptors","Blocking serotonin and histamine receptors that maintain wakefulness","Agonism at melatonin MT1/MT2 receptors","Antagonism of orexin receptors"], c:1,
+ e:"Trazodone and doxepin at low doses work by <b>blocking the serotonin (5HT2A) and histamine (H1) receptors</b> that keep a person awake — removing the 'wake' signal rather than adding a 'sleep' signal. Contrast with suvorexant/lemborexant, which directly block orexin."},
+
+{s:"Sleep & Wakefulness", ref:"p.402", q:"Which five neurotransmitters actively promote wakefulness (page 402)?",
+ o:["GABA, glycine, adenosine, melatonin, orexin","Histamine, dopamine, norepinephrine, acetylcholine, serotonin","Glutamate, GABA, dopamine, orexin, histamine","Serotonin, GABA, melatonin, acetylcholine, glutamate"], c:1,
+ e:"The five wake-promoting neurotransmitters are <b>histamine, dopamine, norepinephrine, acetylcholine, and serotonin</b>. Orexin doesn't initiate wakefulness — it <b>stabilizes</b> it once started (prevents flickering between states). GABA does the opposite job, promoting sleep."},
+
+{s:"Sleep & Wakefulness", ref:"p.402", q:"A patient's untreated illness is causing hypersomnia. What is the correct first step?",
+ o:["Start a stimulant to counteract the daytime sleepiness","Identify and treat the underlying cause before considering wake-promoting medication","Begin modafinil while the workup is pending","Refer directly for a sleep study without treating anything first"], c:1,
+ e:"Medication is <b>not</b> the first option for hypersomnia. Underlying causes (poor sleep habits, obstructive sleep apnea, undiagnosed medical illness) must be ruled out/treated first. Idiopathic hypersomnia and narcolepsy specifically require a sleep study to confirm diagnosis before any wake-promoting medication is started."},
+
+{s:"Sleep & Wakefulness", ref:"p.435", q:"For restless legs syndrome (RLS), which treatment approach is correct?",
+ o:["Treat underlying causes first (e.g., iron deficiency); gabapentin (or gabapentinoids) is a recommended option; antihistamines and dopamine agonists should be avoided/are not recommended","Antihistamines are first-line since they promote sedation and reduce leg discomfort","Dopamine agonists are the preferred first-line treatment with no other workup needed","Benzodiazepines are the only recommended treatment class"], c:0,
+ e:"Underlying/reversible causes (e.g., iron deficiency) should be identified and treated <b>first</b>. <b>Gabapentin</b> (or other gabapentinoids) is a recommended treatment option. <b>Antihistamines</b> should be avoided — they can worsen RLS symptoms — and <b>dopamine agonists</b> are also not recommended (long-term use is associated with augmentation, where symptoms actually worsen over time). Stahl's chapter itself frames RLS mainly as a differential to rule out during insomnia/hypersomnia workup via sleep study, but know these specific drug dos/don'ts from your course material for the exam."},
+
+{s:"Sleep & Wakefulness", ref:"p.422", q:"How do 'Z-drugs' (zolpidem, zaleplon, eszopiclone) differ from benzodiazepines at the GABA-A receptor?",
+ o:["Z-drugs bind the same site as GABA itself, benzodiazepines bind an allosteric site","Both bind the identical site with identical subunit selectivity","Z-drugs are positive allosteric modulators like benzodiazepines, but zolpidem/zaleplon are selective for the alpha-1 subunit, while eszopiclone/zopiclone bind alpha-1, -2, -3, and -5 like benzodiazepines","Z-drugs are full GABA-A antagonists"], c:2,
+ e:"Both classes are <b>positive allosteric modulators</b> at an allosteric site (distinct from GABA's own binding site). <b>Zolpidem/zaleplon</b> are selective for <b>alpha-1</b> only. <b>Eszopiclone/zopiclone</b> are nonselective, binding alpha-1, -2, -3, and -5 — just like benzodiazepines."},
+
+{s:"Sleep & Wakefulness", ref:"table, ch.10", q:"Activation of the alpha-1 GABA-A subunit is most associated with which effect?",
+ o:["Anti-anxiety and muscle relaxation","Sedation, anticonvulsant action, and amnesia — linked to tolerance/dependence","Hippocampal/cognitive effects only","Steady tonic inhibition outside the synapse"], c:1,
+ e:"<b>Alpha-1</b> = sedation, anticonvulsant effect, amnesia, and is most linked to tolerance/dependence. Alpha-2/3 = anxiolysis + muscle relaxation. Alpha-5 = mostly hippocampal/cognitive. The extrasynaptic delta-subunit receptor gives constant tonic inhibition and does NOT respond to benzos or Z-drugs at all."},
+
+{s:"Sleep & Wakefulness", ref:"p.428-429", q:"What is the clinically important concept behind the 'Goldilocks' idea for hypnotic half-life?",
+ o:["Longer half-life is always better for sleep maintenance","What matters is how long the drug stays above the sleep threshold, not raw half-life on paper — too short risks early awakening, too long risks next-day hangover/impairment","Only the drug's peak concentration matters, not duration","Half-life has no clinical relevance for hypnotics"], c:1,
+ e:"Ultra-long acting agents (flurazepam, quazepam) build up over nights → next-day impairment/fall risk in elderly. Short-acting agents (triazolam, zaleplon) wear off before wake time → can't maintain sleep. The 'Goldilocks' ideal (~8h: eszopiclone, ER zolpidem, suvorexant, low-dose trazodone/doxepin) covers the night without hangover."},
+
+{s:"Sleep & Wakefulness", ref:"p.402", q:"On the arousal spectrum described in the text, what happens at the extreme of too much arousal?",
+ o:["Confusion progressing to sleep","On edge → insomnia → panic → (extreme) hallucinations/psychosis","Steady, calm wakefulness with no symptoms","Immediate loss of consciousness"], c:1,
+ e:"Sleep and wake sit on one continuous spectrum. Too little arousal → inattentive → confused → sleepy → asleep. Too much arousal → on edge → insomnia → panic → in the extreme, hallucinations/psychosis. Regulated by histamine, dopamine, norepinephrine, serotonin, acetylcholine, GABA, and orexin."},
+
+{s:"Sleep & Wakefulness", ref:"p.439", q:"The suprachiasmatic nucleus (SCN) is best described as:",
+ o:["The site where orexin is synthesized","The brain's master body clock, reset daily by light via the retinohypothalamic tract, with melatonin acting on it via MT1/MT2","The primary site of acetylcholine release for arousal","A relay nucleus exclusively for pain signaling"], c:1,
+ e:"The SCN is the <b>master circadian clock</b>. Light travels the retinohypothalamic tract to reset it daily to a 24-hour cycle. Melatonin acts here: MT1 → sleep onset, MT2 → shifts the timing of the cycle."},
+
+// ===================== ALZHEIMER'S / DEMENTIA =====================
+{s:"Alzheimer's & Dementia", ref:"p.497-498", q:"Which enzymatic pathway produces the toxic amyloid-beta fragments implicated in Alzheimer's disease?",
+ o:["The non-amyloidogenic pathway via alpha-secretase","The amyloidogenic pathway via beta-secretase then gamma-secretase","Direct cleavage by acetylcholinesterase","The tau-phosphorylation pathway"], c:1,
+ e:"Amyloid precursor protein (APP) can be cut two ways. <b>Non-amyloidogenic</b> (alpha-secretase) cuts through the harmful region — no toxic fragment. <b>Amyloidogenic</b> (beta-secretase → gamma-secretase) produces toxic amyloid-beta fragments (Aβ40, 42, 43)."},
+
+{s:"Alzheimer's & Dementia", ref:"p.497-499", q:"Which amyloid-beta fragment is considered the most damaging due to its propensity to clump into plaques?",
+ o:["Amyloid-beta 40 — most common, least likely to clump","Amyloid-beta 42 — more prone to clumping, considered more damaging","Amyloid-beta 38 — rare but stable","Amyloid-beta 41 — intermediate risk, rarely studied"], c:1,
+ e:"Aβ40 is the most common fragment but LEAST likely to aggregate. <b>Aβ42</b> is more prone to clumping into plaques and considered more damaging. Aβ43 is rare but clumps most easily of all three."},
+
+{s:"Alzheimer's & Dementia", ref:"p.499", q:"A patient carries two copies of the ApoE4 allele. What does this mean for Alzheimer's risk?",
+ o:["ApoE4 is protective against Alzheimer's disease","One copy confers roughly 3x risk; two copies confer roughly 10x risk, and ApoE4 is also less efficient at clearing amyloid-beta","ApoE4 has no known association with Alzheimer's risk","ApoE4 only affects vascular dementia risk, not Alzheimer's"], c:1,
+ e:"ApoE is the strongest known genetic risk factor for late-onset Alzheimer's. <b>ApoE4</b>: 1 copy ≈ 3x risk, 2 copies ≈ 10x risk, and it clears amyloid-beta less efficiently. <b>ApoE2</b> is protective. <b>ApoE3</b> is the most common allele, intermediate risk."},
+
+{s:"Alzheimer's & Dementia", ref:"p.488-490", q:"Alzheimer's disease is pathologically characterized by which combination of findings?",
+ o:["Lewy bodies and dopaminergic neuron loss","Amyloid-beta plaques, neurofibrillary tau tangles, and significant neuron loss/brain atrophy","White-matter hyperintensities from cerebrovascular disease alone","Alpha-synuclein aggregates exclusively"], c:1,
+ e:"The defining pathology triad: <b>amyloid-beta plaques</b>, <b>neurofibrillary tangles</b> (hyperphosphorylated tau detached from microtubules), and <b>significant neuron loss</b> with brain atrophy/enlarged ventricles in advanced disease. A definitive diagnosis is technically only confirmed at autopsy."},
+
+{s:"Alzheimer's & Dementia", ref:"p.505-506", q:"The 'cholinergic hypothesis' of Alzheimer's disease proposes that:",
+ o:["Excess acetylcholine directly causes amyloid plaque formation","Early loss of acetylcholine-releasing neurons explains the earliest memory symptoms, even though most postsynaptic receptors remain intact","Acetylcholine receptors are destroyed before the presynaptic neurons that release it","Dopamine loss is the primary driver of memory symptoms"], c:1,
+ e:"Early loss of ACh-releasing neurons is thought to drive the earliest memory symptoms as MCI progresses to dementia. Importantly, most <b>receptors</b> that respond to acetylcholine remain intact even as the presynaptic neurons die — which is exactly why boosting ACh pharmacologically (cholinesterase inhibitors) still works clinically."},
+
+{s:"Alzheimer's & Dementia", ref:"p.523", q:"Before initiating any medication for agitation in a dementia patient, what should be done first?",
+ o:["Start a low-dose antipsychotic immediately to prevent escalation","Rule out and treat reversible causes — untreated pain, medication side effects, nicotine withdrawal, undiagnosed illness/infection, or an over/under-stimulating environment","Order genetic ApoE testing","Begin memantine as a first-line agitation treatment"], c:1,
+ e:"Step 1 is always ruling out/treating <b>reversible causes</b>: untreated pain (patients often can't verbalize it — agitation may be the only clue), medication side effects, nicotine withdrawal, undiagnosed medical/neurological illness, or environmental mismatch. Non-pharmacologic strategies come next; medication is reserved for danger to self/others after these steps."},
+
+{s:"Alzheimer's & Dementia", ref:"p.523-524", q:"Which medication is currently the only one FDA-approved specifically for agitation associated with Alzheimer's dementia?",
+ o:["Quetiapine","Risperidone","Brexpiprazole","Haloperidol"], c:2,
+ e:"<b>Brexpiprazole (Rexulti)</b> is the only medication FDA-approved specifically for Alzheimer's-related dementia agitation (an approval that came after Stahl's 2021 text was published — know this update). Older off-label options (risperidone, olanzapine, aripiprazole, haloperidol) are still tested; quetiapine is specifically NOT one of the typically recommended off-label choices. All dopamine-blockers carry a black-box warning for increased mortality in elderly dementia patients."},
+
+{s:"Alzheimer's & Dementia", ref:"p.528", q:"Donepezil (Aricept) improves cognitive symptoms in Alzheimer's disease by which mechanism?",
+ o:["Blocking NMDA glutamate receptors","Reversibly inhibiting acetylcholinesterase, allowing acetylcholine to accumulate and act longer at synapses","Directly stimulating dopamine D2 receptors","Blocking both acetylcholinesterase and butyrylcholinesterase"], c:1,
+ e:"Donepezil <b>reversibly blocks acetylcholinesterase</b>, letting ACh build up and stay active longer at neuronal connections. It is selective for acetylcholinesterase only (does not affect butyrylcholinesterase) — that distinguishes it from rivastigmine, which blocks both. GI side effects occur because acetylcholinesterase is also active in the gut."},
+
+{s:"Alzheimer's & Dementia", ref:"cholinesterase comparison", q:"Which cholinesterase inhibitor has a dual mechanism, also directly boosting nicotinic receptor activity as a positive allosteric modulator?",
+ o:["Donepezil","Rivastigmine","Galantamine","Memantine"], c:2,
+ e:"<b>Galantamine</b> both blocks acetylcholinesterase AND acts as a positive allosteric modulator at nicotinic receptors. <b>Rivastigmine</b> blocks both acetylcholinesterase and butyrylcholinesterase. <b>Memantine</b> isn't a cholinesterase inhibitor at all — it's a low-affinity NMDA antagonist ('artificial magnesium') used for moderate-to-severe disease, often combined with a cholinesterase inhibitor since the two target different systems."},
+
+{s:"Alzheimer's & Dementia", ref:"differential", q:"A patient has fluctuating cognition, prominent visual hallucinations (more than delusions), and parkinsonism. Which dementia type is most likely?",
+ o:["Alzheimer's disease","Vascular dementia","Dementia with Lewy bodies","Frontotemporal dementia"], c:2,
+ e:"<b>Dementia with Lewy bodies</b>: visual hallucinations more common than delusions, fluctuating cognition, parkinsonism, alpha-synuclein aggregates. Contrast with Alzheimer's (memory loss primary, delusions > hallucinations), vascular (stepwise decline, cardiovascular risk factors), and frontotemporal (personality/behavior change or language impairment, often younger onset)."},
+
+{s:"Alzheimer's & Dementia", ref:"cholinergic pathways", q:"Which cholinergic pathway is most tied to memory and most affected in Alzheimer's disease?",
+ o:["Brainstem projections to the thalamus and hypothalamus","Basal forebrain projections to prefrontal cortex, amygdala, and hippocampus","Nigrostriatal dopamine projections","Mesolimbic dopamine projections"], c:1,
+ e:"Cholinergic neurons arise from two sources: the <b>brainstem</b> (broad projections) and the <b>basal forebrain</b> (projects to PFC, amygdala, hippocampus). The basal forebrain pathway is most tied to memory and most affected in Alzheimer's disease."},
+
+// ===================== IMPULSIVITY & COMPULSIVITY =====================
+{s:"Impulsivity & Compulsivity", ref:"p.538", q:"How are impulsivity and compulsivity differentiated in terms of circuitry and behavior?",
+ o:["Impulsivity = can't stop STARTING an action (ventral striatum→thalamus→vmPFC/ACC loop); compulsivity = can't stop an action once STARTED (dorsal striatum→thalamus→OFC loop)","Impulsivity and compulsivity use identical circuits with no meaningful distinction","Compulsivity always precedes impulsivity developmentally","Impulsivity only involves the amygdala; compulsivity only involves the hippocampus"], c:0,
+ e:"<b>Impulsivity</b>: rapid action without forethought, smaller-reward-now bias, can't stop starting — bottom-up loop (ventral striatum → thalamus → vmPFC/ACC → back to ventral striatum). <b>Compulsivity</b>: repeating a purposeless behavior to avoid discomfort, can't stop once started — loop (dorsal striatum → thalamus → OFC). Impulsivity can TRANSITION into compulsivity as behavior becomes habit — the mechanism underlying addiction."},
+
+{s:"Impulsivity & Compulsivity", ref:"reward pathway", q:"The 'final common pathway' for reward across all drugs of abuse is the:",
+ o:["Nigrostriatal dopamine pathway","Mesolimbic dopamine pathway (VTA → nucleus accumbens)","Tuberoinfundibular dopamine pathway","Mesocortical pathway alone"], c:1,
+ e:"The <b>mesolimbic pathway</b> (ventral tegmental area → nucleus accumbens) is the shared final common pathway for reward. Natural rewards (food, sex) give steady 'tonic' dopamine release; drugs of abuse trigger explosive 'phasic' bursts the brain can never fully replicate again — part of why cravings persist."},
+
+{s:"Impulsivity & Compulsivity", ref:"striatum", q:"As addiction progresses from early, voluntary drug use to late, automatic habitual use, control shifts from:",
+ o:["Dorsal striatum to ventral striatum","Ventral striatum (nucleus accumbens) to dorsal striatum","Prefrontal cortex to amygdala only","Hippocampus to cerebellum"], c:1,
+ e:"<b>Ventral striatum (nucleus accumbens)</b> = impulsivity, reward-seeking, voluntary/goal-directed use — EARLY addiction. <b>Dorsal striatum</b> = compulsivity, automatic habit — LATE, established addiction. This same ventral→dorsal shift also explains the progression of agitation in dementia and the pathology of OCD (in reverse, successful ERP shifts control back toward ventral)."},
+
+{s:"Impulsivity & Compulsivity", ref:"high-yield fact", q:"Violence is categorized into three types. Which is most common, and which is least common but most severe/treatment-resistant?",
+ o:["Psychotic most common (~63%); impulsive least common (~17%)","Impulsive most common (~63%); psychopathic least common (~17%) but most severe and least responsive to treatment","Psychopathic most common (~63%); psychotic least common (~17%)","All three types occur with roughly equal frequency"], c:1,
+ e:"<b>Impulsive violence</b> is most common (~63%). <b>Psychotic violence</b> is next (~20%). <b>Psychopathic violence</b> is least common (~17%) but the most severe and least responsive to treatment — worth memorizing the ranking and the fact that rarity doesn't mean lower severity here."},
+
+// ===================== ADHD =====================
+{s:"ADHD", ref:"p.449-450", q:"ADHD is best understood as a disorder of:",
+ o:["A single global cognitive deficiency affecting the entire brain equally","Inefficient information processing in specific prefrontal cortex circuits","Primary basal ganglia motor dysfunction","Cerebellar signal delay"], c:1,
+ e:"ADHD arises from <b>inefficient processing in specific prefrontal circuits</b>, not one uniform global deficit. Core triad: inattention, hyperactivity, impulsivity. Diagnostic criteria require symptoms before age 12, persisting ≥6 months, in ≥2 settings, causing significant functional impairment."},
+
+{s:"ADHD", ref:"Fig 11-2, p.450", q:"Match the brain region to its associated ADHD symptom: which region is linked to impulsivity (interrupting, trouble waiting one's turn)?",
+ o:["Dorsolateral prefrontal cortex","Dorsal anterior cingulate cortex","Orbitofrontal cortex","Prefrontal motor cortex"], c:2,
+ e:"<b>Orbitofrontal cortex</b> → impulsivity. <b>Dorsolateral PFC</b> → sustained attention/problem-solving (tested via n-back). <b>Dorsal ACC</b> → selective attention, careless mistakes (tested via Stroop test). <b>Prefrontal motor cortex</b> → hyperactivity/fidgeting."},
+
+{s:"ADHD", ref:"Fig 11-12, p.457", q:"In the prefrontal cortex signal-to-noise model of ADHD, what roles do norepinephrine and dopamine play?",
+ o:["Norepinephrine reduces noise; dopamine strengthens signal","Norepinephrine strengthens the signal via alpha-2A receptors (closing an HCN channel gate); dopamine reduces background noise via D1 receptors (opening the same gate)","Both work identically through the same receptor with no distinct roles","Neither neurotransmitter affects the HCN channel"], c:1,
+ e:"<b>Norepinephrine</b> = 'the signal' — binds alpha-2A receptors, CLOSES the HCN channel gate, strengthens signal. <b>Dopamine</b> = 'the noise-reducer' — binds D1 receptors, OPENS the same gate; too much dopamine can let the signal leak out and get lost. The PFC needs both at an inverted-U-shaped optimum — in ADHD, both are too LOW, giving weak signal + high noise."},
+
+{s:"ADHD", ref:"med table", q:"Guanfacine treats ADHD through which mechanism, and how does it differ from clonidine?",
+ o:["It blocks the norepinephrine transporter; it's less selective than clonidine","It directly activates alpha-2A receptors, mimicking norepinephrine to close the HCN gate; it is 15–60x more selective for alpha-2A than clonidine, causing less sedation/BP drop","It is a stimulant with high abuse potential, unlike clonidine","It blocks dopamine reuptake selectively in the nucleus accumbens"], c:1,
+ e:"Guanfacine directly <b>activates alpha-2A receptors</b> (mimicking norepinephrine, closing the HCN gate to strengthen signaling). It's 15–60x more alpha-2A-selective than clonidine → less sedation and less BP drop. Non-stimulant; no black-box warning; works well when oppositional symptoms are present."},
+
+{s:"ADHD", ref:"med table", q:"Why does atomoxetine raise both norepinephrine AND dopamine in the prefrontal cortex, but NOT produce a 'high' via the nucleus accumbens?",
+ o:["It only binds receptors present in the PFC and nowhere else in the brain","In the PFC there are very few dopamine transporters, so the norepinephrine transporter clears dopamine there too — blocking NET raises both; in the nucleus accumbens, plentiful dopamine transporters mean atomoxetine doesn't raise dopamine there","It is metabolized before reaching the nucleus accumbens","It selectively destroys dopamine transporters in the PFC only"], c:1,
+ e:"The PFC has very few dopamine transporters, so the <b>norepinephrine transporter</b> does double duty clearing dopamine there — blocking NET (atomoxetine's mechanism) raises both NE and dopamine, but only in the PFC. In the nucleus accumbens, plenty of dopamine transporters exist, so atomoxetine doesn't raise dopamine there → no high, low misuse potential. Atomoxetine carries a <b>black-box warning</b> for suicidal thinking risk in children/adolescents and takes 2–4 weeks for full effect."},
+
+{s:"ADHD", ref:"med table", q:"Bupropion's off-label use in ADHD works via which mechanism, and what safety consideration applies?",
+ o:["Selective serotonin reuptake inhibition; risk of serotonin syndrome","Norepinephrine-dopamine reuptake inhibition (NDRI); lowers seizure threshold, use caution","Pure dopamine agonism; high abuse potential","GABA-A positive allosteric modulation; risk of respiratory depression"], c:1,
+ e:"Bupropion is an <b>NDRI</b> (blocks reuptake of both norepinephrine and dopamine), used off-label for ADHD especially with comorbid depression or for smoking cessation. No specific ADHD black-box warning, but it <b>lowers seizure threshold</b> — use caution."},
+
+{s:"ADHD", ref:"stimulant prodrug", q:"Lisdexamfetamine (Vyvanse) has lower misuse potential than immediate-release amphetamine primarily because:",
+ o:["It is a weaker molecule overall with less receptor affinity","It's an inactive prodrug attached to lysine; enzymes must gradually cleave off the lysine to release active amphetamine, avoiding a sudden dopamine spike","It never crosses the blood-brain barrier","It only activates D2 receptors, not D1"], c:1,
+ e:"Vyvanse is chemically inactive until enzymes in the stomach/red blood cells <b>cleave off the lysine</b> molecule, gradually releasing active amphetamine. This built-in delay smooths and lengthens the effect, avoiding the sudden dopamine spikes that drive euphoria/abuse — unlike methylphenidate, which physically plugs the dopamine transporter in the nucleus accumbens and can cause a rapid 'high' if misused via fast-onset routes."},
+
+{s:"ADHD", ref:"comorbidity", q:"A patient has ADHD, generalized anxiety, and an active alcohol use disorder. What is the recommended treatment sequencing?",
+ o:["Treat ADHD first with stimulants to improve function, then address anxiety and substance use","Stabilize the substance use disorder first, then mood disorders, then anxiety, then nicotine dependence, treating ADHD last","Treat all conditions simultaneously with a single combination medication","Treat anxiety first, then ADHD, then substance use last"], c:1,
+ e:"Treatment order for ADHD with comorbid conditions follows clinical significance: <b>substance/alcohol abuse first</b> (stabilize), then mood disorders, then anxiety disorders, then nicotine dependence — ADHD is often treated <b>last</b> in adults to ensure mood/substance stability first. For ADHD + anxiety specifically, non-stimulants (atomoxetine, guanfacine) are generally favored since stimulants can worsen anxiety."},
+
+{s:"ADHD", ref:"neurochemistry", q:"Which two neurotransmitters are primarily implicated in ADHD pathophysiology?",
+ o:["Serotonin and GABA","Dopamine and norepinephrine","Acetylcholine and glutamate","Histamine and orexin"], c:1,
+ e:"ADHD reflects inefficient prefrontal cortex 'tuning' by <b>dopamine and norepinephrine</b> — both are too low, producing weak signal and high noise on the inverted-U curve of PFC function."},
+
+// ===================== ADDICTION TREATMENT =====================
+{s:"Addiction Treatment", ref:"p.560", q:"What is the single most important step before administering the first dose of buprenorphine?",
+ o:["Confirm the patient has a negative urine drug screen for all substances","Confirm the patient is already in mild-to-moderate opioid withdrawal, typically assessed with the COWS scale ~12-16 hours after last use","Give the first dose immediately upon presentation regardless of withdrawal status","Co-administer methadone for the first 24 hours"], c:1,
+ e:"The patient MUST already be in <b>mild-to-moderate withdrawal</b> before the first dose, confirmed via the <b>COWS scale</b> (Clinical Opiate Withdrawal Scale), typically ~12-16 hours after last opioid use. Dosing too early forcefully displaces the full opioid from the receptor while only partially activating it → precipitated, severe withdrawal. Buprenorphine and methadone are never given together or from the same clinic."},
+
+{s:"Addiction Treatment", ref:"p.560", q:"Why is naloxone combined with buprenorphine in Suboxone?",
+ o:["To boost buprenorphine's analgesic effect","Naloxone is inactive when taken sublingually as prescribed, but becomes fully active if the product is injected, precipitating withdrawal and discouraging misuse","To extend buprenorphine's half-life","To reduce hepatotoxicity"], c:1,
+ e:"Naloxone acts as a misuse deterrent — the 'naloxone guard.' It's essentially inactive sublingually (poor absorption) as prescribed, but fully active if injected, which precipitates withdrawal and discourages diversion/misuse. Buprenorphine itself is a partial mu-agonist with a ceiling effect, lowering respiratory depression risk versus full agonists like methadone."},
+
+{s:"Addiction Treatment", ref:"naltrexone", q:"How does naltrexone reduce the rewarding effect of alcohol?",
+ o:["It blocks GABA-A receptors directly","Alcohol releases endogenous opioids that bind mu-receptors on VTA GABA neurons, releasing dopamine's 'brake'; naltrexone occupies those receptors first, keeping the brake on and preventing the dopamine surge","It increases glutamate to counteract alcohol's sedative effect","It directly blocks alcohol absorption in the gut"], c:1,
+ e:"Drinking releases endogenous opioids that bind mu-receptors on GABA neurons in the VTA. Those GABA neurons normally 'brake' dopamine release — endogenous opioids release that brake, flooding the nucleus accumbens with dopamine (the 'high'). <b>Naltrexone</b> occupies those mu-receptors first, so the brake stays on — no dopamine surge, no reward. It's a full mu-opioid antagonist used for both opioid AND alcohol use disorder; patients must be opioid-free 7-10 days first to avoid precipitated withdrawal, and it blocks the effect of typical opioid pain medications (medical alert bracelet advised)."},
+
+{s:"Addiction Treatment", ref:"acamprosate", q:"Acamprosate helps prevent relapse in alcohol use disorder mainly by:",
+ o:["Blocking the rewarding 'high' via mu-opioid antagonism, like naltrexone","Acting like 'artificial alcohol' — mild NMDA antagonism plus GABA agonism to rebalance the glutamate excess/GABA deficit left after chronic drinking stops","Acting as a full opioid agonist to prevent withdrawal","Directly increasing dopamine release in the nucleus accumbens"], c:1,
+ e:"Chronic alcohol use causes the brain to raise glutamate and lower GABA to compensate. When drinking stops, that leaves excess glutamate + GABA deficit → anxiety, insomnia, restlessness that drive relapse. <b>Acamprosate</b> rebalances this via mild NMDA antagonism + GABA agonism, working best AFTER initial sobriety (not during active drinking) — this is a different mechanism than naltrexone, which blocks the reward itself."},
+
+{s:"Addiction Treatment", ref:"p.551", q:"Varenicline aids smoking cessation through which mechanism?",
+ o:["Full antagonist at alpha-4 beta-2 nicotinic receptors, completely blocking nicotine's effect","Partial agonist at alpha-4 beta-2 nicotinic receptors — partially activates the receptor to reduce both rewarding dopamine release and withdrawal symptoms","Selective serotonin reuptake inhibition","NMDA receptor antagonism, similar to memantine"], c:1,
+ e:"<b>Varenicline</b> is a partial agonist at alpha-4 beta-2 nicotinic receptors — more activation than a pure blocker, less than nicotine itself. This reduces the rewarding dopamine release (competing with nicotine) AND reduces withdrawal (via partial activation). It roughly triples/quadruples the 1-year quit rate vs. placebo, though only ~10% remain smoke-free at 1 year. Nicotine itself acts on alpha-4 beta-2 receptors in the VTA, directly triggering dopamine release."},
+
+{s:"Addiction Treatment", ref:"withdrawal table", q:"Compared to morphine/heroin withdrawal, methadone withdrawal is:",
+ o:["More intense and shorter in duration","Less intense but longer-lasting, reflecting methadone's long and variable half-life (roughly 8-59 hours)","Identical in intensity and duration","Not associated with any withdrawal syndrome"], c:1,
+ e:"Morphine/heroin withdrawal peaks at 36-72 hrs and lasts 7-10 days — most intense, shortest-lasting. <b>Methadone</b> withdrawal peaks later (72-96 hrs) and lasts 14+ days — <b>less intense but longer-lasting</b>, because methadone's half-life (8-59 hrs) is long and variable and can accumulate. Buprenorphine withdrawal falls in between (~72 hr peak, ~1 week duration, less intense than morphine/heroin)."},
+
+{s:"Addiction Treatment", ref:"big picture", q:"Regarding the treatment gap in opioid use disorder, which statement is accurate?",
+ o:["The majority of opioid use disorder patients currently receive medication-assisted treatment (MAT)","Fewer than 10% of opioid use disorder patients ever receive MAT, despite MAT efficacy rates comparable to or better than treatments for other chronic diseases like hypertension or diabetes","MAT is only modestly effective, comparable to placebo","Opioid use disorder affects more Americans than alcohol use disorder"], c:1,
+ e:"Roughly 21 million Americans meet criteria for a substance use disorder (~15 million alcohol, ~3 million opioid). Despite effective treatments, <b>fewer than 10% of opioid use disorder patients ever receive MAT</b> — a systems failure, not a patient failure, given that MAT efficacy is comparable to or better than treatment for other chronic diseases like hypertension or diabetes."},
+
+// ===================== EATING DISORDERS =====================
+{s:"Eating Disorders", ref:"p.575", q:"Which medication is the only one FDA-approved for binge eating disorder, and what is its mechanism in this context?",
+ o:["Naltrexone — blocks the reward pathway directly","Lisdexamfetamine (Vyvanse) — works through striatal neuroplasticity rather than appetite suppression","Topiramate — works purely through appetite suppression","Bupropion — approved specifically for binge eating disorder"], c:1,
+ e:"<b>Lisdexamfetamine (Vyvanse)</b> is the only FDA-approved medication for binge eating disorder. It works through <b>striatal neuroplasticity</b>, not appetite suppression — appetite no longer drives the eating once it has become compulsive. Binge eating disorder develops through the same ventral→dorsal striatum shift seen in substance addiction, making it the clearest example of a behavioral addiction. ~80% of patients have a co-occurring mood, anxiety, substance use, or ADHD diagnosis."},
+
+{s:"Eating Disorders", ref:"comorbidity", q:"What proportion of binge eating disorder patients also meet criteria for a mood disorder, anxiety disorder, substance use disorder, or ADHD?",
+ o:["About 20%","About 50%","About 80%","Nearly 100%, with no exceptions"], c:2,
+ e:"About <b>80%</b> of binge eating disorder patients also meet criteria for a mood disorder, anxiety disorder, substance use disorder, or ADHD. This high comorbidity means binge eating should be screened for in any patient presenting with these conditions — it's commonly under-recognized despite effective treatment (lisdexamfetamine) existing."},
+
+// ===================== OCD =====================
+{s:"OCD & Related Disorders", ref:"p.577", q:"What is the correct first-line treatment approach for OCD, and how does SSRI dosing/timeline differ from depression?",
+ o:["Low-dose SSRI, response expected in 4-6 weeks, same as depression","Exposure and response prevention (ERP) and/or high-dose SSRI, with response typically taking 8-12 weeks (longer than the 4-6 weeks in depression)","Benzodiazepines as first-line monotherapy","Antipsychotic monotherapy without SSRIs or therapy"], c:1,
+ e:"First-line for OCD is <b>ERP therapy and/or a high-dose SSRI</b> (sertraline, fluoxetine, fluvoxamine, or paroxetine) — OCD requires MUCH higher SSRI doses than depression, and response takes longer (8-12 weeks vs. 4-6 weeks). OCD reflects a hyperactive/'sticky' cortico-striato-thalamo-cortical loop (OFC, ACC, caudate/dorsal striatum, thalamus) where top-down prefrontal inhibition is weakened. Serotonin quiets this loop (why SSRIs work), dopamine acts as an accelerator, and glutamate maintains the hyperactive state. ERP itself works by shifting control from dorsal back toward ventral striatum — its benefits persist after therapy ends, suggesting it reverses the abnormal circuitry rather than masking symptoms."},
+
+{s:"OCD & Related Disorders", ref:"OCD vs OCPD", q:"How is OCD distinguished from Obsessive-Compulsive Personality Disorder (OCPD)?",
+ o:["OCD is ego-syntonic; OCPD is ego-dystonic","OCD is ego-dystonic (patient is distressed by, and recognizes as irrational, their own thoughts/behaviors); OCPD is ego-syntonic (rigid traits align with self-image, a Cluster C personality disorder)","Both are identical conditions with different names","OCPD always requires SSRIs; OCD does not"], c:1,
+ e:"<b>OCD</b> = ego-dystonic; the patient is distressed by their obsessions/compulsions and recognizes them as irrational. It's a distinct diagnosis with time-consuming rituals (often >1hr/day) causing significant impairment. <b>OCPD</b> = ego-syntonic; a Cluster C personality disorder — perfectionism, rigidity, need for control — the traits align with the person's self-image, and the person may function well occupationally despite interpersonal struggles."},
+
+{s:"OCD & Related Disorders", ref:"body dysmorphic disorder", q:"A patient is preoccupied with a minor, unobservable flaw in their appearance, engaging in excessive mirror-checking and seeking cosmetic consultations. What is the correct first-line treatment, and what should be avoided?",
+ o:["First-line: cosmetic surgery to correct the perceived flaw; avoid CBT since it won't address the physical issue","First-line: CBT (cognitive restructuring + exposure) and often high-dose SSRIs; avoid cosmetic procedures as primary treatment since they don't resolve the underlying distorted body image and can reinforce it","First-line: antipsychotic monotherapy; avoid all forms of psychotherapy","First-line: benzodiazepines for anxiety; avoid SSRIs entirely"], c:1,
+ e:"This describes <b>body dysmorphic disorder</b>, classified alongside OCD in DSM-5-TR and sharing OCD's neurobiology (serotonergic dysfunction, same CSTC loop) plus impaired visual/body image processing. First-line treatment is <b>CBT and often high-dose SSRIs</b>. <b>Cosmetic procedures should be avoided</b> as primary treatment — they don't resolve the underlying distorted body image and can reinforce it. High comorbidity with eating disorders, depression, and social anxiety; notably elevated suicide risk — always screen for suicidality."},
+
+{s:"OCD & Related Disorders", ref:"trichotillomania", q:"What is the first-line treatment for trichotillomania (hair-pulling disorder)?",
+ o:["High-dose SSRI monotherapy","Habit reversal training (a specialized form of CBT)","Deep brain stimulation","Antipsychotic augmentation"], c:1,
+ e:"<b>Habit reversal training</b> (specialized CBT) is first-line for trichotillomania — recurrent hair pulling with repeated failed attempts to stop and noticeable hair loss (scalp, eyebrows, eyelashes), more common in females, often beginning in childhood/adolescence with a chronic, fluctuating course. Second-line/severe cases: SSRIs (mixed evidence), N-acetylcysteine (emerging evidence), clomipramine (limited support)."},
+
+// ===================== PSEUDOBULBAR AFFECT =====================
+{s:"Pseudobulbar Affect", ref:"quick reference", q:"Pseudobulbar affect — sudden, uncontrollable episodes of crying or laughing not matching the person's internal emotional state — is commonly treated with which combination in dementia patients?",
+ o:["SSRIs alone","Dextromethorphan and quinidine (Nuedexta)","Donepezil and memantine combined","Benzodiazepines"], c:1,
+ e:"<b>Dextromethorphan/quinidine (Nuedexta)</b> is the standard treatment — the same combination used for agitation in dementia (it blocks NMDA glutamate receptors to calm the agitation network). Pseudobulbar affect is also seen in other neurological conditions such as ALS, multiple sclerosis, and stroke."},
+
+{s:"Pseudobulbar Affect", ref:"differential", q:"Besides dementia, which other neurological conditions are associated with pseudobulbar affect?",
+ o:["Migraine, epilepsy, and essential tremor","ALS (amyotrophic lateral sclerosis), multiple sclerosis, and stroke","Generalized anxiety disorder and panic disorder only","Type 2 diabetes and peripheral neuropathy"], c:1,
+ e:"Pseudobulbar affect is seen across several neurological conditions that damage the corticobulbar pathways regulating emotional expression: dementia, <b>ALS</b>, <b>multiple sclerosis</b>, and <b>stroke</b>. The same dextromethorphan/quinidine combination is used regardless of the underlying neurological cause."}
+];
+
+let current = 0, score = 0, answered = [], selectedIdx = null;
+
+// Build section overview list
+const sectionCounts = {};
+QUESTIONS.forEach(q => sectionCounts[q.s] = (sectionCounts[q.s]||0)+1);
+const sectionListEl = document.getElementById('sectionList');
+Object.keys(sectionCounts).forEach(s => {
+  const li = document.createElement('li');
+  li.innerHTML = `<span>${s}</span><span class="n">${sectionCounts[s]} Q</span>`;
+  sectionListEl.appendChild(li);
+});
+
+function startQuiz(){
+  document.getElementById('setup').classList.add('hidden');
+  document.getElementById('quizArea').classList.remove('hidden');
+  renderQuestion();
+}
+
+function updateProgress(){
+  const pct = (current / QUESTIONS.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${current} / ${QUESTIONS.length}`;
+}
+
+function renderQuestion(){
+  updateProgress();
+  const q = QUESTIONS[current];
+  const letters = ['A','B','C','D'];
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <span class="section-tag">${q.s}</span>
+    <div class="card">
+      <div class="ref">${q.ref}</div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts" id="opts">
+        ${q.o.map((opt,i) => `<button class="opt" data-i="${i}" onclick="selectOpt(${i})"><span class="letter">${letters[i]}</span>${opt}</button>`).join('')}
+      </div>
+      <div class="explain" id="explain"><b>Why:</b> ${q.e}</div>
+      <div class="nav-row">
+        <button class="skip-link" onclick="skipQuestion()">skip →</button>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">${current === QUESTIONS.length-1 ? 'See results' : 'Next question'} →</button>
+      </div>
+    </div>
+  `;
+  selectedIdx = null;
+}
+
+function selectOpt(i){
+  if(selectedIdx !== null) return; // lock after first pick
+  selectedIdx = i;
+  const q = QUESTIONS[current];
+  const opts = document.querySelectorAll('#opts .opt');
+  opts.forEach((el, idx) => {
+    el.disabled = true;
+    if(idx === q.c) el.classList.add('correct');
+    else if(idx === i) el.classList.add('incorrect');
+  });
+  document.getElementById('explain').classList.add('show');
+  document.getElementById('nextBtn').classList.add('show');
+  const correct = (i === q.c);
+  if(correct) score++;
+  answered.push({q: q.q, correct, correctText: q.o[q.c], ref: q.ref});
+}
+
+function skipQuestion(){
+  if(selectedIdx !== null){ nextQuestion(); return; }
+  answered.push({q: QUESTIONS[current].q, correct:false, correctText: QUESTIONS[current].o[QUESTIONS[current].c], ref: QUESTIONS[current].ref, skipped:true});
+  current++;
+  if(current >= QUESTIONS.length) showResults(); else renderQuestion();
+}
+
+function nextQuestion(){
+  current++;
+  if(current >= QUESTIONS.length) showResults(); else renderQuestion();
+}
+
+function showResults(){
+  updateProgress();
+  document.getElementById('quizArea').classList.add('hidden');
+  document.getElementById('results').style.display = 'block';
+  const pct = Math.round((score/QUESTIONS.length)*100);
+  document.getElementById('scoreBig').textContent = `${score} / ${QUESTIONS.length}`;
+  document.getElementById('scoreSub').textContent = `${pct}% — ${pct >= 85 ? "Strong recall. Skim the missed items below, then you're set." : pct >= 70 ? "Solid base. Review the missed items below closely." : "Worth another full pass — review missed items, then re-run the quiz."}`;
+  const missed = answered.filter(a => !a.correct);
+  const missedList = document.getElementById('missedList');
+  if(missed.length === 0){
+    missedList.innerHTML = '<p style="color:var(--muted);font-size:14px;">No missed questions — nice work.</p>';
+  } else {
+    missedList.innerHTML = '<h3 style="font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono);margin-top:24px;">Review these before your exam</h3>' +
+      missed.map(m => `<div class="missed-item"><div class="q">${m.q}</div><div class="a">${m.ref} — correct answer: ${m.correctText}</div></div>`).join('');
+  }
+}
+</script>
+</body>
+</html>
