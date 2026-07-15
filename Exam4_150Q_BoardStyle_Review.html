@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exam 4 — 150Q Board-Style Review</title>
+<style>
+  :root{
+    --ink:#1a2b2b;
+    --paper:#f6f4ee;
+    --panel:#ffffff;
+    --line:#d8d2c2;
+    --teal:#1f5f5b;
+    --teal-dark:#123f3c;
+    --clay:#b5563f;
+    --ok:#2f7a4f;
+    --bad:#a8402f;
+    --muted:#6b6f66;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --serif: "Iowan Old Style","Palatino Linotype", Palatino, Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family: var(--serif); -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px;}
+  header.top{display:flex; justify-content:space-between; align-items:flex-end; border-bottom:2px solid var(--ink); padding-bottom:10px; margin-bottom:6px;}
+  header.top .label{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase;}
+  header.top h1{font-size:22px; margin:2px 0 0; font-weight:600;}
+  header.top .rx{font-family:var(--mono); font-size:11px; color:var(--muted); text-align:right;}
+  .progress-row{display:flex; align-items:center; gap:10px; margin:14px 0 20px;}
+  .progress-track{flex:1; height:6px; background:var(--line); border-radius:3px; overflow:hidden;}
+  .progress-fill{height:100%; background:var(--teal); width:0%; transition:width .3s ease;}
+  .progress-text{font-family:var(--mono); font-size:11px; color:var(--muted); white-space:nowrap;}
+  #setup{background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:22px;}
+  #setup h2{margin-top:0; font-size:17px;}
+  #setup p{color:var(--muted); font-size:14.5px; line-height:1.55;}
+  .section-list{list-style:none; padding:0; margin:14px 0 20px; display:grid; gap:6px;}
+  .section-list li{font-family:var(--mono); font-size:12.5px; display:flex; justify-content:space-between; padding:7px 10px; background:var(--paper); border:1px solid var(--line); border-radius:3px;}
+  .section-list li span.n{color:var(--teal-dark); font-weight:600;}
+  .start-btn{display:inline-block; font-family:var(--mono); font-size:13px; letter-spacing:.03em; background:var(--teal); color:#fff; border:none; padding:12px 22px; border-radius:3px; cursor:pointer; text-transform:uppercase;}
+  .start-btn:hover{background:var(--teal-dark);}
+  .section-tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--clay); margin-bottom:8px; display:block;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:24px 24px 20px; margin-bottom:18px;}
+  .qtext{font-size:18px; line-height:1.42; margin:0 0 18px; font-weight:600;}
+  .ref{font-family:var(--mono); font-size:11px; color:var(--muted); margin:-12px 0 16px;}
+  .opts{display:grid; gap:8px;}
+  .opt{text-align:left; border:1px solid var(--line); background:#fff; border-radius:4px; padding:12px 14px; font-family:var(--serif); font-size:15px; cursor:pointer; color:var(--ink); line-height:1.4; transition:border-color .15s, background .15s;}
+  .opt:hover{border-color:var(--teal);}
+  .opt.selected{border-color:var(--teal); background:#eef4f2;}
+  .opt.correct{border-color:var(--ok); background:#eaf5ee; font-weight:600;}
+  .opt.incorrect{border-color:var(--bad); background:#faeae7;}
+  .opt:disabled{cursor:default;}
+  .opt .letter{font-family:var(--mono); color:var(--muted); margin-right:8px;}
+  .explain{margin-top:16px; padding:14px 16px; border-left:3px solid var(--teal); background:#f0f2ea; font-size:14.5px; line-height:1.55; display:none;}
+  .explain.show{display:block;}
+  .explain b{color:var(--teal-dark);}
+  .nav-row{display:flex; justify-content:space-between; align-items:center; margin-top:16px;}
+  .next-btn{font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.04em; background:var(--ink); color:#fff; border:none; padding:10px 18px; border-radius:3px; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .2s;}
+  .next-btn.show{opacity:1; pointer-events:auto;}
+  .next-btn:hover{background:var(--teal-dark);}
+  .skip-link{font-family:var(--mono); font-size:11px; color:var(--muted); background:none; border:none; cursor:pointer; text-decoration:underline;}
+  #results{display:none; background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:26px;}
+  #results h2{margin-top:0;}
+  .score-big{font-family:var(--mono); font-size:44px; color:var(--teal-dark); font-weight:700; margin:6px 0 2px;}
+  .score-sub{color:var(--muted); font-size:13.5px; margin-bottom:20px;}
+  .missed-item{border-top:1px solid var(--line); padding:12px 0; font-size:14px;}
+  .missed-item .q{font-weight:600; margin-bottom:4px;}
+  .missed-item .a{color:var(--ok); font-size:13.5px;}
+  .restart-btn{margin-top:20px;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <span class="label">NURS 5312 · Psychopharmacology</span>
+      <h1>Exam 4 — 150Q Board-Style Review</h1>
+    </div>
+    <div class="rx">Sleep · Dementia · Impulsivity<br>ADHD · Addiction · Eating d/o · OCD</div>
+  </header>
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0 / 0</div>
+  </div>
+  <div id="setup">
+    <h2>150 harder, vignette-style questions — application over recall.</h2>
+    <p>Built from the same sources (Dr. Vela's notes + Stahl 5th ed.) but written the way board questions actually test: clinical scenarios, "which is FALSE/EXCEPT" stems, close look-alike distractors, and comparison traps between similar drugs. This is NOT populated in your session yet — open it whenever you're ready to start.</p>
+    <ul class="section-list" id="sectionList"></ul>
+    <button class="start-btn" onclick="startQuiz()">Begin Review →</button>
+  </div>
+  <div id="quizArea" class="hidden"></div>
+  <div id="results">
+    <h2>Session complete</h2>
+    <div class="score-big" id="scoreBig">–</div>
+    <div class="score-sub" id="scoreSub"></div>
+    <div id="missedList"></div>
+    <button class="start-btn restart-btn" onclick="location.reload()">Restart from beginning</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+// ============================================================
+// SLEEP & WAKEFULNESS (20)
+// ============================================================
+{s:"Sleep & Wakefulness", ref:"Ch.10", q:"A 68-year-old blind nursing home resident has unpredictable sleep/wake times with both nighttime insomnia and daytime sleepiness. Her family says 'she's never on the same schedule two days in a row.' Which is the best next step?",
+ o:["Start zolpidem nightly for insomnia","Start tasimelteon to re-synchronize her circadian rhythm via MT1/MT2 agonism","Order a sleep study to rule out obstructive sleep apnea before anything else","Start modafinil for the daytime sleepiness component"], c:1,
+ e:"This is classic <b>non-24-hour sleep-wake disorder</b>, which occurs almost exclusively in the totally blind because light can't reach the SCN via the retinohypothalamic tract to reset the clock daily. <b>Tasimelteon</b> (MT1/MT2 agonist) is the targeted treatment — zolpidem or modafinil would only patch one symptom without addressing the free-running clock itself."},
+
+{s:"Sleep & Wakefulness", ref:"p.439", q:"Which statement about melatonin receptor subtypes is FALSE?",
+ o:["MT1 activation promotes sleep onset","MT2 activation shifts the timing of the sleep-wake cycle","Ramelteon is selective for MT1 and MT2 with no serotonergic or histaminergic activity","MT1 and MT2 activation are functionally identical and interchangeable"], c:3,
+ e:"MT1 and MT2 have <b>distinct</b> jobs — MT1 promotes sleep onset, MT2 shifts/resets circadian timing. They are not interchangeable, which is exactly why tasimelteon (both receptors) is used for circadian rhythm disorders while a pure MT1 agonist would not have the same phase-shifting benefit."},
+
+{s:"Sleep & Wakefulness", ref:"p.428", q:"A patient is switched from zolpidem to low-dose doxepin for chronic insomnia. Which mechanism explains doxepin's hypnotic effect at low dose?",
+ o:["GABA-A positive allosteric modulation, identical to zolpidem","Potent H1 histamine receptor antagonism promoting sleep by blocking a wake-promoting signal, with minimal anticholinergic burden at low doses","MT1/MT2 melatonin receptor agonism","Orexin receptor antagonism"], c:1,
+ e:"Low-dose doxepin works through <b>potent H1 antagonism</b> — blocking the histamine signal that promotes wakefulness — without the GABA-A mechanism zolpidem uses. At the low doses used for insomnia (3-6mg), anticholinergic effects are minimal, unlike at the much higher doses used as a TCA antidepressant."},
+
+{s:"Sleep & Wakefulness", ref:"p.402", q:"Which neurotransmitter is the outlier among the following in terms of its role in the sleep-wake cycle?",
+ o:["Histamine — promotes wakefulness","Norepinephrine — promotes wakefulness","GABA — promotes wakefulness","Acetylcholine — promotes wakefulness"], c:2,
+ e:"GABA is the outlier — it <b>promotes sleep</b>, the opposite job of histamine, dopamine, norepinephrine, acetylcholine, and serotonin, which all promote wakefulness. This is why GABAergic drugs (benzodiazepines, Z-drugs) are hypnotics."},
+
+{s:"Sleep & Wakefulness", ref:"orexin", q:"A patient with narcolepsy type 1 has cataplexy triggered by strong emotion. What is the underlying neurochemical deficit?",
+ o:["Excess orexin (hypocretin) causing unstable wakefulness","Loss of orexin (hypocretin)-producing neurons in the lateral hypothalamus, destabilizing the boundary between wake and REM sleep","Excess GABA causing pathological sleepiness","Acetylcholinesterase deficiency"], c:1,
+ e:"Narcolepsy type 1 results from <b>loss of orexin/hypocretin neurons</b> in the lateral hypothalamus. Orexin normally stabilizes wakefulness (prevents flickering between sleep and wake states); without it, REM-sleep features like cataplexy, sleep paralysis, and hypnagogic hallucinations can intrude into wakefulness."},
+
+{s:"Sleep & Wakefulness", ref:"p.435", q:"A patient presents with an urge to move her legs at night, relieved by movement, worse at rest and in the evening. Workup reveals ferritin of 12 ng/mL. What is the most appropriate initial intervention?",
+ o:["Start a dopamine agonist immediately","Iron repletion, since low ferritin is a correctable underlying cause of RLS symptoms","Start diphenhydramine for symptomatic relief at bedtime","Start a benzodiazepine nightly"], c:1,
+ e:"Low ferritin is a well-established, correctable contributor to RLS — <b>treating the underlying cause (iron repletion) comes first</b>. Antihistamines like diphenhydramine can worsen RLS and dopamine agonists carry augmentation risk with chronic use, so neither should be reached for before correcting a modifiable underlying cause."},
+
+{s:"Sleep & Wakefulness", ref:"RLS", q:"Long-term dopamine agonist therapy for RLS carries which specific risk?",
+ o:["Augmentation — symptoms paradoxically worsen, start earlier in the day, and spread to other body regions over time","Immediate and permanent cure with no relapse risk","Tolerance-free efficacy indefinitely","No documented long-term risks"], c:0,
+ e:"<b>Augmentation</b> is the hallmark risk of chronic dopamine agonist use in RLS — symptoms can worsen, appear earlier in the day, and spread to other limbs, which is exactly why dopamine agonists are not the preferred first choice and why gabapentinoids are often favored instead."},
+
+{s:"Sleep & Wakefulness", ref:"Z-drugs", q:"A patient develops complex sleep-related behaviors (sleepwalking, sleep-eating) on zolpidem. Which receptor subtype is most implicated in this class of behaviors?",
+ o:["Alpha-5 (hippocampal/cognitive)","Alpha-1 (sedation, amnesia, tolerance/dependence)","Alpha-2 (anxiolysis, muscle relaxation)","Delta-subunit (extrasynaptic, tonic inhibition)"], c:1,
+ e:"<b>Alpha-1</b> mediates sedation and amnesia and is most associated with complex sleep-related behaviors and dependence — this is the subunit zolpidem and zaleplon selectively target, which is part of why these behaviors are a known risk with this drug class specifically (boxed warning)."},
+
+{s:"Sleep & Wakefulness", ref:"Goldilocks", q:"An elderly patient on flurazepam for insomnia presents with a fall and next-day confusion. What is the mechanistic explanation?",
+ o:["Flurazepam has too short a half-life, wearing off before morning","Flurazepam's ultra-long half-life (24-150 hrs) causes accumulation over consecutive nights, producing next-day impairment and increased fall risk","Flurazepam works through orexin antagonism, unrelated to fall risk","Flurazepam has no CNS depressant properties in the elderly"], c:1,
+ e:"Flurazepam is an <b>ultra-long-acting</b> benzodiazepine (24-150 hr half-life) that accumulates across consecutive nights of dosing — this drives the classic 'hangover'/next-day impairment and elevated fall risk seen especially in elderly patients, which is why 'Goldilocks' (~8hr) agents are preferred in this population."},
+
+{s:"Sleep & Wakefulness", ref:"suvorexant", q:"Suvorexant and lemborexant treat insomnia through which distinct mechanism compared to Z-drugs?",
+ o:["GABA-A positive allosteric modulation, same as Z-drugs","Orexin receptor antagonism, blocking the wake-stabilizing signal rather than enhancing an inhibitory one","Melatonin MT1/MT2 agonism","H1 histamine antagonism"], c:1,
+ e:"Suvorexant and lemborexant are <b>dual orexin receptor antagonists</b> — they block orexin from stabilizing wakefulness, allowing sleep, which is mechanistically distinct from GABA-A enhancement (Z-drugs/benzodiazepines) or melatonin agonism (ramelteon/tasimelteon)."},
+
+{s:"Sleep & Wakefulness", ref:"REM behavior d/o", q:"A 70-year-old man acts out his dreams during sleep, occasionally injuring his bed partner. This condition is an early marker most strongly associated with which future diagnosis?",
+ o:["Alzheimer's disease","A future synucleinopathy such as Parkinson's disease or dementia with Lewy bodies","Frontotemporal dementia","Vascular dementia"], c:1,
+ e:"<b>REM sleep behavior disorder</b> (loss of normal REM atonia, dream enactment) is a well-recognized prodromal marker that frequently precedes a <b>synucleinopathy</b> — Parkinson's disease or dementia with Lewy bodies — sometimes by years to decades."},
+
+{s:"Sleep & Wakefulness", ref:"CBT-I", q:"For chronic insomnia disorder, which treatment has the strongest evidence as first-line over long-term pharmacotherapy?",
+ o:["Long-term nightly benzodiazepine use","Cognitive behavioral therapy for insomnia (CBT-I)","Long-term diphenhydramine use","Long-term trazodone at antidepressant doses"], c:1,
+ e:"<b>CBT-I</b> is recommended as first-line for chronic insomnia, with durable benefits that often outlast pharmacotherapy and without the tolerance, dependence, or next-day impairment risks of long-term hypnotic use."},
+
+{s:"Sleep & Wakefulness", ref:"hypersomnia workup", q:"Which sequence correctly reflects appropriate hypersomnia workup?",
+ o:["Start a stimulant immediately, then investigate causes only if it fails","Rule out/treat sleep apnea, poor sleep hygiene, and medical illness first; confirm narcolepsy/idiopathic hypersomnia with a sleep study before starting wake-promoting medication","Skip the sleep study and start modafinil empirically","Start an antidepressant regardless of cause"], c:1,
+ e:"Medication should never be reached for first. Reversible causes (OSA, poor sleep hygiene, medical illness) must be addressed, and a <b>sleep study</b> must confirm narcolepsy or idiopathic hypersomnia before starting any wake-promoting medication."},
+
+{s:"Sleep & Wakefulness", ref:"arousal spectrum", q:"On the continuous arousal spectrum described in Stahl, extreme UNDER-arousal progresses in which order?",
+ o:["Panic → insomnia → on edge","Inattentive → confused → sleepy → asleep","Hallucinations → psychosis → on edge","Asleep → confused → panic"], c:1,
+ e:"Under-arousal progresses: <b>inattentive → confused → sleepy → asleep</b>. Over-arousal progresses in the opposite direction: on edge → insomnia → panic → (extreme) hallucinations/psychosis. Sleep and wake exist on one continuous spectrum, not a binary switch."},
+
+{s:"Sleep & Wakefulness", ref:"SCN", q:"A lesion to the suprachiasmatic nucleus would most directly impair which function?",
+ o:["Long-term memory consolidation","The brain's ability to synchronize its internal clock to the 24-hour light-dark cycle","Motor coordination","Language production"], c:1,
+ e:"The <b>SCN</b> is the master circadian pacemaker, receiving direct light input via the retinohypothalamic tract to keep the body synchronized to a 24-hour cycle. Damage here would produce a free-running, desynchronized rhythm similar to what's seen in total blindness."},
+
+{s:"Sleep & Wakefulness", ref:"shift work", q:"A night-shift nurse struggles to stay awake during shifts and to sleep during the day. Which diagnosis fits, and what is a reasonable evidence-based intervention?",
+ o:["Delayed sleep phase disorder; treat with evening light avoidance only","Shift work disorder; strategic light exposure/avoidance timed to the work schedule, plus judicious short-acting hypnotic or wake-promoting agent use as needed","Central sleep apnea; treat with CPAP","Non-24-hour sleep-wake disorder; treat with tasimelteon"], c:1,
+ e:"This is <b>shift work disorder</b> — misalignment between the required wake schedule and the internal circadian clock. Management includes strategically timed light exposure/avoidance, sleep hygiene around the shift schedule, and selective short-term use of hypnotics or wake-promoting agents; tasimelteon is specifically for non-24-hour disorder in the blind, not shift work."},
+
+{s:"Sleep & Wakefulness", ref:"benzo vs Z-drug", q:"Which of the following is TRUE regarding the subunit selectivity difference between zolpidem and eszopiclone?",
+ o:["Both are equally nonselective across alpha-1, -2, -3, and -5","Zolpidem is alpha-1 selective; eszopiclone binds alpha-1, -2, -3, and -5 like a benzodiazepine, giving it a broader effect profile","Zolpidem is nonselective; eszopiclone is alpha-1 selective","Neither binds any alpha subunit"], c:1,
+ e:"<b>Zolpidem</b> (and zaleplon) are alpha-1 <b>selective</b>. <b>Eszopiclone</b> (and zopiclone) are <b>nonselective</b>, binding alpha-1, -2, -3, and -5 the same way benzodiazepines do — contributing to a broader anxiolytic/muscle-relaxant profile beyond pure sedation."},
+
+{s:"Sleep & Wakefulness", ref:"melatonin vs serotonergic hypnotics", q:"What is the key mechanistic difference between melatonergic hypnotics (ramelteon) and serotonergic/histaminergic hypnotics (trazodone/doxepin)?",
+ o:["There is no meaningful difference — both work through GABA-A","Melatonergic agents act on the circadian clock itself (MT1/MT2); serotonergic/histaminergic agents simply block wake-promoting neurotransmission without acting on the clock","Both act exclusively on the orexin system","Melatonergic agents block histamine; serotonergic agents activate melatonin receptors"], c:1,
+ e:"Melatonergic hypnotics act directly on the <b>circadian clock machinery</b> via MT1/MT2. Serotonergic/histaminergic hypnotics (low-dose trazodone/doxepin) don't touch the clock at all — they simply block the wake-promoting neurotransmitter signal (5HT2A, H1), allowing sleep to occur passively."},
+
+{s:"Sleep & Wakefulness", ref:"idiopathic hypersomnia", q:"A patient with idiopathic hypersomnia continues to feel unrefreshed despite 10+ hours of nightly sleep and a normal sleep study excluding apnea. What distinguishes this from narcolepsy?",
+ o:["Idiopathic hypersomnia involves cataplexy; narcolepsy does not","Idiopathic hypersomnia typically lacks cataplexy and the characteristic REM-onset findings seen in narcolepsy on polysomnography/MSLT","There is no meaningful clinical distinction between the two","Idiopathic hypersomnia is always caused by orexin neuron loss, same as narcolepsy type 1"], c:1,
+ e:"Idiopathic hypersomnia typically lacks <b>cataplexy</b> and the short REM latency/sleep-onset REM periods on MSLT seen in narcolepsy. Diagnosis for both still requires a sleep study, but the underlying mechanisms and orexin status differ."},
+
+{s:"Sleep & Wakefulness", ref:"tonic vs phasic arousal", q:"Why is the 'Goldilocks' concept clinically more useful than simply reading a drug's package-insert half-life?",
+ o:["Package insert half-lives are always inaccurate","What matters for sleep is how long a drug's concentration stays above the sleep threshold in that specific patient — genetics, age, and hepatic metabolism can shift this independent of the average half-life","Half-life has no relationship to clinical duration of action","All hypnotics have identical half-lives regardless of formulation"], c:1,
+ e:"The clinically relevant variable is how long the drug stays <b>above the threshold needed to maintain sleep</b> in a given patient — influenced by hepatic metabolism, age, and genetics — which is why two patients can respond very differently to the same population-average half-life."},
+
+// ============================================================
+// ALZHEIMER'S & DEMENTIA (30)
+// ============================================================
+{s:"Alzheimer's & Dementia", ref:"p.497-498", q:"Which processing pathway of amyloid precursor protein is considered protective, and why?",
+ o:["Amyloidogenic pathway, because beta-secretase cleavage prevents plaque formation","Non-amyloidogenic pathway, because alpha-secretase cuts through the region that would otherwise become the toxic amyloid-beta fragment","Amyloidogenic pathway, because gamma-secretase degrades existing plaques","Neither pathway has any bearing on amyloid-beta production"], c:1,
+ e:"The <b>non-amyloidogenic pathway</b> (alpha-secretase) cuts directly through the region of APP that would otherwise become the toxic amyloid-beta fragment, preventing its formation entirely — this is why interventions that shift processing toward alpha-secretase are considered potentially protective."},
+
+{s:"Alzheimer's & Dementia", ref:"p.499", q:"A patient asks why her identical twin with ApoE3/E3 genotype seems to have lower Alzheimer's risk than she does with her ApoE4/E4 genotype, despite similar lifestyles. What is the most accurate explanation?",
+ o:["ApoE4 has no actual effect on risk; this is coincidence","ApoE4 confers up to ~10x risk with two copies and is less efficient at clearing amyloid-beta, while ApoE3 (most common allele) carries intermediate, baseline risk","ApoE3 is the highest-risk allele","ApoE4 is protective and ApoE2 increases risk"], c:1,
+ e:"<b>ApoE4</b> homozygosity (two copies) confers roughly <b>10x risk</b> and reduced amyloid-beta clearance efficiency. <b>ApoE3</b> is the most common allele with intermediate risk. <b>ApoE2</b> is protective. Genotype differences like this can meaningfully diverge risk even between people with similar lifestyles."},
+
+{s:"Alzheimer's & Dementia", ref:"amyloid fragments", q:"Which amyloid-beta fragment aggregates most readily despite being the rarest of the three?",
+ o:["Amyloid-beta 40","Amyloid-beta 42","Amyloid-beta 43","All three aggregate identically"], c:2,
+ e:"<b>Amyloid-beta 43</b> is the rarest of the three fragments but aggregates the <b>most readily</b> of all of them. Aβ40 is most common but least likely to aggregate; Aβ42 is intermediate in frequency but more prone to clumping than Aβ40, making it a major plaque contributor."},
+
+{s:"Alzheimer's & Dementia", ref:"tau", q:"Hyperphosphorylated tau causes neuronal damage primarily through which mechanism?",
+ o:["Direct pore formation in the neuronal membrane","Detachment from microtubules, causing microtubule collapse and impaired axonal transport, with subsequent tangle formation","Direct blockade of the acetylcholine receptor","Enhancement of amyloid-beta clearance"], c:1,
+ e:"Normally, tau <b>stabilizes microtubules</b> (the neuron's internal transport tracks). When hyperphosphorylated, it detaches, causing microtubule collapse, disrupted axonal transport, and aggregation into neurofibrillary tangles — a separate but interacting pathology from amyloid-beta plaques."},
+
+{s:"Alzheimer's & Dementia", ref:"staging", q:"A patient has elevated amyloid-beta on PET imaging but normal cognitive testing and no functional impairment. Which disease stage does this represent?",
+ o:["Stage 3 — dementia","Stage 2 — mild cognitive impairment","Stage 1 — presymptomatic/asymptomatic amyloidosis","This patient does not have Alzheimer's pathology"], c:2,
+ e:"<b>Stage 1</b> (presymptomatic/asymptomatic amyloidosis): cognition is intact, but amyloid-beta is already elevated and detectable on PET. Stage 2 (MCI) adds elevated CSF tau and hippocampal shrinkage on MRI. Stage 3 is full dementia meeting diagnostic criteria — though by then substantial damage has often already occurred."},
+
+{s:"Alzheimer's & Dementia", ref:"cholinergic hypothesis", q:"Why do cholinesterase inhibitors remain effective in Alzheimer's disease despite ongoing loss of cholinergic neurons?",
+ o:["Cholinesterase inhibitors regenerate lost cholinergic neurons","Most postsynaptic acetylcholine receptors remain relatively intact even as presynaptic cholinergic neurons die, so boosting available acetylcholine at the synapse still produces a clinical effect","Cholinesterase inhibitors work independently of the cholinergic system entirely","They only work in the earliest, presymptomatic stage"], c:1,
+ e:"Even as cholinergic <b>neurons die</b>, most of the <b>postsynaptic receptors</b> they would have activated remain relatively intact — this is why boosting the available acetylcholine pharmacologically (via cholinesterase inhibition) can still produce meaningful, if modest and non-disease-modifying, symptomatic benefit."},
+
+{s:"Alzheimer's & Dementia", ref:"agitation stepwise", q:"A dementia patient becomes acutely agitated. Which of the following should be assessed/addressed FIRST, before any medication is considered?",
+ o:["Start haloperidol immediately for safety","Assess for untreated pain, medication side effects, nicotine withdrawal, an undiagnosed medical/neurological illness, or environmental over/under-stimulation","Start brexpiprazole as first-line regardless of cause","Order genetic ApoE testing to guide treatment"], c:1,
+ e:"Reversible/treatable causes must always be assessed FIRST: <b>untreated pain</b> (dementia patients often can't verbalize it — agitation may be the only clue), medication side effects, nicotine withdrawal, undiagnosed illness/infection, or an environment that's over- or under-stimulating. Medication is reserved for after non-pharmacologic steps fail or there's danger to self/others."},
+
+{s:"Alzheimer's & Dementia", ref:"brexpiprazole", q:"Which statement about brexpiprazole for dementia-related agitation is most accurate?",
+ o:["It is FDA-approved as first-line before any non-pharmacologic intervention is attempted","It is the only medication specifically FDA-approved for agitation associated with Alzheimer's dementia, but non-pharmacologic strategies and ruling out reversible causes still come first","It carries no black-box warning, unlike other antipsychotics used in dementia","It works through pure serotonin reuptake inhibition"], c:1,
+ e:"Brexpiprazole is the only agent with an FDA indication <b>specifically</b> for Alzheimer's dementia agitation — but this doesn't change the treatment hierarchy: reversible causes and non-pharmacologic strategies still come first. Like all dopamine-blocking antipsychotics used in this population, it still carries the class <b>black-box warning</b> for increased mortality in elderly dementia patients."},
+
+{s:"Alzheimer's & Dementia", ref:"antipsychotic choice", q:"Which of the following is specifically NOT recommended among the off-label antipsychotic options for dementia agitation?",
+ o:["Risperidone","Aripiprazole","Quetiapine","Olanzapine"], c:2,
+ e:"<b>Quetiapine</b> is specifically flagged as not among the recommended off-label choices for dementia agitation, despite being commonly used clinically for other indications. Risperidone, olanzapine, and aripiprazole are the more commonly cited off-label options, all still carrying the elderly dementia mortality black-box warning."},
+
+{s:"Alzheimer's & Dementia", ref:"donepezil vs rivastigmine vs galantamine", q:"A patient with moderate Alzheimer's disease has been on donepezil with a partial response. The prescriber considers switching to rivastigmine instead. What is the rationale?",
+ o:["Rivastigmine has no advantage and works identically to donepezil","Rivastigmine inhibits both acetylcholinesterase AND butyrylcholinesterase, which may offer added benefit as disease progresses and glial-associated butyrylcholinesterase activity increases","Rivastigmine is a glutamate modulator, unlike donepezil","Rivastigmine has no GI side effects, unlike donepezil"], c:1,
+ e:"<b>Rivastigmine</b>'s dual inhibition of both acetylcholinesterase AND <b>butyrylcholinesterase</b> may provide added benefit later in the disease course, when glial cell activity (and butyrylcholinesterase levels) increase. Donepezil is selective for acetylcholinesterase only. GI side effects occur with all cholinesterase inhibitors since the enzyme is also active in the gut."},
+
+{s:"Alzheimer's & Dementia", ref:"galantamine", q:"What makes galantamine mechanistically unique among the cholinesterase inhibitors?",
+ o:["It is the only one that also acts as a positive allosteric modulator at nicotinic receptors, in addition to blocking acetylcholinesterase","It is the only one that blocks butyrylcholinesterase","It is the only one without GI side effects","It is the only NMDA receptor antagonist in the class"], c:0,
+ e:"<b>Galantamine</b> has a dual mechanism: it inhibits acetylcholinesterase AND acts as a <b>positive allosteric modulator at nicotinic receptors</b>, directly enhancing nicotinic transmission — a mechanism not shared by donepezil or rivastigmine."},
+
+{s:"Alzheimer's & Dementia", ref:"memantine", q:"Memantine's therapeutic effect in moderate-to-severe Alzheimer's disease depends on which specific pharmacologic property?",
+ o:["High-affinity NMDA blockade that shuts down all glutamate signaling","Low-affinity NMDA receptor blockade that filters out the pathological low-level glutamate 'leak' while still permitting the strong glutamate bursts needed for genuine learning","Selective acetylcholinesterase inhibition","Dopamine D2 receptor blockade"], c:1,
+ e:"Memantine's <b>low affinity</b> at the NMDA receptor is the key — it blocks the chronic, low-level glutamate 'leak' that damages neurons over time (acting like 'artificial magnesium'), while still allowing the strong, transient glutamate bursts required for real synaptic learning to pass through. A high-affinity blocker would impair learning entirely."},
+
+{s:"Alzheimer's & Dementia", ref:"combo therapy", q:"Why is memantine often combined with a cholinesterase inhibitor rather than used as monotherapy in moderate-to-severe Alzheimer's disease?",
+ o:["They target completely different neurotransmitter systems (glutamate vs. acetylcholine), so their benefits are considered additive","Memantine potentiates cholinesterase inhibitor absorption in the gut","Combining them prevents the black-box mortality warning","Cholinesterase inhibitors are contraindicated without memantine"], c:0,
+ e:"Memantine (glutamate/NMDA system) and cholinesterase inhibitors (acetylcholine system) act on <b>different neurotransmitter systems</b>, so their clinical benefits are considered additive rather than redundant — this is the rationale for combination use in moderate-to-severe disease."},
+
+{s:"Alzheimer's & Dementia", ref:"DLB vs PD dementia", q:"How is dementia with Lewy bodies (DLB) differentiated from Parkinson's disease dementia in terms of symptom timing?",
+ o:["In DLB, dementia occurs at or before motor symptom onset; in Parkinson's disease dementia, motor symptoms precede dementia by at least a year","In DLB, motor symptoms always precede dementia by a decade","There is no meaningful timing distinction between the two","Parkinson's disease dementia always presents before age 50"], c:0,
+ e:"The key timing distinction: in <b>DLB</b>, cognitive decline occurs at or before motor symptom onset. In <b>Parkinson's disease dementia</b>, motor symptoms precede the onset of dementia by at least a year. Both share alpha-synuclein pathology, with severity correlating with dementia severity in PD."},
+
+{s:"Alzheimer's & Dementia", ref:"antipsychotics in DLB", q:"Why is particular caution warranted before prescribing antipsychotics to a patient with dementia with Lewy bodies?",
+ o:["DLB patients have no risk of extrapyramidal symptoms","DLB patients can have severe, sometimes life-threatening antipsychotic sensitivity reactions, including marked extrapyramidal worsening","Antipsychotics are completely contraindicated in all forms of dementia, not specific to DLB","DLB patients metabolize antipsychotics unusually quickly, requiring higher doses"], c:1,
+ e:"DLB patients are uniquely prone to <b>severe antipsychotic sensitivity reactions</b> — marked, sometimes life-threatening extrapyramidal worsening and autonomic instability — making antipsychotic use in this population require particular caution beyond the general elderly-dementia mortality warning."},
+
+{s:"Alzheimer's & Dementia", ref:"vascular dementia", q:"A patient has a history of hypertension, diabetes, and smoking, with cognitive decline that occurred in a stepwise fashion following discrete events rather than a smooth continuous decline. Which dementia type fits best?",
+ o:["Alzheimer's disease","Vascular dementia","Frontotemporal dementia","Dementia with Lewy bodies"], c:1,
+ e:"<b>Vascular dementia</b> is characterized by a <b>stepwise</b> decline (rather than smooth continuous decline) and is linked to cardiovascular risk factors — hypertension, smoking, diabetes, hyperlipidemia. Imaging shows fronto-subcortical hypometabolism and white-matter hyperintensities."},
+
+{s:"Alzheimer's & Dementia", ref:"FTD", q:"A 58-year-old presents with prominent personality change, disinhibition, and loss of empathy, with relatively preserved memory early in the course. Which diagnosis is most likely?",
+ o:["Alzheimer's disease","Frontotemporal dementia","Vascular dementia","Normal pressure hydrocephalus"], c:1,
+ e:"<b>Frontotemporal dementia</b> classically presents with personality/behavior change, apathy, and loss of empathy — OR with language impairment in other variants — often with younger onset and relatively preserved memory early on, unlike Alzheimer's where memory loss is the presenting feature."},
+
+{s:"Alzheimer's & Dementia", ref:"mixed dementia", q:"What proportion of dementia cases show 'pure' single-pathology Alzheimer's disease at autopsy, according to the material covered?",
+ o:["Nearly 100%","About 50%","Only about 8% — mixed pathology is the rule, not the exception","0%, since Alzheimer's pathology never coexists with other pathology"], c:2,
+ e:"Only about <b>8%</b> of cases show pure Alzheimer's pathology alone — <b>mixed dementia</b> (more than one pathology simultaneously, e.g., Alzheimer's + vascular) is the rule rather than the exception, which has real implications for how definitively any single dementia type can be diagnosed clinically."},
+
+{s:"Alzheimer's & Dementia", ref:"apathy vs depression", q:"A dementia patient shows reduced initiative and social withdrawal, but denies sadness and does not meet criteria for major depression. Cognitive testing shows this is the single most common behavioral symptom in dementia. What is it, and roughly how common is it compared to depression?",
+ o:["Depression; occurs in about 30% of dementia patients, less common than apathy","Apathy; occurs in about 49% of dementia patients, more common than depression (~42%) or aggression (~40%)","Aggression; occurs in about 60% of dementia patients","Psychosis; occurs in about 25% of dementia patients"], c:1,
+ e:"<b>Apathy</b> is the most common behavioral symptom in dementia (~49%), more common than depression (~42%) or aggression (~40%). It's often mistaken for depression, but the two are distinct — apathy lacks the sadness/negative affect core to depression."},
+
+{s:"Alzheimer's & Dementia", ref:"apathy subtypes", q:"A patient with dementia shows loss of goal-directed thinking and initiation of planning, localized primarily to which brain region among the three apathy subtypes?",
+ o:["Cognitive apathy — dorsolateral prefrontal cortex","Behavioral apathy — motor areas","Affective apathy — ventromedial prefrontal cortex/orbitofrontal cortex","All three subtypes localize to the same single region"], c:0,
+ e:"<b>Cognitive apathy</b> (loss of goal-directed thinking/planning) localizes to the <b>dorsolateral prefrontal cortex</b>. Behavioral apathy involves motor areas (reduced action initiation). Affective/emotional apathy involves the ventromedial PFC and orbitofrontal cortex (blunted emotional engagement)."},
+
+{s:"Alzheimer's & Dementia", ref:"pimavanserin", q:"Pimavanserin's mechanism and primary indication make it a rational choice for which specific dementia-related symptom?",
+ o:["Agitation, via NMDA receptor blockade","Psychosis, via 5HT2A antagonism — approved for Parkinson's disease psychosis and studied for other dementia-related psychosis, notably without dopamine blockade","Depression, via SSRI mechanism","Apathy, via dopamine agonism"], c:1,
+ e:"<b>Pimavanserin</b> is a <b>5HT2A antagonist</b> (not a dopamine blocker), approved for Parkinson's disease psychosis and studied for dementia-related psychosis more broadly. Its non-dopaminergic mechanism is clinically important because dopamine blockade can worsen motor symptoms in synucleinopathy-related dementias."},
+
+{s:"Alzheimer's & Dementia", ref:"agitation vs psychosis networks", q:"Why has dementia treatment increasingly moved toward matching medication to the specific symptom (agitation vs. psychosis) rather than a single blanket antipsychotic approach?",
+ o:["Agitation and psychosis arise from two separate, distinct brain networks, so targeted treatment (e.g., pimavanserin for psychosis, brexpiprazole/dextromethorphan combinations for agitation) is more mechanistically rational","Agitation and psychosis are the same phenomenon and require identical treatment","There is no evidence supporting network-specific treatment","Only psychosis, never agitation, responds to any pharmacologic intervention"], c:0,
+ e:"Agitation and psychosis in dementia arise from <b>two separate brain networks</b>, supporting a more targeted approach: pimavanserin (5HT2A antagonism) for psychosis; brexpiprazole or dextromethorphan/quinidine combinations (NMDA glutamate blockade) for agitation specifically."},
+
+{s:"Alzheimer's & Dementia", ref:"NMDA + agitation", q:"Dextromethorphan combined with quinidine or bupropion treats dementia-related agitation through which mechanism?",
+ o:["Cholinesterase inhibition","NMDA glutamate receptor blockade to calm the agitation network, with quinidine/bupropion inhibiting CYP2D6 to slow dextromethorphan metabolism and extend its effect","Dopamine D2 antagonism","5HT2A antagonism"], c:1,
+ e:"Dextromethorphan blocks <b>NMDA glutamate receptors</b> to calm the agitation network. Quinidine (or bupropion) is combined not for its own antiagitation effect, but because it <b>inhibits CYP2D6</b>, slowing dextromethorphan's metabolism and extending its therapeutic exposure — the same combination (Nuedexta) is used for pseudobulbar affect."},
+
+{s:"Alzheimer's & Dementia", ref:"depression in dementia", q:"Why might SSRIs become progressively less effective for depression as dementia advances?",
+ o:["SSRIs are never effective in dementia patients at any stage","As the underlying neural circuits continue to degenerate over the disease course, the substrate SSRIs act on progressively deteriorates, reducing their relative efficacy","SSRIs cause dementia progression directly","Depression resolves spontaneously as dementia advances"], c:1,
+ e:"As dementia progresses, ongoing <b>degeneration of the underlying neural circuits</b> SSRIs depend on to exert their effect means their relative efficacy for depression can diminish over the course of the disease — this doesn't mean SSRIs are ineffective early on, but expectations should shift as disease advances."},
+
+{s:"Alzheimer's & Dementia", ref:"ACh synthesis/breakdown", q:"Acetylcholine synthesis and breakdown involve which enzymes, respectively?",
+ o:["Choline acetyltransferase synthesizes ACh; acetylcholinesterase and butyrylcholinesterase break it down","Acetylcholinesterase synthesizes ACh; choline acetyltransferase breaks it down","Monoamine oxidase synthesizes and breaks down ACh","COMT is responsible for both synthesis and breakdown"], c:0,
+ e:"ACh is synthesized from choline + acetyl coenzyme A via <b>choline acetyltransferase</b>. It's broken down by two enzymes: <b>acetylcholinesterase</b> (primary, more selective) and <b>butyrylcholinesterase</b> (secondary, becomes more relevant later in disease as glial activity increases)."},
+
+{s:"Alzheimer's & Dementia", ref:"receptor families", q:"Muscarinic acetylcholine receptors are best described as:",
+ o:["A single fast-acting ionotropic receptor subtype","Five subtypes, with three excitatory and two inhibitory autoreceptor subtypes, all metabotropic (G-protein coupled)","Fast-acting ionotropic receptors, identical to nicotinic receptors","Receptors that respond exclusively to dopamine, not acetylcholine"], c:1,
+ e:"Muscarinic receptors comprise <b>five subtypes</b> (M1-M5) — three excitatory, two inhibitory autoreceptors — and are metabotropic/G-protein coupled (slower signaling). This contrasts with <b>nicotinic</b> receptors, which are fast-acting ionotropic (ligand-gated ion channel) receptors."},
+
+{s:"Alzheimer's & Dementia", ref:"NPH", q:"A patient presents with the triad of gait disturbance, urinary incontinence, and cognitive decline, with imaging showing enlarged ventricles disproportionate to sulcal atrophy. What condition should be considered as a potentially reversible cause of dementia symptoms?",
+ o:["Alzheimer's disease","Normal pressure hydrocephalus","Frontotemporal dementia","Vascular dementia"], c:1,
+ e:"The classic triad (gait disturbance, urinary incontinence, cognitive decline) plus ventriculomegaly out of proportion to atrophy suggests <b>normal pressure hydrocephalus</b> — one of the reversible/treatable causes of dementia-like symptoms (via CSF shunting), making it important to rule out during any new dementia workup."},
+
+{s:"Alzheimer's & Dementia", ref:"brain regions memory", q:"Which cholinergic projection pathway is MOST tied to memory and most affected in Alzheimer's disease?",
+ o:["Brainstem cholinergic projections to the thalamus and hypothalamus","Basal forebrain cholinergic projections to the prefrontal cortex, amygdala, and hippocampus","Nigrostriatal dopaminergic projections","Mesocortical dopaminergic projections"], c:1,
+ e:"The <b>basal forebrain</b> cholinergic pathway (projecting to PFC, amygdala, hippocampus) is most tied to memory function and most affected in Alzheimer's disease, compared to the broader but less memory-specific brainstem cholinergic projections."},
+
+{s:"Alzheimer's & Dementia", ref:"prevalence", q:"Regarding Alzheimer's disease epidemiology, which statement is accurate?",
+ o:["Prevalence is expected to decline substantially by 2050 due to new treatments","Approximately 5.4 million Americans currently have Alzheimer's, with prevalence expected to more than double to roughly 14 million by 2050 absent disease-modifying treatment","Alzheimer's disease affects fewer than 100,000 Americans currently","Prevalence has remained completely flat over the past several decades"], c:1,
+ e:"Roughly <b>5.4 million</b> Americans currently have Alzheimer's disease, with projections of more than <b>doubling to 14 million by 2050</b> without disease-modifying treatment — underscoring the urgency behind current drug development efforts targeting amyloid and tau."},
+
+{s:"Alzheimer's & Dementia", ref:"definitive diagnosis", q:"Why can Alzheimer's disease technically only be definitively diagnosed at autopsy?",
+ o:["Blood tests are 100% accurate but rarely ordered","Amyloid-beta plaques and neurofibrillary tangles must be physically identified in brain tissue to confirm the diagnosis with certainty, though PET/CSF biomarkers now allow strong presumptive diagnosis in life","MRI alone is always sufficient for definitive diagnosis","Genetic testing alone provides definitive diagnosis in all cases"], c:1,
+ e:"A truly <b>definitive</b> diagnosis requires physical identification of plaques and tangles in brain tissue — achievable only at autopsy. In life, PET amyloid imaging and CSF tau/amyloid biomarkers allow a strong presumptive diagnosis, but technically remain short of histopathologic confirmation."},
+
+// ============================================================
+// IMPULSIVITY & COMPULSIVITY (10)
+// ============================================================
+{s:"Impulsivity & Compulsivity", ref:"p.538", q:"A patient repeatedly checks the stove is off, feeling compelled to continue even though they know it's unnecessary, and cannot stop the checking behavior once started. This best reflects:",
+ o:["Impulsivity — cannot stop starting the action","Compulsivity — cannot stop the action once started, mediated by a dorsal striatum → thalamus → orbitofrontal cortex loop","Neither impulsivity nor compulsivity, since the patient is aware the behavior is unnecessary","A form of impulsivity mediated by the ventral striatum only"], c:1,
+ e:"This is <b>compulsivity</b> — the inability to stop an action once started, driven by the <b>dorsal striatum → thalamus → orbitofrontal cortex</b> loop. Awareness that the behavior is irrational (insight) doesn't change the classification — it's a hallmark of OCD-spectrum compulsivity specifically, distinguishing it from psychotic-driven repetitive behavior."},
+
+{s:"Impulsivity & Compulsivity", ref:"circuit comparison", q:"Which circuit is associated with impulsivity rather than compulsivity?",
+ o:["Dorsal striatum → thalamus → orbitofrontal cortex","Ventral striatum → thalamus → ventromedial prefrontal cortex/anterior cingulate cortex → back to ventral striatum","Basal forebrain → hippocampus","Nigrostriatal pathway"], c:1,
+ e:"<b>Impulsivity</b> is mediated by the bottom-up loop: <b>ventral striatum → thalamus → vmPFC/ACC → back to ventral striatum</b>. The dorsal striatum/OFC loop is specific to compulsivity."},
+
+{s:"Impulsivity & Compulsivity", ref:"transition", q:"A patient's drug use began as an occasional, pleasurable choice but has become an automatic habit they feel powerless to control, despite no longer finding it pleasurable. This reflects which underlying mechanistic shift?",
+ o:["A shift from dorsal striatum control to ventral striatum control","A shift from ventral striatum (impulsive, reward-driven) control to dorsal striatum (compulsive, habitual) control — the mechanism thought to underlie addiction","No neurobiological shift occurs; this is purely psychological","A shift from mesolimbic to mesocortical dopamine pathways exclusively"], c:1,
+ e:"This describes the classic <b>ventral → dorsal striatum shift</b> — control moves from the reward-driven, voluntary ventral striatum (early, impulsive use) to the automatic, habitual dorsal striatum (late, compulsive use), explaining why continued use persists even after the reward itself fades."},
+
+{s:"Impulsivity & Compulsivity", ref:"reward pathway", q:"Repeated drug-associated cues (e.g., seeing drug paraphernalia) can trigger drug-seeking behavior long after a person has quit. What explains this phenomenon?",
+ o:["Classical conditioning via the mesolimbic dopamine pathway, where cues become linked to reward over time and later reactivate drug-seeking even without the drug itself present","Random chance with no neurobiological basis","Direct pharmacologic action of the cue itself on opioid receptors","A phenomenon unrelated to dopamine signaling"], c:0,
+ e:"This reflects <b>classical conditioning</b> operating through the mesolimbic dopamine pathway — cues repeatedly paired with drug reward become capable of triggering craving/seeking behavior on their own, even long after cessation, which is a major driver of relapse."},
+
+{s:"Impulsivity & Compulsivity", ref:"tonic vs phasic dopamine", q:"Why do drugs of abuse produce such powerful reinforcement compared to natural rewards like food?",
+ o:["Natural rewards and drugs of abuse produce identical dopamine release patterns","Natural rewards produce steady, low-level ('tonic') dopamine release, while drugs of abuse trigger sudden, explosive ('phasic') bursts far more intense than the brain can naturally replicate","Drugs of abuse suppress dopamine release entirely, which is paradoxically reinforcing","Natural rewards produce more dopamine than any drug of abuse"], c:1,
+ e:"Natural rewards produce steady, <b>tonic</b> dopamine release. Drugs of abuse trigger sudden, <b>phasic</b> bursts far more intense than natural rewards can produce — and the brain can never fully replicate that same burst again naturally, part of why cravings for the drug specifically (not substitutes) persist."},
+
+{s:"Impulsivity & Compulsivity", ref:"violence types", q:"Which category of violence, while the least common, is considered the most severe and least responsive to treatment?",
+ o:["Impulsive violence (~63%)","Psychotic violence (~20%)","Psychopathic violence (~17%)","All categories are equally severe and treatment-responsive"], c:2,
+ e:"<b>Psychopathic violence</b> is the least common (~17%) but the most severe and least treatment-responsive of the three categories. Impulsive violence is most common (~63%); psychotic violence is intermediate (~20%) and generally more treatment-responsive since it often resolves with antipsychotic treatment of the underlying psychosis."},
+
+{s:"Impulsivity & Compulsivity", ref:"historical view", q:"How were impulsivity and compulsivity historically viewed, and how has this understanding evolved?",
+ o:["Historically seen as identical; now understood to be entirely unrelated","Historically seen as opposites (impulsivity=risk-seeking, compulsivity=harm-avoidance); now understood to share rigid, inflexible thinking and a shared sense of lost control, with impulsivity able to transition into compulsivity","Historically seen as unrelated; now proven to be identical processes","Historically seen as purely genetic; now understood to be purely environmental"], c:1,
+ e:"Impulsivity and compulsivity were historically framed as <b>opposites</b> (risk-seeking vs. harm-avoidance). The current understanding recognizes they share <b>rigid, inflexible thinking</b> and a real sense of lost control, with impulsivity able to <b>transition into</b> compulsivity as a behavior becomes ingrained habit — the mechanism thought to underlie addiction."},
+
+{s:"Impulsivity & Compulsivity", ref:"nucleus accumbens", q:"The nucleus accumbens is anatomically and functionally part of which structure, and what is it primarily associated with?",
+ o:["Part of the dorsal striatum; associated with compulsive habit","Part of the ventral striatum; associated with impulsivity, reward-seeking, and early voluntary drug use","Part of the thalamus; associated with sensory relay only","Part of the cerebellum; associated with motor coordination"], c:1,
+ e:"The <b>nucleus accumbens</b> is part of the <b>ventral striatum</b>, associated with impulsivity, reward-seeking, and early, voluntary, goal-directed drug use — as addiction progresses, control shifts to the dorsal striatum for automatic, compulsive habitual use."},
+
+{s:"Impulsivity & Compulsivity", ref:"OCD parallel", q:"How does the ventral-to-dorsal striatal shift seen in addiction relate to successful OCD treatment with exposure and response prevention (ERP)?",
+ o:["ERP has no relationship to striatal circuitry","ERP is thought to work by shifting control back FROM the dorsal striatum TOWARD the ventral striatum — essentially reversing the same shift seen in the progression of addiction","ERP works by increasing dorsal striatum dominance further","The relationship is purely coincidental with no shared mechanism"], c:1,
+ e:"Successful ERP is thought to shift control <b>from the dorsal striatum back toward the ventral striatum</b> — essentially reversing the same directional shift that characterizes addiction progression (and dementia-related agitation escalation), which is why ERP's benefits can persist after therapy ends: it appears to reverse the abnormal circuitry rather than just mask symptoms."},
+
+{s:"Impulsivity & Compulsivity", ref:"clinical overlap", q:"A patient with long-standing OCD develops a co-occurring substance use disorder. Which shared neurobiological feature helps explain this common comorbidity pattern?",
+ o:["Both conditions involve loss of insight into the behavior","Both conditions involve the same underlying rigid, habitual striatal circuitry (dorsal striatum dominance) once established, despite differing initial presentations","There is no plausible shared mechanism between OCD and substance use disorder","Both conditions are caused exclusively by serotonin excess"], c:1,
+ e:"Both OCD and established addiction converge on <b>dorsal striatum-dominant, habitual circuitry</b> once the disorder is entrenched, which helps explain the elevated comorbidity between OCD-spectrum conditions and substance use disorders — different starting points, overlapping end-stage circuitry."},
+
+// ============================================================
+// ADHD (30)
+// ============================================================
+{s:"ADHD", ref:"p.449-450", q:"A 9-year-old has significant inattention and impulsivity at school and at home, present since age 6, causing academic and social impairment. What underlying model best explains ADHD pathophysiology per Stahl?",
+ o:["A single global deficiency affecting the whole brain uniformly","Inefficient information processing in specific prefrontal cortex circuits, not one uniform global deficit","Complete absence of dopamine and norepinephrine throughout the CNS","Excess serotonin in the basal ganglia"], c:1,
+ e:"ADHD reflects <b>inefficient processing within specific prefrontal circuits</b>, not a uniform global brain deficiency. Diagnostic criteria require symptoms present before age 12, persisting ≥6 months, in ≥2 settings, with clinically significant impairment — this case meets those criteria."},
+
+{s:"ADHD", ref:"Fig 11-2", q:"A patient with ADHD has particular trouble with sustained attention and problem-solving/organization, but relatively less impulsivity. Which brain region is most implicated?",
+ o:["Orbitofrontal cortex","Dorsolateral prefrontal cortex","Prefrontal motor cortex","Dorsal anterior cingulate cortex"], c:1,
+ e:"<b>Dorsolateral prefrontal cortex</b> dysfunction produces sustained attention and problem-solving/organizational deficits (tested via the n-back test). Orbitofrontal cortex maps to impulsivity; prefrontal motor cortex to hyperactivity; dorsal ACC to selective attention/careless mistakes (tested via Stroop)."},
+
+{s:"ADHD", ref:"signal-to-noise", q:"In the norepinephrine/dopamine signal-to-noise model of ADHD, which statement correctly describes the HCN channel gate mechanism?",
+ o:["Norepinephrine binding alpha-2A opens the gate, weakening signal; dopamine binding D1 closes the gate, strengthening signal","Norepinephrine binding alpha-2A closes the gate, strengthening signal; dopamine binding D1 opens the gate, and excess dopamine can let the signal leak out and get lost","Both neurotransmitters act identically on the same gate with no distinguishable effect","Neither neurotransmitter interacts with the HCN channel"], c:1,
+ e:"<b>Norepinephrine</b> binds alpha-2A receptors, <b>closing</b> the HCN channel gate → strengthens signal. <b>Dopamine</b> binds D1 receptors, <b>opening</b> the same gate — too much dopamine can let the signal leak out and get lost. Both must sit at an optimal midpoint (inverted-U) for the PFC to function well; in ADHD both are too low."},
+
+{s:"ADHD", ref:"inverted-U", q:"Why might excessive stimulant dosing paradoxically worsen attention in some ADHD patients rather than improve it further?",
+ o:["Stimulants have no dose-response relationship at all","Prefrontal cortex function follows an inverted-U-shaped dose-response curve for dopamine/norepinephrine — too little OR too much impairs function, so overshooting the optimal zone can worsen rather than improve symptoms","Stimulants only ever improve function regardless of dose","Excess stimulant dosing exclusively affects the cerebellum, not the PFC"], c:1,
+ e:"PFC function depends on dopamine and norepinephrine sitting at an <b>optimal midpoint</b> on an inverted-U curve. Overshooting into excess dopamine (via too high a stimulant dose) can push function back down the other side of the curve — 'more' is not always 'better' for stimulant dosing."},
+
+{s:"ADHD", ref:"guanfacine vs clonidine", q:"Why might a clinician prefer guanfacine over clonidine for a pediatric ADHD patient concerned about sedation?",
+ o:["Guanfacine has no alpha-2 activity at all, unlike clonidine","Guanfacine is 15-60x more selective for the alpha-2A receptor than clonidine, producing less sedation and less blood pressure drop for a comparable therapeutic effect","Clonidine has no sedating effects, making guanfacine unnecessary","Guanfacine is a stimulant, unlike clonidine"], c:1,
+ e:"Guanfacine's greater <b>alpha-2A selectivity</b> (15-60x more selective than clonidine, which also hits alpha-2B/2C more) produces less sedation and less BP drop for comparable therapeutic benefit — useful when minimizing these side effects is a priority, such as school-day dosing."},
+
+{s:"ADHD", ref:"atomoxetine mechanism", q:"A prescriber explains that atomoxetine raises both norepinephrine and dopamine in the prefrontal cortex but has low abuse potential. What is the pharmacologic basis for this selectivity?",
+ o:["Atomoxetine cannot cross the blood-brain barrier, limiting effects to the periphery","The PFC has very few dopamine transporters, so the norepinephrine transporter clears dopamine there too — blocking NET raises both NE and dopamine in the PFC specifically, while the nucleus accumbens (rich in dopamine transporters) is largely unaffected, avoiding the 'high'","Atomoxetine selectively destroys dopamine transporters only in the nucleus accumbens","Atomoxetine has no effect on dopamine anywhere in the brain"], c:1,
+ e:"Because the PFC has very few dedicated dopamine transporters, the <b>norepinephrine transporter</b> does double duty clearing dopamine there — blocking NET (atomoxetine's mechanism) raises both chemicals, but specifically in the PFC. The nucleus accumbens has abundant dopamine transporters, so atomoxetine doesn't meaningfully raise dopamine there, explaining its low misuse potential."},
+
+{s:"ADHD", ref:"atomoxetine warning", q:"Which black-box warning is specific to atomoxetine among ADHD non-stimulants?",
+ o:["Risk of QT prolongation","Increased suicidal thinking in children and adolescents","Risk of malignant hyperthermia","Risk of agranulocytosis"], c:1,
+ e:"Atomoxetine carries a black-box warning for <b>increased suicidal thinking in children and adolescents</b>. It also takes 2-4 weeks for full therapeutic effect (unlike stimulants' immediate onset) and has antidepressant properties in addition to its ADHD indication."},
+
+{s:"ADHD", ref:"bupropion for ADHD", q:"A patient with ADHD and comorbid nicotine dependence is started on bupropion off-label. Which safety consideration is most relevant?",
+ o:["Bupropion carries a specific FDA black-box warning for ADHD use","Bupropion lowers the seizure threshold, warranting caution, particularly at higher doses or in patients with other seizure risk factors","Bupropion has no relevant safety considerations at any dose","Bupropion causes significant QT prolongation, more than any other ADHD medication"], c:1,
+ e:"Bupropion's main safety consideration is that it <b>lowers seizure threshold</b> — clinically relevant caution, especially at higher doses or with other risk factors (eating disorders, alcohol withdrawal). It carries no ADHD-specific black-box warning but is used off-label, most often when comorbid depression or nicotine dependence is also present."},
+
+{s:"ADHD", ref:"methylphenidate mechanism", q:"How does methylphenidate's mechanism at the dopamine transporter differ functionally from lisdexamfetamine's onset profile, and why does this matter clinically?",
+ o:["Methylphenidate physically plugs the dopamine transporter with rapid onset possible via non-oral routes (abuse potential); lisdexamfetamine is an inactive prodrug requiring enzymatic cleavage, producing a smoother, slower onset with lower misuse potential","Both have identical onset profiles and abuse potential","Lisdexamfetamine physically plugs the transporter; methylphenidate is the prodrug","Neither drug affects the dopamine transporter at all"], c:0,
+ e:"<b>Methylphenidate</b> directly and rapidly blocks the dopamine transporter — if taken via a fast-onset route (snorting, injecting) rather than orally as prescribed, this can produce a rapid 'high' with real abuse potential. <b>Lisdexamfetamine</b> is chemically inactive until enzymes gradually cleave off its lysine attachment, producing a smoother, delayed release that's inherently harder to misuse for a rapid euphoric effect."},
+
+{s:"ADHD", ref:"D-isomer potency", q:"Regarding methylphenidate's isomers, which statement is accurate?",
+ o:["The L-isomer is significantly more potent than the D-isomer at the dopamine/norepinephrine transporters","The D-isomer is significantly more potent than the L-isomer at binding the dopamine/norepinephrine transporters","Both isomers are pharmacologically inactive","Methylphenidate exists only as a single isomer with no stereochemistry"], c:1,
+ e:"The <b>D-isomer</b> of methylphenidate is significantly more potent than the L-isomer at binding the dopamine and norepinephrine transporters — most formulations are enriched for or exclusively contain the D-isomer (dexmethylphenidate) for this reason."},
+
+{s:"ADHD", ref:"comorbid tx order", q:"A 28-year-old presents with ADHD, major depressive disorder, and active alcohol use disorder. What is the correct treatment prioritization?",
+ o:["Treat ADHD first with a stimulant to improve function across all domains simultaneously","Stabilize the alcohol use disorder first, then treat the mood disorder, addressing ADHD last","Treat all three conditions with a single combination medication simultaneously","Treat the mood disorder first, then ADHD, then substance use last"], c:1,
+ e:"The correct sequencing prioritizes clinical significance: <b>substance use disorder first</b> (stabilize), then <b>mood disorders</b>, then anxiety disorders, then nicotine dependence — with ADHD typically treated <b>last</b> in adults, to ensure mood/substance stability before introducing a stimulant, which could complicate an unstable substance use disorder."},
+
+{s:"ADHD", ref:"stimulant DAT occupancy", q:"What DAT (dopamine transporter) occupancy range is considered the therapeutic sweet spot for stimulant medications in ADHD?",
+ o:["10-20%","50-60%","90-100%","There is no established occupancy-effect relationship"], c:1,
+ e:"Stimulants are thought to work best occupying roughly <b>50-60%</b> of the dopamine transporter — this occupancy range is associated with therapeutic benefit without tipping into the higher-occupancy range associated with euphoria/abuse potential."},
+
+{s:"ADHD", ref:"genetic heritability", q:"ADHD has one of the strongest genetic components of any psychiatric disorder. Approximately what percentage is attributed to heritability?",
+ o:["~25%","~50%","~75%","~10%"], c:2,
+ e:"ADHD's genetic component is approximately <b>75%</b> — one of the strongest heritability estimates in all of psychiatry, thought to relate to delayed maturation of prefrontal cortex circuitry (abnormal synapse formation/pruning during childhood development)."},
+
+{s:"ADHD", ref:"symptom trajectory", q:"How does the symptom profile of ADHD typically evolve from childhood into adulthood?",
+ o:["Hyperactivity tends to persist unchanged while inattention resolves completely","Hyperactivity tends to decline with age, while inattention and impulsivity often persist into adolescence and adulthood","All three core symptoms resolve completely by adulthood in nearly all patients","Impulsivity resolves first, followed by inattention, then hyperactivity"], c:1,
+ e:"<b>Hyperactivity</b> tends to decline with age (often becoming subtler restlessness in adults), while <b>inattention and impulsivity</b> more often persist into adolescence and adulthood — which is why adult ADHD presentations often look different from the classically 'hyperactive' childhood presentation."},
+
+{s:"ADHD", ref:"behavioral intervention", q:"How does behavioral intervention interact with pharmacotherapy in ADHD management?",
+ o:["Behavioral intervention has no measurable clinical benefit and should be skipped in favor of medication alone","Behavioral intervention (parent training, classroom strategies, organizational skills training) improves real-world functioning and, combined with medication, can allow for a lower effective medication dose","Behavioral intervention should only be used after medication has completely failed","Behavioral intervention is contraindicated when medication is also being used"], c:1,
+ e:"Behavioral intervention improves <b>real-world functioning</b> independently and, when combined with medication, can allow a <b>lower effective medication dose</b> — often the recommended first step, especially in young children, rather than a last resort."},
+
+{s:"ADHD", ref:"comorbid anxiety", q:"Why are non-stimulant options often favored when ADHD coexists with anxiety?",
+ o:["Non-stimulants have no efficacy for ADHD at all and are used only for anxiety","Stimulants can sometimes worsen anxiety symptoms, making non-stimulants (atomoxetine, guanfacine) or a lower/careful stimulant dose generally preferred","Stimulants have no interaction with anxiety symptoms whatsoever","Non-stimulants are always more effective than stimulants for core ADHD symptoms"], c:1,
+ e:"<b>Stimulants can worsen anxiety</b> in some patients, so <b>non-stimulant options</b> (atomoxetine, guanfacine) or a lower, carefully titrated stimulant dose are generally favored when ADHD and anxiety coexist."},
+
+{s:"ADHD", ref:"viloxazine", q:"Viloxazine ER, a newer ADHD medication, works through which mechanism?",
+ o:["Selective norepinephrine reuptake inhibition, with additional activity at 5HT2B/5HT2C receptors","Pure dopamine agonism with high abuse potential","GABA-A positive allosteric modulation","Direct nicotinic receptor blockade"], c:0,
+ e:"<b>Viloxazine ER</b> is a selective norepinephrine reuptake inhibitor with additional activity at <b>5HT2B/5HT2C</b> receptors — previously used for depression abroad, now repurposed specifically for ADHD."},
+
+{s:"ADHD", ref:"mazindol", q:"Mazindol, currently in testing for ADHD, was historically used for which other indication, and what is its mechanism?",
+ o:["Appetite suppression; triple reuptake inhibitor of serotonin, norepinephrine, and dopamine","Antihypertensive; alpha-2 agonist","Antipsychotic; dopamine D2 antagonist","Antiepileptic; sodium channel blockade"], c:0,
+ e:"Mazindol was historically used as an <b>appetite suppressant</b> and works as a <b>triple reuptake inhibitor</b> (serotonin, norepinephrine, dopamine) — currently being repurposed and studied for ADHD."},
+
+{s:"ADHD", ref:"diagnostic criteria", q:"Why does DSM criteria require ADHD symptom onset before age 12?",
+ o:["It has no clinical purpose and is an arbitrary cutoff","It provides a partial safeguard against patients seeking stimulant medication without an underlying, legitimate childhood-onset diagnosis","It ensures the diagnosis can only be made in children, never in adults","Symptoms after age 12 are always attributable to a different disorder entirely"], c:1,
+ e:"Requiring symptom onset before age 12 functions partly as a <b>safeguard</b> against adults seeking stimulant medication without a legitimate underlying childhood-onset condition — while still allowing the diagnosis to be made or carried into adulthood if criteria were genuinely met earlier in life."},
+
+{s:"ADHD", ref:"stimulant cardiac screening", q:"Before initiating a stimulant medication for ADHD, which assessment is a standard consideration?",
+ o:["Baseline liver function tests only, with no cardiovascular assessment needed","Cardiovascular screening (history, exam, and vital signs at minimum) given stimulants' sympathomimetic cardiovascular effects","Genetic ApoE testing","Baseline EEG in all patients regardless of history"], c:1,
+ e:"<b>Cardiovascular screening</b> (history for cardiac disease/sudden death in family, exam, and baseline vitals) is a standard consideration before starting stimulants, given their sympathomimetic effects on heart rate and blood pressure."},
+
+{s:"ADHD", ref:"vyvanse schedule", q:"Despite its lower misuse potential compared to immediate-release stimulants, lisdexamfetamine remains classified as which DEA schedule?",
+ o:["Schedule V","Schedule IV","Schedule II","Not a controlled substance"], c:2,
+ e:"Lisdexamfetamine remains <b>Schedule II</b>, the same as other amphetamine/methylphenidate stimulants, despite its lower relative misuse potential due to the prodrug delay mechanism — the underlying active compound (amphetamine) still places it in this schedule."},
+
+{s:"ADHD", ref:"primary NTs", q:"ADHD symptomatology is primarily attributed to dysregulation of which two neurotransmitters?",
+ o:["Serotonin and GABA","Dopamine and norepinephrine","Histamine and acetylcholine","Glutamate and glycine"], c:1,
+ e:"<b>Dopamine and norepinephrine</b> are the primary neurotransmitters implicated in ADHD — both are too low in the prefrontal cortex, producing the weak-signal, high-noise state underlying core symptoms."},
+
+{s:"ADHD", ref:"tics and stimulants", q:"A patient with ADHD and a comorbid tic disorder is considered for stimulant treatment. What is the appropriate clinical approach?",
+ o:["Stimulants are absolutely contraindicated in any patient with a tic history and should never be tried","Stimulants can be cautiously trialed, since the relationship between stimulants and tic exacerbation is less consistent than previously believed, though tics should be monitored","Only high-dose stimulants should be used to fully suppress tics","Tic disorders have no relevance to stimulant treatment decisions"], c:1,
+ e:"Current evidence suggests the relationship between stimulants and tic exacerbation is <b>less consistent</b> than once believed, and stimulants are not an absolute contraindication in comorbid tic disorder — but tics should still be monitored during treatment, and non-stimulant options remain reasonable alternatives if tics worsen."},
+
+{s:"ADHD", ref:"growth monitoring", q:"Which monitoring parameter is specifically important in pediatric patients on chronic stimulant therapy?",
+ o:["Liver function tests exclusively","Height, weight, and growth velocity, given the appetite-suppressant and potential growth-related effects of stimulants","Thyroid function exclusively","Renal function exclusively"], c:1,
+ e:"<b>Growth parameters</b> (height, weight, growth velocity) should be monitored regularly in children on chronic stimulant therapy, given the appetite-suppressant effects and documented, though generally modest, effects on growth trajectory."},
+
+{s:"ADHD", ref:"age-range considerations", q:"Which statement about age-related ADHD medication considerations is accurate?",
+ o:["No stimulants are approved before age 12","Many stimulants are approved starting around age 6, with atomoxetine and guanfacine also carrying pediatric approval, but growth/appetite effects and cardiovascular screening remain relevant considerations across the pediatric age range","Adult patients require no different considerations than pediatric patients","Non-stimulants are approved only in adults, never in children"], c:1,
+ e:"Many stimulants are approved starting around <b>age 6</b>; atomoxetine and guanfacine also carry pediatric approval. Considerations shift by age group: growth/appetite effects and cardiovascular screening in children, and different metabolism/comorbidity patterns in adults."},
+
+{s:"ADHD", ref:"tx selection questions", q:"When selecting an ADHD treatment, which factor would most favor choosing a prodrug/extended-release stimulant formulation over an immediate-release one?",
+ o:["A patient with no personal or family history of substance misuse","A patient or family history of substance misuse, favoring the lower misuse potential and steadier profile of a prodrug/extended-release formulation","A strong preference for the shortest possible duration of coverage","An absence of any comorbid conditions"], c:1,
+ e:"A personal or family history of <b>substance misuse</b> favors choosing a prodrug (lisdexamfetamine) or extended-release formulation — their pharmacokinetic profile (slower onset, steadier levels) carries inherently lower misuse potential than immediate-release stimulants."},
+
+{s:"ADHD", ref:"DLPFC vs dACC testing", q:"Which cognitive test is used to assess dorsal anterior cingulate cortex function (selective attention) in ADHD-related research?",
+ o:["The n-back test","The Stroop test","The Wisconsin Card Sorting Test exclusively","MRI alone, with no behavioral test needed"], c:1,
+ e:"The <b>Stroop test</b> assesses selective attention, mapping to dorsal ACC function — distractibility/careless mistakes. The <b>n-back test</b> assesses sustained attention/working memory, mapping to dorsolateral PFC function."},
+
+{s:"ADHD", ref:"prefrontal motor cortex", q:"Hyperactivity (fidgeting, difficulty remaining seated) in ADHD maps most directly to dysfunction in which region?",
+ o:["Orbitofrontal cortex","Dorsal anterior cingulate cortex","Prefrontal motor cortex","Dorsolateral prefrontal cortex"], c:2,
+ e:"<b>Prefrontal motor cortex</b> dysfunction maps to the hyperactivity symptom domain (fidgeting, difficulty staying seated) — distinct from orbitofrontal cortex (impulsivity), dorsal ACC (selective attention), and DLPFC (sustained attention/organization)."},
+
+{s:"ADHD", ref:"onset timing comparison", q:"Which statement correctly compares onset of therapeutic effect between stimulants and atomoxetine?",
+ o:["Both have identical onset profiles of several weeks","Stimulants act rapidly (same-day effect possible); atomoxetine requires 2-4 weeks for full therapeutic effect","Atomoxetine acts immediately; stimulants require weeks","Neither has a clinically relevant onset difference"], c:1,
+ e:"<b>Stimulants</b> can produce a same-day therapeutic effect due to their direct transporter mechanism. <b>Atomoxetine</b> requires <b>2-4 weeks</b> for full effect, similar to an antidepressant onset timeline — an important patient-education point when starting a non-stimulant."},
+
+{s:"ADHD", ref:"comorbid substance risk", q:"Why might a clinician specifically favor a non-stimulant or extended-release/prodrug stimulant over immediate-release stimulants in an adult ADHD patient with a remote history of cocaine use disorder, now in sustained remission?",
+ o:["Immediate-release stimulants are absolutely contraindicated forever in anyone with any substance use history, regardless of formulation risk profile","A history of stimulant-class substance misuse raises legitimate concern about relapse risk with immediate-release, rapid-onset stimulants specifically, making non-stimulants or lower-misuse-potential formulations (extended-release, prodrug) a more cautious first choice, without necessarily ruling out stimulants altogether","Cocaine use history has no bearing on ADHD medication selection","Only benzodiazepines are appropriate in this scenario"], c:1,
+ e:"A history of <b>stimulant-class substance misuse</b> doesn't automatically rule out all stimulant treatment, but it does raise legitimate relapse-risk concerns specifically with <b>immediate-release, rapid-onset</b> formulations. A more cautious approach — starting with non-stimulants (atomoxetine, guanfacine) or lower-misuse-potential formulations (extended-release, prodrug lisdexamfetamine) — is a reasonable first-line strategy in this population, informed shared decision-making and close monitoring either way."},
+
+// ============================================================
+// ADDICTION TREATMENT (25)
+// ============================================================
+{s:"Addiction Treatment", ref:"p.560", q:"A patient with opioid use disorder last used heroin 6 hours ago and wants to start buprenorphine immediately. What is the appropriate response?",
+ o:["Start buprenorphine now, since earlier initiation is always better","Wait until the patient is in mild-to-moderate withdrawal, confirmed with the COWS scale (typically ~12-16 hours after last use), to avoid precipitated withdrawal","Start methadone instead, since timing doesn't matter for methadone","Refuse to treat the patient until documented abstinence for 30 days"], c:1,
+ e:"Starting buprenorphine too early, while full opioid is still substantially bound to the receptor, forcefully displaces it while only partially activating the receptor → <b>precipitated, severe withdrawal</b>. The patient must be in <b>mild-to-moderate withdrawal</b> first, confirmed via <b>COWS</b>, typically ~12-16 hours after last use of a short-acting opioid like heroin."},
+
+{s:"Addiction Treatment", ref:"ceiling effect", q:"Buprenorphine's 'ceiling effect' refers to which pharmacologic property?",
+ o:["Its effect increases linearly and indefinitely with dose","As a partial mu-agonist, its respiratory depressant and euphoric effects plateau above a certain dose, unlike a full agonist, lowering overdose risk","It has no maximum effective dose","It only applies to its analgesic properties, not respiratory depression"], c:1,
+ e:"As a <b>partial mu-opioid agonist</b>, buprenorphine's effects (including respiratory depression) plateau — the 'ceiling effect' — above a certain dose, unlike full agonists like methadone or heroin whose effects continue increasing with dose. This lowers overdose risk relative to full agonists."},
+
+{s:"Addiction Treatment", ref:"naloxone guard", q:"Why does the naloxone component in Suboxone not interfere with buprenorphine's therapeutic effect when taken as prescribed?",
+ o:["Naloxone has no oral or sublingual bioavailability at all under any circumstance","Naloxone has poor sublingual bioavailability, so at prescribed sublingual dosing it remains largely inactive; it only becomes fully active if the product is injected, precipitating withdrawal and deterring misuse","Naloxone is metabolized instantly regardless of route","Naloxone actively enhances buprenorphine's effect when taken sublingually"], c:1,
+ e:"Naloxone has <b>poor sublingual absorption</b>, so as prescribed it remains largely inactive, allowing buprenorphine to work unimpeded. If the product is <b>injected</b> instead, naloxone becomes fully bioavailable and precipitates withdrawal — deterring diversion/misuse via injection specifically."},
+
+{s:"Addiction Treatment", ref:"buprenorphine + methadone", q:"Why should buprenorphine and methadone never be given together or from the same clinic?",
+ o:["They have no pharmacologic interaction, but insurance rules prohibit it","Buprenorphine's partial agonism can precipitate withdrawal in a patient stabilized on a full agonist like methadone by displacing it from the receptor while only partially activating it","Combining them always produces fatal respiratory depression within minutes","There is no clinical rationale; this is an arbitrary rule"], c:1,
+ e:"Because buprenorphine is a <b>partial agonist</b> with high receptor affinity, introducing it in a patient stabilized on methadone (a full agonist) can <b>displace</b> methadone from the receptor while only partially activating it — precipitating withdrawal, the same mechanism as starting buprenorphine too early after any full agonist opioid."},
+
+{s:"Addiction Treatment", ref:"delivery routes", q:"Which of the following buprenorphine delivery formats allows for the longest interval between doses?",
+ o:["Daily sublingual tablet","Weekly sublingual film","6-month subdermal implant or monthly injection (Sublocade)","Twice-daily oral tablet"], c:2,
+ e:"Buprenorphine is available as a <b>6-month subdermal implant</b> or a <b>monthly injection (Sublocade)</b> — offering far longer intervals between doses than sublingual daily dosing, useful for adherence and reducing diversion risk."},
+
+{s:"Addiction Treatment", ref:"alpha-2 agonist adjunct", q:"Adding clonidine or lofexidine to a buprenorphine taper or opioid withdrawal protocol accomplishes which specific goal?",
+ o:["Extends the duration of withdrawal for more thorough symptom resolution","Reduces the INTENSITY of withdrawal symptoms through alpha-2 agonism, calming the noradrenergic surge that drives many withdrawal symptoms","Cures the underlying opioid use disorder outright","Eliminates the need for buprenorphine or methadone entirely"], c:1,
+ e:"Alpha-2 agonists like clonidine or lofexidine reduce the <b>intensity</b> (not necessarily duration) of opioid withdrawal by dampening the noradrenergic surge (from locus coeruleus disinhibition) that drives symptoms like sweating, tachycardia, and anxiety during withdrawal."},
+
+{s:"Addiction Treatment", ref:"buprenorphine monitoring", q:"Which laboratory monitoring is recommended at baseline and periodically during buprenorphine treatment?",
+ o:["Renal function tests only","Liver function tests, given hepatotoxicity risk","Thyroid function tests only","Complete blood count only"], c:1,
+ e:"<b>Liver function tests</b> at baseline and periodically are recommended during buprenorphine treatment, given its potential for <b>hepatotoxicity</b>."},
+
+{s:"Addiction Treatment", ref:"naltrexone mechanism", q:"A patient asks how naltrexone reduces cravings for alcohol. Which explanation is most accurate?",
+ o:["Naltrexone directly sedates the CNS, unrelated to opioid receptors","Alcohol releases endogenous opioids that disinhibit dopamine release in the nucleus accumbens by suppressing GABAergic 'brake' neurons in the VTA; naltrexone occupies mu-opioid receptors first, keeping the GABAergic brake engaged and preventing the dopamine surge","Naltrexone blocks alcohol absorption in the GI tract","Naltrexone works by directly increasing GABA levels"], c:1,
+ e:"Alcohol triggers endogenous opioid release, which binds mu-receptors on <b>GABAergic neurons in the VTA</b> that normally brake dopamine release — releasing that brake floods the nucleus accumbens with dopamine (the reward). <b>Naltrexone</b> occupies those same mu-receptors first, keeping the brake engaged, blunting the dopamine surge and thus the reward from drinking."},
+
+{s:"Addiction Treatment", ref:"Sinclair method", q:"The Sinclair method for alcohol use disorder involves which specific dosing strategy?",
+ o:["Taking naltrexone only during complete abstinence, never around actual drinking","Taking naltrexone approximately 1 hour before drinking, gradually extinguishing the reward-driven habit through repeated pairing of drinking with a blocked reward","Taking naltrexone continuously with no relationship to drinking events","Avoiding naltrexone entirely in favor of acamprosate"], c:1,
+ e:"The <b>Sinclair method</b> has patients take naltrexone about <b>1 hour before drinking</b> — by repeatedly pairing drinking with a blocked reward (extinction learning), the reward-driven habit gradually weakens over time, rather than requiring complete abstinence from the start."},
+
+{s:"Addiction Treatment", ref:"naltrexone pre-tx", q:"Before starting naltrexone for opioid use disorder, what must be confirmed to avoid a dangerous complication?",
+ o:["The patient has been opioid-free for 7-10 days, confirmed with a negative urine drug screen, to avoid precipitated withdrawal","The patient has used opioids within the past 24 hours","The patient has a positive urine drug screen for opioids","No confirmation is needed prior to starting naltrexone"], c:0,
+ e:"Naltrexone is a full mu-opioid <b>antagonist</b> — starting it while opioids (or their metabolites) are still present in the system precipitates severe, immediate withdrawal. Confirming <b>7-10 days opioid-free</b> via negative urine drug screen is required before initiation."},
+
+{s:"Addiction Treatment", ref:"naloxone vs naltrexone", q:"Which memory aid correctly distinguishes naloxone from naltrexone?",
+ o:["Naloxone = long half-life, chronic maintenance; naltrexone = fast onset, emergency reversal","Naloxone = fast onset, short half-life, emergency overdose reversal ('fast Ox'); naltrexone = long half-life, chronic maintenance treatment ('long Trek')","Both drugs have identical half-lives and identical clinical uses","Naloxone is used for alcohol use disorder; naltrexone is used only for opioid overdose"], c:1,
+ e:"<b>Naloxone</b> ('fast Ox') = fast onset, short half-life, used for emergency opioid overdose reversal only. <b>Naltrexone</b> ('long Trek') = long half-life, used for chronic maintenance treatment of opioid or alcohol use disorder — not an emergency reversal agent."},
+
+{s:"Addiction Treatment", ref:"medical alert", q:"Why should a patient on naltrexone/Vivitrol wear a medical alert bracelet?",
+ o:["To alert providers that opioid pain medications will be ineffective due to receptor blockade if the patient is injured and requires analgesia","To alert providers that the patient requires higher doses of all medications generally","To indicate a documented seizure disorder","To indicate an allergy to naltrexone itself"], c:0,
+ e:"Because naltrexone <b>blocks mu-opioid receptors</b>, typical opioid pain medications will be ineffective if the patient is injured and needs analgesia — a medical alert bracelet ensures providers in an emergency know to consider alternative pain management strategies."},
+
+{s:"Addiction Treatment", ref:"acamprosate timing", q:"Why is acamprosate typically started AFTER a patient achieves initial sobriety, rather than during active drinking?",
+ o:["It has no relationship to drinking status and can be started at any time","Acamprosate works by rebalancing the glutamate excess/GABA deficit that emerges specifically once drinking stops; giving it during active drinking doesn't address the physiologic state it's designed to correct","Acamprosate is contraindicated in any patient who has ever consumed alcohol","Acamprosate directly blocks alcohol absorption, requiring abstinence to work"], c:1,
+ e:"Chronic drinking causes the brain to compensate with elevated glutamate and reduced GABA. This imbalance manifests as anxiety/insomnia/restlessness specifically <b>once drinking stops</b> — acamprosate is designed to rebalance that post-cessation state (via mild NMDA antagonism + GABA agonism), so it works best started after initial sobriety, not during active drinking."},
+
+{s:"Addiction Treatment", ref:"withdrawal comparison", q:"Which opioid withdrawal syndrome is characterized by the LATEST peak and LONGEST duration, despite being LESS intense than heroin withdrawal?",
+ o:["Heroin withdrawal","Methadone withdrawal","Buprenorphine withdrawal","All three have identical timing"], c:1,
+ e:"<b>Methadone</b> withdrawal peaks latest (72-96 hrs) and lasts longest (14+ days) due to its long, variable half-life (8-59 hrs, allowing accumulation), despite being less intense than heroin/morphine withdrawal (peak 36-72 hrs, duration 7-10 days, most intense). Buprenorphine falls in between in intensity."},
+
+{s:"Addiction Treatment", ref:"varenicline mechanism", q:"How does varenicline's partial agonism at the alpha-4 beta-2 nicotinic receptor achieve dual benefit for smoking cessation?",
+ o:["It fully blocks the receptor, preventing any nicotine effect while causing severe withdrawal","It partially activates the receptor — enough to reduce withdrawal symptoms via partial activation, while also competing with and blunting nicotine's own rewarding dopamine release if the patient smokes","It has no effect on withdrawal, only on reward","It works exclusively as a full agonist, identical to nicotine itself"], c:1,
+ e:"Varenicline's <b>partial agonism</b> gives it a dual benefit: enough receptor activation to blunt withdrawal symptoms, while also occupying the receptor to <b>compete with nicotine</b> — reducing the rewarding dopamine surge if the patient does smoke. This dual mechanism explains why it outperforms either a pure blocker or pure agonist alone."},
+
+{s:"Addiction Treatment", ref:"nicotine receptor", q:"Nicotine's addictive potential is driven by which receptor and brain region?",
+ o:["GABA-A receptors in the hippocampus","Alpha-4 beta-2 nicotinic receptors in the ventral tegmental area, directly triggering dopamine release and desensitizing inhibitory GABA neurons","NMDA receptors in the prefrontal cortex","Mu-opioid receptors in the nucleus accumbens"], c:1,
+ e:"Nicotine acts on <b>alpha-4 beta-2 nicotinic receptors in the VTA</b>, directly triggering dopamine release while also desensitizing the inhibitory GABA neurons that would otherwise limit that release — a dual mechanism contributing to nicotine's status as one of the most addictive substances per single exposure."},
+
+{s:"Addiction Treatment", ref:"NRT mechanism", q:"Why does nicotine replacement therapy (patch, gum, lozenge) have lower abuse potential than smoking itself, despite delivering the same molecule?",
+ o:["NRT delivers nicotine much more slowly and at lower peak levels than inhaled smoke, making it less reinforcing while still reducing craving via steady receptor occupancy","NRT contains a chemically different, non-addictive form of nicotine","NRT has no pharmacologic effect at all, working purely through placebo","NRT delivers nicotine faster than smoking, explaining its safety"], c:0,
+ e:"NRT delivers nicotine <b>much more slowly and at lower peak concentrations</b> than inhaled smoke — this slower, steadier delivery is less reinforcing (lower abuse potential) while still occupying receptors enough to reduce craving, unlike the rapid spike from smoking that drives strong reinforcement."},
+
+{s:"Addiction Treatment", ref:"treatment gap statistic", q:"What does the statistic that fewer than 10% of opioid use disorder patients receive medication-assisted treatment (MAT), despite comparable efficacy to treatments for hypertension or diabetes, suggest?",
+ o:["MAT is genuinely ineffective and the low utilization rate reflects appropriate clinical caution","The gap reflects a systems-level failure (access, stigma, regulatory barriers) rather than a failure of the treatment itself or of patients","Opioid use disorder patients are less compliant with treatment than patients with other chronic diseases","MAT is only appropriate for a small minority of patients with opioid use disorder"], c:1,
+ e:"Given that MAT efficacy rates are comparable to or better than treatments for other chronic diseases, the low utilization (<10%) reflects a <b>systems-level failure</b> — access barriers, stigma, and regulatory hurdles — rather than a failure of the treatment or of the patients themselves."},
+
+{s:"Addiction Treatment", ref:"disulfiram", q:"Disulfiram deters alcohol use through which mechanism, distinct from naltrexone or acamprosate?",
+ o:["It blocks mu-opioid receptors, like naltrexone","It inhibits aldehyde dehydrogenase, causing acetaldehyde accumulation and an aversive reaction (flushing, nausea, tachycardia) if alcohol is consumed","It rebalances glutamate/GABA, like acamprosate","It is a partial dopamine agonist"], c:1,
+ e:"<b>Disulfiram</b> inhibits <b>aldehyde dehydrogenase</b>, causing toxic acetaldehyde accumulation if alcohol is consumed — producing an aversive reaction (flushing, nausea, tachycardia, hypotension). This is a fundamentally different, aversion-based mechanism compared to naltrexone (blocks reward) or acamprosate (rebalances post-cessation neurochemistry)."},
+
+{s:"Addiction Treatment", ref:"alcohol withdrawal severity", q:"A patient in acute alcohol withdrawal reports prior withdrawal seizures. What does this history indicate about current risk?",
+ o:["No increased risk, since seizures are unrelated to withdrawal severity","A significantly increased risk of recurrent withdrawal seizures and progression to delirium tremens, warranting close monitoring and aggressive symptom-triggered benzodiazepine treatment","This history rules out delirium tremens entirely","This history indicates the patient is fabricating symptoms"], c:1,
+ e:"A history of prior <b>withdrawal seizures</b> significantly increases risk of recurrence and progression to <b>delirium tremens</b> during subsequent withdrawal episodes — this patient warrants close monitoring and typically symptom-triggered (CIWA-Ar guided) benzodiazepine treatment."},
+
+{s:"Addiction Treatment", ref:"kratom", q:"Kratom's clinical relevance in addiction medicine relates to which property?",
+ o:["It has pure stimulant effects only, with no opioid activity","At low doses it acts as a stimulant, and at higher doses its alkaloids act on opioid receptors, giving it potential for both misuse and opioid-withdrawal self-treatment, with an emerging withdrawal syndrome of its own","It has no psychoactive properties whatsoever","It is FDA-approved for opioid use disorder treatment"], c:1,
+ e:"Kratom's alkaloids act as a <b>stimulant at low doses</b> and act on <b>opioid receptors at higher doses</b> — this dual profile explains both its misuse potential and its use by some individuals to self-treat opioid withdrawal, along with a withdrawal syndrome of its own with chronic use. It is not FDA-approved for opioid use disorder treatment."},
+
+{s:"Addiction Treatment", ref:"tramadol seizure risk", q:"Why does tramadol carry a distinct seizure risk compared to other opioids used for pain?",
+ o:["Tramadol has no unique risk beyond typical opioids","Tramadol also inhibits serotonin and norepinephrine reuptake, lowering seizure threshold and creating additional serotonin syndrome risk when combined with other serotonergic agents","Tramadol is a pure mu-opioid agonist with no other receptor activity","Tramadol has no analgesic opioid activity at all"], c:1,
+ e:"Tramadol's dual mechanism — mu-opioid agonism <b>plus</b> serotonin/norepinephrine reuptake inhibition — gives it a distinct <b>seizure risk</b> profile and additional risk of <b>serotonin syndrome</b> when combined with other serotonergic medications (SSRIs, SNRIs, MAOIs), unlike single-mechanism opioids."},
+
+{s:"Addiction Treatment", ref:"buprenorphine sublingual", q:"Why must buprenorphine be administered sublingually rather than orally for opioid use disorder treatment?",
+ o:["It has excellent oral bioavailability but poor sublingual absorption","It has poor oral bioavailability due to extensive first-pass hepatic metabolism, so the sublingual route bypasses this to achieve adequate absorption","Oral administration causes immediate precipitated withdrawal","There is no pharmacokinetic reason; it's purely a regulatory requirement"], c:1,
+ e:"Buprenorphine undergoes extensive <b>first-pass hepatic metabolism</b> when swallowed, giving it poor oral bioavailability — the <b>sublingual route</b> bypasses this first-pass effect, allowing adequate drug absorption directly into the bloodstream."},
+
+{s:"Addiction Treatment", ref:"epidemiology", q:"Approximately how many Americans meet criteria for a substance use disorder, and how is this divided between alcohol and opioid use disorder specifically?",
+ o:["~21 million total; ~15 million alcohol use disorder, ~3 million opioid use disorder","~5 million total; roughly split evenly between alcohol and opioids","~50 million total; primarily opioid use disorder","~1 million total, primarily alcohol use disorder"], c:0,
+ e:"Approximately <b>21 million</b> Americans meet criteria for a substance use disorder — roughly <b>15 million</b> with alcohol use disorder and <b>3 million</b> with opioid use disorder specifically, underscoring the scale of the treatment gap when fewer than 10% of the opioid use disorder group receives MAT."},
+
+{s:"Addiction Treatment", ref:"lofexidine vs clonidine", q:"Lofexidine, an alpha-2 agonist FDA-approved specifically for opioid withdrawal, offers what advantage over clonidine for this indication?",
+ o:["Lofexidine has no advantage and is pharmacologically identical to clonidine","Lofexidine is specifically FDA-approved for opioid withdrawal symptom management with comparatively less hypotension than clonidine at effective doses","Lofexidine is a full opioid agonist, unlike clonidine","Lofexidine has significant abuse potential, unlike clonidine"], c:1,
+ e:"<b>Lofexidine</b> is specifically <b>FDA-approved</b> for managing opioid withdrawal symptoms and is associated with comparatively <b>less hypotension</b> than clonidine at doses that provide effective symptom relief, making it an attractive option when blood pressure tolerance is a concern."},
+
+// ============================================================
+// EATING DISORDERS (10)
+// ============================================================
+{s:"Eating Disorders", ref:"p.575", q:"A patient with recurrent binge eating episodes, no compensatory behaviors, and significant distress is diagnosed with binge eating disorder. Which medication is FDA-approved specifically for this condition, and through what mechanism?",
+ o:["Topiramate, through appetite suppression","Lisdexamfetamine, through striatal neuroplasticity rather than appetite suppression","Naltrexone, through direct appetite suppression","Fluoxetine, through serotonergic appetite suppression"], c:1,
+ e:"<b>Lisdexamfetamine</b> is the only FDA-approved medication for binge eating disorder, working through <b>striatal neuroplasticity</b> rather than appetite suppression — since by the time binge eating is compulsive, appetite itself is no longer the primary driver of the behavior."},
+
+{s:"Eating Disorders", ref:"striatal shift", q:"Binge eating disorder is considered the clearest example of a behavioral (non-substance) addiction because it develops through which mechanism?",
+ o:["A purely psychological process with no shared neurobiology with substance addiction","The same ventral-to-dorsal striatum shift seen in substance addiction — impulsive eating becomes a fixed, compulsive habit","Exclusively hormonal dysregulation unrelated to reward circuitry","A process entirely independent of dopamine signaling"], c:1,
+ e:"Binge eating disorder develops through the same <b>ventral → dorsal striatum shift</b> seen in substance addiction — impulsive, reward-driven eating becomes a fixed, compulsive habit no longer driven by hunger or pleasure, making it a prototype behavioral addiction."},
+
+{s:"Eating Disorders", ref:"comorbidity", q:"A clinician is evaluating a patient with generalized anxiety disorder for other conditions. Given known comorbidity patterns, which condition should specifically be screened for, given it is commonly under-recognized?",
+ o:["Binge eating disorder, given that ~80% of BED patients have a co-occurring mood, anxiety, substance use, or ADHD diagnosis","Schizophrenia, given a strong bidirectional link with anxiety","Bipolar I disorder exclusively","Tourette syndrome exclusively"], c:0,
+ e:"Given that ~80% of <b>binge eating disorder</b> patients have a co-occurring mood, anxiety, substance use, or ADHD diagnosis, screening for BED in any patient with these conditions is important — it's commonly under-recognized despite effective treatment (lisdexamfetamine) existing."},
+
+{s:"Eating Disorders", ref:"off-label options", q:"Which of the following has shown limited off-label success for binge eating disorder, working through appetite/impulse-related mechanisms distinct from lisdexamfetamine?",
+ o:["Topiramate","Haloperidol","Lithium","Diazepam"], c:0,
+ e:"<b>Topiramate</b>, along with certain antidepressants and naltrexone, has shown limited off-label success in binge eating disorder — though lisdexamfetamine remains the only FDA-approved option specifically for this indication."},
+
+{s:"Eating Disorders", ref:"appetite vs compulsion", q:"Why is it clinically important to understand that lisdexamfetamine's benefit in binge eating disorder is NOT primarily through appetite suppression?",
+ o:["It has no clinical importance","It reframes binge eating disorder as a compulsive/habitual behavior problem rather than purely a hunger-driven problem, which shapes both medication choice and complementary behavioral treatment approaches","It means the medication has no effect on eating behavior at all","It implies the medication should be dosed based on hunger levels"], c:1,
+ e:"Recognizing that binge eating has become <b>compulsive/habitual</b> rather than purely hunger-driven reframes the clinical approach — supporting the use of striatal-neuroplasticity-targeting medication alongside behavioral treatments (like CBT) that address the habit loop itself, rather than treatments aimed solely at reducing hunger or appetite."},
+
+{s:"Eating Disorders", ref:"anorexia comparison", q:"How does the underlying neurobiological framework for binge eating disorder differ conceptually from that typically discussed for restrictive anorexia nervosa?",
+ o:["They are considered mechanistically identical in all respects","BED is framed through a reward/habit-circuitry (ventral-to-dorsal striatal shift) lens; restrictive eating disorders are more often framed around altered interoceptive and anxiety/reward processing around food restriction itself, a distinct though related area of study","Both are exclusively attributed to serotonin deficiency","Neither has any established neurobiological framework"], c:1,
+ e:"BED is specifically framed through the <b>reward/habit circuitry</b> lens (the ventral-to-dorsal striatal shift). Restrictive eating disorders are studied through a different, though related, lens involving altered interoceptive processing and anxiety/reward responses specifically around food restriction — the two conditions are not mechanistically interchangeable despite both being eating disorders."},
+
+{s:"Eating Disorders", ref:"BED vs bulimia", q:"How is binge eating disorder distinguished from bulimia nervosa?",
+ o:["BED includes recurrent binge eating without regular compensatory behaviors (purging, excessive exercise); bulimia nervosa includes both binge eating AND recurrent compensatory behaviors","BED always includes purging; bulimia never does","Both are identical diagnoses with different names","BED is diagnosed only in adolescents; bulimia only in adults"], c:0,
+ e:"<b>Binge eating disorder</b> involves recurrent binge eating <b>without</b> regular compensatory behaviors. <b>Bulimia nervosa</b> involves recurrent binge eating <b>with</b> compensatory behaviors (self-induced vomiting, laxative misuse, excessive exercise) — the presence or absence of compensatory behavior is the key differentiator."},
+
+{s:"Eating Disorders", ref:"FDA approval", q:"Lisdexamfetamine's FDA approval for binge eating disorder is notable because it represents which type of drug repurposing?",
+ o:["An ADHD medication repurposed for a distinct behavioral addiction based on shared striatal circuitry mechanisms","An antipsychotic repurposed for eating disorders","An antidepressant repurposed for eating disorders","A benzodiazepine repurposed for eating disorders"], c:0,
+ e:"Lisdexamfetamine, originally developed and approved for <b>ADHD</b>, was repurposed for binge eating disorder based on the shared underlying striatal reward/habit circuitry mechanisms common to both conditions — illustrating how understanding shared neurobiology across seemingly distinct diagnoses can guide treatment innovation."},
+
+{s:"Eating Disorders", ref:"schedule status", q:"Given lisdexamfetamine's stimulant properties, what DEA schedule classification and prescribing consideration applies when using it for binge eating disorder?",
+ o:["Schedule II, requiring the same controlled substance prescribing precautions as when used for ADHD, including monitoring for misuse given comorbid substance use disorder risk in this population","No schedule restrictions apply for this indication","Schedule IV, with minimal misuse monitoring needed","It becomes non-controlled when prescribed for BED specifically"], c:0,
+ e:"Lisdexamfetamine remains <b>Schedule II</b> regardless of indication. This is particularly relevant in binge eating disorder given the high (~80%) rate of comorbid substance use disorder in this population, warranting the same misuse-monitoring precautions used when prescribing it for ADHD."},
+
+{s:"Eating Disorders", ref:"screening importance", q:"Why might binge eating disorder go unrecognized in a routine primary care or psychiatric visit despite its relatively high prevalence and comorbidity rates?",
+ o:["It has no distinguishing symptoms from normal eating behavior","Patients often experience shame/embarrassment around binge eating and may not volunteer the information unless specifically asked, and clinicians may not routinely screen for it given its under-recognition relative to conditions like depression or anxiety","It is exceedingly rare and screening would rarely yield a positive case","It only occurs in adolescent females, narrowing who needs screening"], c:1,
+ e:"Shame and embarrassment often lead patients to <b>not volunteer</b> binge eating symptoms unless specifically asked, and clinicians may not routinely screen for it given its relative under-recognition — despite ~80% comorbidity with more commonly screened-for conditions like mood, anxiety, and substance use disorders, making targeted screening in those populations especially valuable."},
+
+// ============================================================
+// OCD & RELATED DISORDERS (20)
+// ============================================================
+{s:"OCD & Related Disorders", ref:"p.577", q:"A patient with OCD has been on sertraline 100mg for 5 weeks with minimal improvement. What is the most appropriate next step before concluding treatment failure?",
+ o:["Switch immediately to clomipramine","Continue and consider further dose escalation, since OCD requires much higher SSRI doses than depression and response can take 8-12 weeks — 5 weeks may be too early to judge full response","Add an antipsychotic augmentation agent immediately","Discontinue SSRIs entirely in favor of benzodiazepines"], c:1,
+ e:"OCD treatment requires <b>much higher SSRI doses</b> than depression, and full response can take <b>8-12 weeks</b> (vs. 4-6 weeks for depression) — 5 weeks at a moderate dose is too early to declare treatment failure. Dose optimization should be pursued before moving to second-line strategies like clomipramine or augmentation."},
+
+{s:"OCD & Related Disorders", ref:"CSTC loop", q:"The cortico-striato-thalamo-cortical (CSTC) loop implicated in OCD becomes pathologically 'sticky' due to dysfunction across which three neurotransmitters?",
+ o:["Serotonin (inhibitory regulator), dopamine (accelerator of compulsions), and glutamate (maintains hyperactive state)","Only serotonin is involved; dopamine and glutamate play no role","GABA, histamine, and acetylcholine","Norepinephrine, orexin, and melatonin"], c:0,
+ e:"Three neurotransmitters modulate the CSTC loop: <b>serotonin</b> (main inhibitory regulator — why SSRIs work), <b>dopamine</b> (acts as an accelerator driving repetitive habit-based compulsions), and <b>glutamate</b> (the main excitatory chemical maintaining the loop's hyperactive state)."},
+
+{s:"OCD & Related Disorders", ref:"ERP mechanism", q:"Why is exposure and response prevention (ERP) considered to have disease-modifying rather than purely symptomatic benefit in OCD?",
+ o:["Its benefits disappear the moment therapy ends, like most symptomatic treatments","Its benefits persist even after therapy ends, suggesting it reverses the abnormal underlying circuitry (shifting control from dorsal back toward ventral striatum) rather than simply masking symptoms","ERP has no evidence of lasting benefit beyond active treatment sessions","ERP works through the same receptor mechanism as SSRIs"], c:1,
+ e:"ERP's benefits <b>persist after therapy ends</b>, unlike many symptomatic treatments — this suggests it actually reverses the abnormal CSTC circuitry (shifting control from dorsal back toward ventral striatum, the reverse of the addiction progression pattern) rather than just suppressing symptoms while treatment continues."},
+
+{s:"OCD & Related Disorders", ref:"OFC hyperactivity", q:"Neuroimaging in OCD classically shows hyperactivity in which two regions?",
+ o:["Hippocampus and amygdala","Orbitofrontal cortex and caudate nucleus","Cerebellum and brainstem","Occipital cortex and thalamus alone"], c:1,
+ e:"Imaging in OCD classically shows hyperactivity in the <b>orbitofrontal cortex</b> and <b>caudate nucleus</b> (part of the dorsal striatum) — consistent with the 'sticky,' overactive CSTC loop model, with weakened top-down inhibitory control normally provided by the prefrontal cortex."},
+
+{s:"OCD & Related Disorders", ref:"second-line", q:"A patient with treatment-resistant OCD has failed adequate trials of two high-dose SSRIs. What is a reasonable second-line pharmacologic option?",
+ o:["Clomipramine, a strong serotonergic TCA, despite its heavier anticholinergic, antihistamine, and alpha-1 blockade side-effect burden and higher overdose toxicity/QT risk","Immediate deep brain stimulation without trying any other pharmacologic option","A benzodiazepine as monotherapy","Discontinuing all pharmacotherapy in favor of ERP alone"], c:0,
+ e:"<b>Clomipramine</b>, a potent serotonergic TCA, is a reasonable second-line option after SSRI failure — though its heavier side-effect burden (anticholinergic, antihistamine, alpha-1 blockade) and higher overdose toxicity/QT risk compared to SSRIs must be weighed. SNRIs like venlafaxine are also considered as adjunct/alternative options at this stage."},
+
+{s:"OCD & Related Disorders", ref:"augmentation", q:"A patient with OCD has a partial response to a high-dose SSRI, with residual symptoms and a comorbid tic disorder. Which augmentation strategy is most appropriate?",
+ o:["Add a low-dose atypical antipsychotic (risperidone or aripiprazole) to block the dopamine 'accelerator,' particularly useful with tics/deeply ingrained habits","Discontinue the SSRI and start a benzodiazepine instead","Add a second SSRI at an equally high dose","Switch to bupropion monotherapy"], c:0,
+ e:"<b>Low-dose atypical antipsychotic augmentation</b> (risperidone, aripiprazole) is appropriate for partial SSRI responders, especially with comorbid tics or deeply ingrained habit-based compulsions — these agents block the dopamine 'accelerator' component of the CSTC loop that SSRIs alone don't address."},
+
+{s:"OCD & Related Disorders", ref:"rTMS", q:"Repetitive transcranial magnetic stimulation (rTMS) has which regulatory status for OCD treatment?",
+ o:["Not studied for OCD at all","FDA-approved as a device-based treatment option for OCD","Only approved for depression, never studied in OCD","Banned for use in any psychiatric condition"], c:1,
+ e:"<b>rTMS</b> is FDA-approved as a device-based treatment option for OCD, offering a non-pharmacologic, non-invasive option distinct from ERP or medication, particularly relevant when other approaches have been inadequate or poorly tolerated."},
+
+{s:"OCD & Related Disorders", ref:"OCD vs OCPD", q:"A patient's rigid perfectionism and preoccupation with rules and orderliness align comfortably with their self-image, and they report no intrusive, unwanted thoughts. Which diagnosis fits better than OCD?",
+ o:["Obsessive-Compulsive Personality Disorder (OCPD) — ego-syntonic, a Cluster C personality disorder","OCD — ego-dystonic","Generalized anxiety disorder","Body dysmorphic disorder"], c:0,
+ e:"This presentation is <b>ego-syntonic</b> (traits align with self-image, no distressing intrusive thoughts) — consistent with <b>OCPD</b>, a Cluster C personality disorder, rather than OCD, which is ego-dystonic (the person is distressed by and recognizes their own obsessions/compulsions as irrational)."},
+
+{s:"OCD & Related Disorders", ref:"OCD functional impact", q:"Which functional criterion helps distinguish clinically significant OCD from subclinical checking/ordering behaviors?",
+ o:["Any checking behavior at all, regardless of duration or impact","Rituals that are time-consuming (often more than 1 hour per day) and cause significant functional impairment","The presence of any anxiety whatsoever","A family history of anxiety disorders"], c:1,
+ e:"OCD is distinguished from subclinical behaviors by rituals that are <b>time-consuming</b> (often >1 hour/day) and cause <b>significant functional impairment</b> — mild checking or orderliness preferences without this level of impact and distress don't meet diagnostic threshold."},
+
+{s:"OCD & Related Disorders", ref:"body dysmorphic disorder", q:"A patient is preoccupied with a barely perceptible asymmetry in their nose, spending hours daily checking mirrors and seeking reassurance, with significant resulting distress and avoidance of social situations. What comorbidity should be prioritized in assessment given this diagnosis?",
+ o:["Suicidality — body dysmorphic disorder carries a notably high suicide risk requiring active screening","No specific comorbidity screening is warranted beyond routine intake","Substance use disorder exclusively, with no need to screen for mood symptoms","Psychotic disorders exclusively"], c:0,
+ e:"Body dysmorphic disorder carries a <b>notably elevated suicide risk</b> and should prompt active suicidality screening, alongside assessment for common comorbidities like eating disorders, depression, and social anxiety. First-line treatment is CBT plus often high-dose SSRIs; cosmetic procedures should be avoided as they don't address the underlying distorted body image and can reinforce it."},
+
+{s:"OCD & Related Disorders", ref:"BDD neurobiology", q:"Body dysmorphic disorder shares core neurobiology with OCD, but also involves an additional impairment not typically emphasized in classic OCD. What is it?",
+ o:["Impaired visual/body image processing, in addition to the shared serotonergic dysfunction and CSTC loop involvement","Complete absence of any CSTC loop involvement, unlike OCD","Pure auditory processing deficits","No additional impairment beyond classic OCD features"], c:0,
+ e:"BDD shares OCD's core neurobiology (serotonergic dysfunction, CSTC loop involvement) but adds <b>impaired visual/body image processing</b> specifically — contributing to the distorted perception of appearance that is central to the disorder."},
+
+{s:"OCD & Related Disorders", ref:"trichotillomania first-line", q:"What is first-line treatment for trichotillomania, and how does its evidence base for medication compare to OCD?",
+ o:["Habit reversal training (specialized CBT) is first-line; medication evidence (SSRIs, N-acetylcysteine, clomipramine) is comparatively weaker/more mixed than the well-established SSRI evidence in OCD itself","High-dose SSRI monotherapy is first-line, identical to OCD","Deep brain stimulation is first-line","No effective treatment exists for trichotillomania"], c:0,
+ e:"<b>Habit reversal training</b> (a specialized CBT approach) is first-line for trichotillomania. Medication evidence is comparatively <b>weaker and more mixed</b> than in classic OCD — SSRIs have mixed evidence, N-acetylcysteine has emerging support, and clomipramine has limited support — reflecting a somewhat different underlying mechanism than OCD despite being classified alongside it."},
+
+{s:"OCD & Related Disorders", ref:"trichotillomania demographics", q:"Trichotillomania demonstrates which demographic and course pattern?",
+ o:["More common in males, always adult-onset, resolving within months","More common in females, often beginning in childhood/adolescence, with a chronic, fluctuating course","Equal sex distribution, always resolving spontaneously by adulthood","Extremely rare, occurring in fewer than 1 in a million people"], c:1,
+ e:"Trichotillomania is <b>more common in females</b>, often begins in <b>childhood or adolescence</b>, and follows a <b>chronic, fluctuating course</b> — important for setting expectations around long-term management rather than expecting rapid, permanent resolution."},
+
+{s:"OCD & Related Disorders", ref:"OCD dosing pearl", q:"Why is it clinically important to specifically counsel patients that OCD requires both higher SSRI doses AND longer time to response compared to depression treatment?",
+ o:["It has no clinical importance and patients don't need this counseling","Without this counseling, patients or clinicians might prematurely conclude treatment failure and switch medications or add augmentation strategies before an adequate trial has actually been completed","SSRIs work identically for both conditions with no dosing or timeline differences","This information is only relevant for pediatric OCD patients"], c:1,
+ e:"Without understanding that OCD needs <b>higher doses</b> and a <b>longer timeline</b> (8-12 weeks) than typical depression dosing/timelines (4-6 weeks), patients or clinicians might prematurely conclude an adequate trial has failed — leading to unnecessary medication switches or added augmentation before the current regimen has truly been given a fair trial."},
+
+{s:"OCD & Related Disorders", ref:"glutamate modulators", q:"Which class of medication, used off-label as an augmentation strategy in treatment-resistant OCD, targets the excitatory neurotransmitter that maintains the CSTC loop's hyperactive state?",
+ o:["Glutamate modulators (e.g., memantine, topiramate)","Antihistamines","Beta-blockers","Anticholinergics"], c:0,
+ e:"<b>Glutamate modulators</b> (memantine, topiramate) are used off-label in treatment-resistant OCD, targeting the excitatory glutamate signaling that helps maintain the CSTC loop's pathologically hyperactive, 'sticky' state — a mechanistically distinct augmentation approach from antipsychotic dopamine-blockade augmentation."},
+
+{s:"OCD & Related Disorders", ref:"DBS", q:"Deep brain stimulation for OCD is reserved for which patient population?",
+ o:["All newly diagnosed OCD patients as a first-line option","The most severe, treatment-resistant cases after multiple adequate trials of medication and therapy have failed","Only pediatric OCD patients","Patients who prefer to avoid all medication regardless of severity"], c:1,
+ e:"<b>Deep brain stimulation</b> is reserved for the most <b>severe, treatment-resistant</b> OCD cases, after adequate trials of first-line (ERP, high-dose SSRIs) and second-line (clomipramine, augmentation) strategies have been exhausted — it is not a first-line or early intervention option."},
+
+{s:"OCD & Related Disorders", ref:"SSRI options", q:"Which SSRIs are specifically named as first-line options for OCD?",
+ o:["Sertraline, fluoxetine, fluvoxamine, or paroxetine","Bupropion, mirtazapine, and trazodone","Only sertraline, with no other SSRI options recommended","Citalopram exclusively"], c:0,
+ e:"<b>Sertraline, fluoxetine, fluvoxamine, and paroxetine</b> are the SSRIs specifically named as first-line options for OCD — all typically requiring the higher-than-depression dosing range and the longer 8-12 week response window characteristic of this condition."},
+
+{s:"OCD & Related Disorders", ref:"prefrontal inhibition", q:"In OCD, what role does the prefrontal cortex normally play in regulating the CSTC loop, and how is this altered in the disorder?",
+ o:["The PFC normally has no regulatory role over the CSTC loop","The PFC normally applies top-down inhibition to quiet the loop; in OCD, this inhibitory control is weakened, contributing to the loop's hyperactive, 'sticky' state","The PFC normally excites the loop further; in OCD, this excitation is reduced","The PFC's role is identical in OCD and in healthy individuals, with no meaningful difference"], c:1,
+ e:"The prefrontal cortex normally provides <b>top-down inhibitory control</b> to quiet the CSTC loop. In OCD, this inhibitory control is <b>weakened</b>, allowing the loop to remain hyperactive/'sticky' — contributing to repetitive obsessions and compulsions the person struggles to consciously override."},
+
+{s:"OCD & Related Disorders", ref:"BDD vs OCD overlap", q:"How are body dysmorphic disorder and trichotillomania classified relative to OCD in DSM-5-TR?",
+ o:["As entirely separate diagnostic categories with no relationship to OCD","As related disorders classified alongside OCD in the 'Obsessive-Compulsive and Related Disorders' category, sharing overlapping but not identical neurobiology and treatment approaches","As subtypes of major depressive disorder","As anxiety disorders unrelated to OCD in any classification system"], c:1,
+ e:"Both <b>body dysmorphic disorder</b> and <b>trichotillomania</b> are classified alongside OCD in the DSM-5-TR <b>'Obsessive-Compulsive and Related Disorders'</b> category — reflecting meaningfully overlapping (though not identical) neurobiology and treatment principles, while each also has distinct features (e.g., BDD's body-image processing impairment, trichotillomania's weaker medication evidence base)."},
+
+{s:"OCD & Related Disorders", ref:"comprehensive comparison", q:"A patient presents with distressing, unwanted intrusive thoughts about contamination and compulsive handwashing that they recognize as excessive, consuming over 2 hours daily and causing significant impairment. Which diagnosis and first-line treatment combination is correct?",
+ o:["OCPD; CBT for personality restructuring","OCD; ERP and/or high-dose SSRI (sertraline, fluoxetine, fluvoxamine, or paroxetine), with response expected over 8-12 weeks","Trichotillomania; habit reversal training","Body dysmorphic disorder; CBT with cosmetic consultation referral"], c:1,
+ e:"This is classic <b>OCD</b> — ego-dystonic intrusive thoughts (contamination obsessions) and compulsions (handwashing) recognized as excessive/irrational, consuming significant time and causing impairment. First-line treatment is <b>ERP and/or a high-dose SSRI</b>, with the expectation that full response may take 8-12 weeks rather than the shorter timeline seen in depression treatment."},
+
+// ============================================================
+// PSEUDOBULBAR AFFECT (5)
+// ============================================================
+{s:"Pseudobulbar Affect", ref:"quick reference", q:"A dementia patient has sudden episodes of uncontrollable laughing that don't correspond to any genuine feeling of happiness. What is this called, and what is first-line pharmacologic treatment?",
+ o:["Emotional lability due to depression; treat with an SSRI","Pseudobulbar affect; treat with dextromethorphan/quinidine (Nuedexta)","Mania; treat with a mood stabilizer","Frontotemporal disinhibition; treat with an antipsychotic"], c:1,
+ e:"This is <b>pseudobulbar affect</b> — sudden, uncontrollable emotional expression (laughing or crying) that doesn't match the person's actual internal emotional state. First-line treatment is <b>dextromethorphan/quinidine (Nuedexta)</b>, the same combination used for dementia-related agitation."},
+
+{s:"Pseudobulbar Affect", ref:"mechanism", q:"Why is quinidine included in the dextromethorphan/quinidine combination for pseudobulbar affect, given quinidine has no independent antiaffective benefit of its own?",
+ o:["Quinidine independently treats the emotional lability","Quinidine inhibits CYP2D6, slowing dextromethorphan's metabolism and extending its NMDA-blocking therapeutic effect","Quinidine has no purpose in the combination and could be removed without effect","Quinidine directly blocks NMDA receptors, working synergistically with dextromethorphan's identical mechanism"], c:1,
+ e:"Quinidine's role is purely pharmacokinetic — it <b>inhibits CYP2D6</b>, the enzyme that would otherwise rapidly metabolize dextromethorphan, extending dextromethorphan's exposure and therapeutic NMDA-blocking effect. Quinidine itself has no independent antiaffective benefit."},
+
+{s:"Pseudobulbar Affect", ref:"differential conditions", q:"Pseudobulbar affect is seen across which range of neurological conditions?",
+ o:["Exclusively in Alzheimer's disease, with no association to any other condition","Dementia, ALS, multiple sclerosis, and stroke — conditions that damage the corticobulbar pathways regulating emotional expression","Only in primary psychiatric disorders with no neurological basis","Exclusively in traumatic brain injury"], c:1,
+ e:"Pseudobulbar affect occurs across multiple neurological conditions that damage corticobulbar pathways regulating emotional expression: <b>dementia, ALS, multiple sclerosis, and stroke</b> — the same dextromethorphan/quinidine treatment applies regardless of the underlying cause."},
+
+{s:"Pseudobulbar Affect", ref:"distinguishing feature", q:"What is the key clinical feature that distinguishes pseudobulbar affect from a genuine mood episode with mood-congruent crying or laughing?",
+ o:["Pseudobulbar affect episodes are sustained for hours, matching the person's true internal state","Pseudobulbar affect episodes are sudden, often brief, and specifically do NOT match the person's actual internal emotional experience","There is no distinguishing feature; the two are clinically identical","Pseudobulbar affect only occurs during sleep"], c:1,
+ e:"The defining feature is the <b>mismatch</b> between the outward emotional display (crying or laughing) and the person's actual internal emotional state — episodes are typically sudden and can seem disproportionate or unrelated to context, unlike mood-congruent emotional expression in a genuine mood episode."},
+
+{s:"Pseudobulbar Affect", ref:"shared mechanism with agitation", q:"Why does the same medication combination (dextromethorphan/quinidine) treat both pseudobulbar affect AND dementia-related agitation, despite these being clinically distinct presentations?",
+ o:["Both conditions are identical and represent the same underlying disorder","Both involve dysregulated glutamatergic signaling that dextromethorphan's NMDA receptor blockade can calm, even though the specific circuits/networks driving each presentation differ","The medication has no real mechanism and works purely as a placebo for both","Only pseudobulbar affect responds; agitation response is coincidental"], c:1,
+ e:"Both pseudobulbar affect and dementia-related agitation involve <b>dysregulated glutamatergic signaling</b> that dextromethorphan's NMDA receptor blockade can help calm — even though the specific behavioral presentations and likely underlying circuits differ, the shared glutamatergic mechanism explains why the same combination has efficacy across both."}
+];
+
+let current = 0, score = 0, answered = [], selectedIdx = null;
+
+const sectionCounts = {};
+QUESTIONS.forEach(q => sectionCounts[q.s] = (sectionCounts[q.s]||0)+1);
+const sectionListEl = document.getElementById('sectionList');
+Object.keys(sectionCounts).forEach(s => {
+  const li = document.createElement('li');
+  li.innerHTML = `<span>${s}</span><span class="n">${sectionCounts[s]} Q</span>`;
+  sectionListEl.appendChild(li);
+});
+
+function startQuiz(){
+  document.getElementById('setup').classList.add('hidden');
+  document.getElementById('quizArea').classList.remove('hidden');
+  renderQuestion();
+}
+function updateProgress(){
+  const pct = (current / QUESTIONS.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${current} / ${QUESTIONS.length}`;
+}
+function renderQuestion(){
+  updateProgress();
+  const q = QUESTIONS[current];
+  const letters = ['A','B','C','D'];
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <span class="section-tag">${q.s}</span>
+    <div class="card">
+      <div class="ref">${q.ref}</div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts" id="opts">
+        ${q.o.map((opt,i) => `<button class="opt" data-i="${i}" onclick="selectOpt(${i})"><span class="letter">${letters[i]}</span>${opt}</button>`).join('')}
+      </div>
+      <div class="explain" id="explain"><b>Why:</b> ${q.e}</div>
+      <div class="nav-row">
+        <button class="skip-link" onclick="skipQuestion()">skip →</button>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">${current === QUESTIONS.length-1 ? 'See results' : 'Next question'} →</button>
+      </div>
+    </div>
+  `;
+  selectedIdx = null;
+}
+function selectOpt(i){
+  if(selectedIdx !== null) return;
+  selectedIdx = i;
+  const q = QUESTIONS[current];
+  const opts = document.querySelectorAll('#opts .opt');
+  opts.forEach((el, idx) => {
+    el.disabled = true;
+    if(idx === q.c) el.classList.add('correct');
+    else if(idx === i) el.classList.add('incorrect');
+  });
+  document.getElementById('explain').classList.add('show');
+  document.getElementById('nextBtn').classList.add('show');
+  const correct = (i === q.c);
+  if(correct) score++;
+  answered.push({q: q.q, correct, correctText: q.o[q.c], ref: q.ref});
+}
+function skipQuestion(){
+  if(selectedIdx !== null){ nextQuestion(); return; }
+  answered.push({q: QUESTIONS[current].q, correct:false, correctText: QUESTIONS[current].o[QUESTIONS[current].c], ref: QUESTIONS[current].ref, skipped:true});
+  current++;
+  if(current >= QUESTIONS.length) showResults(); else renderQuestion();
+}
+function nextQuestion(){
+  current++;
+  if(current >= QUESTIONS.length) showResults(); else renderQuestion();
+}
+function showResults(){
+  updateProgress();
+  document.getElementById('quizArea').classList.add('hidden');
+  document.getElementById('results').style.display = 'block';
+  const pct = Math.round((score/QUESTIONS.length)*100);
+  document.getElementById('scoreBig').textContent = `${score} / ${QUESTIONS.length}`;
+  document.getElementById('scoreSub').textContent = `${pct}% — ${pct >= 85 ? "Strong recall under harder conditions. Skim missed items, then you're set." : pct >= 70 ? "Solid base. Review the missed items below closely." : "Worth another full pass — review missed items, then re-run the quiz."}`;
+  const missed = answered.filter(a => !a.correct);
+  const missedList = document.getElementById('missedList');
+  if(missed.length === 0){
+    missedList.innerHTML = '<p style="color:var(--muted);font-size:14px;">No missed questions — nice work.</p>';
+  } else {
+    missedList.innerHTML = '<h3 style="font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono);margin-top:24px;">Review these before your exam</h3>' +
+      missed.map(m => `<div class="missed-item"><div class="q">${m.q}</div><div class="a">${m.ref} — correct answer: ${m.correctText}</div></div>`).join('');
+  }
+}
+</script>
+</body>
+</html>
