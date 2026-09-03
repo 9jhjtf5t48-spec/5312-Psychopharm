@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5230 Retention Check — Same Diagnosis, Younger Patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#22262B;
+    --paper:#FAF7F2;
+    --card:#FFFFFF;
+    --line:#E7E1D6;
+    --indigo:#2E3A59;
+    --indigo-deep:#1E2740;
+    --marigold:#D9A441;
+    --marigold-deep:#B9852B;
+    --brick:#B0413E;
+    --brick-bg:#FBEBEA;
+    --sage:#5C7A63;
+    --sage-bg:#EAF1EA;
+    --muted:#6B6F76;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 12% 8%, rgba(217,164,65,0.10), transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(92,122,99,0.10), transparent 45%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:28px 16px 60px;
+  }
+  .app{ width:100%; max-width:560px; }
+
+  .masthead{ margin-bottom:22px; }
+  .kicker{
+    font-size:12.5px; color:var(--indigo); font-weight:600;
+    letter-spacing:.01em; margin:0 0 6px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(26px,5.4vw,34px);
+    line-height:1.12;
+    margin:0 0 8px;
+    color:var(--indigo-deep);
+  }
+  .sub{
+    font-size:14.5px; color:var(--muted); line-height:1.5; margin:0;
+    max-width:46ch;
+  }
+
+  /* growth-curve progress motif */
+  .progress-wrap{ margin:22px 0 26px; }
+  .progress-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:12.5px; color:var(--muted); margin-bottom:6px;
+  }
+  .progress-label b{ color:var(--indigo-deep); font-weight:600; }
+  svg.curve{ width:100%; height:34px; display:block; }
+  .curve-track{ stroke:var(--line); stroke-width:3; fill:none; }
+  .curve-fill{ stroke:var(--marigold); stroke-width:3; fill:none;
+    stroke-linecap:round; transition:stroke-dasharray .5s ease; }
+  .curve-dot{ fill:var(--marigold-deep); transition:cx .5s ease; }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 24px 22px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  }
+  .cat-tag{
+    display:inline-block;
+    font-size:11.5px; font-weight:600; color:var(--indigo);
+    background:#EEF1F6; border:1px solid #DCE2ED;
+    padding:3px 10px; border-radius:100px; margin-bottom:14px;
+  }
+  .qtext{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:19px; line-height:1.38; margin:0 0 18px; color:var(--ink);
+  }
+  .opts{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    text-align:left;
+    border:1.5px solid var(--line);
+    background:#FFFEFC;
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    line-height:1.4;
+  }
+  .opt:hover:not(.locked){ border-color:var(--indigo); background:#F3F5F9; }
+  .opt:active:not(.locked){ transform:scale(.99); }
+  .opt.correct{ border-color:var(--sage); background:var(--sage-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--brick); background:var(--brick-bg); }
+  .opt.locked{ cursor:default; }
+  .opt .mark{ float:right; font-weight:700; }
+
+  .feedback{
+    margin-top:16px; padding:14px 16px;
+    border-radius:10px; border:1px solid var(--line);
+    background:#FBFAF7; font-size:14px; line-height:1.55; display:none;
+  }
+  .feedback.show{ display:block; }
+  .feedback .verdict{ font-weight:600; margin-bottom:5px; display:block; }
+  .verdict.right{ color:var(--sage); }
+  .verdict.wrong{ color:var(--brick); }
+  .pearl{
+    margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);
+    font-size:13.5px; color:var(--indigo-deep);
+  }
+  .pearl b{ color:var(--indigo); }
+
+  .navrow{ display:flex; justify-content:flex-end; margin-top:20px; }
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600; font-size:14.5px;
+    background:var(--indigo); color:#fff;
+    border:none; border-radius:9px;
+    padding:11px 22px; cursor:pointer;
+    transition:background .15s ease;
+  }
+  .btn:hover{ background:var(--indigo-deep); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{
+    background:transparent; color:var(--indigo); border:1.5px solid var(--indigo);
+  }
+  .btn.ghost:hover{ background:#EEF1F6; }
+
+  .results{ text-align:center; padding:10px 4px 4px; }
+  .results .score{
+    font-family:'Fraunces', serif; font-weight:700;
+    font-size:56px; color:var(--indigo-deep); margin:6px 0 2px;
+  }
+  .results .scoreline{ color:var(--muted); font-size:14px; margin-bottom:18px; }
+  .missed{ text-align:left; margin-top:10px; }
+  .missed h3{ font-size:13.5px; color:var(--muted); margin:0 0 8px; font-weight:600; }
+  .missed li{ font-size:13.5px; margin-bottom:6px; color:var(--ink); }
+  .footer-note{
+    text-align:center; font-size:12.5px; color:var(--muted); margin-top:22px; line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="masthead">
+    <p class="kicker">NURS 5230 · Child &amp; Adolescent Psych</p>
+    <h1>Same Diagnosis,<br>Younger Patient</h1>
+    <p class="sub">14 questions on how mood, psychotic, anxiety/trauma, and medication concepts show up differently — or the same — in kids. Each explanation links back to the adult/geriatric side (5340) on purpose.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">14</span></span><span id="scoretally">0 correct</span></div>
+    <svg class="curve" viewBox="0 0 300 34" preserveAspectRatio="none">
+      <path class="curve-track" d="M4,28 C 80,28 120,6 296,6"/>
+      <path class="curve-fill" id="curveFill" d="M4,28 C 80,28 120,6 296,6" stroke-dasharray="0,400"/>
+      <circle class="curve-dot" id="curveDot" cx="4" cy="28" r="5"/>
+    </svg>
+  </div>
+
+  <div class="card" id="quizCard"></div>
+
+  <p class="footer-note">Missed one? That's the point — reread just that section, not the whole chapter.</p>
+</div>
+
+<script>
+const QUESTIONS = [
+{
+  cat:"Mood Disorders",
+  q:"A 7-year-old has chronic, severe irritability and frequent temper outbursts most days for over a year, with no discrete manic episode ever lasting more than a day. Most likely diagnosis?",
+  opts:["Disruptive Mood Dysregulation Disorder (DMDD)","Bipolar I Disorder","Intermittent Explosive Disorder","Oppositional Defiant Disorder alone"],
+  correct:0,
+  exp:"DMDD requires onset before age 10, symptoms ≥1 year, and no discrete manic/hypomanic episode >1 day.",
+  pearl:"In 5340: adults with this same chronic-irritability pattern don't get their own bipolar-spectrum diagnosis — it usually points toward persistent depressive disorder with irritable mood or a personality disorder, not bipolar."
+},
+{
+  cat:"Mood Disorders",
+  q:"What best differentiates DMDD from Intermittent Explosive Disorder (IED)?",
+  opts:["IED requires a full manic episode first","DMDD requires irritable/angry mood BETWEEN outbursts; IED does not","DMDD only occurs in adults","They're interchangeable diagnoses"],
+  correct:1,
+  exp:"DMDD = persistent irritable mood between outbursts. IED = normal mood between outbursts, with outbursts that are impulsive and NOT premeditated.",
+  pearl:"IED can be diagnosed at any age ≥6 — it's one of the few diagnoses that reads almost identically in your 5340 text."
+},
+{
+  cat:"Mood Disorders",
+  q:"An 8-year-old has brief hypomanic-like periods (never meeting full criteria) alternating with subthreshold depressive periods for the past 14 months. Diagnosis?",
+  opts:["Cyclothymic Disorder","Bipolar II Disorder","Persistent Depressive Disorder","DMDD"],
+  correct:0,
+  exp:"Cyclothymic Disorder uses a shortened ≥1 year duration in children/adolescents (adults need ≥2 years) with subthreshold hypomanic + depressive symptoms, never meeting full episode criteria.",
+  pearl:"Same disorder, same logic in 5340 — just double the duration requirement for an adult."
+},
+{
+  cat:"Schizophrenia Spectrum",
+  q:"Which is true about childhood-onset schizophrenia?",
+  opts:["It's more common than adult-onset schizophrenia","It often shows prominent negative symptoms that overlap with autism spectrum disorder, complicating diagnosis","Delusions are always mood-congruent","It only requires 2 weeks of symptoms"],
+  correct:1,
+  exp:"Childhood-onset schizophrenia is rare, and negative symptoms (flat affect, social withdrawal) can look a lot like ASD — ruling out ASD is a key diagnostic step.",
+  pearl:"In 5340: negative symptoms get confused with depression or dementia instead of autism — same symptom cluster, different differential depending on age."
+},
+{
+  cat:"Schizophrenia Spectrum",
+  q:"A 10-year-old shows odd beliefs, magical thinking, and social awkwardness — but no frank delusions/hallucinations and preserved functioning outside social difficulty. This points toward:",
+  opts:["Schizotypal traits/personality pattern","Schizophreniform Disorder","Delusional Disorder","Schizophrenia"],
+  correct:0,
+  exp:"No true psychosis + no major functional impairment from psychosis = schizotypal pattern, not a psychotic disorder.",
+  pearl:"The core differentiator (odd thinking without true delusions) is identical in the adult DSM-5-TR criteria you're using in 5340."
+},
+{
+  cat:"Schizophrenia Spectrum",
+  q:"Why is risperidone often favored for first-episode psychosis in adolescents?",
+  opts:["It has the best tolerability/efficacy balance for youth in comparative trials","It has zero side effects","It's the only antipsychotic approved for any age","It requires no monitoring"],
+  correct:0,
+  exp:"Comparative pediatric trials (e.g., TEAM study) found risperidone faster/more effective than divalproex and lithium for early-age mania/psychosis — though it still carries real EPS/prolactin risk.",
+  pearl:"5340 note: risperidone and paliperidone cause the MOST EPS/hyperprolactinemia of the atypicals at ANY age — that risk doesn't disappear in adults."
+},
+{
+  cat:"Anxiety, OCD & Trauma",
+  q:"Which diagnosis is essentially unique to childhood by definition (onset almost always before age 5)?",
+  opts:["Selective Mutism","Generalized Anxiety Disorder","Panic Disorder","Social Anxiety Disorder"],
+  correct:0,
+  exp:"Selective mutism has a developmentally-anchored onset, typically before age 5, and is diagnosed almost exclusively in children.",
+  pearl:"GAD, panic, and social anxiety all appear in your 5340 text too — same criteria, just a different developmental backdrop."
+},
+{
+  cat:"Anxiety, OCD & Trauma",
+  q:"Reactive Attachment Disorder (RAD) requires a history of which caregiving pattern?",
+  opts:["Any ONE of: social neglect, repeated caregiver changes, or institutional rearing with limited attachment opportunity","All three simultaneously, no exceptions","Only documented physical abuse","A genetic marker, unrelated to caregiving"],
+  correct:0,
+  exp:"DSM-5 requires only one of the three etiologic patterns to be present, not all three.",
+  pearl:"RAD has no adult equivalent in 5340 — it's diagnosed only when the deprivation occurred in early childhood, even if the patient you eventually see is grown."
+},
+{
+  cat:"Anxiety, OCD & Trauma",
+  q:"A 6-year-old shows regression, exaggerated startle, and re-enactment play after witnessing domestic violence. In play therapy, what signals family conflict?",
+  opts:["Aggressive doll play with fighting figures and repetitive, unresolved narratives","Cooperative, nurturing play themes","Only verbal disclosure counts as evidence","Play therapy has no diagnostic value"],
+  correct:0,
+  exp:"Chaotic, aggressive, or stuck/repetitive play narratives are a classic indirect signal of witnessed conflict at home.",
+  pearl:"There's no play-therapy equivalent in adult trauma work (5340) — but the underlying trauma re-enactment concept (intrusive re-experiencing) is the same core PTSD mechanism at any age."
+},
+{
+  cat:"Medication Pearls",
+  q:"Which patients are noted as MORE vulnerable to SSRI-induced activation syndrome (agitation, irritability, impulsivity)?",
+  opts:["Children with developmental disorders, ASD, brain injury, or undiagnosed bipolar disorder","Only adults over 65","Only patients on beta-blockers","Only patients with hypertension"],
+  correct:0,
+  exp:"These populations may tolerate the CNS-activating effects of SSRIs poorly, and TEAS can represent a side effect, unmasked bipolar disorder, or emerging suicidality.",
+  pearl:"5340 note: the FDA black-box warning for antidepressant-related suicidality is strongest in the pediatric/young-adult data — a key age cutoff to know cold for both courses."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"Pediatric bipolar disorder often requires ___ ; classic adult mania often responds to ___.",
+  opts:["Combination medication therapy (lower single-agent effect sizes in youth); monotherapy (e.g., lithium alone) more often adequate in adults","The exact reverse of this statement","Identical treatment approaches at every age","Neither age group responds to medication"],
+  correct:0,
+  exp:"Youth show greater response to atypical antipsychotics but lower effect sizes with mood stabilizers alone compared to adults — hence more combination therapy in pediatric mania.",
+  pearl:"This is one of the clearest age-based treatment differences tested across both courses — worth memorizing as a pair."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"Per TADS, the best evidence-based approach for adolescent MDD was:",
+  opts:["Fluoxetine + CBT (fastest, most effective at 12 weeks)","CBT alone, no medication needed","Fluoxetine alone always beats combination therapy","Benzodiazepines plus supportive therapy"],
+  correct:0,
+  exp:"Combined fluoxetine + CBT and fluoxetine alone both outperformed CBT alone/placebo at 12 weeks; combination worked fastest and had a particular edge in mild-moderate depression.",
+  pearl:"The adult MDD treatment algorithm in 5340 follows the same logic — psychotherapy + SSRI beats either alone for more severe presentations."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"Which movement-disorder EMERGENCY requires immediately stopping the antipsychotic, and can occur in a child OR an adult on the same medication?",
+  opts:["Neuroleptic Malignant Syndrome (NMS)","Mild sedation","Simple fine tremor","Uncomplicated weight gain"],
+  correct:0,
+  exp:"NMS (rigidity, hyperthermia, autonomic instability, elevated CPK) is life-threatening at any age and management is identical: stop the drug, supportive care, dantrolene/bromocriptine.",
+  pearl:"Same emergency, same management, any age — this is a guaranteed overlap question style."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"After a first psychotic episode achieves remission on an antipsychotic, general guidance is to continue treatment for:",
+  opts:["At least 1 year after remission","Stop immediately once symptoms resolve","Exactly 1 month, no more","Indefinitely with zero reassessment, no exceptions"],
+  correct:0,
+  exp:"The ≥1-year post-remission maintenance guideline for a first psychotic episode applies across the lifespan — it's the same standard in Boland & Verduin for adult and pediatric first-episode psychosis.",
+  pearl:"When you see 'first episode, now remitted — what next?' on either exam, this answer travels between courses unchanged."
+}
+];
+
+let current = 0, score = 0, locked = false;
+const missed = [];
+
+function render(){
+  const card = document.getElementById('quizCard');
+  document.getElementById('qnum').textContent = current+1;
+  document.getElementById('scoretally').textContent = score + " correct";
+  const pct = current/QUESTIONS.length;
+  document.getElementById('curveFill').setAttribute('stroke-dasharray', (pct*430)+',500');
+  // approximate point along path for dot (visual only, simple lerp)
+  const x = 4 + pct*292;
+  const y = 28 - pct*22;
+  document.getElementById('curveDot').setAttribute('cx', x);
+  document.getElementById('curveDot').setAttribute('cy', y);
+
+  if(current >= QUESTIONS.length){ renderResults(); return; }
+  const item = QUESTIONS[current];
+  locked = false;
+  card.innerHTML = `
+    <span class="cat-tag">${item.cat}</span>
+    <p class="qtext">${item.q}</p>
+    <div class="opts" id="opts"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>
+  `;
+  const optsDiv = document.getElementById('opts');
+  item.opts.forEach((text, i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = text;
+    b.onclick = ()=> selectAnswer(i);
+    optsDiv.appendChild(b);
+  });
+}
+
+function selectAnswer(i){
+  if(locked) return;
+  locked = true;
+  const item = QUESTIONS[current];
+  const opts = document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('locked');
+    if(idx === item.correct) o.classList.add('correct');
+    if(idx === i && i !== item.correct) o.classList.add('incorrect');
+  });
+  const fb = document.getElementById('feedback');
+  fb.classList.add('show');
+  const right = i === item.correct;
+  if(right) score++;
+  else missed.push(item);
+  fb.innerHTML = `
+    <span class="verdict ${right?'right':'wrong'}">${right? "Correct.":"Not quite."}</span>
+    ${item.exp}
+    <div class="pearl"><b>Cross-course pearl:</b> ${item.pearl}</div>
+  `;
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('nextBtn').onclick = ()=>{ current++; render(); };
+}
+
+function renderResults(){
+  const card = document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML = `Done · <b>${QUESTIONS.length}</b> questions`;
+  const pct = Math.round((score/QUESTIONS.length)*100);
+  let missedHtml = '';
+  if(missed.length){
+    missedHtml = `<div class="missed"><h3>Reread just these, not the whole chapter:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>`;
+  } else {
+    missedHtml = `<div class="missed"><h3>Clean sweep — nothing to reread.</h3></div>`;
+  }
+  card.innerHTML = `
+    <div class="results">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="scoreline">${pct}% — ${pct>=80?"Solid retention.":pct>=60?"Getting there — targeted review below.":"Worth a focused reread before the exam."}</div>
+      ${missedHtml}
+      <div class="navrow" style="justify-content:center; margin-top:20px;">
+        <button class="btn ghost" onclick="restart()">Try again</button>
+      </div>
+    </div>
+  `;
+}
+
+function restart(){
+  current = 0; score = 0; missed.length = 0;
+  document.querySelector('.progress-label span:first-child').innerHTML = `Question <b id="qnum">1</b> of <span id="qtotal">${QUESTIONS.length}</span>`;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

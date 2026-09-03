@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5340 Retention Check — Same Diagnosis, Longer History</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20242A;
+    --paper:#F4F3EF;
+    --card:#FFFFFF;
+    --line:#DCDDD6;
+    --teal:#1F3B3D;
+    --teal-deep:#132628;
+    --copper:#C08552;
+    --copper-deep:#9C6A3C;
+    --rust:#9C4A3C;
+    --rust-bg:#F7EAE7;
+    --moss:#4E6E58;
+    --moss-bg:#E9EFE9;
+    --muted:#666B6C;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 88% 6%, rgba(192,133,82,0.12), transparent 42%),
+      radial-gradient(circle at 8% 92%, rgba(31,59,61,0.10), transparent 45%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:28px 16px 60px;
+  }
+  .app{ width:100%; max-width:560px; }
+
+  .masthead{ margin-bottom:22px; }
+  .kicker{
+    font-size:12.5px; color:var(--teal); font-weight:600;
+    letter-spacing:.01em; margin:0 0 6px;
+  }
+  h1{
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:clamp(26px,5.4vw,34px);
+    line-height:1.14;
+    margin:0 0 8px;
+    color:var(--teal-deep);
+  }
+  .sub{
+    font-size:14.5px; color:var(--muted); line-height:1.5; margin:0;
+    max-width:46ch;
+  }
+
+  /* timeline-of-life-stages progress motif */
+  .progress-wrap{ margin:22px 0 26px; }
+  .progress-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:12.5px; color:var(--muted); margin-bottom:8px;
+  }
+  .progress-label b{ color:var(--teal-deep); font-weight:600; }
+  .timeline{ position:relative; height:8px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .timeline-fill{ position:absolute; left:0; top:0; bottom:0; background:var(--copper); border-radius:100px; transition:width .5s ease; width:0%; }
+  .stage-marks{ display:flex; justify-content:space-between; margin-top:6px; font-size:10.5px; color:var(--muted); }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 24px 22px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  }
+  .cat-tag{
+    display:inline-block;
+    font-size:11.5px; font-weight:600; color:var(--teal);
+    background:#EAEFEE; border:1px solid #D6DEDC;
+    padding:3px 10px; border-radius:100px; margin-bottom:14px;
+  }
+  .qtext{
+    font-family:'Source Serif 4', serif; font-weight:600;
+    font-size:19px; line-height:1.4; margin:0 0 18px; color:var(--ink);
+  }
+  .opts{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    text-align:left;
+    border:1.5px solid var(--line);
+    background:#FEFEFD;
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    line-height:1.4;
+  }
+  .opt:hover:not(.locked){ border-color:var(--teal); background:#EEF2F1; }
+  .opt:active:not(.locked){ transform:scale(.99); }
+  .opt.correct{ border-color:var(--moss); background:var(--moss-bg); font-weight:500; }
+  .opt.incorrect{ border-color:var(--rust); background:var(--rust-bg); }
+  .opt.locked{ cursor:default; }
+
+  .feedback{
+    margin-top:16px; padding:14px 16px;
+    border-radius:10px; border:1px solid var(--line);
+    background:#FAFAF8; font-size:14px; line-height:1.55; display:none;
+  }
+  .feedback.show{ display:block; }
+  .feedback .verdict{ font-weight:600; margin-bottom:5px; display:block; }
+  .verdict.right{ color:var(--moss); }
+  .verdict.wrong{ color:var(--rust); }
+  .pearl{
+    margin-top:10px; padding-top:10px; border-top:1px dashed var(--line);
+    font-size:13.5px; color:var(--teal-deep);
+  }
+  .pearl b{ color:var(--teal); }
+
+  .navrow{ display:flex; justify-content:flex-end; margin-top:20px; }
+  .btn{
+    font-family:'Inter', sans-serif;
+    font-weight:600; font-size:14.5px;
+    background:var(--teal); color:#fff;
+    border:none; border-radius:9px;
+    padding:11px 22px; cursor:pointer;
+    transition:background .15s ease;
+  }
+  .btn:hover{ background:var(--teal-deep); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .btn.ghost{
+    background:transparent; color:var(--teal); border:1.5px solid var(--teal);
+  }
+  .btn.ghost:hover{ background:#EAEFEE; }
+
+  .results{ text-align:center; padding:10px 4px 4px; }
+  .results .score{
+    font-family:'Source Serif 4', serif; font-weight:700;
+    font-size:56px; color:var(--teal-deep); margin:6px 0 2px;
+  }
+  .results .scoreline{ color:var(--muted); font-size:14px; margin-bottom:18px; }
+  .missed{ text-align:left; margin-top:10px; }
+  .missed h3{ font-size:13.5px; color:var(--muted); margin:0 0 8px; font-weight:600; }
+  .missed li{ font-size:13.5px; margin-bottom:6px; color:var(--ink); }
+  .footer-note{
+    text-align:center; font-size:12.5px; color:var(--muted); margin-top:22px; line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="masthead">
+    <p class="kicker">NURS 5340 · Adult &amp; Geriatric Psych</p>
+    <h1>Same Diagnosis,<br>Longer History</h1>
+    <p class="sub">14 questions on how mood, psychotic, anxiety/trauma, and medication concepts shift across adulthood and into late life. Each explanation links back to the pediatric side (5230) on purpose.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Question <b id="qnum">1</b> of <span id="qtotal">14</span></span><span id="scoretally">0 correct</span></div>
+    <div class="timeline"><div class="timeline-fill" id="timelineFill"></div></div>
+    <div class="stage-marks"><span>Young adult</span><span>Midlife</span><span>Older adult</span></div>
+  </div>
+
+  <div class="card" id="quizCard"></div>
+
+  <p class="footer-note">Missed one? That's the point — reread just that section, not the whole chapter.</p>
+</div>
+
+<script>
+const QUESTIONS = [
+{
+  cat:"Mood Disorders",
+  q:"An older adult presents with memory complaints, low motivation, and slowed thinking that resolve significantly once depression is treated. This phenomenon is called:",
+  opts:["Pseudodementia","Alzheimer's disease","Delirium","Frontotemporal dementia"],
+  correct:0,
+  exp:"Depression can mimic cognitive decline in older adults ('pseudodementia') — treating the mood disorder often clarifies the true cognitive picture.",
+  pearl:"There's no pediatric equivalent of pseudodementia — but the broader idea (mood symptoms masquerading as something else) shows up in 5230 as somatic complaints masking childhood anxiety/depression."
+},
+{
+  cat:"Mood Disorders",
+  q:"A previously euthymic 62-year-old has a first-ever manic episode. This should prompt:",
+  opts:["Work-up for an underlying medical/neurological cause (stroke, medication, thyroid, etc.)","Assume primary Bipolar I with no further workup","Reassurance — this is normal aging","Assume substance use only, nothing else"],
+  correct:0,
+  exp:"Late-onset mania (first episode after ~50) is a red flag for secondary causes — it's not the typical presentation of primary bipolar disorder, which usually onsets much earlier.",
+  pearl:"In 5230: new manic-looking symptoms in a young child are just as much a red flag — but there it points toward DMDD/ADHD misdiagnosis rather than a medical cause."
+},
+{
+  cat:"Mood Disorders",
+  q:"Depression in older adults often presents atypically with more:",
+  opts:["Somatic complaints than overt sadness","Grandiosity than sadness","Euphoria than sadness","Hyperactivity than sadness"],
+  correct:0,
+  exp:"Geriatric depression frequently shows up as fatigue, pain, or GI complaints rather than the classic sad affect — easy to miss or attribute to physical illness.",
+  pearl:"5230 has its own version of this: young children often show irritability or somatic complaints (stomachaches, headaches) rather than verbalized sadness."
+},
+{
+  cat:"Mood Disorders",
+  q:"Why is lithium dosed more conservatively in older adults?",
+  opts:["Age-related decline in renal clearance/GFR increases toxicity risk at the same dose","Older adults need higher levels for the same effect","Lithium isn't renally cleared","Age has no effect on lithium dosing"],
+  correct:0,
+  exp:"Reduced GFR with age means lithium is cleared more slowly, so the same mg dose produces a higher serum level — narrow therapeutic index makes this especially risky.",
+  pearl:"Same drug, same renal-clearance logic in 5230 — pediatric lithium dosing is instead adjusted for lower body weight, not reduced GFR."
+},
+{
+  cat:"Schizophrenia Spectrum",
+  q:"Classic age of onset for schizophrenia differs by sex — which is correct?",
+  opts:["Men: late teens–20s; women: late 20s–30s, with a possible second peak after menopause","Identical onset age for both sexes","Onset is always after age 40","Onset is always in early childhood"],
+  correct:0,
+  exp:"Men typically have an earlier onset than women; women show a second, smaller incidence peak in midlife, possibly related to estrogen's effects on dopamine systems.",
+  pearl:"5230's version of this question is about how rare true childhood-onset schizophrenia is at all — onset before puberty is unusual and should raise suspicion for another explanation first."
+},
+{
+  cat:"Schizophrenia Spectrum",
+  q:"New-onset psychotic symptoms in a 78-year-old with no prior psychiatric history should FIRST prompt rule-out of:",
+  opts:["Delirium, dementia, and other medical causes before assuming primary late-onset psychosis","Immediate assumption of schizophrenia with no workup","Normal aging","Malingering"],
+  correct:0,
+  exp:"New psychosis in late life is far more often delirium, dementia-related psychosis, or a medical/metabolic cause than a primary psychotic disorder — medical workup comes first.",
+  pearl:"In 5230, new psychotic symptoms in a child prompt a parallel rule-out — substance use, medical causes, and severe mood disorder with psychotic features — before landing on primary schizophrenia."
+},
+{
+  cat:"Schizophrenia Spectrum",
+  q:"Why does 'start low, go slow' matter more for antipsychotic dosing in geriatric patients?",
+  opts:["Increased sensitivity to EPS, falls, anticholinergic burden, and altered pharmacokinetics","They need higher doses due to drug tolerance","Antipsychotics work identically at every age","Because they weigh more on average"],
+  correct:0,
+  exp:"Aging changes drug distribution, metabolism, and receptor sensitivity — the same dose that's tolerable in a younger adult can cause falls, sedation, or delirium in an older one.",
+  pearl:"5230's parallel concern is different: pediatric dosing is adjusted for lower body weight and developing metabolic pathways, not age-related decline."
+},
+{
+  cat:"Anxiety, Trauma & Medication",
+  q:"Benzodiazepines carry particular risk in older adults because of increased risk of:",
+  opts:["Falls, cognitive impairment, and paradoxical agitation","Improved balance and coordination","Weight loss","Enhanced long-term memory"],
+  correct:0,
+  exp:"Benzodiazepines are especially risky in the elderly — sedation, ataxia, and cognitive slowing raise fall and fracture risk, and can precipitate or mimic delirium.",
+  pearl:"5230 doesn't emphasize benzodiazepine geriatric risk, obviously — but it does flag its own high-risk population for a different drug class: SSRIs and activation syndrome in kids with developmental disorders."
+},
+{
+  cat:"Anxiety, Trauma & Medication",
+  q:"A combat veteran in his 70s develops new nightmares and hypervigilance after retirement, despite decades symptom-free. This illustrates:",
+  opts:["PTSD symptoms can re-emerge or present with delayed onset even after long symptom-free periods","PTSD always presents immediately after the trauma and never later","This must be an unrelated new diagnosis","Older adults cannot develop anxiety symptoms"],
+  correct:0,
+  exp:"Loss of structure, retirement, bereavement, or new stressors can reactivate previously dormant PTSD symptoms decades after the index trauma.",
+  pearl:"5230's trauma content emphasizes something related but distinct — reenactment through play and behavioral regression as how young children 're-experience' trauma non-verbally."
+},
+{
+  cat:"Anxiety, Trauma & Medication",
+  q:"Given benzodiazepine risks in older adults, which class is generally preferred first-line for geriatric anxiety?",
+  opts:["SSRIs/SNRIs","High-dose benzodiazepines","Anticholinergics","Routine antipsychotics for generalized anxiety"],
+  correct:0,
+  exp:"SSRIs/SNRIs avoid the fall/cognitive risks of benzodiazepines and are generally preferred first-line for anxiety disorders in older adults.",
+  pearl:"Same first-line class shows up in 5230 for pediatric anxiety/OCD — SSRIs (with fluoxetine specifically FDA-approved down to age 8) plus CBT, not benzodiazepines."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"What childhood diagnosis exists specifically to prevent chronic pediatric irritability from being misdiagnosed as which adult condition?",
+  opts:["Bipolar Disorder → led to the creation of DMDD","Schizophrenia","Generalized Anxiety Disorder","PTSD"],
+  correct:0,
+  exp:"DMDD was created in DSM-5 largely to curb the overdiagnosis of pediatric bipolar disorder in children whose irritability was chronic rather than episodic.",
+  pearl:"Worth knowing cold for both courses — it's the clearest example of a diagnosis existing *because* of a cross-age confusion."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"Which statement about antipsychotic maintenance duration is TRUE across both adult and pediatric first-episode psychosis?",
+  opts:["Continue treatment for at least 1 year after remission of the first episode","Stop immediately once symptoms resolve","No evidence-based duration exists at any age","Maintenance treatment is only needed in adults"],
+  correct:0,
+  exp:"The ≥1-year post-remission maintenance guideline applies across the lifespan for a first psychotic episode — the same standard shows up in both your adult and pediatric texts.",
+  pearl:"This exact question format (with the exact same correct answer) also appears in your 5230 retention quiz — a guaranteed cross-exam overlap."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"NMS can occur in a patient of any age on an antipsychotic. Which lab finding is classic?",
+  opts:["Elevated creatine phosphokinase (CPK)","Low white blood cell count","Low glucose","Elevated TSH"],
+  correct:0,
+  exp:"Muscle breakdown from rigidity in NMS elevates CPK — along with leukocytosis, elevated liver enzymes, and possible myoglobinuria.",
+  pearl:"Identical emergency, identical labs, identical management (stop the drug, supportive care, dantrolene/bromocriptine) whether your patient is 8 or 80."
+},
+{
+  cat:"Cross-Course Comparison",
+  q:"Why does 'age-related pharmacokinetic change' matter as a concept across BOTH courses, even though the specific mechanism differs?",
+  opts:["Both pediatric and geriatric patients need adjusted dosing versus a healthy young adult, just for different physiological reasons (developing systems vs. declining systems)","Only geriatric patients need dose adjustments","Only pediatric patients need dose adjustments","Age never affects medication dosing"],
+  correct:0,
+  exp:"Both ends of the lifespan require more careful, individualized dosing than the 'typical adult' — kids because organ systems are still maturing, older adults because of declining renal/hepatic function and altered body composition.",
+  pearl:"This is the single biggest organizing idea connecting your two courses' pharmacology sections — worth writing out as its own comparison note."
+}
+];
+
+let current = 0, score = 0, locked = false;
+const missed = [];
+
+function render(){
+  const card = document.getElementById('quizCard');
+  document.getElementById('qnum').textContent = current+1;
+  document.getElementById('scoretally').textContent = score + " correct";
+  const pct = current/QUESTIONS.length;
+  document.getElementById('timelineFill').style.width = (pct*100)+'%';
+
+  if(current >= QUESTIONS.length){ renderResults(); return; }
+  const item = QUESTIONS[current];
+  locked = false;
+  card.innerHTML = `
+    <span class="cat-tag">${item.cat}</span>
+    <p class="qtext">${item.q}</p>
+    <div class="opts" id="opts"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="navrow"><button class="btn" id="nextBtn" disabled>Next</button></div>
+  `;
+  const optsDiv = document.getElementById('opts');
+  item.opts.forEach((text, i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = text;
+    b.onclick = ()=> selectAnswer(i);
+    optsDiv.appendChild(b);
+  });
+}
+
+function selectAnswer(i){
+  if(locked) return;
+  locked = true;
+  const item = QUESTIONS[current];
+  const opts = document.querySelectorAll('#opts .opt');
+  opts.forEach((o,idx)=>{
+    o.classList.add('locked');
+    if(idx === item.correct) o.classList.add('correct');
+    if(idx === i && i !== item.correct) o.classList.add('incorrect');
+  });
+  const fb = document.getElementById('feedback');
+  fb.classList.add('show');
+  const right = i === item.correct;
+  if(right) score++;
+  else missed.push(item);
+  fb.innerHTML = `
+    <span class="verdict ${right?'right':'wrong'}">${right? "Correct.":"Not quite."}</span>
+    ${item.exp}
+    <div class="pearl"><b>Cross-course pearl:</b> ${item.pearl}</div>
+  `;
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('nextBtn').onclick = ()=>{ current++; render(); };
+}
+
+function renderResults(){
+  const card = document.getElementById('quizCard');
+  document.querySelector('.progress-label span:first-child').innerHTML = `Done · <b>${QUESTIONS.length}</b> questions`;
+  const pct = Math.round((score/QUESTIONS.length)*100);
+  let missedHtml = '';
+  if(missed.length){
+    missedHtml = `<div class="missed"><h3>Reread just these, not the whole chapter:</h3><ul>${missed.map(m=>`<li><b>${m.cat}:</b> ${m.q}</li>`).join('')}</ul></div>`;
+  } else {
+    missedHtml = `<div class="missed"><h3>Clean sweep — nothing to reread.</h3></div>`;
+  }
+  card.innerHTML = `
+    <div class="results">
+      <div class="score">${score}/${QUESTIONS.length}</div>
+      <div class="scoreline">${pct}% — ${pct>=80?"Solid retention.":pct>=60?"Getting there — targeted review below.":"Worth a focused reread before the exam."}</div>
+      ${missedHtml}
+      <div class="navrow" style="justify-content:center; margin-top:20px;">
+        <button class="btn ghost" onclick="restart()">Try again</button>
+      </div>
+    </div>
+  `;
+}
+
+function restart(){
+  current = 0; score = 0; missed.length = 0;
+  document.querySelector('.progress-label span:first-child').innerHTML = `Question <b id="qnum">1</b> of <span id="qtotal">${QUESTIONS.length}</span>`;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
